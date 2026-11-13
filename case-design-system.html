@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design system · Case study 02 · Ganeshkumar B</title>
+  <meta name="description" content="I run the SalesIQ design system: 48+ components on one set of tokens, mapped to real code and generated with AI, so the same component ships on web, mobile SDK and WhatsApp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="case.css" />
+</head>
+<body class="is-ready cs-page">
+
+  <header class="cs-top" data-layer="Nav">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="nav-slot">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand mono" href="index.html">ganeshkumar.design</a>
+      <div class="nav__pill nav__pill--case">
+        <span class="nav__indicator" aria-hidden="true"></span>
+        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
+        <a class="nav__link" href="index.html#work">← All work</a>
+        <span class="nav__case mono">Case 02 / 08</span>
+        <a class="nav__link nav__link--next is-active" href="case-operator-console.html">Next · Operator Console →</a>
+      </div>
+      <span class="nav__status mono">● synced · 0 drift</span>
+    </nav>
+    </div>
+  </header>
+
+  <section class="cs-hero" data-layer="Hero">
+    <a class="cs-back" href="index.html#work"><span aria-hidden="true">←</span> Selected work on Zoho SalesIQ</a>
+    <div class="cs-tags"><span class="tag">&lt;DesignSystem /&gt;</span><span class="lbl lbl--12">Case study 02 / 08</span></div>
+    <h1 class="cs-title">Design system</h1>
+    <p class="cs-lede">I run the design system: 48+ components on one set of tokens, mapped to real code and generated with AI, so the same component ships on web, mobile SDK and WhatsApp.</p>
+    <div class="cs-meta">
+      <hr />
+      <dl>
+        <div><dt class="lbl">Role</dt><dd>Design system owner</dd></div>
+        <div><dt class="lbl">Platform</dt><dd>Web · Mobile SDK · WhatsApp</dd></div>
+        <div><dt class="lbl">Period</dt><dd>2024 – now · Senior Visual Designer</dd></div>
+        <div><dt class="lbl">Built with</dt><dd>Figma variables, Code Connect, Claude + Figma MCP</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cs-visual" data-layer="Visual" aria-label="Recreated token pipeline with sample data">
+    <div class="cs-frame">
+      <div class="cs-frame__bar">
+        <div class="title">Token pipeline · illustrative <span class="lbl lbl--10">Sample data</span></div>
+      </div>
+      <div class="pipe__body">
+        <span class="lbl lbl--10">How a value travels from token to shipped component</span>
+        <div class="g g--3">
+          <div class="pipe__col">
+            <span class="lbl lbl--10 lbl--blue">01 Primitives</span>
+            <div class="token-row"><i class="swatch" style="background:#4d8dff"></i>blue/500</div>
+            <div class="token-row"><i class="swatch" style="background:#15161a"></i>grey/900</div>
+            <div class="token-row"><i class="swatch" style="background:#f5f5f3"></i>grey/100</div>
+            <div class="token-row">space/16</div>
+          </div>
+          <div class="pipe__col">
+            <span class="lbl lbl--10 lbl--blue">02 Semantic</span>
+            <div class="token-row"><i class="swatch" style="background:#4d8dff"></i>color/action/primary</div>
+            <div class="token-row"><i class="swatch" style="background:#15161a"></i>color/text/default</div>
+            <div class="token-row"><i class="swatch" style="background:#f5f5f3"></i>color/surface/muted</div>
+            <div class="token-row">space/inset/md</div>
+          </div>
+          <div class="pipe__col">
+            <span class="lbl lbl--10 lbl--blue">03 Component</span>
+            <div class="token-row"><i class="swatch" style="background:#4d8dff"></i>Button / bg</div>
+            <div class="token-row"><i class="swatch" style="background:#fff;border:1px solid #d7dae0"></i>Button / label</div>
+            <div class="token-row"><i class="swatch" style="background:#f5f5f3"></i>Card / bg</div>
+            <div class="token-row">Card / padding</div>
+          </div>
+        </div>
+        <div class="g g--3">
+          <div class="pipe__out"><b>Figma library</b><span>Variables bound to every component and variant</span></div>
+          <div class="pipe__out"><b>Code Connect</b><span>Each Figma component mapped to its production counterpart</span></div>
+          <div class="pipe__out"><b>Production components</b><span>The same tokens consumed in code</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="lbl lbl--10">Recreated for this case study with illustrative token names. Not the production library.</p>
+  </section>
+
+  <section class="cs-note" data-layer="NDA note">
+    <div class="cs-note__box">
+      <span class="lbl">Note</span>
+      <p>This work was done under a non-disclosure agreement with Zoho. Screens are recreated with sample data, and internal metrics, customer details and unreleased work are left out. Happy to go deeper in a conversation.</p>
+    </div>
+  </section>
+
+  <main class="cs-content" data-layer="Content">
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">01</span>
+        <h2 class="cs-h2">One button, every surface</h2>
+        <p class="cs-sub">Every product module ships from the same components. Change one, and it updates everywhere.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--center tile--g16" style="padding:24px 24px 28px;min-height:280px">
+          <span class="lbl">Web · Chat widget</span>
+          <div class="widget">
+            <div class="widget__head">Northwind Support</div>
+            <div class="widget__body"><span class="bubble">Hi! How can we help?</span><span class="btn-mini btn-mini--primary" style="width:100%">Start chat</span></div>
+          </div>
+        </div>
+        <div class="tile tile--center tile--g16" style="padding:24px 24px 28px">
+          <span class="lbl">Mobile SDK</span>
+          <div class="phone">
+            <i class="phone__notch"></i>
+            <b style="font-weight:600;font-size:14px;color:var(--ink)">Need help?</b>
+            <div class="field field--grey" style="color:var(--ink)">Chat with our team</div>
+            <span class="btn-mini btn-mini--primary" style="margin-top:30px">Start chat</span>
+          </div>
+        </div>
+        <div class="tile tile--center tile--g16" style="padding:24px 24px 28px;min-height:280px">
+          <span class="lbl">WhatsApp</span>
+          <div class="wa"><div class="wa__msg">Hi Priya! Your order is on its way.</div><div class="wa__btn">Start chat</div></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sample content · One button component, three surfaces</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02</span>
+        <h2 class="cs-h2">Tokens first</h2>
+        <p class="cs-sub">Colour, type, space and radius live as Figma variables, with light and dark modes.</p>
+      </div>
+      <div class="g g--4">
+        <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Colour</span><img src="assets/case/colour-swatches.svg" width="154" height="26" alt="Five colour swatches" /></div>
+        <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Type</span><span class="t-serif t-serif--40">Ag</span></div>
+        <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Space</span><div style="display:flex;gap:8px;align-items:flex-end"><i style="width:8px;height:8px;border-radius:3px;background:var(--blue)"></i><i style="width:16px;height:16px;border-radius:3px;background:var(--blue)"></i><i style="width:24px;height:24px;border-radius:3px;background:var(--blue)"></i><i style="width:32px;height:32px;border-radius:3px;background:var(--blue)"></i></div></div>
+        <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Radius</span><div style="display:flex;gap:8px"><i style="width:32px;height:32px;background:var(--cs-blue-tint);border:1.5px solid var(--blue)"></i><i style="width:32px;height:32px;border-radius:6px;background:var(--cs-blue-tint);border:1.5px solid var(--blue)"></i><i style="width:32px;height:32px;border-radius:12px;background:var(--cs-blue-tint);border:1.5px solid var(--blue)"></i><i style="width:32px;height:32px;border-radius:20px;background:var(--cs-blue-tint);border:1.5px solid var(--blue)"></i></div></div>
+      </div>
+      <div class="g g--2">
+        <div class="tile tile--white" style="gap:12px">
+          <span class="lbl lbl--10">Light mode</span>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px"><i class="swatch swatch--28" style="background:#fff"></i>surface/default</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px"><i class="swatch swatch--28" style="background:#f5f5f3"></i>surface/muted</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px"><i class="swatch swatch--28" style="background:#15161a"></i>text/default</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px"><i class="swatch swatch--28" style="background:#4d8dff"></i>action/primary</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px"><i class="swatch swatch--28" style="background:#d7dae0"></i>border/subtle</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:var(--cs-surface);font-size:13px;color:var(--ink)"><span class="grow">Same component, both modes</span><span class="btn-mini btn-mini--primary">Start chat</span></div>
+        </div>
+        <div class="tile tile--code" style="gap:12px;color:#fff">
+          <span class="lbl lbl--10 lbl--sun">Dark mode</span>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px;color:#fff"><i class="swatch swatch--28" style="background:#1c1e24;border-color:#50545f"></i>surface/default</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px;color:#fff"><i class="swatch swatch--28" style="background:#2a2d36;border-color:#50545f"></i>surface/muted</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px;color:#fff"><i class="swatch swatch--28" style="background:#fff;border-color:#50545f"></i>text/default</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px;color:#fff"><i class="swatch swatch--28" style="background:#4d8dff;border-color:#50545f"></i>action/primary</div>
+          <div class="token-row" style="background:transparent;padding:0;gap:12px;font-size:13px;color:#fff"><i class="swatch swatch--28" style="background:#50545f;border-color:#50545f"></i>border/subtle</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:#2a2d36;font-size:13px;color:#fff"><span class="grow">Same component, both modes</span><span class="btn-mini btn-mini--primary">Start chat</span></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Illustrative token names</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03</span>
+        <h2 class="cs-h2">48+ components on top</h2>
+        <p class="cs-sub">Built on the tokens, documented and governed, so a new screen starts from parts that already work.</p>
+      </div>
+      <div class="col">
+        <div class="g g--4">
+          <div class="sample"><div class="sample__stage"><span class="btn-mini btn-mini--primary">Primary</span><span class="btn-mini btn-mini--secondary">Secondary</span></div><span class="lbl lbl--10">Button</span></div>
+          <div class="sample"><div class="sample__stage"><span class="field field--muted" style="width:170px;font-size:12px">priya@example.com</span></div><span class="lbl lbl--10">Input</span></div>
+          <div class="sample"><div class="sample__stage"><img src="assets/case/toggle-on.svg" width="38" height="22" alt="Toggle on" /><img src="assets/case/toggle-off.svg" width="38" height="22" alt="Toggle off" /></div><span class="lbl lbl--10">Toggle</span></div>
+          <div class="sample"><div class="sample__stage"><span class="pill pill--blue">Sales</span><span class="pill" style="background:var(--cs-card)">Support</span></div><span class="lbl lbl--10">Chip</span></div>
+        </div>
+        <div class="g g--4">
+          <div class="sample"><div class="sample__stage"><span class="avatar avatar--36 avatar--blue">PS</span><span class="avatar avatar--36 avatar--green" style="color:var(--cs-green)">AK</span><span class="avatar avatar--36 avatar--amber" style="color:var(--cs-amber)">ML</span></div><span class="lbl lbl--10">Avatar</span></div>
+          <div class="sample"><div class="sample__stage"><span class="badge badge--green">Online</span><span class="badge badge--amber">Busy</span></div><span class="lbl lbl--10">Badge</span></div>
+          <div class="sample"><div class="sample__stage"><div class="segment"><span class="on">Chats</span><span>Visitors</span><span>Bots</span></div></div><span class="lbl lbl--10">Tabs</span></div>
+          <div class="sample"><div class="sample__stage"><span style="padding:9px 12px;border-radius:12px;background:var(--cs-dark);color:#fff;font-size:12px">Sharing the link now</span></div><span class="lbl lbl--10">Message</span></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">A sample of the library, redrawn</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">04</span>
+        <h2 class="cs-h2">Figma to code without the gap</h2>
+        <p class="cs-sub">Five steps, one source of truth.</p>
+      </div>
+      <div class="cs-steps">
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">01</span><p class="t-h t-h--17">Tokens</p><p class="t-p t-p--13">Variables with light and dark modes.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">02</span><p class="t-h t-h--17">Components</p><p class="t-p t-p--13">48+ built on the tokens.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">03</span><p class="t-h t-h--17">Code Connect</p><p class="t-p t-p--13">Each component mapped to its real code.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">04</span><p class="t-h t-h--17">Figma MCP</p><p class="t-p t-p--13">Agents generate production components with Claude.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step cs-step--ink"><span class="lbl lbl--10 lbl--sun">05</span><p class="t-h t-h--17">Ship</p><p class="t-p t-p--13">Same component on web, mobile SDK and WhatsApp.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05</span>
+        <h2 class="cs-h2">Designed once, generated twice</h2>
+        <p class="cs-sub">With Claude and Figma MCP, one definition becomes both a Figma library and production components.</p>
+      </div>
+      <div class="row row--center row--wrap">
+        <div class="tile grow">
+          <span class="lbl">Output 1 · Figma library</span>
+          <div style="display:flex;gap:10px"><span class="btn-mini btn-mini--primary">Start chat</span><span class="btn-mini btn-mini--secondary">Cancel</span></div>
+          <div class="token-row" style="background:var(--cs-card)">Button / Primary / Default</div>
+          <div class="token-row" style="background:var(--cs-card)">Button / Secondary / Default</div>
+        </div>
+        <div class="fixed" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 22px;border-radius:999px;background:var(--cs-dark);color:#fff;white-space:nowrap;align-self:center"><b style="font-weight:600;font-size:14px">Claude</b><span style="font-size:12px;color:#b7bac2">+ Figma MCP</span></div>
+        <div class="tile tile--code grow code code--14" style="gap:8px;padding:24px;border-radius:20px">
+          <span class="lbl lbl--sun">Output 2 · Production component</span>
+          <pre><span class="blue">&lt;Button</span>
+  variant="primary"
+  size="md"&gt;
+<span class="dim">  Start chat</span>
+<span class="blue">&lt;/Button&gt;</span></pre>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Illustrative code</span>
+    </section>
+
+    <section class="cs-section" style="gap:20px">
+      <div class="cs-quote">
+        <p class="q">One source of truth. Zero drift.</p>
+        <p>The system is only as good as the gap between Figma and code. My job is to keep that gap at zero.</p>
+      </div>
+      <div class="cs-cta">
+        <div class="grow"><h3>Want to see the full system?</h3><p>The Figma file is shared on request with a password, or walked through live on a call.</p></div>
+        <a class="btn-sun" href="mailto:ganesh.rayanbalu@gmail.com?subject=Request%20access%3A%20SalesIQ%20design%20system">Request access</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cs-next" data-layer="Next">
+    <div class="cs-next__main">
+      <span class="lbl lbl--soft">Next case study</span>
+      <a class="cs-next__title" href="case-operator-console.html">Operator Console <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    </div>
+    <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
+  </footer>
+
+  <script src="case.js"></script>
+</body>
+</html>

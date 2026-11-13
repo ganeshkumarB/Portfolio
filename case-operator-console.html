@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operator Console · Case study 03 · Ganeshkumar B</title>
+  <meta name="description" content="Agents juggle many chats at once. I redesigned the SalesIQ operator console so the queue, the conversation and everything about the visitor sit in one calm view." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="case.css" />
+</head>
+<body class="is-ready cs-page">
+
+  <header class="cs-top" data-layer="Nav">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="nav-slot">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand mono" href="index.html">ganeshkumar.design</a>
+      <div class="nav__pill nav__pill--case">
+        <span class="nav__indicator" aria-hidden="true"></span>
+        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
+        <a class="nav__link" href="index.html#work">← All work</a>
+        <span class="nav__case mono">Case 03 / 08</span>
+        <a class="nav__link nav__link--next is-active" href="index.html#work">Next · Reports and analytics revamp →</a>
+      </div>
+      <span class="nav__status mono">● synced · 0 drift</span>
+    </nav>
+    </div>
+  </header>
+
+  <section class="cs-hero" data-layer="Hero">
+    <a class="cs-back" href="index.html#work"><span aria-hidden="true">←</span> Selected work on Zoho SalesIQ</a>
+    <div class="cs-tags"><span class="tag">&lt;OperatorConsole /&gt;</span><span class="lbl lbl--12">Case study 03 / 08</span></div>
+    <h1 class="cs-title">Operator Console</h1>
+    <p class="cs-lede">Agents juggle many chats at once. I redesigned the SalesIQ operator console so the queue, the conversation and everything about the visitor sit in one calm view.</p>
+    <div class="cs-meta">
+      <hr />
+      <dl>
+        <div><dt class="lbl">Role</dt><dd>Product design, console redesign</dd></div>
+        <div><dt class="lbl">Platform</dt><dd>Web</dd></div>
+        <div><dt class="lbl">Period</dt><dd>2024 – now · Senior Visual Designer</dd></div>
+        <div><dt class="lbl">Built with</dt><dd>Figma, Design system</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cs-visual" data-layer="Visual" aria-label="Recreated operator console with sample data">
+    <div class="cs-scroll">
+    <div class="console">
+      <div class="console__top">
+        <div class="title" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)"><img src="assets/case/console-logo.svg" width="22" height="22" alt="" /> Console <span class="lbl lbl--9 lbl--soft">Sample data</span></div>
+        <div class="console__search">Search chats, visitors and more</div>
+        <div style="display:flex;align-items:center;gap:14px"><span class="pill pill--green pill--sm" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px"><img src="assets/case/dot-green.svg" width="8" height="8" alt="" />Available</span><span class="avatar avatar--30 avatar--blue">AR</span></div>
+      </div>
+      <div class="console__body">
+        <div class="console__rail"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="console__folders">
+          <div class="head">Chats <span>+</span></div>
+          <div class="group"><span class="lbl lbl--9 lbl--soft">Mine</span></div>
+          <div class="f on">Active <span class="cnt cnt--blue">24</span></div>
+          <div class="f">Missed <span class="cnt cnt--red">3</span></div>
+          <div class="f">Closed <span class="cnt">118</span></div>
+          <div class="group"><span class="lbl lbl--9 lbl--soft">Team</span></div>
+          <div class="f">Active <span class="cnt">62</span></div>
+          <div class="f">Missed <span class="cnt cnt--red">7</span></div>
+          <div class="f">Unassigned <span class="cnt cnt--amber">4</span></div>
+          <div class="group"><span class="lbl lbl--9 lbl--soft">Bots</span></div>
+          <div class="f">Bot active <span class="cnt">15</span></div>
+        </div>
+        <div class="console__queue">
+          <div class="head">My active <span class="lbl lbl--9">Newest</span></div>
+          <div class="filters"><span class="pill pill--ink">All 24</span><span class="pill pill--fill">Waiting 3</span><span class="pill pill--fill">VIP 2</span></div>
+          <div class="list">
+            <div class="qitem on"><span class="avatar avatar--white">PS</span><div class="body"><div class="top">Priya Sharma <span class="now">now</span></div><span class="line">Can you send the link?</span><div class="tagrow"><span class="pill pill--white">Pricing</span></div></div></div>
+            <div class="qitem"><span class="avatar avatar--green">AK</span><div class="body"><div class="top">Arjun Kumar <span>2m</span></div><span class="line">Thanks, that worked!</span></div></div>
+            <div class="qitem"><span class="avatar avatar--amber">ML</span><div class="body"><div class="top">Maya Lee <span>5m</span></div><span class="line">Can I change my order?</span><div class="tagrow"><span class="pill pill--fill">Orders</span></div></div></div>
+            <div class="qitem"><span class="avatar avatar--red">DR</span><div class="body"><div class="top">Dev Rao <span>8m</span></div><span class="line">Waiting for an operator</span><div class="tagrow"><span class="pill pill--fill" style="color:var(--cs-red)">Waiting</span></div></div></div>
+            <div class="qitem"><span class="avatar avatar--grey">NT</span><div class="body"><div class="top">Nila T. <span>12m</span></div><span class="line">Is there a student plan?</span></div></div>
+          </div>
+        </div>
+        <div class="console__chat">
+          <div class="head">
+            <div><div class="name">Priya Sharma</div><div class="tags"><span class="lbl lbl--9 lbl--soft">Tag</span><span class="pill pill--green pill--sm">Big deal</span><span class="pill pill--fill">+</span></div></div>
+            <div style="display:flex;gap:8px"><span class="btn-mini btn-mini--secondary btn-mini--sm">Call</span><span class="btn-mini btn-mini--secondary btn-mini--sm">Transfer</span></div>
+          </div>
+          <div class="msgs">
+            <div style="text-align:center"><span class="lbl lbl--9 lbl--soft">Today · 10:10 AM</span></div>
+            <div class="msg"><div class="msg__b">Hi, is there a yearly plan for a team of 12?<time>10:10</time></div></div>
+            <div class="msg msg--out"><div class="msg__b">Yes! Yearly billing saves you about two months.<time>10:11 ✓✓</time></div></div>
+            <div class="msg"><div class="msg__b">Great, can you send me the link?<time>10:12</time></div></div>
+            <div class="msg msg--out msg--note"><div class="msg__b"><span class="lbl lbl--9 lbl--amber" style="color:var(--cs-amber-2)">Private note</span>Looks like an upgrade. Loop in sales after this.<time>10:12</time></div></div>
+            <div style="padding:2px 4px;font-size:11px;color:var(--muted)">Priya is typing…</div>
+          </div>
+          <div class="composer">
+            <div class="tabs"><span class="on">Reply</span><span>Notes</span></div>
+            <div class="ph">Type “/” for canned replies</div>
+            <div class="foot">
+              <div class="tools"><span>B</span><span>I</span><span>⌘</span><span>☺</span><span>⎘</span></div>
+              <div style="display:flex;gap:8px"><span class="btn-mini btn-mini--secondary btn-mini--sm" style="gap:6px">Close <img src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span><span class="btn-mini btn-mini--primary btn-mini--sm" style="padding:7px 14px">Send</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="console__ctx">
+          <div class="ctx__id"><span class="avatar avatar--44 avatar--blue">PS<img src="assets/case/presence-dot.svg" width="10" height="10" alt="" /></span><div><b>Priya Sharma</b><span>Bengaluru, India</span></div></div>
+          <div class="ctx__contact"><span>priya@example.com</span><span>+91 98000 00000</span></div>
+          <div class="pills"><span class="pill pill--green pill--sm">Support</span><span class="pill pill--blue pill--sm">Enterprise</span><span class="pill pill--red pill--sm">VIP</span></div>
+          <div style="display:flex;gap:10px"><div class="ctx__stat"><span class="lbl">Lead score</span><span class="t-serif t-serif--24">482</span></div><div class="ctx__stat"><span class="lbl">Opportunity</span><span class="t-serif t-serif--24" style="color:var(--cs-green-2)">84%</span></div></div>
+          <div style="display:flex;flex-direction:column;gap:8px"><div class="kv"><span class="k">Type</span><span class="v">Returning</span></div><div class="kv"><span class="k">Current page</span><span class="v">/pricing</span></div><div class="kv"><span class="k">Visits</span><span class="v">6</span></div></div>
+          <div class="ctx__acc">
+            <div><div class="t">Zoho CRM <img src="assets/case/chevron-up.svg" width="16" height="16" alt="" /></div><div class="kv" style="padding:8px 10px;border-radius:8px;background:var(--cs-surface)"><span style="color:var(--ink)">Lead · Qualified</span><span class="k">Owner: Arun</span></div></div>
+            <div><div class="t">Zoho Desk <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+            <div><div class="t">Recent chats <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+            <div><div class="t">Notes <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <p class="lbl lbl--10">Recreated with sample content for this case study. Not a production screenshot.</p>
+  </section>
+
+  <section class="cs-note" data-layer="NDA note">
+    <div class="cs-note__box">
+      <span class="lbl">Note</span>
+      <p>This work was done under a non-disclosure agreement with Zoho. Screens are recreated with sample data, and internal metrics, customer details and unreleased work are left out. Happy to go deeper in a conversation.</p>
+    </div>
+  </section>
+
+  <main class="cs-content" data-layer="Content">
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">01</span>
+        <h2 class="cs-h2">Four zones, read left to right</h2>
+        <p class="cs-sub">Where to look, what to pick up, the chat itself, and who you are talking to.</p>
+      </div>
+      <div class="anatomy">
+        <div class="anat" style="width:230px;flex:none">
+          <div class="anat__stage">
+            <div class="anat__row anat__row--on"><i class="skel skel--7 skel--blue" style="width:72px"></i><i class="skel skel--7 skel--blue" style="width:18px"></i></div>
+            <div class="anat__row"><i class="skel skel--7" style="width:60px"></i><i class="skel skel--7" style="width:18px"></i></div>
+            <div class="anat__row"><i class="skel skel--7" style="width:66px"></i><i class="skel skel--7" style="width:18px"></i></div>
+            <div class="anat__row"><i class="skel skel--7" style="width:54px"></i><i class="skel skel--7" style="width:18px"></i></div>
+            <div class="anat__row"><i class="skel skel--7" style="width:63px"></i><i class="skel skel--7" style="width:18px"></i></div>
+          </div>
+          <span class="lbl lbl--10 lbl--blue">01 Navigate</span><p class="t-h t-h--16">Folders</p><p class="t-p t-p--13">Chats grouped into folders with live counts.</p>
+        </div>
+        <div class="anat" style="width:260px;flex:none">
+          <div class="anat__stage">
+            <div class="anat__chat anat__chat--on"><img src="assets/case/avatar-blue-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--blue" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+          </div>
+          <span class="lbl lbl--10 lbl--blue">02 Queue</span><p class="t-h t-h--16">Conversations</p><p class="t-p t-p--13">Who is waiting, the last line, and how long ago.</p>
+        </div>
+        <div class="anat grow">
+          <div class="anat__stage">
+            <div><span class="anat__bubble"><i class="skel skel--mid" style="width:160px"></i></span></div>
+            <div style="display:flex;justify-content:flex-end"><span class="anat__bubble anat__bubble--out"><i class="skel skel--blue" style="width:200px"></i></span></div>
+            <div><span class="anat__bubble"><i class="skel skel--mid" style="width:140px"></i></span></div>
+            <div style="display:flex;justify-content:flex-end"><span class="anat__bubble anat__bubble--out"><i class="skel skel--blue" style="width:180px"></i></span></div>
+            <div style="padding:10px;border:1px solid var(--cs-line);border-radius:8px"><i class="skel" style="width:120px;display:block"></i></div>
+          </div>
+          <span class="lbl lbl--10 lbl--blue">03 Conversation</span><p class="t-h t-h--16">The chat</p><p class="t-p t-p--13">Messages, tags, and a composer with replies and notes.</p>
+        </div>
+        <div class="anat" style="width:250px;flex:none">
+          <div class="anat__stage">
+            <div style="display:flex;align-items:center;gap:8px"><img src="assets/case/avatar-grey-28.svg" width="28" height="28" alt="" /><div class="col" style="gap:4px"><i class="skel skel--7 skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:60px"></i></div></div>
+            <i class="skel" style="width:150px;display:block"></i><i class="skel" style="width:120px;display:block"></i><i class="skel" style="width:140px;display:block"></i>
+            <div style="display:flex;gap:6px"><i style="width:40px;height:14px;border-radius:7px;background:var(--cs-green-tint)"></i><i style="width:50px;height:14px;border-radius:7px;background:var(--cs-blue-tint)"></i><i style="width:30px;height:14px;border-radius:7px;background:var(--cs-red-tint)"></i></div>
+          </div>
+          <span class="lbl lbl--10 lbl--blue">04 Context</span><p class="t-h t-h--16">The visitor</p><p class="t-p t-p--13">Contact, lead details, history and connected apps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02</span>
+        <h2 class="cs-h2">Every queue, counted</h2>
+        <p class="cs-sub">Mine, the team’s, the bots’, and the ones that need a second look. Each folder shows how many are waiting.</p>
+      </div>
+      <div class="g g--4">
+        <div class="tile tile--blue tile--p22 tile--g10"><span class="lbl lbl--10 lbl--blue">Mine</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Active</span><span class="v" style="color:var(--blue)">24</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Missed</span><span class="v" style="color:var(--blue)">3</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Closed</span><span class="v" style="color:var(--blue)">118</span></div></div>
+        <div class="tile tile--p22 tile--g10"><span class="lbl lbl--10 lbl--ink">Team</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Active</span><span class="v">62</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Missed</span><span class="v">7</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Unassigned missed</span><span class="v">4</span></div></div>
+        <div class="tile tile--green tile--p22 tile--g10"><span class="lbl lbl--10 lbl--green">Bots</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Bot active</span><span class="v" style="color:var(--cs-green)">15</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Bot closed</span><span class="v" style="color:var(--cs-green)">340</span></div></div>
+        <div class="tile tile--red tile--p22 tile--g10"><span class="lbl lbl--10 lbl--red">Review</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Re-opened</span><span class="v" style="color:var(--cs-red)">2</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Monitoring</span><span class="v" style="color:var(--cs-red)">6</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Spammers</span><span class="v" style="color:var(--cs-red)">9</span></div></div>
+      </div>
+      <span class="lbl lbl--9">Sample counts</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03</span>
+        <h2 class="cs-h2">Who has room?</h2>
+        <p class="cs-sub">Each operator shows their load, like 7 / 10, so it is easy to see who can take the next chat.</p>
+      </div>
+      <div class="row row--center row--20 row--wrap">
+        <div class="tile tile--white grow" style="padding:20px 22px">
+          <span class="lbl">Operators</span>
+          <div class="op"><span class="avatar avatar--blue">AR</span><span class="name">Arun</span><div class="bar"><i style="width:70%;background:#dca000"></i></div><span class="val">07 / 10</span></div>
+          <div class="op"><span class="avatar avatar--blue">ME</span><span class="name">Meera</span><div class="bar"><i style="width:50%;background:var(--cs-green)"></i></div><span class="val">05 / 10</span></div>
+          <div class="op"><span class="avatar avatar--blue">KA</span><span class="name">Karthik</span><div class="bar"><i style="width:90%;background:var(--cs-red)"></i></div><span class="val">09 / 10</span></div>
+          <div class="op"><span class="avatar avatar--blue">SA</span><span class="name">Sana</span><div class="bar"><i style="width:30%;background:var(--cs-green)"></i></div><span class="val">03 / 10</span></div>
+        </div>
+        <div class="tile tile--ink tile--p28 tile--g10 fixed" style="width:340px;flex:none">
+          <span class="lbl lbl--10 lbl--sun">At a glance</span>
+          <p class="t-serif" style="line-height:1.2">Karthik is nearly full. Sana has room.</p>
+          <p class="t-p">One number per person instead of opening each profile.</p>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sample operators</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">04</span>
+        <h2 class="cs-h2">Reply, note, close</h2>
+        <p class="cs-sub">The composer keeps the next action in reach: a reply, a private note, or a canned answer with a single slash.</p>
+      </div>
+      <div class="row row--wrap">
+        <div class="tile tile--white grow" style="padding:18px 20px">
+          <div class="tools" style="display:flex;gap:14px;font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--muted)"><span>B</span><span>I</span><span>U</span><span>S</span><span>“”</span><span>⌘</span></div>
+          <div class="slash"><span class="blue">/</span><span>refund</span></div>
+          <div class="slash-list"><div class="on"><span class="cmd">/refund-policy</span><span class="desc">Our refund window is 30 days…</span></div><div><span class="cmd">/refund-status</span><span class="desc">I’ve checked your refund…</span></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;gap:18px;font-size:14px;color:var(--muted)"><span style="color:var(--blue);font-weight:600;display:flex;flex-direction:column;gap:4px">Reply<i style="width:40px;height:3px;border-radius:1.5px;background:var(--blue)"></i></span><span>Notes</span></div>
+            <span class="btn-mini btn-mini--secondary" style="gap:6px;font-weight:500;padding:8px 14px">Close <img src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span>
+          </div>
+        </div>
+        <div class="col fixed" style="width:340px;flex:none">
+          <div class="tile tile--blue tile--r16" style="padding:16px 18px;gap:4px"><span class="lbl lbl--10">Reply</span><p class="t-h t-h--15">To the visitor</p><p class="t-p t-p--13">Formatted messages, attachments, emoji and voice.</p></div>
+          <div class="tile tile--cream tile--r16" style="padding:16px 18px;gap:4px"><span class="lbl lbl--10">Notes</span><p class="t-h t-h--15">To your team</p><p class="t-p t-p--13">Private notes that stay inside the conversation.</p></div>
+          <div class="tile tile--r16" style="padding:16px 18px;gap:4px"><span class="lbl lbl--10">Slash</span><p class="t-h t-h--15">Canned replies</p><p class="t-p t-p--13">Type “/” and pick a saved answer.</p></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sample content</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05</span>
+        <h2 class="cs-h2">The visitor, without switching tabs</h2>
+        <p class="cs-sub">Who they are, how warm the lead is, and their CRM and Desk records, right next to the chat.</p>
+      </div>
+      <div class="row row--wrap">
+        <div class="tile tile--white fixed" style="width:400px;flex:none;padding:20px 22px">
+          <div style="display:flex;align-items:center;gap:12px"><span class="avatar avatar--44 avatar--blue">PS</span><div><b style="display:block;font-weight:600;font-size:16px;color:var(--ink)">Priya Sharma</b><span style="font-size:13px;color:var(--muted)">Bengaluru, India</span></div></div>
+          <div class="pills"><span class="pill pill--green" style="color:var(--cs-green);font-weight:500">Support</span><span class="pill pill--blue" style="font-weight:500">Enterprise</span><span class="pill pill--red" style="font-weight:500">VIP</span></div>
+          <div class="kv kv--13"><span class="k">Type</span><span class="v">Returning visitor</span></div>
+          <div class="kv kv--13"><span class="k">Lead score</span><span class="v">482</span></div>
+          <div class="kv kv--13"><span class="k">Opportunity</span><span class="v">84%</span></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Recent chats</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Notes</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho CRM</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho Desk</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+        </div>
+        <div class="col grow">
+          <div class="nrow nrow--tile"><span class="n t-serif t-serif--36">01</span><div><h3>Identity first</h3><p>Name, location and contact on top, so the agent knows who they are talking to.</p></div></div>
+          <div class="nrow nrow--tile"><span class="n t-serif t-serif--36">02</span><div><h3>Signals as tags</h3><p>Lead tags, score and opportunity show how important the chat is.</p></div></div>
+          <div class="nrow nrow--tile"><span class="n t-serif t-serif--36">03</span><div><h3>Apps fold away</h3><p>CRM, Desk and history collapse until they are needed.</p></div></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sample visitor</span>
+    </section>
+
+    <section class="cs-section" style="gap:20px">
+      <div class="cs-quote">
+        <p class="q q--48">Every second spent searching is a second a visitor waits.</p>
+        <p>So the console puts the next thing an agent needs exactly where they will look for it.</p>
+      </div>
+      <div class="cs-cta">
+        <div class="grow"><h3>Want to see the full design?</h3><p>The Figma file is shared on request with a password, or walked through live on a call.</p></div>
+        <a class="btn-sun" href="mailto:ganesh.rayanbalu@gmail.com?subject=Request%20access%3A%20Operator%20Console">Request access</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cs-next" data-layer="Next">
+    <div class="cs-next__main">
+      <span class="lbl lbl--soft">Next case study</span>
+      <a class="cs-next__title" href="index.html#work">Reports and analytics revamp <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    </div>
+    <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
+  </footer>
+
+  <script src="case.js"></script>
+</body>
+</html>

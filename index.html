@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ganeshkumar B · Product designer, design systems</title>
+  <meta name="description" content="Ganeshkumar B designs Zoho SalesIQ and the 48+ component design system underneath it, and the workflow that turns it into production code." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero" id="hey" data-layer="Hero">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="nav-slot">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand mono" href="#hey">ganeshkumar.design</a>
+      <div class="nav__pill">
+        <span class="nav__indicator" aria-hidden="true"></span>
+        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
+        <a class="nav__link is-active" href="#hey">Hey</a>
+        <a class="nav__link" href="#work">Work</a>
+        <a class="nav__link" href="#process">Process</a>
+        <a class="nav__link" href="#story">Story</a>
+        <a class="nav__link" href="#contact">Contact</a>
+        <button type="button" class="nav__inspect mono" id="inspectToggle" aria-pressed="false" title="Inspect mode (I)">{ }</button>
+      </div>
+      <span class="nav__status mono" id="navStatus">● synced · 0 drift</span>
+    </nav>
+    </div>
+
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <span class="availability" data-intro style="--i:0">
+          <img src="assets/dot-amber.svg" width="8" height="8" alt="" />
+          Open to lead product design roles
+        </span>
+        <h1 class="hero__title" id="heroTitle">I'm Ganeshkumar. 8+ years designing the system, and the bridge between Figma and code.</h1>
+        <p class="hero__lede" data-intro style="--i:2">Product designer on Zoho SalesIQ, the enterprise messaging platform that runs across web, mobile and WhatsApp. I own its 48-component design system and the workflow that turns Figma into production code.</p>
+        <div class="hero__cta" data-intro style="--i:3">
+          <a class="btn btn--primary" href="#work">See the work</a>
+          <a class="btn btn--ghost" href="mailto:ganesh.rayanbalu@gmail.com">Email me</a>
+        </div>
+      </div>
+
+      <aside class="bridge" id="bridge" aria-label="Figma and Code Connect example" data-intro style="--i:2">
+        <div class="bridge__header">
+          <span>Button / Primary</span>
+          <span class="mono bridge__header-mono">Figma&nbsp;&nbsp;⇄&nbsp;&nbsp;Code Connect</span>
+        </div>
+        <div class="bridge__split" id="bridgeSplit">
+          <div class="ghost" id="ghost" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L9 19z" fill="#f24e1e" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span class="ghost__name">code</span>
+          </div>
+          <div class="bridge__canvas">
+            <span class="bridge__label bridge__label--blue">Hero / Button</span>
+            <div class="bridge__stage">
+              <span class="bridge__button" id="bridgeButton">
+                <img src="assets/dot-sun.svg" width="8" height="8" alt="" />
+                Start free trial
+                <i class="handle handle--tl"></i><i class="handle handle--tr"></i><i class="handle handle--bl"></i><i class="handle handle--br"></i>
+                <span class="bridge__size mono" aria-hidden="true">154 × 47</span>
+              </span>
+            </div>
+            <div class="bridge__tokens mono">
+              <button type="button" class="token" data-token="color/ink">color/ink</button>
+              <button type="button" class="token" data-token="radius/md">radius/md</button>
+              <button type="button" class="token" data-token="space/3">space/3</button>
+            </div>
+          </div>
+          <div class="bridge__code mono">
+            <span class="bridge__label">Button.figma.tsx</span>
+<pre class="bridge__pre" id="bridgeCode"><span class="ln">import { Button } from "@salesiq/ui";</span>
+<span class="ln"></span>
+<span class="ln">&lt;Button</span>
+<span class="ln" data-token="color/ink">  variant="primary"</span>
+<span class="ln" data-token="radius/md">  size="md"</span>
+<span class="ln" data-token="space/3">  leadingIcon="dot"</span>
+<span class="ln">&gt;</span>
+<span class="ln">  Start free trial</span>
+<span class="ln">&lt;/Button&gt;</span></pre>
+            <span class="bridge__synced" id="bridgeStatus">● synced · 0 drift</span>
+          </div>
+        </div>
+        <div class="bridge__footer">One component, both sides of the bridge. The same tokens drive each.</div>
+      </aside>
+    </div>
+  </header>
+
+  <!-- ===== Facts ===== -->
+  <section class="facts" aria-label="Key metrics" data-layer="Facts">
+    <div class="facts__row">
+      <div class="fact">
+        <span class="mono fact__key">metrics.years</span>
+        <span class="fact__value" data-count="8+">8+</span>
+        <span class="fact__desc">years designing one enterprise product end to end</span>
+      </div>
+      <div class="fact">
+        <span class="mono fact__key">metrics.metric</span>
+        <span class="fact__value" data-count="30%">30%</span>
+        <span class="fact__desc">faster bot setup after the chatbot builder redesign</span>
+      </div>
+      <div class="fact">
+        <span class="mono fact__key">metrics.components</span>
+        <span class="fact__value" data-count="48+">48+</span>
+        <span class="fact__desc">components in the SalesIQ design system I run</span>
+      </div>
+      <div class="fact">
+        <span class="mono fact__key">metrics.modules</span>
+        <span class="fact__value" data-count="20+">20+</span>
+        <span class="fact__desc">product modules kept consistent across platforms</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Work ===== -->
+  <section class="section work" id="work" data-layer="Work">
+    <div class="section__head section__head--end">
+      <h2 class="section__title">Selected work on Zoho SalesIQ</h2>
+      <p class="section__intro">Eight product areas, each designed from research through launch. Every one ships as components from the same system.</p>
+    </div>
+
+    <div class="work__list">
+      <details class="case" open>
+        <summary class="case__summary">
+          <span class="case__title">Zobot, the no-code chatbot builder <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;Zobot /&gt;</code><span>Setup time −30%</span></span>
+        </summary>
+        <div class="case__body">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/zobot.webp" alt="Zobot flow: visitor lands, say hello, then branches to starter plan or sales operator" width="2000" height="404" />
+            <p class="case__desc">Businesses wanted to automate support without asking a developer. I rebuilt the builder as a drag-and-drop canvas with guided blocks and sensible defaults, so a non-technical admin can publish a working bot in one sitting.</p>
+            <a class="btn btn--primary btn--sm case__cta" href="case-zobot.html">Read the case study&nbsp;&nbsp;→</a>
+          </div>
+          <dl class="case__facts">
+            <dt>Role</dt>
+            <dd>End-to-end product design, prototyping, usability testing</dd>
+            <dt>Built with</dt>
+            <dd class="mono">FlowCanvas, Block, Inspector, Button — all from @salesiq/ui</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">SalesIQ design system <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;DesignSystem /&gt;</code><span>48+ components</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/design-system.webp" alt="Design system cover: colour, type, space and radius tokens with button, toggle and input components" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">I run the design system: 48+ components on one set of tokens, mapped to real code and generated with AI, so the same component ships on web, mobile SDK and WhatsApp.</p>
+            <a class="btn btn--primary btn--sm case__cta" href="case-design-system.html">Read the case study&nbsp;&nbsp;→</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Operator Console <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;OperatorConsole /&gt;</code><span>Agent efficiency</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/operator-console.webp" alt="Operator console cover: rail, folders, queue and conversation laid out left to right" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Agents juggle many chats at once. I redesigned the SalesIQ operator console so the queue, the conversation and everything about the visitor sit in one calm view.</p>
+            <a class="btn btn--primary btn--sm case__cta" href="case-operator-console.html">Read the case study&nbsp;&nbsp;→</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Reports and analytics revamp <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;Reports /&gt;</code><span>Unified analytics</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/reports.webp" alt="Reports cover: bar chart beside chats, first reply, bot offload and rating stats" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Case study in progress. Ask me about unifying analytics across chat, bots and channels into one reporting surface.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Brand configuration, rebuilt as self-service <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;Channels /&gt;</code><span>Web · SDK · WhatsApp</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/brand-configuration.webp" alt="Brand configuration cover: a theme and logo panel beside three chat widgets in different brand colours" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Case study in progress. Ask me about turning brand setup across web, SDK and WhatsApp into something admins finish on their own.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Proactive Chat across channels <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;ProactiveChat /&gt;</code><span>Messaging</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/proactive-chat.webp" alt="Proactive chat cover: a pricing page, trigger rules and a welcome-back chat prompt" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Case study in progress. Ask me about proactive triggers that reach visitors on the right channel at the right moment.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Outbound broadcast and push campaigns <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;Outbound /&gt;</code><span>Messaging</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/outbound.webp" alt="Outbound cover: a new broadcast with its audience, a Monday-Wednesday-Friday schedule and push notifications on a phone" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Case study in progress. Ask me about campaign composition, audience targeting and delivery reporting.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="case">
+        <summary class="case__summary">
+          <span class="case__title">Survey, Rating and Feedback <span class="case__toggle" aria-hidden="true"></span></span>
+          <span class="case__meta"><code class="mono case__tag">&lt;Feedback /&gt;</code><span>Feedback</span></span>
+        </summary>
+        <div class="case__body case__body--brief">
+          <div class="case__content">
+            <img class="case__cover" src="assets/covers/feedback.webp" alt="Feedback cover: a 4.6 rating with its distribution, a rate-this-chat card and a two-step survey" width="2000" height="404" loading="lazy" />
+            <p class="case__desc">Case study in progress. Ask me about collecting ratings and feedback without interrupting the conversation.</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== Process ===== -->
+  <section class="section section--tight process" id="process" data-layer="Process">
+    <div class="section__head section__head--center">
+      <h2 class="section__title">How the system ships</h2>
+      <p class="section__intro">Figma to code without the gap. Five steps, one source of truth.</p>
+    </div>
+    <ol class="pipeline" id="pipeline">
+      <li class="pipeline__dot" aria-hidden="true"></li>
+      <li class="step">
+        <span class="mono step__num">01</span>
+        <h3 class="step__title">Tokens</h3>
+        <p class="step__desc">Colour, type, space and radius as Figma variables with light and dark modes.</p>
+      </li>
+      <li class="pipeline__arrow" aria-hidden="true">→</li>
+      <li class="step">
+        <span class="mono step__num">02</span>
+        <h3 class="step__title">Components</h3>
+        <p class="step__desc">48+ components built on the tokens, documented and governed.</p>
+      </li>
+      <li class="pipeline__arrow" aria-hidden="true">→</li>
+      <li class="step">
+        <span class="mono step__num">03</span>
+        <h3 class="step__title">Code Connect</h3>
+        <p class="step__desc">Each component mapped to its real code, so Dev Mode shows the truth.</p>
+      </li>
+      <li class="pipeline__arrow" aria-hidden="true">→</li>
+      <li class="step">
+        <span class="mono step__num">04</span>
+        <h3 class="step__title">Figma MCP</h3>
+        <p class="step__desc">Agents read the mappings and generate production components with Claude.</p>
+      </li>
+      <li class="pipeline__arrow" aria-hidden="true">→</li>
+      <li class="step step--ship">
+        <span class="mono step__num">05</span>
+        <h3 class="step__title">Ship</h3>
+        <p class="step__desc">Same component across web, mobile SDK and WhatsApp. Zero drift.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===== Story ===== -->
+  <section class="section section--tight story" id="story" data-layer="Story">
+    <figure class="story__portrait">
+      <div class="story__frame" data-tilt>
+        <img src="assets/portrait.png" alt="Portrait of Ganeshkumar B" id="portraitImg" />
+        <canvas class="glitch" id="glitch" aria-hidden="true"></canvas>
+        <span class="glare" aria-hidden="true"></span>
+      </div>
+    </figure>
+    <div class="story__copy">
+      <h2 class="section__title">Story</h2>
+      <p class="story__quote">The best compliment my work gets is when a non-technical user sets something up without asking for help.</p>
+      <p class="story__text">I joined Zoho as an intern in 2018 and have designed SalesIQ ever since: research, UX, visual design and the design system that keeps it consistent. Lately I'm obsessed with the layer between design and code. My day-to-day is Figma variables, design tokens and Code Connect, and I'm building AI-assisted workflows with Claude and Figma MCP that generate a design system twice: once as a Figma library, once as production components. Outside the product I make user-education videos for SalesIQ shown at Zoholics, partner events and meetups.</p>
+      <ul class="timeline">
+        <li class="timeline__row">
+          <span class="mono timeline__when">2024 — now</span>
+          <span class="timeline__what">
+            <span class="timeline__role">Senior Visual Designer (Product Design), Zoho SalesIQ</span>
+            <span class="timeline__note">Design system owner, Figma MCP and Code Connect, Operator Console</span>
+          </span>
+        </li>
+        <li class="timeline__row">
+          <span class="mono timeline__when">2018 — 2024</span>
+          <span class="timeline__what">
+            <span class="timeline__role">Visual Designer, Zoho SalesIQ</span>
+            <span class="timeline__note">Zobot, Reports, Proactive Chat, Brand, Outbound, Push, Feedback</span>
+          </span>
+        </li>
+        <li class="timeline__row">
+          <span class="mono timeline__when">2018</span>
+          <span class="timeline__what">
+            <span class="timeline__role">Visual Designer intern, Zoho</span>
+          </span>
+        </li>
+        <li class="timeline__row">
+          <span class="mono timeline__when">2014 — 2017</span>
+          <span class="timeline__what">
+            <span class="timeline__role">BCA, Computer Applications</span>
+            <span class="timeline__note">Kongu Arts and Science College, Bharathiar University</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Gallery ===== -->
+  <section class="section section--tight gallery" id="gallery" data-layer="Illustration gallery">
+    <div class="section__head">
+      <h2 class="section__title">Illustration &amp; visual work</h2>
+      <div class="section__copy">
+        <span class="mono section__kicker">gallery/&nbsp;&nbsp;· 20 pieces&nbsp;&nbsp;· illustration, 3D &amp; app concepts</span>
+        <button type="button" class="view-toggle mono" id="deskToggle" aria-pressed="false">view: <b>grid</b> ⇄ desk</button>
+        <p class="section__intro">App concepts, 3D renders and motion pieces shared on Instagram and LinkedIn, plus launch visuals and the user-education videos shown at Zoholics and partner events.</p>
+      </div>
+    </div>
+
+    <div class="gallery__grid">
+      <div class="gallery__col">
+        <a class="piece" href="gallery/01-low-poly-riverside.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/01-low-poly-riverside.png" alt="Low-poly riverside" loading="lazy" /><span class="piece__tag mono">3D</span></span>
+          <span class="piece__caption"><span>Low-poly riverside</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/03-why-live-chat-salesiq.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/03-why-live-chat-salesiq.png" alt="Why live chat? SalesIQ product visual" loading="lazy" /><span class="piece__tag mono">Product visuals</span></span>
+          <span class="piece__caption"><span>Why live chat? — SalesIQ</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/05-chasing-the-clock.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/05-chasing-the-clock.png" alt="Chasing the clock" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Chasing the clock</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/07-convert-visitors-to-customers.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/07-convert-visitors-to-customers.png" alt="Convert visitors to customers" loading="lazy" /><span class="piece__tag mono">Product visuals</span></span>
+          <span class="piece__caption"><span>Convert — visitors to customers</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/11-golden-egg.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/11-golden-egg.png" alt="Golden egg" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Golden egg</span><span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+
+      <div class="gallery__col">
+        <a class="piece" href="gallery/02-isometric-sushi.png" target="_blank" rel="noopener">
+          <span class="piece__image piece__image--short"><img src="gallery/02-isometric-sushi.png" alt="Isometric sushi" loading="lazy" /><span class="piece__tag mono">3D</span></span>
+          <span class="piece__caption"><span>Isometric sushi</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/04-the-archer.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/04-the-archer.png" alt="The archer" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>The archer</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/06-one-world-every-language.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/06-one-world-every-language.png" alt="One world, every language" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>One world, every language</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/08-visitor-tracking.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/08-visitor-tracking.png" alt="Visitor tracking" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Visitor tracking</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/12-jukebox-dj-in-the-rain.png" target="_blank" rel="noopener">
+          <span class="piece__image piece__image--contain" style="--piece-bg:#523caa"><img src="gallery/12-jukebox-dj-in-the-rain.png" alt="Jukebox, DJ in the rain" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Jukebox — DJ in the rain</span><span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+
+      <div class="gallery__col">
+        <a class="piece" href="gallery/09-tiger-eye.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/09-tiger-eye.png" alt="Tiger eye" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Tiger eye</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/10-channels-email-chat-call.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/10-channels-email-chat-call.png" alt="Channels: email, chat, call" loading="lazy" /><span class="piece__tag mono">Product visuals</span></span>
+          <span class="piece__caption"><span>Channels: email, chat, call</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/13-music-in-a-cup.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/13-music-in-a-cup.png" alt="Music in a cup" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Music in a cup</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/14-vote-up-or-down.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/14-vote-up-or-down.png" alt="Vote up or down" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Vote up or down</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/15-jukebox-landing-page.png" target="_blank" rel="noopener">
+          <span class="piece__image"><img src="gallery/15-jukebox-landing-page.png" alt="Jukebox landing page" loading="lazy" /><span class="piece__tag mono">App concepts</span></span>
+          <span class="piece__caption"><span>Jukebox landing page</span><span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+
+      <div class="gallery__col">
+        <a class="piece" href="gallery/16-jukebox-music-party.png" target="_blank" rel="noopener">
+          <span class="piece__image piece__image--contain piece__image--party" style="--piece-bg:#de364d"><img src="gallery/16-jukebox-music-party.png" alt="Jukebox, music party" loading="lazy" /><span class="piece__tag mono">Illustration</span></span>
+          <span class="piece__caption"><span>Jukebox — music party</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/18-pet-care-app.png" target="_blank" rel="noopener">
+          <span class="piece__image piece__image--tall"><img src="gallery/18-pet-care-app.png" alt="Pet care app concept" loading="lazy" /><span class="piece__tag mono">App concepts</span></span>
+          <span class="piece__caption"><span>Pet Care App</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="piece" href="gallery/19-chat-app-light-dark.png" target="_blank" rel="noopener">
+          <span class="piece__image piece__image--xtall"><img src="gallery/19-chat-app-light-dark.png" alt="Chat app concept in light and dark" loading="lazy" /><span class="piece__tag mono">App concepts</span></span>
+          <span class="piece__caption"><span>Chat App — light &amp; dark</span><span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="gallery__more">
+      <a class="btn btn--ghost" href="https://www.behance.net/" target="_blank" rel="noopener">View on Behance&nbsp;&nbsp;↗</a>
+      <a class="btn btn--ghost" href="https://dribbble.com/" target="_blank" rel="noopener">View on Dribbble&nbsp;&nbsp;↗</a>
+    </div>
+  </section>
+
+  <!-- ===== Writing ===== -->
+  <section class="section section--tight writing" id="writing" data-layer="Writing (blog)">
+    <div class="section__head">
+      <h2 class="section__title">Writing</h2>
+      <div class="section__copy">
+        <span class="mono section__kicker">blog/&nbsp;&nbsp;· LinkedIn + Instagram @rayanuxvibes</span>
+        <p class="section__intro">Short, opinionated posts on UI fundamentals, design systems and working with AI. One screen, one idea, no jargon.</p>
+      </div>
+    </div>
+
+    <div class="writing__grid">
+      <article class="featured">
+        <div class="featured__cover">
+          <img src="assets/cover-tokens.png" alt="Carousel cover: Your design system isn't broken. Your tokens are." loading="lazy" />
+          <span class="piece__tag mono">DESIGN SYSTEMS</span>
+        </div>
+        <span class="mono featured__meta">featured&nbsp;&nbsp;·&nbsp;&nbsp;carousel&nbsp;&nbsp;·&nbsp;&nbsp;9 slides</span>
+        <h3 class="featured__title">Your design system isn't broken. Your tokens are.</h3>
+        <p class="featured__desc">Most "broken" systems have perfectly fine components sitting on inconsistent colour, type and spacing values. Fix the tokens first and the components fix themselves. Swipe to fix yours.</p>
+        <a class="btn btn--primary btn--sm" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">Read the carousel&nbsp;&nbsp;→</a>
+      </article>
+
+      <div class="posts">
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>ui-fundamentals</span><span>carousel</span></span>
+          <span class="post__title"><span>Spacing is 80% of good UI</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>ui-fundamentals</span><span>carousel · 4 steps</span></span>
+          <span class="post__title"><span>One color is all you need</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>design-systems</span><span>carousel · 9 slides</span></span>
+          <span class="post__title"><span>You only need four buttons. Most files have nine.</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>ai-x-design</span><span>carousel · 8 slides</span></span>
+          <span class="post__title"><span>4 ways AI wasted my time</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>process</span><span>carousel · 8 slides</span></span>
+          <span class="post__title"><span>Critique is not taste</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="post" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">
+          <span class="post__meta mono"><span>career</span><span>carousel · 5 lessons</span></span>
+          <span class="post__title"><span>Start again, smarter</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <div class="posts__more">
+          <a class="posts__all" href="https://www.linkedin.com/" target="_blank" rel="noopener">All posts on LinkedIn&nbsp;&nbsp;→</a>
+          <a class="mono posts__ig" href="https://www.instagram.com/rayanuxvibes" target="_blank" rel="noopener">instagram.com/rayanuxvibes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section class="section section--tight skills" id="skills" data-layer="Skills">
+    <div class="section__head section__head--end">
+      <h2 class="section__title">Skills, as tokens</h2>
+      <p class="section__intro">Grouped the way the system is: by what they produce, not by tool.</p>
+    </div>
+    <div class="skills__groups">
+      <div class="group">
+        <span class="mono group__ns">product.*</span>
+        <h3 class="group__title">Product design</h3>
+        <ul class="chips mono">
+          <li>research</li><li>usability-testing</li><li>information-architecture</li><li>interaction</li><li>prototyping</li><li>accessibility</li>
+        </ul>
+      </div>
+      <div class="group">
+        <span class="mono group__ns">system.*</span>
+        <h3 class="group__title">Design systems</h3>
+        <ul class="chips mono">
+          <li>tokens</li><li>figma-variables</li><li>code-connect</li><li>governance</li><li>cross-platform</li>
+        </ul>
+      </div>
+      <div class="group">
+        <span class="mono group__ns">ai.*</span>
+        <h3 class="group__title">AI-assisted</h3>
+        <ul class="chips mono">
+          <li>figma-mcp</li><li>claude</li><li>chatgpt</li><li>figma-ai</li><li>prompt-engineering</li>
+        </ul>
+      </div>
+      <div class="group">
+        <span class="mono group__ns">visual.*</span>
+        <h3 class="group__title">Visual &amp; motion</h3>
+        <ul class="chips mono">
+          <li>ui</li><li>branding</li><li>photoshop</li><li>illustrator</li><li>after-effects</li><li>spline</li><li>html-css</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <footer class="contact" id="contact" data-layer="Contact">
+    <h2 class="contact__title">If you're into design systems, design tooling, or figuring out where AI fits in a designer's workflow, let's talk.</h2>
+    <p class="contact__mail">
+      <span class="mono contact__prompt">$ mailto</span>
+      <a class="contact__link" id="emailLink" href="mailto:ganesh.rayanbalu@gmail.com">ganesh.rayanbalu@gmail.com</a>
+      <button type="button" class="copy mono" id="copyEmail" aria-label="Copy email address">copy</button>
+    </p>
+    <p class="contact__mail contact__tel">
+      <span class="mono contact__prompt">$ tel</span>
+      <a class="contact__link contact__link--sm" href="tel:+919751324585">+91 97513 24585</a>
+    </p>
+    <ul class="contact__links contact__links--icons">
+      <li><a class="icon-link" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a></li>
+      <li><a class="icon-link" href="https://www.behance.net/" target="_blank" rel="noopener" aria-label="Behance" title="Behance">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>
+      </a></li>
+      <li><a class="icon-link" href="https://dribbble.com/" target="_blank" rel="noopener" aria-label="Dribbble" title="Dribbble">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-2.53-2.245-5.62-2.8-9.195-2.298zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/></svg>
+      </a></li>
+      <li><a class="icon-link" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a></li>
+    </ul>
+    <div class="contact__footer">
+      <span>Ganeshkumar B · Chennai, India</span>
+      <span class="mono">// built by hand with HTML, CSS and a little JavaScript</span>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery viewer" hidden>
+    <button type="button" class="lightbox__btn lightbox__close" data-lb="close" aria-label="Close">×</button>
+    <button type="button" class="lightbox__btn lightbox__prev" data-lb="prev" aria-label="Previous">←</button>
+    <button type="button" class="lightbox__btn lightbox__next" data-lb="next" aria-label="Next">→</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightboxImg" alt="" />
+      <figcaption class="lightbox__caption">
+        <span id="lightboxTitle"></span>
+        <span class="mono" id="lightboxMeta"></span>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="ins" id="inspect" hidden aria-hidden="true">
+    <div class="ins__parent"></div>
+    <div class="ins__m ins__m--t"></div><span class="ins__m-label ins__m-label--t"></span>
+    <div class="ins__m ins__m--b"></div><span class="ins__m-label ins__m-label--b"></span>
+    <div class="ins__m ins__m--l"></div><span class="ins__m-label ins__m-label--l"></span>
+    <div class="ins__m ins__m--r"></div><span class="ins__m-label ins__m-label--r"></span>
+    <div class="ins__box"></div>
+    <span class="ins__dim"></span>
+    <div class="ins__panel">
+      <div class="ins__name"><span id="insName">Hover a layer</span><span id="insSize"></span></div>
+      <div id="insRows"></div>
+      <div class="ins__hint"><kbd>click</kbd> copy css · <kbd>G</kbd> grid · <kbd>Esc</kbd> exit</div>
+    </div>
+  </div>
+  <div class="layout-grid" id="layoutGrid" hidden aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+  <script src="creative.js"></script>
+</body>
+</html>

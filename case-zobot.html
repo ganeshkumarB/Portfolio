@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zobot, the no-code chatbot builder · Case study 01 · Ganeshkumar B</title>
+  <meta name="description" content="SalesIQ had no bot builder. As the only designer on it, I designed one from scratch: a drag-and-drop canvas where anyone can build a chatbot without writing code." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="case.css" />
+</head>
+<body class="is-ready cs-page">
+
+  <header class="cs-top" data-layer="Nav">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="nav-slot">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand mono" href="index.html">ganeshkumar.design</a>
+      <div class="nav__pill nav__pill--case">
+        <span class="nav__indicator" aria-hidden="true"></span>
+        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
+        <a class="nav__link" href="index.html#work">← All work</a>
+        <span class="nav__case mono">Case 01 / 08</span>
+        <a class="nav__link nav__link--next is-active" href="case-design-system.html">Next · Design system →</a>
+      </div>
+      <span class="nav__status mono">● synced · 0 drift</span>
+    </nav>
+    </div>
+  </header>
+
+  <section class="cs-hero" data-layer="Hero">
+    <a class="cs-back" href="index.html#work"><span aria-hidden="true">←</span> Selected work on Zoho SalesIQ</a>
+    <div class="cs-tags"><span class="tag">&lt;Zobot&gt;</span><span class="lbl lbl--12">Case study 01 / 08</span></div>
+    <h1 class="cs-title">Zobot, the no-code chatbot builder</h1>
+    <p class="cs-lede">SalesIQ had no bot builder. As the only designer on it, I designed one from scratch: a drag-and-drop canvas where anyone can build a chatbot without writing code.</p>
+    <div class="cs-meta">
+      <hr />
+      <dl>
+        <div><dt class="lbl">Role</dt><dd>Sole designer: end-to-end product design</dd></div>
+        <div><dt class="lbl">Platform</dt><dd>Website at launch, 7 channels today</dd></div>
+        <div><dt class="lbl">Period</dt><dd>2018 – 2024 · Shipped in SalesIQ 2.0</dd></div>
+        <div><dt class="lbl">Built with</dt><dd>FlowCanvas, Block, Inspector, Button from @salesiq/ui</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cs-visual" data-layer="Visual" aria-label="Recreated builder with sample data">
+    <div class="cs-frame">
+      <div class="cs-frame__bar">
+        <div class="title">Sample Bot <span class="lbl lbl--10">Draft</span></div>
+        <span class="btn-mini btn-mini--pill">Publish</span>
+      </div>
+      <div class="cs-scroll">
+        <div class="builder__ws">
+          <div class="builder__palette">
+            <span class="lbl lbl--10">Blocks</span>
+            <div class="item">Message</div>
+            <div class="item">Question</div>
+            <div class="item">Buttons</div>
+            <div class="item">Branch</div>
+            <div class="item">Hand off</div>
+            <div class="item">Collect email</div>
+          </div>
+          <div class="builder__canvas">
+            <div class="mb"><span class="lbl">Trigger</span><span class="txt">Visitor opens the pricing page</span></div>
+            <i class="conn"></i>
+            <div class="mb"><span class="lbl">Message</span><span class="txt">Hi! Looking for a plan that fits your team?</span></div>
+            <i class="conn"></i>
+            <div class="mb mb--active">
+              <span class="lbl">Question</span><span class="txt">How big is your team?</span>
+              <div class="pills"><span class="pill">1–10</span><span class="pill">11–50</span><span class="pill">50+</span></div>
+            </div>
+            <i class="conn"></i>
+            <div class="branches">
+              <div class="mb"><span class="lbl">Branch · Small</span><span class="txt">Share the starter plan link</span></div>
+              <div class="mb"><span class="lbl">Branch · Large</span><span class="txt">Hand off to a sales operator</span></div>
+            </div>
+          </div>
+          <div class="builder__inspector">
+            <span class="lbl lbl--10">Inspector · Question</span>
+            <div class="builder__field"><span>Prompt</span><div class="field">How big is your team?</div></div>
+            <div class="builder__field"><span>Save answer as</span><div class="field">team_size</div></div>
+            <div class="builder__field"><span>If no reply in</span><div class="field">2 minutes → Hand off</div></div>
+            <div class="toggle-row"><img src="assets/case/toggle-on-36.svg" width="36" height="20" alt="" /> Use smart defaults</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="lbl lbl--10">Recreated with sample content for this case study. Not a production screenshot.</p>
+  </section>
+
+  <section class="cs-note" data-layer="NDA note">
+    <div class="cs-note__box">
+      <span class="lbl">Note</span>
+      <p>This work was done under a non-disclosure agreement with Zoho. Screens are recreated with sample data, and internal metrics, customer details and unreleased work are left out. Happy to go deeper in a conversation.</p>
+    </div>
+  </section>
+
+  <main class="cs-content" data-layer="Content">
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">01</span>
+        <h2 class="cs-h2">From code to canvas</h2>
+        <p class="cs-sub">Before, a bot was a developer’s job. The goal was to hand it to the admin.</p>
+      </div>
+      <div class="g g--2 g--20">
+        <div class="tile tile--p28 tile--g16">
+          <span class="lbl">Before</span>
+          <p class="t-h">No builder. Bots meant writing code.</p>
+          <div class="code"><pre><span class="dim">if (visitor.page == "/pricing") {</span>
+  reply("Hi! Need help with a plan?");
+  ask("How big is your team?");
+  route(answer &gt; 10 ? sales : starter);
+<span class="dim">}</span></pre></div>
+          <span class="lbl lbl--9">Illustrative</span>
+        </div>
+        <div class="tile tile--blue tile--p28 tile--g16">
+          <span class="lbl lbl--blue">After</span>
+          <p class="t-h">A canvas. Admins drag blocks and publish.</p>
+          <div class="flow">
+            <div class="mb mb--sm"><span class="lbl">Trigger</span><span class="txt">Visitor opens /pricing</span></div>
+            <i class="conn conn--20"></i>
+            <div class="mb mb--sm"><span class="lbl">Message</span><span class="txt">Hi! Need help with a plan?</span></div>
+            <i class="conn conn--20"></i>
+            <div class="branches branches--12">
+              <div class="mb mb--sm mb--xs"><span class="lbl">Small team</span><span class="txt">Starter plan</span></div>
+              <div class="mb mb--sm mb--xs"><span class="lbl">Large team</span><span class="txt">Sales operator</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02</span>
+        <h2 class="cs-h2">Three ways to draw a conversation</h2>
+        <p class="cs-sub">We studied the no-code builders of the time. Each picked a different shape.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile">
+          <div class="diagram" aria-hidden="true">
+            <i style="left:40px;top:24px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:27px;width:16px;height:16px;background:var(--cs-line)"></i>
+            <i style="left:40px;top:56px;width:260px;height:22px;background:var(--cs-surface)"></i><i style="left:18px;top:59px;width:16px;height:16px;background:var(--cs-line)"></i>
+            <i style="left:40px;top:88px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:91px;width:16px;height:16px;background:var(--cs-line)"></i>
+            <i style="left:40px;top:120px;width:260px;height:22px;background:var(--cs-surface)"></i><i style="left:18px;top:123px;width:16px;height:16px;background:var(--cs-line)"></i>
+            <i style="left:40px;top:152px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:155px;width:16px;height:16px;background:var(--cs-line)"></i>
+          </div>
+          <span class="lbl lbl--10">Intercom · 2018</span>
+          <p class="t-h">Linear list</p>
+          <p class="t-p">Paths stacked in a flat list. Easy to read, harder to branch.</p>
+        </div>
+        <div class="tile">
+          <div class="diagram" aria-hidden="true">
+            <i style="left:24px;top:30px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:150px;top:20px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:90px;top:90px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:220px;top:110px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:40px;top:140px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:180px;top:170px;width:70px;height:26px;background:var(--cs-blue-tint)"></i>
+            <i style="left:94px;top:43px;width:56px;height:2px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:124px;top:46px;width:2px;height:44px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:160px;top:103px;width:60px;height:2px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:74px;top:116px;width:2px;height:24px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:210px;top:136px;width:2px;height:34px;background:#b7bac2;border-radius:0"></i>
+          </div>
+          <span class="lbl lbl--10">Landbot · 2018</span>
+          <p class="t-h">Free canvas</p>
+          <p class="t-p">Blocks anywhere, joined by lines. Flexible, easy to get lost in.</p>
+        </div>
+        <div class="tile tile--ink">
+          <div class="diagram diagram--dark" aria-hidden="true">
+            <i style="left:140px;top:20px;width:90px;height:26px;background:var(--blue)"></i>
+            <i style="left:184px;top:46px;width:2px;height:22px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:140px;top:68px;width:90px;height:26px;background:var(--blue)"></i>
+            <i style="left:184px;top:94px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:94px;top:110px;width:182px;height:2px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:94px;top:110px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:274px;top:110px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:50px;top:126px;width:90px;height:26px;background:#fff"></i>
+            <i style="left:230px;top:126px;width:90px;height:26px;background:#fff"></i>
+            <i style="left:94px;top:152px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i>
+            <i style="left:50px;top:168px;width:90px;height:22px;background:#50545f"></i>
+          </div>
+          <span class="lbl lbl--10 lbl--sun">SalesIQ · Our choice</span>
+          <p class="t-h">Flowchart canvas</p>
+          <p class="t-p">A clear top-down flow with branches. Structured enough to follow, open enough to grow.</p>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sources: Intercom product blog (2018) · Landbot Product Hunt launch (2018)</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03</span>
+        <h2 class="cs-h2">Four kinds of blocks</h2>
+        <p class="cs-sub">Everything a bot can do, sorted into four families you drag from a side panel.</p>
+      </div>
+      <div class="g g--4">
+        <div class="tile tile--blue tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--blue">Response</span><p class="t-serif t-serif--40">Says</p><p class="t-p">Messages, buttons and carousels the visitor sees.</p></div>
+        <div class="tile tile--cream tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--amber">Action</span><p class="t-serif t-serif--40">Does</p><p class="t-p">Steps the bot takes, like handing over to an operator.</p></div>
+        <div class="tile tile--green tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--green">Data</span><p class="t-serif t-serif--40">Collects</p><p class="t-p">Details the bot asks for, like name, email or phone.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--ink">Integration</span><p class="t-serif t-serif--40">Connects</p><p class="t-p">Where answers go: mailing lists, tickets, leads.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">04</span>
+        <h2 class="cs-h2">Three decisions that shaped it</h2>
+      </div>
+      <div class="nrows">
+        <div class="nrow"><span class="n t-serif t-serif--44">01</span><div><h3>A flowchart, not a script</h3><p>Admins draw the conversation and SalesIQ builds the bot from it.</p></div></div>
+        <div class="nrow"><span class="n t-serif t-serif--44">02</span><div><h3>Defaults on every block</h3><p>A bot works before it is fully customised, so the first one goes live in one sitting.</p></div></div>
+        <div class="nrow"><span class="n t-serif t-serif--44">03</span><div><h3>Website first</h3><p>We launched on website chat and brought other channels in later.</p></div></div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05</span>
+        <h2 class="cs-h2">Shipped, then it grew</h2>
+        <p class="cs-sub">No formal testing before launch. It was shaped by feedback once it was live.</p>
+      </div>
+      <div class="g g--3">
+        <div class="tile tile--g10"><span class="lbl lbl--10">Before</span><p class="t-serif">No builder</p><p class="t-p">Bots needed a developer.</p></div>
+        <div class="tile tile--blue tile--g10"><span class="lbl lbl--10">Launch</span><p class="t-serif">SalesIQ 2.0</p><p class="t-p">The codeless bot builder ships on website chat.</p></div>
+        <div class="tile tile--ink tile--g10">
+          <span class="lbl lbl--10 lbl--sun">Today</span>
+          <p class="t-serif">7 channels and counting</p>
+          <p class="t-p">Templates, import and export, 30 languages, and Bring Your Own AI.</p>
+          <div class="pills"><span class="pill pill--dark">Web</span><span class="pill pill--dark">Mobile</span><span class="pill pill--dark">Messenger</span><span class="pill pill--dark">Instagram</span><span class="pill pill--dark">WhatsApp</span><span class="pill pill--dark">Telegram</span><span class="pill pill--dark">LINE</span></div>
+        </div>
+      </div>
+      <span class="lbl lbl--9">Sources: help.zoho.com · blog.zoho.com/salesiq</span>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">06</span>
+        <h2 class="cs-h2">What I learned</h2>
+      </div>
+      <div class="cs-quote">
+        <p class="q">“Defaults matter more than features.”</p>
+        <p>A bot that works before it is customised does more for a new admin than one more block type.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cs-next" data-layer="Next">
+    <div class="cs-next__main">
+      <span class="lbl lbl--soft">Next case study</span>
+      <a class="cs-next__title" href="case-design-system.html">Design system <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    </div>
+    <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
+  </footer>
+
+  <script src="case.js"></script>
+</body>
+</html>
