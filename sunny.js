@@ -5,6 +5,7 @@
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
+   Clicks blush and chirp (Web Audio, synthesized, no files).
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -181,8 +182,37 @@
     sayTimer = setTimeout(function () { root.classList.remove("is-talking"); }, ms || Math.max(1800, 900 + text.length * 55));
   }
 
+  /* ---------- Sound: tiny synthesized chirps, no audio files ---------- */
+  var actx = null;
+  function beep(notes, type, vol) {
+    /* notes: [frequency, start, duration, glideTo] in seconds */
+    try {
+      var AC = global.AudioContext || global.webkitAudioContext;
+      if (!AC) return;
+      if (!actx) actx = new AC();
+      if (actx.state === "suspended") actx.resume();
+      var t = actx.currentTime;
+      notes.forEach(function (n) {
+        var o = actx.createOscillator(), g = actx.createGain();
+        o.type = type || "sine";
+        o.frequency.setValueAtTime(n[0], t + n[1]);
+        if (n[3]) o.frequency.exponentialRampToValueAtTime(n[3], t + n[1] + n[2]);
+        g.gain.setValueAtTime(0.0001, t + n[1]);
+        g.gain.exponentialRampToValueAtTime(vol || 0.07, t + n[1] + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + n[2]);
+        o.connect(g); g.connect(actx.destination);
+        o.start(t + n[1]); o.stop(t + n[1] + n[2] + 0.03);
+      });
+    } catch (e) { /* audio blocked or unsupported: stay silent */ }
+  }
+  var SFX = {
+    boop: function () { beep([[660, 0, 0.09, 880], [990, 0.09, 0.16, 1250]], "sine", 0.07); },
+    whee: function () { beep([[480, 0, 0.26, 1500]], "triangle", 0.06); },
+    grumble: function () { beep([[190, 0, 0.12, 150], [170, 0.14, 0.18, 120]], "sawtooth", 0.03); }
+  };
+
   /* ---------- Emotions ---------- */
-  var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000 };
+  var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700 };
   function emote(name, ms) {
     if (!EMOTIONS[name]) return;
     clearTimeout(emoteTimer);
@@ -352,9 +382,9 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
-      else { emote(pick(["laugh", "excited", "love", "happy"])); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello."])); }
+      if (taps.length >= 3) { SFX.grumble(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { SFX.whee(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else { SFX.boop(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
 
@@ -439,7 +469,8 @@
     act: function (n) { if (root) act(n); },
     emote: function (n, ms) { if (root) emote(n, ms); },
     say: function (t, ms) { if (root) say(t, ms); },
-    acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), el: null
+    sfx: function (n) { if (SFX[n]) SFX[n](); },
+    acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })(window);

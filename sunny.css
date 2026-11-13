@@ -185,6 +185,12 @@
 [data-emotion="bored"] .s-m--smile { opacity: 0; } [data-emotion="bored"] .s-m--o { opacity: 1; transform: scale(1.4); }
 [data-emotion="bored"] .s-char { animation: su-yawn 2.4s ease-in-out 1; }
 [data-emotion="bored"] .s-arm--l { transform: rotate(150deg); }
+[data-emotion="blush"] .s-eye { opacity: 0; } [data-emotion="blush"] .s-eye-happy { opacity: 1; }
+[data-emotion="blush"] .s-m--smile { transform: scale(1.3); }
+[data-emotion="blush"] .s-blush { transform: scale(1.7); }
+[data-emotion="blush"] .s-char { animation: su-giggle 0.3s ease-in-out 4; }
+[data-emotion="blush"] .s-arm--l { transform: rotate(40deg); } [data-emotion="blush"] .s-arm--r { transform: rotate(-40deg); }
+[data-emotion="blush"] .s-sprout { animation-duration: 1s; }
 
 /* ---------- acts ---------- */
 /* wave: right arm up, motion lines, happy face */
