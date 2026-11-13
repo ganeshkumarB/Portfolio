@@ -5,7 +5,8 @@
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
-   Clicks blush and chirp (Web Audio, synthesized, no files).
+   Clicks blush and chirp; acts have quiet synthesized cues (Web Audio, no
+   files, nothing plays before the visitor's first click or tap).
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -182,34 +183,75 @@
     sayTimer = setTimeout(function () { root.classList.remove("is-talking"); }, ms || Math.max(1800, 900 + text.length * 55));
   }
 
-  /* ---------- Sound: tiny synthesized chirps, no audio files ---------- */
-  var actx = null;
-  function beep(notes, type, vol) {
+  /* ---------- Sound: tiny synthesized cues, no audio files ----------
+     Browsers only let audio start after a gesture (click, key, touch). Cues
+     triggered by a gesture play right away; cues from Sunny's own acts play
+     only once a gesture has unlocked audio. All of it is quiet. */
+  var actx = null, unlocked = false, soundOn = true;
+  try { soundOn = localStorage.getItem("sunny:sound") !== "off"; } catch (e) { /* ignore */ }
+  function ctx() {
+    var AC = global.AudioContext || global.webkitAudioContext;
+    if (!AC) return null;
+    if (!actx) actx = new AC();
+    if (actx.state === "suspended") actx.resume();
+    if (actx.state === "running") unlocked = true;
+    return actx;
+  }
+  function tone(notes, type, vol) {
     /* notes: [frequency, start, duration, glideTo] in seconds */
-    try {
-      var AC = global.AudioContext || global.webkitAudioContext;
-      if (!AC) return;
-      if (!actx) actx = new AC();
-      if (actx.state === "suspended") actx.resume();
-      var t = actx.currentTime;
-      notes.forEach(function (n) {
-        var o = actx.createOscillator(), g = actx.createGain();
-        o.type = type || "sine";
-        o.frequency.setValueAtTime(n[0], t + n[1]);
-        if (n[3]) o.frequency.exponentialRampToValueAtTime(n[3], t + n[1] + n[2]);
-        g.gain.setValueAtTime(0.0001, t + n[1]);
-        g.gain.exponentialRampToValueAtTime(vol || 0.07, t + n[1] + 0.012);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + n[2]);
-        o.connect(g); g.connect(actx.destination);
-        o.start(t + n[1]); o.stop(t + n[1] + n[2] + 0.03);
-      });
-    } catch (e) { /* audio blocked or unsupported: stay silent */ }
+    var ac = ctx(); if (!ac) return;
+    var t = ac.currentTime;
+    notes.forEach(function (n) {
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || "sine";
+      o.frequency.setValueAtTime(n[0], t + n[1]);
+      if (n[3]) o.frequency.exponentialRampToValueAtTime(n[3], t + n[1] + n[2]);
+      g.gain.setValueAtTime(0.0001, t + n[1]);
+      g.gain.exponentialRampToValueAtTime(vol || 0.06, t + n[1] + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + n[2]);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t + n[1]); o.stop(t + n[1] + n[2] + 0.03);
+    });
+  }
+  function hiss(dur, from, to, vol, filterType) {
+    /* a short filtered noise burst: splashes, swooshes, shutter clicks */
+    var ac = ctx(); if (!ac) return;
+    var len = Math.ceil(ac.sampleRate * dur), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    var src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(), t = ac.currentTime;
+    src.buffer = buf; f.type = filterType || "bandpass"; f.Q.value = 0.8;
+    f.frequency.setValueAtTime(from, t); f.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.05, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f); f.connect(g); g.connect(ac.destination); src.start(t); src.stop(t + dur + 0.02);
   }
   var SFX = {
-    boop: function () { beep([[660, 0, 0.09, 880], [990, 0.09, 0.16, 1250]], "sine", 0.07); },
-    whee: function () { beep([[480, 0, 0.26, 1500]], "triangle", 0.06); },
-    grumble: function () { beep([[190, 0, 0.12, 150], [170, 0.14, 0.18, 120]], "sawtooth", 0.03); }
+    boop: function () { tone([[660, 0, 0.09, 880], [990, 0.09, 0.16, 1250]], "sine", 0.07); },
+    whee: function () { tone([[480, 0, 0.26, 1500]], "triangle", 0.06); },
+    grumble: function () { tone([[190, 0, 0.12, 150], [170, 0.14, 0.18, 120]], "sawtooth", 0.03); },
+    pickup: function () { tone([[420, 0, 0.08, 700]], "triangle", 0.05); },
+    land: function () { tone([[160, 0, 0.1, 90]], "sine", 0.08); hiss(0.06, 900, 300, 0.03, "lowpass"); },
+    pop: function () { tone([[520, 0, 0.05, 260]], "sine", 0.06); },
+    tick: function () { tone([[1400, 0, 0.03]], "square", 0.02); },
+    bell: function () { tone([[1760, 0, 0.12], [2093, 0.1, 0.18]], "sine", 0.04); },
+    splash: function () { hiss(0.32, 2400, 500, 0.05); tone([[300, 0, 0.1, 120]], "sine", 0.04); },
+    gulp: function () { tone([[260, 0, 0.08, 180], [240, 0.18, 0.08, 160], [230, 0.36, 0.1, 140]], "sine", 0.05); },
+    hic: function () { tone([[520, 0, 0.05, 900]], "triangle", 0.045); },
+    tada: function () { tone([[523, 0, 0.1], [659, 0.1, 0.1], [784, 0.2, 0.1], [1047, 0.3, 0.3]], "triangle", 0.045); },
+    shutter: function () { hiss(0.05, 3000, 1200, 0.06, "highpass"); tone([[900, 0.06, 0.03]], "square", 0.02); },
+    swoosh: function () { hiss(0.28, 400, 2600, 0.035); },
+    ding: function () { tone([[1319, 0, 0.5], [1976, 0.02, 0.4]], "sine", 0.035); },
+    yawn: function () { tone([[330, 0, 0.5, 220]], "sine", 0.03); },
+    snore: function () { tone([[110, 0, 0.35, 90]], "sawtooth", 0.012); },
+    bubble: function () { tone([[700, 0, 0.06, 1100], [820, 0.12, 0.06, 1300]], "sine", 0.03); }
   };
+  /* gesture-driven cue: plays now */
+  function sfx(name) { if (soundOn && SFX[name]) { try { SFX[name](); } catch (e) { /* silent */ } } }
+  /* act-driven cue: only once audio is unlocked by an earlier gesture */
+  function cue(name) { if (unlocked) sfx(name); }
+  function setSound(on) {
+    soundOn = !!on;
+    try { localStorage.setItem("sunny:sound", soundOn ? "on" : "off"); } catch (e) { /* ignore */ }
+  }
 
   /* ---------- Emotions ---------- */
   var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700 };
@@ -225,9 +267,9 @@
   /* ---------- Acts ---------- */
   var ACTS = {
     wave: { ms: 1800 },
-    hop: { ms: 900 },
-    peek: { ms: 2600, run: function () { later(function () { emote("surprised", 900); }, 1400); } },
-    stretch: { ms: 2400 },
+    hop: { ms: 900, run: function () { cue("bubble"); } },
+    peek: { ms: 2600, run: function () { later(function () { emote("surprised", 900); cue("pop"); }, 1400); } },
+    stretch: { ms: 2400, run: function () { cue("yawn"); } },
     dance: { ms: 3400 },
     walk: { ms: 0, run: function () {
       var target = Math.random() < 0.5 ? minX() * Math.random() : 0;
@@ -238,34 +280,38 @@
     } },
     cycle: { ms: 0, run: function () {
       var far = minX(), ms1 = Math.abs(far - sx) * 9 + 500, ms2 = Math.abs(far) * 9 + 500;
+      cue("bell"); later(function () { cue("bell"); }, ms1 + 350);
       setX(far, ms1);
       later(function () { setX(0, ms2); }, ms1 + 350);
       return ms1 + ms2 + 900;
     } },
     swim: { ms: 0, run: function () {
       var far = minX() * 0.7, ms1 = Math.abs(far - sx) * 22 + 600;
-      later(function () { setX(far, ms1); }, 500);
+      later(function () { setX(far, ms1); cue("splash"); }, 500);
       later(function () { setX(0, ms1); }, ms1 + 900);
       later(function () { emote("dizzy", 900); say("Brr."); }, ms1 * 2 + 1700);
       return ms1 * 2 + 2800;
     } },
     drink: { ms: 3000, run: function () {
+      later(function () { cue("gulp"); }, 900);
       if (Math.random() < 0.45) later(function () { act("drunk"); }, 3100);
       else later(function () { say("Ahh."); emote("happy"); }, 3000);
     } },
     drunk: { ms: 6500, run: function () {
       var i = 0, t = setInterval(function () {
         if (!root.matches('[data-act="drunk"]') || i++ > 5) { clearInterval(t); return; }
+        if (i % 2 === 1) cue("hic");
         setX(sx + (Math.random() < 0.5 ? -1 : 1) * (30 + Math.random() * 40), 900);
       }, 1000);
       later(function () { say("…okay. Water next time."); emote("shy"); }, 6600);
     } },
-    joker: { ms: 4600, run: function () { later(function () { say("Ta-da!"); }, 3800); } },
+    joker: { ms: 4600, run: function () { later(function () { say("Ta-da!"); cue("tada"); }, 3800); } },
     smoke: { ms: 4200, run: function () {
       later(function () { emote("dizzy", 1400); say(pick(["cough… cough. Okay. Never again.", "*cough* That's it, I quit.", "Yuck. Water next time."])); }, 4300);
     } },
     beer: { ms: 4200, run: function () {
-      later(function () { say("Clink!"); }, 900);
+      later(function () { say("Clink!"); cue("bell"); }, 900);
+      later(function () { cue("gulp"); }, 2200);
       if (Math.random() < 0.6) later(function () { act("drunk"); }, 4300);
       else later(function () { emote("happy"); say(pick(["Ahh. Refreshing.", "Burp. Pardon."])); }, 4200);
     } },
@@ -288,13 +334,14 @@
       var caught = Math.random() < 0.55;
       later(function () { say("…"); }, 2400);
       later(function () {
-        if (caught) { root.classList.add("is-catch"); emote("excited", 1500); say(pick(["Got one!", "Dinner!", "Look at the size of it!"])); }
+        if (caught) { root.classList.add("is-catch"); cue("splash"); emote("excited", 1500); say(pick(["Got one!", "Dinner!", "Look at the size of it!"])); }
         else { emote("bored", 1800); say(pick(["Nothing. Again.", "The fish are busy.", "Catch and release. Mostly release."])); }
       }, 4600);
       later(function () { root.classList.remove("is-catch"); }, 6400);
     } },
     selfie: { ms: 3200, run: function () {
       later(function () { say("Say cheese!"); }, 600);
+      later(function () { cue("shutter"); }, 2080);
       later(function () { emote("proud", 1500); say(pick(["Posted.", "Nailed it.", "Filter: none. Naturally."])); }, 3300);
     } },
     skip: { ms: 4800, run: function () {
@@ -321,13 +368,17 @@
     var ms = a.ms;
     if (a.run) { var r = a.run(); if (r) ms = r; }
     if (ACT_LINES[name] && Math.random() < 0.8) say(pick(ACT_LINES[name]));
-    if (name === "sleep") { asleep = true; return; }
+    if (name === "sleep") {
+      asleep = true;
+      var sn = setInterval(function () { if (!asleep) { clearInterval(sn); return; } cue("snore"); }, 3400);
+      return;
+    }
     actTimer = setTimeout(function () { root.removeAttribute("data-act"); busy = false; }, ms);
   }
   function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; }
   function wake() {
     if (!asleep) return;
-    asleep = false; stopAct();
+    asleep = false; stopAct(); cue("pop");
     emote("surprised"); say(pick(["Huh? I'm awake!", "Was I snoring?", "Oh! Hi."]));
   }
 
@@ -375,6 +426,7 @@
     if (finePointer) global.addEventListener("pointermove", onPointer, { passive: true });
     global.addEventListener("keydown", function () { lastInput = Date.now(); wake(); });
     global.addEventListener("touchstart", function () { lastInput = Date.now(); wake(); }, { passive: true });
+    global.addEventListener("pointerdown", function () { if (soundOn && !unlocked) ctx(); }, { passive: true });
 
     /* click, double, triple */
     svg.addEventListener("click", function () {
@@ -382,11 +434,11 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { SFX.grumble(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { SFX.whee(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
-      else { SFX.boop(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
+      if (taps.length >= 3) { sfx("grumble"); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { sfx("whee"); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else { sfx("boop"); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
-    svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
+    svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
 
     /* drag along the edge */
     svg.addEventListener("pointerdown", function (e) {
@@ -398,7 +450,7 @@
     svg.addEventListener("pointermove", function (e) {
       if (!drag) return;
       var dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); root.classList.add("is-carried"); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
+      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
       if (drag.moved) setX(drag.startSx + dx, 0);
     });
     function endDrag() {
@@ -407,7 +459,7 @@
       if (moved) {
         root.classList.remove("is-carried");
         root.removeAttribute("data-emotion");
-        root.classList.add("is-landing"); setTimeout(function () { root.classList.remove("is-landing"); }, 500);
+        root.classList.add("is-landing"); sfx("land"); setTimeout(function () { root.classList.remove("is-landing"); }, 500);
         emote("dizzy", 1000); say(pick(["Oof!", "Nice spot.", "Thanks for the lift."]));
       }
     }
@@ -417,7 +469,7 @@
     /* nap button */
     napBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      stopAct(); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200);
+      stopAct(); sfx("pop"); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200);
       try { sessionStorage.setItem("sunny:nap", "1"); } catch (err) { /* ignore */ }
       setTimeout(function () { root.classList.add("is-gone"); document.documentElement.classList.remove("has-sunny"); }, 2300);
     });
@@ -429,11 +481,11 @@
       var now = performance.now(), y = global.scrollY;
       if (lastT) {
         var v = (y - lastY) / Math.max(8, now - lastT);
-        if (Math.abs(v) > 2 && now - whoaAt > 2000) { whoaAt = now; root.style.setProperty("--sy", v > 0 ? "1" : "-1"); emote("whoa"); }
+        if (Math.abs(v) > 2 && now - whoaAt > 2000) { whoaAt = now; root.style.setProperty("--sy", v > 0 ? "1" : "-1"); emote("whoa"); cue("swoosh"); }
       }
       lastY = y; lastT = now;
       var atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
-      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); act("dance"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
+      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
       if (!atBottom && y < 200) bottomSaid = false;
     }, { passive: true });
 
@@ -443,7 +495,7 @@
     document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); say(pick(["Welcome back!", "Oh hey, you're back."])); } });
     if (global.MutationObserver) new MutationObserver(function () {
       var dark = document.documentElement.getAttribute("data-theme") === "dark";
-      stopAct();
+      stopAct(); sfx("tick");
       if (dark) { emote("sleepy", 2500); say(pick(["Dark mode. Cosy.", "Lights off. Nice."])); }
       else { emote("cool"); say(pick(["Bright! Shades on.", "Light mode? Bold choice."])); }
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -469,7 +521,8 @@
     act: function (n) { if (root) act(n); },
     emote: function (n, ms) { if (root) emote(n, ms); },
     say: function (t, ms) { if (root) say(t, ms); },
-    sfx: function (n) { if (SFX[n]) SFX[n](); },
+    sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
+    setSound: setSound, soundOn: function () { return soundOn; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
