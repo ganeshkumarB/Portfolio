@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_portrait-options.html
+
+Sitemap: https://ganeshuxcraft.in/sitemap.xml
