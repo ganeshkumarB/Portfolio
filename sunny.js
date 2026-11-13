@@ -5,8 +5,8 @@
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
-   Clicks blush and chirp; acts have quiet synthesized cues (Web Audio, no
-   files, nothing plays before the visitor's first click or tap).
+   Clicks blush and play one small chirp (Web Audio, synthesized, no files).
+   The other cues exist but are off unless Sunny.setCues(true) is called.
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -187,8 +187,8 @@
      Browsers only let audio start after a gesture (click, key, touch). Cues
      triggered by a gesture play right away; cues from Sunny's own acts play
      only once a gesture has unlocked audio. All of it is quiet. */
-  var actx = null, unlocked = false, soundOn = true;
-  try { soundOn = localStorage.getItem("sunny:sound") !== "off"; } catch (e) { /* ignore */ }
+  var actx = null, unlocked = false, soundOn = true, extraCues = false;
+  try { soundOn = localStorage.getItem("sunny:sound") !== "off"; extraCues = localStorage.getItem("sunny:cues") === "on"; } catch (e) { /* ignore */ }
   function ctx() {
     var AC = global.AudioContext || global.webkitAudioContext;
     if (!AC) return null;
@@ -244,13 +244,20 @@
     snore: function () { tone([[110, 0, 0.35, 90]], "sawtooth", 0.012); },
     bubble: function () { tone([[700, 0, 0.06, 1100], [820, 0.12, 0.06, 1300]], "sine", 0.03); }
   };
-  /* gesture-driven cue: plays now */
-  function sfx(name) { if (soundOn && SFX[name]) { try { SFX[name](); } catch (e) { /* silent */ } } }
-  /* act-driven cue: only once audio is unlocked by an earlier gesture */
-  function cue(name) { if (unlocked) sfx(name); }
+  function play(name) { if (soundOn && SFX[name]) { try { SFX[name](); } catch (e) { /* silent */ } } }
+  /* the one sound on by default: the smile chirp when Sunny is clicked */
+  function smileSound() { play("boop"); }
+  /* every other cue is opt-in (Sunny.setCues(true)); gesture cues play now,
+     act cues only once an earlier gesture has unlocked audio */
+  function sfx(name) { if (extraCues) play(name); }
+  function cue(name) { if (extraCues && unlocked) play(name); }
   function setSound(on) {
     soundOn = !!on;
     try { localStorage.setItem("sunny:sound", soundOn ? "on" : "off"); } catch (e) { /* ignore */ }
+  }
+  function setCues(on) {
+    extraCues = !!on;
+    try { localStorage.setItem("sunny:cues", extraCues ? "on" : "off"); } catch (e) { /* ignore */ }
   }
 
   /* ---------- Emotions ---------- */
@@ -434,9 +441,9 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { sfx("grumble"); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { sfx("whee"); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
-      else { sfx("boop"); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
+      if (taps.length >= 3) { smileSound(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else { smileSound(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
 
@@ -523,6 +530,7 @@
     say: function (t, ms) { if (root) say(t, ms); },
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
+    setCues: setCues, cuesOn: function () { return extraCues; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
