@@ -1,6 +1,7 @@
 /* Sunny: the site companion. A little sun with a sprout who lives in the
    bottom-right corner of every page, entertains itself with acts (walk, cycle,
-   swim, drink, juggle, dance, peek, sleep), wears the whole emotion set, talks
+   swim, skate, skip rope, drink, beer, smoke, juggle, sing, read, yoga, fish,
+   selfie, dance, peek, sleep), wears the whole emotion set, talks
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
@@ -30,6 +31,17 @@
         '<path d="M66 194L96 156H132L156 194M96 156L112 194H156M96 156L90 146M84 146H98M128 150H146"/>' +
         '<circle cx="112" cy="194" r="5" fill="' + INK + '"/>' +
       '</g>' +
+      '<g class="s-prop s-prop--mat"><rect x="34" y="194" width="152" height="11" rx="5.5" fill="#7c5cff" stroke="' + INK + '" stroke-width="2.2"/></g>' +
+      '<g class="s-prop s-prop--pond"><ellipse cx="6" cy="198" rx="42" ry="8" fill="url(#s-water)" opacity="0.85"/>' +
+        '<g fill="none" stroke="' + INK + '" stroke-linecap="round"><path d="M46 120 L4 58" stroke-width="2.6"/><path d="M4 58 V188" stroke-width="1.3" opacity="0.7"/></g>' +
+        '<circle class="s-bob" cx="4" cy="188" r="4.5" fill="#de364d" stroke="' + INK + '" stroke-width="1.8"/>' +
+        '<g class="s-fish"><g transform="translate(6 196)"><g class="s-fish-in"><path d="M-10 0 Q0 -8 10 0 Q0 8 -10 0 Z M10 0 L17 -6 V6 Z" fill="#ff7a2f" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><circle cx="-4" cy="-1.5" r="1.4" fill="' + INK + '"/></g></g></g>' +
+      '</g>' +
+      '<g class="s-prop s-prop--board"><rect x="60" y="194" width="100" height="9" rx="4.5" fill="#2bb673" stroke="' + INK + '" stroke-width="2.2"/>' +
+        '<g class="s-bwheel" style="transform-origin:80px 206px"><circle cx="80" cy="206" r="5.5" fill="#fff" stroke="' + INK + '" stroke-width="2.2"/><path d="M80 201V211" stroke="' + INK + '" stroke-width="1.4"/></g>' +
+        '<g class="s-bwheel" style="transform-origin:140px 206px"><circle cx="140" cy="206" r="5.5" fill="#fff" stroke="' + INK + '" stroke-width="2.2"/><path d="M140 201V211" stroke="' + INK + '" stroke-width="1.4"/></g>' +
+      '</g>' +
+      '<g class="s-prop s-prop--rope-b"><path class="s-rope" d="M56 130 Q110 352 164 130" fill="none" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/></g>' +
       /* the character */
       '<g class="s-char">' +
         '<g class="s-feet">' +
@@ -71,16 +83,24 @@
         '<g class="s-arm s-arm--r"><ellipse cx="172" cy="132" rx="10" ry="15" transform="rotate(15 172 132)" fill="' + SUN + '" stroke="' + INK + '" stroke-width="2.5"/></g>' +
         '<g class="s-cup"><rect x="118" y="134" width="17" height="22" rx="4" fill="#fff" stroke="' + INK + '" stroke-width="2.2"/><path d="M128 134 L134 118" stroke="#de364d" stroke-width="2.5" stroke-linecap="round"/><rect x="118" y="144" width="17" height="6" fill="#4d8dff" opacity="0.6"/></g>' +
         '<g class="s-balls"><circle class="s-ball1" r="6.5" fill="' + INK + '"/><circle class="s-ball2" r="6.5" fill="#de364d" stroke="' + INK + '" stroke-width="2"/><circle class="s-ball3" r="6.5" fill="' + SUN + '" stroke="' + INK + '" stroke-width="2"/></g>' +
+      '<g class="s-cig"><rect x="117" y="146" width="24" height="5" rx="2.5" fill="#fff" stroke="' + INK + '" stroke-width="1.8"/><rect x="135" y="146" width="6" height="5" rx="1.5" fill="#ff7a2f"/><circle class="s-ember" cx="141" cy="148.5" r="2.6" fill="#ff4d1f"/></g>' +
+      '<g class="s-mug"><rect x="118" y="134" width="18" height="24" rx="3" fill="#f5a623" stroke="' + INK + '" stroke-width="2.2"/><path d="M136 140 q10 0 10 8 q0 8 -10 8" fill="none" stroke="' + INK + '" stroke-width="2.2"/><ellipse cx="127" cy="134" rx="11" ry="5" fill="#fff" stroke="' + INK + '" stroke-width="2"/><circle cx="132" cy="129" r="3" fill="#fff" stroke="' + INK + '" stroke-width="1.6"/><path d="M122 142 V152" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.6"/></g>' +
+      '<g class="s-book"><path d="M76 158 Q94 150 110 158 Q126 150 144 158 V184 Q126 176 110 184 Q94 176 76 184 Z" fill="#fff" stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"/><path class="s-page" d="M110 158 Q126 150 144 158 V184 Q126 176 110 184 Z" fill="#f3f4f6" stroke="' + INK + '" stroke-width="1.6"/><path d="M110 158 V184" stroke="' + INK + '" stroke-width="2"/><path d="M84 166 H102 M84 172 H100 M84 178 H98" stroke="#9a9ea8" stroke-width="1.6" stroke-linecap="round"/></g>' +
+      '<g class="s-phone"><rect x="150" y="76" width="18" height="30" rx="3.5" fill="' + INK + '"/><rect x="153" y="80" width="12" height="20" rx="1.5" fill="#6aa3ff"/><circle cx="159" cy="103" r="1.3" fill="#fff"/></g>' +
+      '<g class="s-mic"><rect x="124" y="140" width="6" height="22" rx="3" fill="#555b66" stroke="' + INK + '" stroke-width="1.6"/><circle cx="127" cy="137" r="8" fill="#9a9ea8" stroke="' + INK + '" stroke-width="2"/><path d="M121 134 h12 M121 139 h12" stroke="' + INK + '" stroke-width="1" opacity="0.6"/></g>' +
       '</g>' +
+      '<g class="s-prop s-prop--rope-f"><path class="s-rope" d="M56 130 Q110 352 164 130" fill="none" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/></g>' +
       /* props in front */
       '<g class="s-prop s-prop--water-front"><path d="M-40 166 Q-10 156 20 166 T80 166 T140 166 T200 166 T260 166 T320 166 V240 H-40 Z" fill="url(#s-water)" opacity="0.8"/><g class="s-splash" fill="#6aa3ff"><circle cx="54" cy="150" r="3"/><circle cx="168" cy="146" r="3.5"/><circle cx="40" cy="140" r="2"/></g></g>' +
       /* effects */
       '<g class="s-fx s-fx--lines" fill="none" stroke="' + INK + '" stroke-width="2.2" stroke-linecap="round"><path d="M192 62 q6 9 0 18"/><path d="M203 56 q9 12 0 26"/></g>' +
       '<g class="s-fx s-fx--zzz" fill="' + INK + '" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="500"><text class="s-z s-z1" x="158" y="70" font-size="12">z</text><text class="s-z s-z2" x="170" y="56" font-size="15">z</text><text class="s-z s-z3" x="184" y="40" font-size="19">Z</text></g>' +
       '<g class="s-fx s-fx--hic" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="500" fill="' + INK + '"><circle class="s-bub s-bub1" cx="160" cy="84" r="3" fill="none" stroke="' + INK + '" stroke-width="1.6"/><circle class="s-bub s-bub2" cx="172" cy="70" r="4.5" fill="none" stroke="' + INK + '" stroke-width="1.6"/><text class="s-bub s-bub3" x="178" y="58" font-size="11">hic</text></g>' +
-      '<g class="s-fx s-fx--hearts" fill="#de364d"><path class="s-heart s-heart1" transform="translate(158 74)" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/><path class="s-heart s-heart2" transform="translate(178 96) scale(0.7)" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/></g>' +
+      '<g class="s-fx s-fx--hearts" fill="#de364d"><g transform="translate(158 74)"><path class="s-heart s-heart1" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/></g><g transform="translate(178 96) scale(0.7)"><path class="s-heart s-heart2" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/></g></g>' +
+      '<g class="s-fx s-fx--puffs" fill="#c9ced8" stroke="' + INK + '" stroke-width="1.2" stroke-opacity="0.35"><circle class="s-puff s-puff1" cx="150" cy="130" r="4"/><circle class="s-puff s-puff2" cx="160" cy="116" r="6"/><circle class="s-puff s-puff3" cx="172" cy="100" r="8"/></g>' +
+      '<g class="s-fx s-fx--flash"><circle class="s-flash" cx="159" cy="90" r="26" fill="#fff"/></g>' +
       '<g class="s-fx s-fx--notes" fill="' + INK + '" font-family="Fraunces, Georgia, serif"><text class="s-note s-note1" x="160" y="70" font-size="20">♪</text><text class="s-note s-note2" x="180" y="52" font-size="16">♫</text></g>' +
-      '<g class="s-fx s-fx--stars" fill="' + SUN + '" stroke="' + INK + '" stroke-width="1.5"><path class="s-star s-star1" transform="translate(50 60)" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/><path class="s-star s-star2" transform="translate(172 52) scale(0.7)" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/><path class="s-star s-star3" transform="translate(60 150) scale(0.6)" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g>' +
+      '<g class="s-fx s-fx--stars" fill="' + SUN + '" stroke="' + INK + '" stroke-width="1.5"><g transform="translate(50 60)"><path class="s-star s-star1" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g><g transform="translate(172 52) scale(0.7)"><path class="s-star s-star2" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g><g transform="translate(60 150) scale(0.6)"><path class="s-star s-star3" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g></g>' +
     '</svg>';
   }
 
@@ -107,7 +127,16 @@
     peek: ["Boo!", "Still here.", "Peekaboo."],
     wave: ["Hi!", "Hello there!", "Hey, you."],
     sleep: ["zzz…", "Just resting my eyes."],
-    stretch: ["Yawn.", "Big stretch."]
+    stretch: ["Yawn.", "Big stretch."],
+    smoke: ["Smoke break.", "Don't try this at home. I'm a vector.", "Just one. Okay, two.", "Designers and their habits…"],
+    beer: ["Cheers!", "Happy hour.", "Friday vibes. Whatever day it is.", "To good design."],
+    sing: ["♪ La la laaa ♪", "Karaoke night!", "♪ Tokens in the night ♪", "I'm not crying, you're crying."],
+    read: ["Chapter one…", "Reading the design guidelines.", "Shh. Good part.", "Plot twist incoming."],
+    yoga: ["Ommm.", "Namaste.", "Inner peace, outer glow.", "Breathe in. Breathe out."],
+    skate: ["Kickflip! …almost.", "Cruising.", "Skate or die. Mostly skate.", "Wheels down."],
+    fish: ["Fishing for compliments.", "Patience…", "Something's biting. Maybe.", "Shh. You'll scare the fish."],
+    selfie: ["Say cheese!", "Golden hour. Literally.", "One for the grid.", "Portfolio shot."],
+    skip: ["One, two, three…", "Cardio!", "Jump rope champion. Self-declared.", "Don't trip, don't trip."]
   };
   function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 
@@ -167,7 +196,7 @@
   var ACTS = {
     wave: { ms: 1800 },
     hop: { ms: 900 },
-    peek: { ms: 2600, run: function () { setTimeout(function () { emote("surprised", 900); }, 1400); } },
+    peek: { ms: 2600, run: function () { later(function () { emote("surprised", 900); }, 1400); } },
     stretch: { ms: 2400 },
     dance: { ms: 3400 },
     walk: { ms: 0, run: function () {
@@ -180,35 +209,82 @@
     cycle: { ms: 0, run: function () {
       var far = minX(), ms1 = Math.abs(far - sx) * 9 + 500, ms2 = Math.abs(far) * 9 + 500;
       setX(far, ms1);
-      setTimeout(function () { setX(0, ms2); }, ms1 + 350);
+      later(function () { setX(0, ms2); }, ms1 + 350);
       return ms1 + ms2 + 900;
     } },
     swim: { ms: 0, run: function () {
       var far = minX() * 0.7, ms1 = Math.abs(far - sx) * 22 + 600;
-      setTimeout(function () { setX(far, ms1); }, 500);
-      setTimeout(function () { setX(0, ms1); }, ms1 + 900);
-      setTimeout(function () { emote("dizzy", 900); say("Brr."); }, ms1 * 2 + 1700);
+      later(function () { setX(far, ms1); }, 500);
+      later(function () { setX(0, ms1); }, ms1 + 900);
+      later(function () { emote("dizzy", 900); say("Brr."); }, ms1 * 2 + 1700);
       return ms1 * 2 + 2800;
     } },
     drink: { ms: 3000, run: function () {
-      if (Math.random() < 0.45) setTimeout(function () { act("drunk"); }, 3100);
-      else setTimeout(function () { say("Ahh."); emote("happy"); }, 3000);
+      if (Math.random() < 0.45) later(function () { act("drunk"); }, 3100);
+      else later(function () { say("Ahh."); emote("happy"); }, 3000);
     } },
     drunk: { ms: 6500, run: function () {
       var i = 0, t = setInterval(function () {
         if (!root.matches('[data-act="drunk"]') || i++ > 5) { clearInterval(t); return; }
         setX(sx + (Math.random() < 0.5 ? -1 : 1) * (30 + Math.random() * 40), 900);
       }, 1000);
-      setTimeout(function () { say("…okay. Water next time."); emote("shy"); }, 6600);
+      later(function () { say("…okay. Water next time."); emote("shy"); }, 6600);
     } },
-    joker: { ms: 4600, run: function () { setTimeout(function () { say("Ta-da!"); }, 3800); } },
+    joker: { ms: 4600, run: function () { later(function () { say("Ta-da!"); }, 3800); } },
+    smoke: { ms: 4200, run: function () {
+      later(function () { emote("dizzy", 1400); say(pick(["cough… cough. Okay. Never again.", "*cough* That's it, I quit.", "Yuck. Water next time."])); }, 4300);
+    } },
+    beer: { ms: 4200, run: function () {
+      later(function () { say("Clink!"); }, 900);
+      if (Math.random() < 0.6) later(function () { act("drunk"); }, 4300);
+      else later(function () { emote("happy"); say(pick(["Ahh. Refreshing.", "Burp. Pardon."])); }, 4200);
+    } },
+    sing: { ms: 4200, run: function () { later(function () { emote("proud"); say(pick(["Thank you, thank you.", "I'll be here all week."])); }, 4300); } },
+    read: { ms: 5200, run: function () {
+      later(function () { say(pick(["Hmm.", "Interesting…", "Wait, what?"])); }, 2400);
+      later(function () { emote("surprised", 1200); say("Plot twist!"); }, 5300);
+    } },
+    yoga: { ms: 5600, run: function () { later(function () { emote("proud"); say("Namaste."); }, 5700); } },
+    skate: { ms: 0, run: function () {
+      var far = minX(), ms1 = Math.abs(far - sx) * 7 + 500, ms2 = Math.abs(far) * 7 + 500;
+      later(function () { setX(far, ms1); }, 300);
+      later(function () { emote("excited", 700); }, ms1 + 350);
+      later(function () { setX(0, ms2); }, ms1 + 700);
+      later(function () { if (Math.random() < 0.4) { emote("dizzy", 1200); say("Bailed. Still cool."); } else { emote("cool"); } }, ms1 + ms2 + 1000);
+      return ms1 + ms2 + 1100;
+    } },
+    fish: { ms: 6200, run: function () {
+      face(false);
+      var caught = Math.random() < 0.55;
+      later(function () { say("…"); }, 2400);
+      later(function () {
+        if (caught) { root.classList.add("is-catch"); emote("excited", 1500); say(pick(["Got one!", "Dinner!", "Look at the size of it!"])); }
+        else { emote("bored", 1800); say(pick(["Nothing. Again.", "The fish are busy.", "Catch and release. Mostly release."])); }
+      }, 4600);
+      later(function () { root.classList.remove("is-catch"); }, 6400);
+    } },
+    selfie: { ms: 3200, run: function () {
+      later(function () { say("Say cheese!"); }, 600);
+      later(function () { emote("proud", 1500); say(pick(["Posted.", "Nailed it.", "Filter: none. Naturally."])); }, 3300);
+    } },
+    skip: { ms: 4800, run: function () {
+      if (Math.random() < 0.35) later(function () { root.removeAttribute("data-act"); emote("dizzy", 1400); say("Tripped. Nobody saw that."); }, 3000);
+    } },
     sleep: { ms: 0 }
   };
+  var actToken = 0;
+  /* a follow-up that only fires if the act that scheduled it is still running */
+  function later(fn, ms) {
+    var mine = actToken;
+    return setTimeout(function () { if (actToken === mine) fn(); }, ms);
+  }
   function act(name) {
     var a = ACTS[name];
     if (!a || reduced) return;
     clearTimeout(actTimer);
+    actToken++;
     root.removeAttribute("data-act");
+    root.classList.remove("is-catch");
     void root.offsetWidth;
     root.setAttribute("data-act", name);
     busy = true;
@@ -218,7 +294,7 @@
     if (name === "sleep") { asleep = true; return; }
     actTimer = setTimeout(function () { root.removeAttribute("data-act"); busy = false; }, ms);
   }
-  function stopAct() { clearTimeout(actTimer); root.removeAttribute("data-act"); busy = false; }
+  function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; }
   function wake() {
     if (!asleep) return;
     asleep = false; stopAct();
@@ -226,7 +302,7 @@
   }
 
   /* ---------- Director ---------- */
-  var WEIGHTS = [["wave", 7], ["hop", 8], ["walk", 16], ["peek", 5], ["dance", 7], ["cycle", 8], ["swim", 6], ["drink", 8], ["joker", 7], ["stretch", 5], ["quip", 14], ["glance", 9]];
+  var WEIGHTS = [["wave", 6], ["hop", 7], ["walk", 14], ["peek", 4], ["dance", 6], ["cycle", 7], ["swim", 5], ["drink", 6], ["beer", 5], ["smoke", 4], ["joker", 6], ["sing", 5], ["read", 5], ["yoga", 5], ["skate", 6], ["fish", 5], ["selfie", 5], ["skip", 5], ["stretch", 4], ["quip", 13], ["glance", 8]];
   function weighted() {
     var total = WEIGHTS.reduce(function (s, w) { return s + w[1]; }, 0), r = Math.random() * total;
     for (var i = 0; i < WEIGHTS.length; i++) { r -= WEIGHTS[i][1]; if (r <= 0) return WEIGHTS[i][0]; }
