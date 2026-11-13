@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Mascots · preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mascots.css" />
+  <style>
+    body { background: var(--bg); color: var(--ink); }
+    .pv { max-width: 1240px; margin: 0 auto; padding: 56px 24px 120px; }
+    .pv__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+    .pv__kicker { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 0 0 14px; }
+    .pv__title { font-family: var(--font-serif); font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 12px; }
+    .pv__lede { font-size: 16px; color: var(--muted); max-width: 640px; margin: 0; line-height: 1.55; }
+    .pv__tools { display: flex; gap: 10px; }
+    .pv__emotions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: -16px 0 28px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 14px; }
+    .pv__emotions-lbl { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+    .pv__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pv__chips button { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 500 13px var(--font-sans); cursor: pointer; text-transform: capitalize; }
+    .pv__chips button:hover { border-color: var(--ink); }
+    .pv__chips button.is-on { background: var(--sun); border-color: var(--sun); }
+    .pv__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .stage { border: 1px solid var(--line); border-radius: 16px; background: var(--bg); overflow: hidden; display: flex; flex-direction: column; }
+    .stage__scene { position: relative; height: 300px; background: var(--surface); overflow: hidden; }
+    .stage__meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 18px 20px 20px; }
+    .stage__name { font-family: var(--font-serif); font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 400; font-size: 26px; margin: 0 0 6px; }
+    .stage__name small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-left: 10px; vertical-align: middle; }
+    .stage__desc { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
+    .stage__desc b { color: var(--ink); font-weight: 500; }
+    .replay { flex: none; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 500 13px var(--font-sans); cursor: pointer; }
+    .replay:hover { border-color: var(--ink); }
+
+    /* Mini mocks of the real sections */
+    .mock { position: absolute; inset: 0; padding: 28px; font-family: var(--font-sans); }
+    .mock-card { position: absolute; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 10px 30px -18px rgba(0,0,0,.25); }
+    .mock-card__bar { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .mock-card__bar .mono { font-weight: 500; color: var(--muted); }
+    .mock-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 500; transition: transform .12s ease; }
+    .mock-btn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sun); }
+    .mock-h { font-family: var(--font-serif); font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; margin: 0; }
+    .mock-lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .mock-lbl::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sun); }
+    .mock-portrait { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 200px; height: 240px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: #ddd; }
+    .mock-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1); }
+    .mock-col { position: absolute; top: 24px; width: 160px; display: flex; flex-direction: column; gap: 12px; }
+    .mock-tile { border-radius: 12px; background: var(--line); }
+    .mock-chip { display: inline-block; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; margin: 0 8px 8px 0; background: var(--bg); }
+    .mock-email { font-family: var(--font-mono); font-size: 15px; }
+    .mock-email .p { color: var(--muted); }
+    .mock-email .u { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--sun); }
+    .mock-link { font-size: 14px; color: var(--muted); }
+
+    /* Placement per stage */
+    .m-wrap { position: absolute; }
+    #st-cursor .m-wrap { left: 102px; top: 134px; }
+    #st-anchor .m-wrap { left: 302px; top: 86px; }
+    #st-bridge .m-wrap { left: 150px; top: 18px; }
+    #st-spark .m-wrap { left: calc(50% + 62px); top: calc(50% + 70px); }
+    #st-swatch .m-wrap { left: 44px; top: 170px; }
+    #st-nib .m-wrap { left: 230px; top: 40px; }
+    #st-token .m-wrap { left: 320px; top: 141px; }
+    #st-orb .m-wrap { left: 330px; top: 98px; }
+
+    @media (max-width: 900px) { .pv__grid { grid-template-columns: 1fr; } .pv__title { font-size: 36px; } }
+  </style>
+</head>
+<body>
+<main class="pv">
+  <header class="pv__head">
+    <div>
+      <p class="pv__kicker">mascots/v2 · 8 placed · ink, paper, sun</p>
+      <h1 class="pv__title">A small guide for the bridge.</h1>
+      <p class="pv__lede">Preview of the eight mascots in roughly the spot each one will take on the site. Scroll down and they pop in as they enter the viewport. Move your pointer around: every mascot watches it and leans toward it, and each one reacts when you come close. Click one for a reaction, double-click to make it dizzy, tap three times fast to annoy it, press and hold to squeeze it, right-click to make it suspicious, shake the pointer next to one, scroll fast, switch the theme, move the pointer out of the window, or leave it still: they get bored after five seconds and doze off after nine.</p>
+    </div>
+    <div class="pv__tools">
+      <button class="replay" type="button" id="replayAll">Replay all</button>
+      <a class="replay" href="index.html">Back to site</a>
+    </div>
+  </header>
+
+  <div class="pv__emotions" id="emotions">
+    <span class="pv__emotions-lbl mono">Emotions · try one on everything in view</span>
+    <div class="pv__chips"></div>
+    <span class="pv__emotions-lbl mono">Moves</span>
+    <div class="pv__chips pv__chips--moves"><button type="button" data-move="glance">glance</button><button type="button" data-move="stroll">stroll</button><button type="button" data-move="signature">signature move</button></div>
+  </div>
+
+  <div class="pv__grid">
+
+    <section class="stage" id="st-cursor">
+      <div class="stage__scene">
+        <div class="mock">
+          <div class="mock-card" style="left:28px;top:28px;width:400px;height:244px">
+            <div class="mock-card__bar"><span class="mono">Button / Primary</span><span class="mono">Figma ⇄ Code Connect</span></div>
+            <div style="padding:60px 0 0 40px"><span class="mock-btn" id="trialBtn"><span class="dot"></span>Start free trial</span></div>
+          </div>
+        </div>
+        <span data-mascot="cursor" data-size="120" data-target="#trialBtn"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Cursor <small>Hero · 794:41</small></h2><p class="stage__desc">Glides in from the top right, <b>clicks “Start free trial”</b> (the button presses), then floats. The name tag pops on arrival.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-anchor">
+      <div class="stage__scene">
+        <div class="mock" style="padding-top:70px">
+          <div class="mock-lbl">Work</div>
+          <h2 class="mock-h" style="font-size:40px;max-width:340px">Selected work on Zoho SalesIQ</h2>
+        </div>
+        <span data-mascot="anchor" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Anchor <small>Selected work · 794:50</small></h2><p class="stage__desc">Sits beside “SalesIQ”. <b>Bezier handles swing</b> gently from the node; the 84×84 size pill pops in after it.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-bridge">
+      <div class="stage__scene">
+        <div class="mock">
+          <div class="mock-card" style="left:28px;top:150px;width:400px;height:150px">
+            <div class="mock-card__bar"><span class="mono">Code Connect</span><span class="mono">Button.figma.tsx</span></div>
+            <div style="padding:16px;font:12px/1.7 var(--font-mono);color:var(--muted)">figma.connect(Button, "…", {<br>&nbsp;&nbsp;props: { label: figma.string("Label") },<br>&nbsp;&nbsp;example: ({ label }) =&gt; &lt;Button&gt;{label}&lt;/Button&gt;<br>})</div>
+          </div>
+        </div>
+        <span data-mascot="bridge" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Bridge <small>How the system ships · 794:107</small></h2><p class="stage__desc">Perched on top of the Code Connect card. Blinks; <b>the sun rises and sets</b> under the arch while the ripples drift.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-spark">
+      <div class="stage__scene">
+        <div class="mock-portrait"><img src="assets/portrait.png" alt="" /></div>
+        <span data-mascot="spark" data-size="110"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Spark <small>Story · 794:119</small></h2><p class="stage__desc">A sticker on the portrait’s bottom-right corner. Slow twinkle; <b>hover to make the mini stars pulse</b> faster.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-swatch">
+      <div class="stage__scene">
+        <div class="mock">
+          <div class="mock-col" style="left:28px"><div class="mock-tile" style="height:80px;background:#523caa"></div><div class="mock-tile" style="height:56px"></div></div>
+          <div class="mock-col" style="left:212px"><div class="mock-tile" style="height:120px;background:#de364d"></div><div class="mock-tile" style="height:120px"></div></div>
+          <div class="mock-col" style="left:396px"><div class="mock-tile" style="height:60px"></div><div class="mock-tile" style="height:160px;background:var(--sun)"></div></div>
+        </div>
+        <span data-mascot="swatch" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Swatch <small>Illustration · 794:127</small></h2><p class="stage__desc">Below the first gallery column. Breathes slowly; <b>hover to fan the cards open</b>.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-nib">
+      <div class="stage__scene">
+        <div class="mock" style="padding-top:70px">
+          <div class="mock-lbl">Notes</div>
+          <h2 class="mock-h" style="font-size:40px">Writing</h2>
+          <p class="mock-link" style="margin-top:28px">Shipping a design system without a team →</p>
+          <p class="mock-link">What a Figma MCP actually changed →</p>
+        </div>
+        <span data-mascot="nib" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Nib <small>Writing · 794:97</small></h2><p class="stage__desc">Beside the “Writing” title. <b>The yellow ink line draws in</b> as the nib travels across, then a drop lands at the tip.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-token">
+      <div class="stage__scene">
+        <div class="mock">
+          <div class="mock-card" style="left:28px;top:28px;width:400px;height:128px">
+            <div class="mock-card__bar"><span class="mono">AI-assisted</span><span class="mono">04</span></div>
+            <div style="padding:14px 16px 0"><span class="mock-chip">Claude</span><span class="mock-chip">Figma MCP</span><span class="mock-chip">Code Connect</span><span class="mock-chip">Prompting</span></div>
+          </div>
+        </div>
+        <span data-mascot="token" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Token <small>Skills · 794:73</small></h2><p class="stage__desc">Hangs by its string from the bottom of the AI-assisted card and <b>swings like a pendulum</b>. The label can read the section’s own token.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+    <section class="stage" id="st-orb">
+      <div class="stage__scene">
+        <div class="mock" style="padding-top:90px">
+          <div class="mock-lbl">Contact</div>
+          <p class="mock-email"><span class="p">$ mailto</span> <span class="u">ganesh@ganeshuxcraft.in</span></p>
+          <p class="mock-link" style="margin-top:18px">Open to lead product design roles.</p>
+        </div>
+        <span data-mascot="orb" data-size="130"></span>
+      </div>
+      <div class="stage__meta">
+        <div><h2 class="stage__name">Orb <small>Contact · 794:32</small></h2><p class="stage__desc">Beside the email link. The satellite circles the ring, the ring tilts, and <b>the eyes follow your pointer</b>.</p></div>
+        <button class="replay" type="button" data-replay>Replay</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+<script src="mascots.js"></script>
+<script>
+  document.querySelectorAll("[data-replay]").forEach(function (b) {
+    b.addEventListener("click", function () { Mascots.replay(b.closest(".stage").querySelector(".m-wrap")); });
+  });
+  var chips = document.querySelector(".pv__chips");
+  Mascots.emotions.forEach(function (name) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = name;
+    b.addEventListener("click", function () {
+      Mascots.emoteAll(name);
+      chips.querySelectorAll("button").forEach(function (x) { x.classList.remove("is-on"); });
+      b.classList.add("is-on"); setTimeout(function () { b.classList.remove("is-on"); }, 1200);
+    });
+    chips.appendChild(b);
+  });
+  document.querySelectorAll("[data-move]").forEach(function (b) {
+    b.addEventListener("click", function () { document.querySelectorAll(".m-wrap.is-in").forEach(function (el) { Mascots.move(el, b.getAttribute("data-move")); }); });
+  });
+  document.getElementById("replayAll").addEventListener("click", function () {
+    document.querySelectorAll(".m-wrap").forEach(function (el, i) { setTimeout(function () { Mascots.replay(el); }, i * 120); });
+  });
+</script>
+</body>
+</html>

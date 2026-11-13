@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Sunny · preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="sunny.css" />
+  <style>
+    body { background: var(--bg); color: var(--ink); min-height: 220vh; }
+    .pv { max-width: 900px; margin: 0 auto; padding: 56px 24px 200px; }
+    .pv__kicker { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 0 0 14px; }
+    .pv__title { font-family: var(--font-serif); font-variation-settings: "SOFT" 0, "WONK" 1; font-weight: 400; font-size: 48px; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 12px; }
+    .pv__lede { font-size: 16px; color: var(--muted); max-width: 640px; margin: 0 0 32px; line-height: 1.55; }
+    .pv__group { margin-bottom: 24px; }
+    .pv__lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+    .pv__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pv__chips button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 500 13px var(--font-sans); cursor: pointer; text-transform: capitalize; }
+    .pv__chips button:hover { border-color: var(--ink); }
+    .pv__chips button.is-on { background: var(--sun); border-color: var(--sun); }
+    .pv__note { margin-top: 40px; padding: 18px 20px; border: 1px dashed var(--line); border-radius: 14px; font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .pv__note b { color: var(--ink); font-weight: 500; }
+    .pv__theme { margin-left: 8px; }
+  </style>
+</head>
+<body>
+<main class="pv">
+  <p class="pv__kicker">buddy/01 · Sunny · site companion</p>
+  <h1 class="pv__title">Sunny, the prototype guide.</h1>
+  <p class="pv__lede">Sunny lives in the bottom-right corner of every page. Left alone, it picks something to do every few seconds. Use the buttons to trigger any act or face. Move your pointer, click, double-click, right-click, drag it along the edge, scroll fast, switch the theme, or leave it alone for a while.</p>
+
+  <div class="pv__group"><p class="pv__lbl">Acts</p><div class="pv__chips" id="acts"></div></div>
+  <div class="pv__group"><p class="pv__lbl">Emotions</p><div class="pv__chips" id="emotions"></div></div>
+  <div class="pv__group"><p class="pv__lbl">Say</p><div class="pv__chips"><button type="button" id="sayBtn">Random quip</button><button type="button" id="themeBtn" class="pv__theme">Toggle theme</button></div></div>
+
+  <div class="pv__note">
+    <b>What triggers what on the real pages:</b> arrival wave and a greeting · waves when your pointer comes near · click: tickle reactions · double-click: hop and spin · triple-click: annoyed · right-click: sunglasses · drag: carried along the edge, lands with a squash · fast scroll: braces · page bottom: dance and a message · theme switch: sunglasses in light, cosy in dark · pointer leaves the window: sad, returns: happy · 40 s without input: sleeps until you move · the small “zz” on hover puts Sunny to bed for the session.
+  </div>
+</main>
+<script src="sunny.js"></script>
+<script>
+  function chips(host, names, fn) {
+    names.forEach(function (n) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = n;
+      b.addEventListener("click", function () { fn(n); host.querySelectorAll("button").forEach(function (x) { x.classList.remove("is-on"); }); b.classList.add("is-on"); setTimeout(function () { b.classList.remove("is-on"); }, 1200); });
+      host.appendChild(b);
+    });
+  }
+  chips(document.getElementById("acts"), Sunny.acts, function (n) { Sunny.act(n); });
+  chips(document.getElementById("emotions"), Sunny.emotions, function (n) { Sunny.emote(n); });
+  document.getElementById("sayBtn").addEventListener("click", function () { Sunny.say(["Hi! I'm Sunny.", "Nice to meet you.", "Try the drink one.", "I juggle. Badly."][Math.floor(Math.random() * 4)]); });
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var r = document.documentElement; if (r.getAttribute("data-theme") === "dark") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", "dark");
+  });
+</script>
+</body>
+</html>

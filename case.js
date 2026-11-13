@@ -14,7 +14,7 @@
   function applyTheme(t) {
     var dark = t === "dark";
     if (dark) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme");
-    icon.textContent = dark ? "☾" : "☀";
+    if (icon) icon.textContent = dark ? "☾" : "☀";
     toggle.setAttribute("aria-pressed", String(dark));
   }
   if (stored === "dark") applyTheme("dark");

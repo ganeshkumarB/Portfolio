@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="case.css" />
+  <link rel="stylesheet" href="sunny.css" />
 </head>
 <body class="is-ready cs-page">
 
@@ -20,10 +21,16 @@
       <a class="nav__brand mono" href="index.html">ganeshkumar.design</a>
       <div class="nav__pill nav__pill--case">
         <span class="nav__indicator" aria-hidden="true"></span>
-        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
-        <a class="nav__link" href="index.html#work">← All work</a>
-        <span class="nav__case mono">Case 03 / 08</span>
-        <a class="nav__link nav__link--next is-active" href="index.html#work">Next · Reports and analytics revamp →</a>
+        <button class="nav__theme nav__theme--duo" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <span class="nav__theme-thumb" aria-hidden="true"></span>
+          <span class="nav__theme-opt nav__theme-opt--light" aria-hidden="true">☀</span>
+          <span class="nav__theme-opt nav__theme-opt--dark" aria-hidden="true">☾</span>
+        </button>
+        <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <span class="nav__sep" aria-hidden="true"></span>
+        <a class="nav__link nav__dir nav__dir--prev" href="case-design-system.html" title="Previous: Design system" aria-label="Previous: Design system"><span class="nav__arrow" aria-hidden="true">←</span><span class="nav__txt">Design system</span></a>
+        <a class="nav__case mono" href="index.html#work" title="All work">03 / 08</a>
+        <a class="nav__link nav__dir nav__dir--next is-active" href="index.html#work" title="Next: Reports and analytics revamp" aria-label="Next: Reports and analytics revamp"><span class="nav__txt">Reports &amp; analytics</span><span class="nav__arrow" aria-hidden="true">→</span></a>
       </div>
       <span class="nav__status mono">● synced · 0 drift</span>
     </nav>
@@ -289,5 +296,6 @@
   </footer>
 
   <script src="case.js"></script>
+  <script src="sunny.js"></script>
 </body>
 </html>

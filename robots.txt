@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /_portrait-options.html
+Disallow: /_mascots-preview.html
+Disallow: /_sunny-preview.html
 
 Sitemap: https://ganeshuxcraft.in/sitemap.xml
