@@ -22,7 +22,7 @@
   function applyTheme(theme) {
     var dark = theme === "dark";
     if (dark) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme");
-    toggleIcon.textContent = dark ? "☾" : "☀";
+    if (toggleIcon) toggleIcon.textContent = dark ? "☾" : "☀";
     toggle.setAttribute("aria-pressed", String(dark));
   }
   if (stored === "dark") applyTheme("dark");

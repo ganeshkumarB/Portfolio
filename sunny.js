@@ -5,8 +5,10 @@
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
-   Clicks blush and play one small chirp (Web Audio, synthesized, no files).
-   The other cues exist but are off unless Sunny.setCues(true) is called.
+   Sound: a welcome with voice and chime on the visitor's first click, tap or
+   key (browsers block audio before that), a smile chirp on every click,
+   spoken lines for big moments and quiet synthesized cues for the acts.
+   Sunny.setSound / setCues / setVoice turn each layer off; remembered.
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -187,8 +189,12 @@
      Browsers only let audio start after a gesture (click, key, touch). Cues
      triggered by a gesture play right away; cues from Sunny's own acts play
      only once a gesture has unlocked audio. All of it is quiet. */
-  var actx = null, unlocked = false, soundOn = true, extraCues = false;
-  try { soundOn = localStorage.getItem("sunny:sound") !== "off"; extraCues = localStorage.getItem("sunny:cues") === "on"; } catch (e) { /* ignore */ }
+  var actx = null, unlocked = false, soundOn = true, extraCues = true, voiceOn = true;
+  try {
+    soundOn = localStorage.getItem("sunny:sound") !== "off";
+    extraCues = localStorage.getItem("sunny:cues") !== "off";
+    voiceOn = localStorage.getItem("sunny:voice") !== "off";
+  } catch (e) { /* ignore */ }
   function ctx() {
     var AC = global.AudioContext || global.webkitAudioContext;
     if (!AC) return null;
@@ -258,6 +264,62 @@
   function setCues(on) {
     extraCues = !!on;
     try { localStorage.setItem("sunny:cues", extraCues ? "on" : "off"); } catch (e) { /* ignore */ }
+  }
+  function setVoice(on) {
+    voiceOn = !!on;
+    try { localStorage.setItem("sunny:voice", voiceOn ? "on" : "off"); if (!voiceOn && global.speechSynthesis) global.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+  }
+
+  /* ---------- Voice: a small bright voice via the browser's speech synthesis ---------- */
+  var voicePick = null;
+  function chooseVoice() {
+    try {
+      var list = global.speechSynthesis.getVoices();
+      if (!list.length) return null;
+      var prefer = ["Samantha", "Google US English", "Karen", "Moira", "Tessa", "Zira", "Google UK English Female"];
+      for (var i = 0; i < prefer.length; i++) {
+        for (var j = 0; j < list.length; j++) if (list[j].name.indexOf(prefer[i]) === 0) return list[j];
+      }
+      for (var k = 0; k < list.length; k++) if (/^en/i.test(list[k].lang) && list[k].default) return list[k];
+      for (var m = 0; m < list.length; m++) if (/^en/i.test(list[m].lang)) return list[m];
+      return list[0];
+    } catch (e) { return null; }
+  }
+  function speak(text) {
+    if (!voiceOn || !soundOn || !global.speechSynthesis || !global.SpeechSynthesisUtterance) return;
+    try {
+      var ss = global.speechSynthesis;
+      ss.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      if (!voicePick) voicePick = chooseVoice();
+      if (voicePick) u.voice = voicePick;
+      u.pitch = 1.5; u.rate = 1.05; u.volume = 0.7;
+      ss.speak(u);
+    } catch (e) { /* no voice available: the bubble still shows the words */ }
+  }
+  if (global.speechSynthesis) { try { global.speechSynthesis.onvoiceschanged = function () { voicePick = chooseVoice(); }; } catch (e) { /* ignore */ } }
+
+  /* welcome: voice plus a chime. Browsers only allow sound after a click, tap
+     or key press, so if the page opened without one we wait for the first. */
+  var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
+  function deliverWelcome() {
+    if (welcomed) return;
+    welcomed = true; welcomedAt = Date.now(); unlocked = true;
+    var line = isCase ? pick(["Ooh, a case study. Good pick!", "Welcome! Let me show you around."]) : pick(["Hi! I'm Sunny. Welcome!", "Hello there! Welcome to Ganesh's portfolio.", "Hi! Great to see you."]);
+    stopAct(); act("wave");
+    play("ding"); speak(line); say(line);
+  }
+  function welcome() {
+    if (welcomed) return;
+    var ac = ctx();
+    if (!ac) return;
+    if (ac.state === "running") { deliverWelcome(); return; }
+    /* resume() finishes a moment after the gesture: deliver when it does */
+    if (welcomeWaiting) return;
+    welcomeWaiting = true;
+    var done = function () { welcomeWaiting = false; if (ac.state === "running") deliverWelcome(); };
+    try { ac.resume().then(done, function () { welcomeWaiting = false; }); } catch (e) { welcomeWaiting = false; }
+    setTimeout(function () { if (welcomeWaiting) done(); }, 400);
   }
 
   /* ---------- Emotions ---------- */
@@ -426,14 +488,17 @@
     if (near !== nearNow) {
       nearNow = near;
       root.classList.toggle("is-near", near);
-      if (near && !busy && !drag) { act("wave"); }
+      if (near && !busy && !drag) { act("wave"); cue("bubble"); }
     }
   }
   function wireInput() {
     if (finePointer) global.addEventListener("pointermove", onPointer, { passive: true });
     global.addEventListener("keydown", function () { lastInput = Date.now(); wake(); });
     global.addEventListener("touchstart", function () { lastInput = Date.now(); wake(); }, { passive: true });
-    global.addEventListener("pointerdown", function () { if (soundOn && !unlocked) ctx(); }, { passive: true });
+    function firstGesture() { if (!soundOn) return; ctx(); welcome(); }
+    global.addEventListener("pointerdown", firstGesture, { passive: true });
+    global.addEventListener("keydown", firstGesture);
+    global.addEventListener("touchstart", firstGesture, { passive: true });
 
     /* click, double, triple */
     svg.addEventListener("click", function () {
@@ -441,8 +506,8 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { smileSound(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      if (taps.length >= 3) { smileSound(); emote("angry"); var a3 = pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."]); say(a3); speak(a3); }
+      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); var w = pick(["Whee!", "Again! Again!", "Woo!"]); say(w); speak(w); }
       else { smileSound(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
@@ -457,7 +522,7 @@
     svg.addEventListener("pointermove", function (e) {
       if (!drag) return;
       var dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
+      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); var dl = pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."]); say(dl); speak(dl); }
       if (drag.moved) setX(drag.startSx + dx, 0);
     });
     function endDrag() {
@@ -476,7 +541,7 @@
     /* nap button */
     napBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      stopAct(); sfx("pop"); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200);
+      stopAct(); sfx("pop"); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200); speak("Good night!");
       try { sessionStorage.setItem("sunny:nap", "1"); } catch (err) { /* ignore */ }
       setTimeout(function () { root.classList.add("is-gone"); document.documentElement.classList.remove("has-sunny"); }, 2300);
     });
@@ -492,16 +557,17 @@
       }
       lastY = y; lastT = now;
       var atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
-      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
+      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); var bl = isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."; say(bl); if (unlocked) speak(isCase ? "End of the case! The next one is right there." : "You made it to the end! Say hi to Ganesh."); }
       if (!atBottom && y < 200) bottomSaid = false;
     }, { passive: true });
 
     /* window, tab, theme */
     document.documentElement.addEventListener("mouseleave", function () { if (!busy) { emote("sad"); say(pick(["Come back…", "Bye for now.", "I'll be here."])); } });
     document.documentElement.addEventListener("mouseenter", function () { emote("happy"); say(pick(["You're back!", "Hi again!", "Missed you."])); });
-    document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); say(pick(["Welcome back!", "Oh hey, you're back."])); } });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); var vl = pick(["Welcome back!", "Oh hey, you're back."]); say(vl); if (unlocked) { play("pop"); speak(vl); } } });
     if (global.MutationObserver) new MutationObserver(function () {
       var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (Date.now() - welcomedAt < 2500) { sfx("tick"); return; }
       stopAct(); sfx("tick");
       if (dark) { emote("sleepy", 2500); say(pick(["Dark mode. Cosy.", "Lights off. Nice."])); }
       else { emote("cool"); say(pick(["Bright! Shades on.", "Light mode? Bold choice."])); }
@@ -516,7 +582,10 @@
     if (!reduced) {
       wireInput();
       setTimeout(function () { root.classList.add("is-in"); }, 300);
-      setTimeout(function () { act("wave"); say(isCase ? "Oh, a case study. Good choice." : "Hi! I'm Sunny. I'll keep you company."); }, 1100);
+      setTimeout(function () {
+        if (soundOn) welcome();
+        if (!welcomed) { act("wave"); say(isCase ? "Oh, a case study. Good choice." : "Hi! I'm Sunny. I'll keep you company."); }
+      }, 1100);
       setInterval(direct, 5200);
     } else {
       root.classList.add("is-in", "is-static");
@@ -531,6 +600,8 @@
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
     setCues: setCues, cuesOn: function () { return extraCues; },
+    setVoice: setVoice, voiceOn: function () { return voiceOn; }, speak: function (t) { if (root) speak(t); },
+    audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
