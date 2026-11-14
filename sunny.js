@@ -6,8 +6,8 @@
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
    Sound: a welcome chime on the visitor's first click, tap or key (browsers
-   block audio before that), a smile chirp on every click and quiet
-   synthesized cues for the acts. Sunny.setSound / setCues turn them off.
+   block audio before that), a smile chirp on every click, a small sound for
+   every emotion and quiet cues for the acts. Sunny.setSound / setCues.
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -246,8 +246,22 @@
     ding: function () { tone([[1319, 0, 0.5], [1976, 0.02, 0.4]], "sine", 0.035); },
     yawn: function () { tone([[330, 0, 0.5, 220]], "sine", 0.03); },
     snore: function () { tone([[110, 0, 0.35, 90]], "sawtooth", 0.012); },
-    bubble: function () { tone([[700, 0, 0.06, 1100], [820, 0.12, 0.06, 1300]], "sine", 0.03); }
+    bubble: function () { tone([[700, 0, 0.06, 1100], [820, 0.12, 0.06, 1300]], "sine", 0.03); },
+    /* emotion sounds */
+    gasp: function () { hiss(0.18, 600, 2400, 0.03, "bandpass"); tone([[520, 0, 0.14, 1040]], "sine", 0.035); },
+    hmm: function () { tone([[330, 0, 0.16, 350], [392, 0.18, 0.2, 494]], "sine", 0.04); },
+    ting: function () { tone([[1568, 0, 0.14], [2093, 0.02, 0.12]], "sine", 0.03); },
+    aww: function () { tone([[660, 0, 0.3, 494]], "sine", 0.035); },
+    sadden: function () { tone([[440, 0, 0.22, 392], [370, 0.26, 0.34, 294]], "sine", 0.035); },
+    heart: function () { tone([[659, 0, 0.14], [831, 0.14, 0.26]], "sine", 0.035); },
+    shwoop: function () { tone([[900, 0, 0.26, 260]], "triangle", 0.03); },
+    giggle: function () { tone([[880, 0, 0.06], [988, 0.09, 0.06], [880, 0.18, 0.06], [1047, 0.27, 0.08]], "sine", 0.035); },
+    wobble: function () { tone([[440, 0, 0.14, 520], [520, 0.14, 0.14, 400], [400, 0.28, 0.16, 480]], "triangle", 0.03); },
+    proud: function () { tone([[784, 0, 0.12], [1047, 0.12, 0.3]], "triangle", 0.035); },
+    sigh: function () { hiss(0.4, 1200, 300, 0.02, "lowpass"); tone([[300, 0, 0.4, 220]], "sine", 0.02); }
   };
+  /* which cue each emotion makes; blush is the smile chirp and always plays */
+  var EMOTION_SFX = { happy: "bubble", surprised: "gasp", curious: "hmm", wink: "ting", sleepy: "yawn", shy: "aww", excited: "whee", dizzy: "wobble", angry: "grumble", sad: "sadden", love: "heart", cool: "shwoop", laugh: "giggle", whoa: "swoosh", bored: "sigh", proud: "proud" };
   function play(name) { if (soundOn && SFX[name]) { try { SFX[name](); } catch (e) { /* silent */ } } }
   /* the one sound on by default: the smile chirp when Sunny is clicked */
   function smileSound() { play("boop"); }
@@ -288,8 +302,9 @@
 
   /* ---------- Emotions ---------- */
   var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700 };
-  function emote(name, ms) {
+  function emote(name, ms, silent) {
     if (!EMOTIONS[name]) return;
+    if (!silent) { if (name === "blush") smileSound(); else if (EMOTION_SFX[name]) cue(EMOTION_SFX[name]); }
     clearTimeout(emoteTimer);
     root.removeAttribute("data-emotion");
     void root.offsetWidth;
@@ -470,9 +485,9 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { smileSound(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
-      else { smileSound(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
+      if (taps.length >= 3) { smileSound(); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { smileSound(); emote("dizzy", 0, true); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else { emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
 
@@ -560,6 +575,7 @@
   var api = global.Sunny = {
     act: function (n) { if (root) act(n); },
     emote: function (n, ms) { if (root) emote(n, ms); },
+    emotionSounds: EMOTION_SFX,
     say: function (t, ms) { if (root) say(t, ms); },
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
