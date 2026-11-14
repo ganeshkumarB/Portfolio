@@ -70,7 +70,7 @@
   voiceBtn.addEventListener("click", function () { Sunny.setVoice(!Sunny.voiceOn()); voiceLabel(); });
   voiceLabel();
   var voiceHost = document.getElementById("voices"), voiceInfo = document.getElementById("voiceInfo");
-  var SAMPLES = ["Hi! I'm Sunny. Welcome!", "Ooh, a case study. Good pick!", "Wheee, I'm flying!", "You made it to the end!", "Ta-da!"];
+  var SAMPLES = ["Hi! I'm Sunny. Welcome!", "Ooh, a case study. Good pick!", "Wheee, I'm flying!", "You made it to the end!", "Ta-da!", "Hello there! Welcome to Ganesh's portfolio.", "Again! Again!", "Pool's open! Splash!", "On my bike. Don't tell Ganesh.", "Hi! Great to see you.", "Welcome back!", "Boop received.", "Hat on, show time!", "Hic. I'm fine. I'm FINE.", "I juggle. Badly."];
   function voiceStatus() {
     var i = Sunny.voiceInfo();
     voiceInfo.textContent = i.voice ? ("using system voice “" + i.voice + "” · pitch " + i.pitch + " · speed " + i.rate + " · voices differ per device; visitors without this one get the nearest English voice at the same pitch") : "no speech voices on this device";

@@ -279,7 +279,17 @@
     sprout:    { label: "Sprout",    names: ["Samantha", "Google US English", "Microsoft Aria", "Microsoft Zira"],    pitch: 1.9,  rate: 1.12 },
     pip:       { label: "Pip",       names: ["Karen", "Google UK English Female", "Microsoft Hazel", "Samantha"],     pitch: 2.0,  rate: 1.2 },
     sandy:     { label: "Sandy",     names: ["Sandy (English (United States))", "Sandy", "Flo (English (United States))", "Flo", "Shelley (English (United States))", "Google US English"], pitch: 1.75, rate: 1.1 },
-    superstar: { label: "Superstar", names: ["Superstar", "Good News", "Google UK English Female", "Samantha"],      pitch: 1.4,  rate: 1.1 }
+    superstar: { label: "Superstar", names: ["Superstar", "Good News", "Google UK English Female", "Samantha"],      pitch: 1.4,  rate: 1.1 },
+    flo:       { label: "Flo",       names: ["Flo (English (United States))", "Flo", "Samantha"],                    pitch: 1.8,  rate: 1.15 },
+    shelley:   { label: "Shelley",   names: ["Shelley (English (United States))", "Shelley", "Samantha"],            pitch: 1.85, rate: 1.08 },
+    reed:      { label: "Reed",      names: ["Reed (English (United States))", "Reed", "Daniel", "Google UK English Male"], pitch: 1.9, rate: 1.1 },
+    rocko:     { label: "Rocko",     names: ["Rocko (English (United States))", "Rocko", "Fred", "Google US English"], pitch: 1.7,  rate: 1.15 },
+    eddy:      { label: "Eddy",      names: ["Eddy (English (United States))", "Eddy", "Daniel", "Google UK English Male"], pitch: 1.95, rate: 1.12 },
+    tessa:     { label: "Tessa",     names: ["Tessa", "Karen", "Google UK English Female"],                          pitch: 1.85, rate: 1.1 },
+    moira:     { label: "Moira",     names: ["Moira", "Karen", "Google UK English Female"],                          pitch: 1.8,  rate: 1.12 },
+    daniel:    { label: "Daniel",    names: ["Daniel", "Google UK English Male", "Microsoft George"],                pitch: 1.9,  rate: 1.1 },
+    bubbles:   { label: "Bubbles",   names: ["Bubbles", "Samantha"],                                                  pitch: 1.5,  rate: 1.05 },
+    jester:    { label: "Jester",    names: ["Jester", "Good News", "Samantha"],                                      pitch: 1.5,  rate: 1.1 }
   };
   var voicePreset = "junior";
   try { var vp = localStorage.getItem("sunny:voicepreset"); if (vp && VOICE_PRESETS[vp]) voicePreset = vp; } catch (e) { /* ignore */ }
