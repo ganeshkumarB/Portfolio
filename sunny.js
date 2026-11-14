@@ -270,30 +270,50 @@
     try { localStorage.setItem("sunny:voice", voiceOn ? "on" : "off"); if (!voiceOn && global.speechSynthesis) global.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
   }
 
-  /* ---------- Voice: a small bright voice via the browser's speech synthesis ---------- */
+  /* ---------- Voice: a happy child voice via the browser's speech synthesis ----------
+     Five presets. Each names the system voices it prefers (first one found
+     wins) and a pitch and speed; on a device without those voices the preset
+     falls back to any English voice and still sounds young through the pitch. */
+  var VOICE_PRESETS = {
+    junior:    { label: "Junior",    names: ["Junior", "Samantha", "Google US English", "Microsoft Zira"],            pitch: 1.35, rate: 1.05 },
+    sprout:    { label: "Sprout",    names: ["Samantha", "Google US English", "Microsoft Aria", "Microsoft Zira"],    pitch: 1.9,  rate: 1.12 },
+    pip:       { label: "Pip",       names: ["Karen", "Google UK English Female", "Microsoft Hazel", "Samantha"],     pitch: 2.0,  rate: 1.2 },
+    sandy:     { label: "Sandy",     names: ["Sandy (English (United States))", "Sandy", "Flo (English (United States))", "Flo", "Shelley (English (United States))", "Google US English"], pitch: 1.75, rate: 1.1 },
+    superstar: { label: "Superstar", names: ["Superstar", "Good News", "Google UK English Female", "Samantha"],      pitch: 1.4,  rate: 1.1 }
+  };
+  var voicePreset = "junior";
+  try { var vp = localStorage.getItem("sunny:voicepreset"); if (vp && VOICE_PRESETS[vp]) voicePreset = vp; } catch (e) { /* ignore */ }
   var voicePick = null;
   function chooseVoice() {
     try {
       var list = global.speechSynthesis.getVoices();
       if (!list.length) return null;
-      var prefer = ["Samantha", "Google US English", "Karen", "Moira", "Tessa", "Zira", "Google UK English Female"];
+      var prefer = VOICE_PRESETS[voicePreset].names;
       for (var i = 0; i < prefer.length; i++) {
-        for (var j = 0; j < list.length; j++) if (list[j].name.indexOf(prefer[i]) === 0) return list[j];
+        for (var j = 0; j < list.length; j++) if (list[j].name === prefer[i] || list[j].name.indexOf(prefer[i] + " ") === 0) return list[j];
       }
       for (var k = 0; k < list.length; k++) if (/^en/i.test(list[k].lang) && list[k].default) return list[k];
       for (var m = 0; m < list.length; m++) if (/^en/i.test(list[m].lang)) return list[m];
       return list[0];
     } catch (e) { return null; }
   }
+  function setVoicePreset(name) {
+    if (!VOICE_PRESETS[name]) return;
+    voicePreset = name; voicePick = null;
+    try { localStorage.setItem("sunny:voicepreset", name); } catch (e) { /* ignore */ }
+  }
   function speak(text) {
     if (!voiceOn || !soundOn || !global.speechSynthesis || !global.SpeechSynthesisUtterance) return;
     try {
-      var ss = global.speechSynthesis;
+      var ss = global.speechSynthesis, preset = VOICE_PRESETS[voicePreset];
       ss.cancel();
       var u = new SpeechSynthesisUtterance(text);
       if (!voicePick) voicePick = chooseVoice();
       if (voicePick) u.voice = voicePick;
-      u.pitch = 1.5; u.rate = 1.05; u.volume = 0.7;
+      /* a voice that is already a child (Junior) needs less lift than an adult one */
+      var isChild = voicePick && /^Junior/.test(voicePick.name);
+      u.pitch = isChild ? Math.min(preset.pitch, 1.4) : preset.pitch;
+      u.rate = preset.rate; u.volume = 0.75;
       ss.speak(u);
     } catch (e) { /* no voice available: the bubble still shows the words */ }
   }
@@ -602,6 +622,9 @@
     setCues: setCues, cuesOn: function () { return extraCues; },
     setVoice: setVoice, voiceOn: function () { return voiceOn; }, speak: function (t) { if (root) speak(t); },
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
+    voicePresets: Object.keys(VOICE_PRESETS).map(function (k) { return { id: k, label: VOICE_PRESETS[k].label }; }),
+    setVoicePreset: setVoicePreset, voicePreset: function () { return voicePreset; },
+    voiceInfo: function () { if (!voicePick) voicePick = chooseVoice(); var p = VOICE_PRESETS[voicePreset]; return { preset: voicePreset, voice: voicePick ? voicePick.name : null, pitch: p.pitch, rate: p.rate }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
