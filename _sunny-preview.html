@@ -35,10 +35,11 @@
 
   <div class="pv__group"><p class="pv__lbl">Acts</p><div class="pv__chips" id="acts"></div></div>
   <div class="pv__group"><p class="pv__lbl">Emotions</p><div class="pv__chips" id="emotions"></div></div>
-  <div class="pv__group"><p class="pv__lbl">Say</p><div class="pv__chips"><button type="button" id="sayBtn">Random quip</button><button type="button" id="themeBtn" class="pv__theme">Toggle theme</button></div></div>
+  <div class="pv__group"><p class="pv__lbl">Sounds</p><div class="pv__chips" id="sounds"></div></div>
+  <div class="pv__group"><p class="pv__lbl">Say</p><div class="pv__chips"><button type="button" id="sayBtn">Random quip</button><button type="button" id="themeBtn" class="pv__theme">Toggle theme</button><button type="button" id="muteBtn" class="pv__theme">Sound: on</button><button type="button" id="cuesBtn" class="pv__theme">Extra cues: on</button></div></div>
 
   <div class="pv__note">
-    <b>What triggers what on the real pages:</b> arrival wave and a greeting · waves when your pointer comes near · click: tickle reactions · double-click: hop and spin · triple-click: annoyed · right-click: sunglasses · drag: carried along the edge, lands with a squash · fast scroll: braces · page bottom: dance and a message · theme switch: sunglasses in light, cosy in dark · pointer leaves the window: sad, returns: happy · 40 s without input: sleeps until you move · the small “zz” on hover puts Sunny to bed for the session.
+    <b>What triggers what on the real pages:</b> arrival wave and a greeting · waves when your pointer comes near · click: smile, blush and one little chirp · double-click: hop and spin · triple-click: annoyed · right-click: sunglasses · drag: carried along the edge, lands with a squash · it also smokes, drinks, sings, reads, does yoga, skates, fishes, takes selfies and skips rope on its own · fast scroll: braces · page bottom: dance and a message · theme switch: sunglasses in light, cosy in dark · pointer leaves the window: sad, returns: happy · 40 s without input: sleeps until you move · the small “zz” on hover puts Sunny to bed for the session. Sound: on your first click, tap or key press Sunny welcomes you with a chime (browsers block audio before that). Every click plays the smile chirp. Every emotion has its own small sound (gasp, hmm, ting, aww, giggle, wobble, sigh…). The acts have quiet cues (bike bell, splash, gulps and hiccups, camera shutter, ta-da, swoosh on fast scrolls, soft snore). The buttons above switch sound and cues off; choices are remembered in this browser only.
   </div>
 </main>
 <script src="sunny.js"></script>
@@ -52,10 +53,15 @@
   }
   chips(document.getElementById("acts"), Sunny.acts, function (n) { Sunny.act(n); });
   chips(document.getElementById("emotions"), Sunny.emotions, function (n) { Sunny.emote(n); });
-  document.getElementById("sayBtn").addEventListener("click", function () { Sunny.say(["Hi! I'm Sunny.", "Nice to meet you.", "Try the drink one.", "I juggle. Badly."][Math.floor(Math.random() * 4)]); });
-  document.getElementById("themeBtn").addEventListener("click", function () {
-    var r = document.documentElement; if (r.getAttribute("data-theme") === "dark") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", "dark");
-  });
+  chips(document.getElementById("sounds"), Sunny.sounds, function (n) { Sunny.sfx(n); });
+  var muteBtn = document.getElementById("muteBtn");
+  function muteLabel() { muteBtn.textContent = Sunny.soundOn() ? "Sound: on" : "Sound: off"; }
+  muteBtn.addEventListener("click", function () { Sunny.setSound(!Sunny.soundOn()); muteLabel(); });
+  muteLabel();
+  var cuesBtn = document.getElementById("cuesBtn");
+  function cuesLabel() { cuesBtn.textContent = Sunny.cuesOn() ? "Extra cues: on" : "Extra cues: off"; }
+  cuesBtn.addEventListener("click", function () { Sunny.setCues(!Sunny.cuesOn()); cuesLabel(); });
+  cuesLabel();
 </script>
 </body>
 </html>

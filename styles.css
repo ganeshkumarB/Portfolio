@@ -875,6 +875,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
 .nav__theme:hover .nav__theme-icon { transform: rotate(40deg) scale(1.1); }
 .nav__theme.is-spinning .nav__theme-icon { transform: rotate(360deg) scale(0.4); }
 
+
 .progress {
   position: fixed;
   top: 0;
