@@ -25,8 +25,6 @@
     .pv__note { margin-top: 40px; padding: 18px 20px; border: 1px dashed var(--line); border-radius: 14px; font-size: 14px; color: var(--muted); line-height: 1.6; }
     .pv__note b { color: var(--ink); font-weight: 500; }
     .pv__theme { margin-left: 8px; }
-    .pv__hint { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin: 10px 0 0; }
-    .pv__chips button.is-picked { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   </style>
 </head>
 <body>
@@ -38,11 +36,10 @@
   <div class="pv__group"><p class="pv__lbl">Acts</p><div class="pv__chips" id="acts"></div></div>
   <div class="pv__group"><p class="pv__lbl">Emotions</p><div class="pv__chips" id="emotions"></div></div>
   <div class="pv__group"><p class="pv__lbl">Sounds</p><div class="pv__chips" id="sounds"></div></div>
-  <div class="pv__group"><p class="pv__lbl">Voice (pick one, it is remembered)</p><div class="pv__chips" id="voices"></div><p class="pv__hint" id="voiceInfo"></p></div>
-  <div class="pv__group"><p class="pv__lbl">Say</p><div class="pv__chips"><button type="button" id="sayBtn">Random quip</button><button type="button" id="themeBtn" class="pv__theme">Toggle theme</button><button type="button" id="muteBtn" class="pv__theme">Sound: on</button><button type="button" id="cuesBtn" class="pv__theme">Extra cues: on</button><button type="button" id="voiceBtn" class="pv__theme">Voice: on</button><button type="button" id="speakBtn" class="pv__theme">Say hello (voice)</button></div></div>
+  <div class="pv__group"><p class="pv__lbl">Say</p><div class="pv__chips"><button type="button" id="sayBtn">Random quip</button><button type="button" id="themeBtn" class="pv__theme">Toggle theme</button><button type="button" id="muteBtn" class="pv__theme">Sound: on</button><button type="button" id="cuesBtn" class="pv__theme">Extra cues: on</button></div></div>
 
   <div class="pv__note">
-    <b>What triggers what on the real pages:</b> arrival wave and a greeting · waves when your pointer comes near · click: smile, blush and one little chirp · double-click: hop and spin · triple-click: annoyed · right-click: sunglasses · drag: carried along the edge, lands with a squash · it also smokes, drinks, sings, reads, does yoga, skates, fishes, takes selfies and skips rope on its own · fast scroll: braces · page bottom: dance and a message · theme switch: sunglasses in light, cosy in dark · pointer leaves the window: sad, returns: happy · 40 s without input: sleeps until you move · the small “zz” on hover puts Sunny to bed for the session. Sound: on your first click, tap or key press Sunny welcomes you out loud with a chime (browsers block audio before that). Every click plays the smile chirp. Big moments are spoken: double-click, being carried, the nap, coming back to the tab, reaching the page bottom. The acts have quiet cues (bike bell, splash, gulps and hiccups, camera shutter, ta-da, swoosh on fast scrolls, soft snore). The buttons above switch sound, cues and voice off; choices are remembered in this browser only.
+    <b>What triggers what on the real pages:</b> arrival wave and a greeting · waves when your pointer comes near · click: smile, blush and one little chirp · double-click: hop and spin · triple-click: annoyed · right-click: sunglasses · drag: carried along the edge, lands with a squash · it also smokes, drinks, sings, reads, does yoga, skates, fishes, takes selfies and skips rope on its own · fast scroll: braces · page bottom: dance and a message · theme switch: sunglasses in light, cosy in dark · pointer leaves the window: sad, returns: happy · 40 s without input: sleeps until you move · the small “zz” on hover puts Sunny to bed for the session. Sound: on your first click, tap or key press Sunny welcomes you with a chime (browsers block audio before that). Every click plays the smile chirp. The acts have quiet cues (bike bell, splash, gulps and hiccups, camera shutter, ta-da, swoosh on fast scrolls, soft snore). The buttons above switch sound and cues off; choices are remembered in this browser only.
   </div>
 </main>
 <script src="sunny.js"></script>
@@ -65,29 +62,6 @@
   function cuesLabel() { cuesBtn.textContent = Sunny.cuesOn() ? "Extra cues: on" : "Extra cues: off"; }
   cuesBtn.addEventListener("click", function () { Sunny.setCues(!Sunny.cuesOn()); cuesLabel(); });
   cuesLabel();
-  var voiceBtn = document.getElementById("voiceBtn");
-  function voiceLabel() { voiceBtn.textContent = Sunny.voiceOn() ? "Voice: on" : "Voice: off"; }
-  voiceBtn.addEventListener("click", function () { Sunny.setVoice(!Sunny.voiceOn()); voiceLabel(); });
-  voiceLabel();
-  var voiceHost = document.getElementById("voices"), voiceInfo = document.getElementById("voiceInfo");
-  var SAMPLES = ["Hi! I'm Sunny. Welcome!", "Ooh, a case study. Good pick!", "Wheee, I'm flying!", "You made it to the end!", "Ta-da!", "Hello there! Welcome to Ganesh's portfolio.", "Again! Again!", "Pool's open! Splash!", "On my bike. Don't tell Ganesh.", "Hi! Great to see you.", "Welcome back!", "Boop received.", "Hat on, show time!", "Hic. I'm fine. I'm FINE.", "I juggle. Badly."];
-  function voiceStatus() {
-    var i = Sunny.voiceInfo();
-    voiceInfo.textContent = i.voice ? ("using system voice “" + i.voice + "” · pitch " + i.pitch + " · speed " + i.rate + " · voices differ per device; visitors without this one get the nearest English voice at the same pitch") : "no speech voices on this device";
-    voiceHost.querySelectorAll("button").forEach(function (b) { b.classList.toggle("is-picked", b.dataset.id === Sunny.voicePreset()); });
-  }
-  Sunny.voicePresets.forEach(function (p, idx) {
-    var b = document.createElement("button"); b.type = "button"; b.textContent = (idx + 1) + ". " + p.label; b.dataset.id = p.id;
-    b.addEventListener("click", function () { Sunny.setVoicePreset(p.id); voiceStatus(); var l = SAMPLES[idx % SAMPLES.length]; Sunny.speak(l); Sunny.say(l); Sunny.emote("happy"); });
-    voiceHost.appendChild(b);
-  });
-  voiceStatus();
-  if (window.speechSynthesis) speechSynthesis.addEventListener("voiceschanged", voiceStatus);
-  document.getElementById("speakBtn").addEventListener("click", function () { var l = "Hi! I'm Sunny. Welcome!"; Sunny.speak(l); Sunny.say(l); Sunny.act("wave"); });
-  document.getElementById("sayBtn").addEventListener("click", function () { Sunny.say(["Hi! I'm Sunny.", "Nice to meet you.", "Try the drink one.", "I juggle. Badly."][Math.floor(Math.random() * 4)]); });
-  document.getElementById("themeBtn").addEventListener("click", function () {
-    var r = document.documentElement; if (r.getAttribute("data-theme") === "dark") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", "dark");
-  });
 </script>
 </body>
 </html>

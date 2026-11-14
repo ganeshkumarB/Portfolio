@@ -5,10 +5,9 @@
    in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
    theme, leaving the window). Plain JS, inline SVG, CSS animations.
 
-   Sound: a welcome with voice and chime on the visitor's first click, tap or
-   key (browsers block audio before that), a smile chirp on every click,
-   spoken lines for big moments and quiet synthesized cues for the acts.
-   Sunny.setSound / setCues / setVoice turn each layer off; remembered.
+   Sound: a welcome chime on the visitor's first click, tap or key (browsers
+   block audio before that), a smile chirp on every click and quiet
+   synthesized cues for the acts. Sunny.setSound / setCues turn them off.
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
 */
 (function (global) {
@@ -189,11 +188,10 @@
      Browsers only let audio start after a gesture (click, key, touch). Cues
      triggered by a gesture play right away; cues from Sunny's own acts play
      only once a gesture has unlocked audio. All of it is quiet. */
-  var actx = null, unlocked = false, soundOn = true, extraCues = true, voiceOn = true;
+  var actx = null, unlocked = false, soundOn = true, extraCues = true;
   try {
     soundOn = localStorage.getItem("sunny:sound") !== "off";
     extraCues = localStorage.getItem("sunny:cues") !== "off";
-    voiceOn = localStorage.getItem("sunny:voice") !== "off";
   } catch (e) { /* ignore */ }
   function ctx() {
     var AC = global.AudioContext || global.webkitAudioContext;
@@ -265,79 +263,15 @@
     extraCues = !!on;
     try { localStorage.setItem("sunny:cues", extraCues ? "on" : "off"); } catch (e) { /* ignore */ }
   }
-  function setVoice(on) {
-    voiceOn = !!on;
-    try { localStorage.setItem("sunny:voice", voiceOn ? "on" : "off"); if (!voiceOn && global.speechSynthesis) global.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
-  }
-
-  /* ---------- Voice: a happy child voice via the browser's speech synthesis ----------
-     Five presets. Each names the system voices it prefers (first one found
-     wins) and a pitch and speed; on a device without those voices the preset
-     falls back to any English voice and still sounds young through the pitch. */
-  var VOICE_PRESETS = {
-    junior:    { label: "Junior",    names: ["Junior", "Samantha", "Google US English", "Microsoft Zira"],            pitch: 1.35, rate: 1.05 },
-    sprout:    { label: "Sprout",    names: ["Samantha", "Google US English", "Microsoft Aria", "Microsoft Zira"],    pitch: 1.9,  rate: 1.12 },
-    pip:       { label: "Pip",       names: ["Karen", "Google UK English Female", "Microsoft Hazel", "Samantha"],     pitch: 2.0,  rate: 1.2 },
-    sandy:     { label: "Sandy",     names: ["Sandy (English (United States))", "Sandy", "Flo (English (United States))", "Flo", "Shelley (English (United States))", "Google US English"], pitch: 1.75, rate: 1.1 },
-    superstar: { label: "Superstar", names: ["Superstar", "Good News", "Google UK English Female", "Samantha"],      pitch: 1.4,  rate: 1.1 },
-    flo:       { label: "Flo",       names: ["Flo (English (United States))", "Flo", "Samantha"],                    pitch: 1.8,  rate: 1.15 },
-    shelley:   { label: "Shelley",   names: ["Shelley (English (United States))", "Shelley", "Samantha"],            pitch: 1.85, rate: 1.08 },
-    reed:      { label: "Reed",      names: ["Reed (English (United States))", "Reed", "Daniel", "Google UK English Male"], pitch: 1.9, rate: 1.1 },
-    rocko:     { label: "Rocko",     names: ["Rocko (English (United States))", "Rocko", "Fred", "Google US English"], pitch: 1.7,  rate: 1.15 },
-    eddy:      { label: "Eddy",      names: ["Eddy (English (United States))", "Eddy", "Daniel", "Google UK English Male"], pitch: 1.95, rate: 1.12 },
-    tessa:     { label: "Tessa",     names: ["Tessa", "Karen", "Google UK English Female"],                          pitch: 1.85, rate: 1.1 },
-    moira:     { label: "Moira",     names: ["Moira", "Karen", "Google UK English Female"],                          pitch: 1.8,  rate: 1.12 },
-    daniel:    { label: "Daniel",    names: ["Daniel", "Google UK English Male", "Microsoft George"],                pitch: 1.9,  rate: 1.1 },
-    bubbles:   { label: "Bubbles",   names: ["Bubbles", "Samantha"],                                                  pitch: 1.5,  rate: 1.05 },
-    jester:    { label: "Jester",    names: ["Jester", "Good News", "Samantha"],                                      pitch: 1.5,  rate: 1.1 }
-  };
-  var voicePreset = "junior";
-  try { var vp = localStorage.getItem("sunny:voicepreset"); if (vp && VOICE_PRESETS[vp]) voicePreset = vp; } catch (e) { /* ignore */ }
-  var voicePick = null;
-  function chooseVoice() {
-    try {
-      var list = global.speechSynthesis.getVoices();
-      if (!list.length) return null;
-      var prefer = VOICE_PRESETS[voicePreset].names;
-      for (var i = 0; i < prefer.length; i++) {
-        for (var j = 0; j < list.length; j++) if (list[j].name === prefer[i] || list[j].name.indexOf(prefer[i] + " ") === 0) return list[j];
-      }
-      for (var k = 0; k < list.length; k++) if (/^en/i.test(list[k].lang) && list[k].default) return list[k];
-      for (var m = 0; m < list.length; m++) if (/^en/i.test(list[m].lang)) return list[m];
-      return list[0];
-    } catch (e) { return null; }
-  }
-  function setVoicePreset(name) {
-    if (!VOICE_PRESETS[name]) return;
-    voicePreset = name; voicePick = null;
-    try { localStorage.setItem("sunny:voicepreset", name); } catch (e) { /* ignore */ }
-  }
-  function speak(text) {
-    if (!voiceOn || !soundOn || !global.speechSynthesis || !global.SpeechSynthesisUtterance) return;
-    try {
-      var ss = global.speechSynthesis, preset = VOICE_PRESETS[voicePreset];
-      ss.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      if (!voicePick) voicePick = chooseVoice();
-      if (voicePick) u.voice = voicePick;
-      /* a voice that is already a child (Junior) needs less lift than an adult one */
-      var isChild = voicePick && /^Junior/.test(voicePick.name);
-      u.pitch = isChild ? Math.min(preset.pitch, 1.4) : preset.pitch;
-      u.rate = preset.rate; u.volume = 0.75;
-      ss.speak(u);
-    } catch (e) { /* no voice available: the bubble still shows the words */ }
-  }
-  if (global.speechSynthesis) { try { global.speechSynthesis.onvoiceschanged = function () { voicePick = chooseVoice(); }; } catch (e) { /* ignore */ } }
-
-  /* welcome: voice plus a chime. Browsers only allow sound after a click, tap
-     or key press, so if the page opened without one we wait for the first. */
+  /* welcome: a chime with the wave. Browsers only allow sound after a click,
+     tap or key press, so if the page opened without one we wait for the first. */
   var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
   function deliverWelcome() {
     if (welcomed) return;
     welcomed = true; welcomedAt = Date.now(); unlocked = true;
     var line = isCase ? pick(["Ooh, a case study. Good pick!", "Welcome! Let me show you around."]) : pick(["Hi! I'm Sunny. Welcome!", "Hello there! Welcome to Ganesh's portfolio.", "Hi! Great to see you."]);
     stopAct(); act("wave");
-    play("ding"); speak(line); say(line);
+    play("ding"); say(line);
   }
   function welcome() {
     if (welcomed) return;
@@ -536,8 +470,8 @@
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
       stopAct();
-      if (taps.length >= 3) { smileSound(); emote("angry"); var a3 = pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."]); say(a3); speak(a3); }
-      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); var w = pick(["Whee!", "Again! Again!", "Woo!"]); say(w); speak(w); }
+      if (taps.length >= 3) { smileSound(); emote("angry"); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { smileSound(); emote("dizzy"); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
       else { smileSound(); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
@@ -552,7 +486,7 @@
     svg.addEventListener("pointermove", function (e) {
       if (!drag) return;
       var dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); var dl = pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."]); say(dl); speak(dl); }
+      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
       if (drag.moved) setX(drag.startSx + dx, 0);
     });
     function endDrag() {
@@ -571,7 +505,7 @@
     /* nap button */
     napBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      stopAct(); sfx("pop"); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200); speak("Good night!");
+      stopAct(); sfx("pop"); emote("sleepy", 3000); say("Napping. Reload the page to wake me.", 2200);
       try { sessionStorage.setItem("sunny:nap", "1"); } catch (err) { /* ignore */ }
       setTimeout(function () { root.classList.add("is-gone"); document.documentElement.classList.remove("has-sunny"); }, 2300);
     });
@@ -587,14 +521,14 @@
       }
       lastY = y; lastT = now;
       var atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
-      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); var bl = isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."; say(bl); if (unlocked) speak(isCase ? "End of the case! The next one is right there." : "You made it to the end! Say hi to Ganesh."); }
+      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
       if (!atBottom && y < 200) bottomSaid = false;
     }, { passive: true });
 
     /* window, tab, theme */
     document.documentElement.addEventListener("mouseleave", function () { if (!busy) { emote("sad"); say(pick(["Come back…", "Bye for now.", "I'll be here."])); } });
     document.documentElement.addEventListener("mouseenter", function () { emote("happy"); say(pick(["You're back!", "Hi again!", "Missed you."])); });
-    document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); var vl = pick(["Welcome back!", "Oh hey, you're back."]); say(vl); if (unlocked) { play("pop"); speak(vl); } } });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); say(pick(["Welcome back!", "Oh hey, you're back."])); cue("pop"); } });
     if (global.MutationObserver) new MutationObserver(function () {
       var dark = document.documentElement.getAttribute("data-theme") === "dark";
       if (Date.now() - welcomedAt < 2500) { sfx("tick"); return; }
@@ -630,11 +564,7 @@
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
     setCues: setCues, cuesOn: function () { return extraCues; },
-    setVoice: setVoice, voiceOn: function () { return voiceOn; }, speak: function (t) { if (root) speak(t); },
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
-    voicePresets: Object.keys(VOICE_PRESETS).map(function (k) { return { id: k, label: VOICE_PRESETS[k].label }; }),
-    setVoicePreset: setVoicePreset, voicePreset: function () { return voicePreset; },
-    voiceInfo: function () { if (!voicePick) voicePick = chooseVoice(); var p = VOICE_PRESETS[voicePreset]; return { preset: voicePreset, voice: voicePick ? voicePick.name : null, pitch: p.pitch, rate: p.rate }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
