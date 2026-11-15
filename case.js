@@ -21,6 +21,8 @@
   toggle.addEventListener("click", function () {
     var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     try { localStorage.setItem("theme", next); } catch (e) { /* ignore */ }
+    toggle.classList.add("is-spinning");
+    setTimeout(function () { toggle.classList.remove("is-spinning"); }, 450);
     applyTheme(next);
   });
 
