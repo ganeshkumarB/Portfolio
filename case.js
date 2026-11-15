@@ -43,7 +43,7 @@
   onScroll();
 
   /* Reveal */
-  var targets = $$(".cs-hero > *, .cs-visual, .cs-note, .cs-section, .cs-next");
+  var targets = $$(".cs-hero > *, .cs-visual, .cs-note, .cs-public, .cs-section, .cs-next");
   targets.forEach(function (el, i) { el.setAttribute("data-reveal", ""); el.style.setProperty("--d", (i % 4) * 60 + "ms"); });
   if ("IntersectionObserver" in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {
