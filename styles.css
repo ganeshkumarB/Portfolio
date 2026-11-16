@@ -1572,13 +1572,13 @@ body.inspecting { user-select: none; }
   background: #fbfaf5;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.pendant { display: block; width: 24px; height: 24px; overflow: visible; }
+.pendant { display: block; width: 38px; height: 38px; }
 .pendant__lamp {
-  transform-box: view-box;
-  transform-origin: 130px 2px;
+  transform-box: fill-box;
+  transform-origin: 50% 0;
   animation: pendant-swing 6s ease-in-out infinite;
 }
-.pendant__pool { transform-box: view-box; transform-origin: 130px 275px; animation: pendant-pool 6s ease-in-out infinite; }
+.pendant__pool { transform-box: fill-box; transform-origin: 50% 50%; animation: pendant-pool 6s ease-in-out infinite; }
 .nav__logo:hover .pendant__lamp { animation: pendant-swing-wide 1.8s ease-in-out infinite; }
 .nav__logo:hover .pendant__pool { animation: pendant-pool-wide 1.8s ease-in-out infinite; }
 .nav__logo:hover .pendant__cone,
