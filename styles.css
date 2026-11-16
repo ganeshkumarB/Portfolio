@@ -143,7 +143,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
   justify-content: space-between;
   gap: 24px;
 }
-.nav__brand { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+.nav__brand { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink); }
 .nav__status { font-size: 12px; color: var(--green); }
 
 .nav__pill {
@@ -1563,7 +1563,7 @@ body.inspecting { user-select: none; }
 /* ============================================================
    Brand mark: the pendant lamp
    ============================================================ */
-.pendant { display: block; width: 26px; height: 30px; flex: none; }
+.pendant { display: block; width: 34px; height: 39px; flex: none; }
 .pendant__ink { fill: var(--ink); }
 .pendant__cord { stroke: var(--ink); }
 .pendant__lamp {
