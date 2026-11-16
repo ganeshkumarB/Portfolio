@@ -61,6 +61,7 @@
   var links = $$(".nav__link");
   var activeLink = $(".nav__link.is-active") || links[0];
   var progress = $(".progress");
+  var resumePct = $("#navResumePct"), resumeFill = $("#navResumeFill");
 
   function moveIndicator(el) {
     indicator.style.left = el.offsetLeft + "px";
@@ -102,6 +103,7 @@
     var y = window.scrollY;
     var max = root.scrollHeight - innerHeight;
     progress.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
+    if (resumePct) { var pct = max > 0 ? Math.round(Math.min(1, y / max) * 100) : 0; resumePct.textContent = pct + "%"; resumeFill.style.width = pct + "%"; }
     var shouldFloat = y > 140;
     if (shouldFloat !== floating) {
       floating = shouldFloat;
@@ -136,7 +138,7 @@
   var codeLines = $$("#bridgeCode .ln");
 
   function setStatus(text, syncing) {
-    [navStatus, bridgeStatus].forEach(function (el) {
+    [navStatus, bridgeStatus].filter(Boolean).forEach(function (el) {
       el.textContent = text;
       el.classList.toggle("is-syncing", syncing);
       if (!syncing) { el.classList.remove("pulse"); void el.offsetWidth; el.classList.add("pulse"); }

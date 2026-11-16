@@ -895,3 +895,7 @@ a.lbl:hover { color: var(--ink); }
   .sketch__dash .kpis { grid-template-columns: repeat(2, 1fr); }
   .sketch--170, .sketch { height: auto; min-height: 170px; }
 }
+
+/* --- Cover band between hero and visual --- */
+.cs-cover { padding: 0 var(--gutter) 32px; }
+.cs-cover__img { display: block; width: 100%; height: auto; border-radius: 16px; }

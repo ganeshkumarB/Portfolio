@@ -143,7 +143,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
   justify-content: space-between;
   gap: 24px;
 }
-.nav__brand { font-size: 13px; color: var(--ink); }
+.nav__brand { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
 .nav__status { font-size: 12px; color: var(--green); }
 
 .nav__pill {
@@ -169,7 +169,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
 .nav.is-ready .nav__indicator {
   transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.4s ease;
 }
-.nav__link, .nav__theme, .nav__logo { position: relative; z-index: 1; }
+.nav__link, .nav__theme { position: relative; z-index: 1; }
 .nav__theme {
   width: 38px;
   height: 38px;
@@ -815,7 +815,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
 @media (max-width: 720px) {
   :root { --gutter: 20px; --section-pad: 72px; }
   .nav { flex-wrap: wrap; justify-content: center; }
-  .nav__brand, .nav__status { display: none; }
+  .nav__brand-txt, .nav__status, .nav__resume { display: none; }
   .nav__pill { flex-wrap: wrap; justify-content: center; }
   .hero__title { font-size: 40px; }
   .hero__lede { font-size: 16px; }
@@ -853,7 +853,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
    Motion layer
    ============================================================ */
 .js .nav-slot { height: 50px; }
-.nav__brand, .nav__status { transition: opacity 0.25s ease, transform 0.3s ease; }
+.nav__brand, .nav__status, .nav__resume { transition: opacity 0.25s ease, transform 0.3s ease; }
 .nav.is-floating {
   position: fixed;
   top: 0;
@@ -864,7 +864,8 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
   pointer-events: none;
 }
 .nav.is-floating .nav__brand,
-.nav.is-floating .nav__status { opacity: 0; transform: translateY(-8px); }
+.nav.is-floating .nav__status,
+.nav.is-floating .nav__resume { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 .nav.is-floating .nav__pill {
   pointer-events: auto;
   transform: scale(0.94);
@@ -1562,27 +1563,19 @@ body.inspecting { user-select: none; }
 /* ============================================================
    Brand mark: the pendant lamp
    ============================================================ */
-.nav__logo {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  flex: none;
-  border-radius: 999px;
-  background: #fbfaf5;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.pendant { display: block; width: 38px; height: 38px; }
+.pendant { display: block; width: 26px; height: 30px; flex: none; }
+.pendant__ink { fill: var(--ink); }
+.pendant__cord { stroke: var(--ink); }
 .pendant__lamp {
   transform-box: fill-box;
   transform-origin: 50% 0;
   animation: pendant-swing 6s ease-in-out infinite;
 }
 .pendant__pool { transform-box: fill-box; transform-origin: 50% 50%; animation: pendant-pool 6s ease-in-out infinite; }
-.nav__logo:hover .pendant__lamp { animation: pendant-swing-wide 1.8s ease-in-out infinite; }
-.nav__logo:hover .pendant__pool { animation: pendant-pool-wide 1.8s ease-in-out infinite; }
-.nav__logo:hover .pendant__cone,
-.nav__logo:hover .pendant__bulb { animation: pendant-flicker 0.9s steps(1, end) 1; }
+.nav__brand:hover .pendant__lamp { animation: pendant-swing-wide 1.8s ease-in-out infinite; }
+.nav__brand:hover .pendant__pool { animation: pendant-pool-wide 1.8s ease-in-out infinite; }
+.nav__brand:hover .pendant__cone,
+.nav__brand:hover .pendant__bulb { animation: pendant-flicker 0.9s steps(1, end) 1; }
 @keyframes pendant-swing { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 @keyframes pendant-swing-wide { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
 @keyframes pendant-pool { 0%, 100% { transform: translateX(-7px); } 50% { transform: translateX(7px); } }
@@ -1592,4 +1585,36 @@ body.inspecting { user-select: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pendant__lamp, .pendant__pool, .pendant__cone, .pendant__bulb { animation: none !important; }
+}
+
+/* ============================================================
+   Résumé button with reading-progress fill
+   ============================================================ */
+.nav__resume {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.nav__resume-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: #ffc93c; transition: width 0.2s linear; }
+.nav__resume-txt, .nav__resume-pct { position: relative; z-index: 1; }
+.nav__resume-pct { font-size: 11px; color: #8a8a8a; font-variant-numeric: tabular-nums; }
+.nav__resume:hover { transform: translateY(-1px); }
+:root[data-theme="dark"] .nav__resume { background: var(--surface); }
+:root[data-theme="dark"] .nav__resume-fill { background: rgba(255, 201, 60, 0.3); }
+@media (max-width: 1180px) {
+  .nav__brand-txt, .nav__resume-pct { display: none; }
+  .nav__resume { padding: 9px 14px; }
+}
+@media (max-width: 720px) {
+  .nav__resume { display: none; }
 }

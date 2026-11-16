@@ -35,9 +35,11 @@
   $(".nav__pill").addEventListener("mouseleave", function () { moveIndicator(active); });
   window.addEventListener("resize", function () { moveIndicator(active); });
   var progress = $(".progress"), floating = false;
+  var resumePct = $("#navResumePct"), resumeFill = $("#navResumeFill");
   function onScroll() {
     var y = window.scrollY, max = root.scrollHeight - innerHeight;
     progress.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
+    if (resumePct) { var pct = max > 0 ? Math.round(Math.min(1, y / max) * 100) : 0; resumePct.textContent = pct + "%"; resumeFill.style.width = pct + "%"; }
     var f = y > 140;
     if (f !== floating) { floating = f; nav.classList.toggle("is-floating", f); moveIndicator(active); }
   }
@@ -45,7 +47,7 @@
   onScroll();
 
   /* Reveal */
-  var targets = $$(".cs-hero > *, .cs-visual, .cs-note, .cs-public, .cs-section, .cs-next");
+  var targets = $$(".cs-hero > *, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-section, .cs-next");
   targets.forEach(function (el, i) { el.setAttribute("data-reveal", ""); el.style.setProperty("--d", (i % 4) * 60 + "ms"); });
   if ("IntersectionObserver" in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {

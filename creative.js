@@ -162,14 +162,14 @@
     inspecting = on;
     document.body.classList.toggle("inspecting", on);
     ins.hidden = !on;
-    insBtn.setAttribute("aria-pressed", String(on));
+    if (insBtn) insBtn.setAttribute("aria-pressed", String(on));
     if (on) { document.addEventListener("mousemove", pick); window.addEventListener("scroll", onInsScroll, { passive: true }); }
     else { document.removeEventListener("mousemove", pick); window.removeEventListener("scroll", onInsScroll); current = null; }
     if (on) toast("inspect mode · hover layers, click to copy css");
   }
   function onInsScroll() { current = null; }
   document.addEventListener("click", copyCss, true);
-  insBtn.addEventListener("click", function () { setInspect(!inspecting); });
+  if (insBtn) insBtn.addEventListener("click", function () { setInspect(!inspecting); });
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();
