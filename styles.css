@@ -169,7 +169,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
 .nav.is-ready .nav__indicator {
   transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.4s ease;
 }
-.nav__link, .nav__theme { position: relative; z-index: 1; }
+.nav__link, .nav__theme, .nav__logo { position: relative; z-index: 1; }
 .nav__theme {
   width: 38px;
   height: 38px;
@@ -1558,3 +1558,19 @@ body.inspecting { user-select: none; }
   border-radius: 12px;
   background: var(--surface);
 }
+
+/* ============================================================
+   Brand mark: the pendant lamp
+   ============================================================ */
+.nav__logo {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 999px;
+  background: #fbfaf5;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav__logo img { display: block; width: 24px; height: 24px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.nav__logo:hover img { transform: translateY(-1px) scale(1.08); }
