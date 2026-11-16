@@ -1572,5 +1572,24 @@ body.inspecting { user-select: none; }
   background: #fbfaf5;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.nav__logo img { display: block; width: 24px; height: 24px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.nav__logo:hover img { transform: translateY(-1px) scale(1.08); }
+.pendant { display: block; width: 24px; height: 24px; overflow: visible; }
+.pendant__lamp {
+  transform-box: view-box;
+  transform-origin: 130px 2px;
+  animation: pendant-swing 6s ease-in-out infinite;
+}
+.pendant__pool { transform-box: view-box; transform-origin: 130px 275px; animation: pendant-pool 6s ease-in-out infinite; }
+.nav__logo:hover .pendant__lamp { animation: pendant-swing-wide 1.8s ease-in-out infinite; }
+.nav__logo:hover .pendant__pool { animation: pendant-pool-wide 1.8s ease-in-out infinite; }
+.nav__logo:hover .pendant__cone,
+.nav__logo:hover .pendant__bulb { animation: pendant-flicker 0.9s steps(1, end) 1; }
+@keyframes pendant-swing { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes pendant-swing-wide { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+@keyframes pendant-pool { 0%, 100% { transform: translateX(-7px); } 50% { transform: translateX(7px); } }
+@keyframes pendant-pool-wide { 0%, 100% { transform: translateX(-20px) scaleX(0.96); } 50% { transform: translateX(20px) scaleX(0.96); } }
+@keyframes pendant-flicker {
+  0% { opacity: 1; } 12% { opacity: 0.25; } 20% { opacity: 1; } 32% { opacity: 0.45; } 40% { opacity: 1; } 55% { opacity: 0.7; } 62% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pendant__lamp, .pendant__pool, .pendant__cone, .pendant__bulb { animation: none !important; }
+}
