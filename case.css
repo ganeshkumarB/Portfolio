@@ -58,7 +58,7 @@
 }
 .lbl--12 { font-size: 12px; }
 .lbl--10 { font-size: 10px; }
-.lbl--9 { font-size: 9px; }
+.lbl--9 { font-size: 10px; }
 .lbl--blue { color: var(--blue); }
 .lbl--sun { color: var(--sun); }
 .lbl--ink { color: var(--ink); }
