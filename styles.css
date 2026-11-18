@@ -1735,3 +1735,9 @@ body.inspecting .hero__hint { color: var(--blue); }
   .career__item { animation: none; opacity: 1; transform: none; }
   .career__fill, .career__dot { transition: none; }
 }
+
+/* Hiring links in Contact, and the availability pill as a link */
+.contact__hire { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 4px 0 8px; }
+.contact__hire-note { font-size: 12px; color: var(--muted); }
+a.availability { transition: border-color 0.2s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
