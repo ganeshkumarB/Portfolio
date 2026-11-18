@@ -283,7 +283,7 @@
   function deliverWelcome() {
     if (welcomed) return;
     welcomed = true; welcomedAt = Date.now(); unlocked = true;
-    var line = isCase ? pick(["Ooh, a case study. Good pick!", "Welcome! Let me show you around."]) : pick(["Hi! I'm Sunny. Welcome!", "Hello there! Welcome to Ganesh's portfolio.", "Hi! Great to see you."]);
+    var line = isCase ? caseLine() : pick(["Hi! I'm Sunny. Welcome!", "Hello there! Welcome to Ganesh's portfolio.", "Hi! Great to see you."]);
     stopAct(); act("wave");
     play("ding"); say(line);
   }
@@ -440,7 +440,7 @@
   function direct() {
     if (reduced || document.hidden || busy || asleep || root.classList.contains("is-carried") || root.hasAttribute("data-emotion")) return;
     var idleFor = Date.now() - lastInput;
-    if (idleFor > 40000) { act("sleep"); return; }
+    if (idleFor > 20000) { act("sleep"); return; }
     var what = weighted();
     if (what === "quip") say(pick(isCase ? CASE_QUIPS.concat(QUIPS) : QUIPS));
     else if (what === "glance") glance();
@@ -487,6 +487,7 @@
       stopAct();
       if (taps.length >= 3) { smileSound(); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
       else if (taps.length === 2) { smileSound(); emote("dizzy", 0, true); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else if ((tipTurn = !tipTurn)) { emote("wink"); say("Tip: " + pick(TIPS), 4200); }
       else { emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
@@ -553,6 +554,143 @@
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
+  /* ---------- Reactions: sections, visitor, site features, easter eggs ---------- */
+  var tipTurn = false;
+  var TIPS = [
+    "Spacing is 80% of good UI. Small gap means together, big gap means new topic. ☀",
+    "Pick one colour, make it light to dark, use it 60-30-10.",
+    "UI lives in the frame. UX lives in time.",
+    "You only need four buttons. Most files have nine.",
+    "Fix the tokens first and the components fix themselves.",
+    "Critique in order: goal, flow, hierarchy, component, pixel.",
+    "Ship ugly, ship often. One real project beats ten tutorials.",
+    "Related things closer, groups further apart. That is most of layout."
+  ];
+  var CASE_LINES = {
+    "zobot": "💬 Bots! My people. Scroll in.",
+    "design-system": "🧩 48 components and me. I'm the 49th.",
+    "operator-console": "🎧 Agent mode. Queue's calm today.",
+    "reports": "📋 Charts. Each one answers one question.",
+    "brand-configuration": "🎨 Brand day. Pick a colour, I'll wear it.",
+    "outbound": "📣 Outbound! Say it loud.",
+    "feedback": "⭐ Rate me. Five stars, I hope."
+  };
+  function caseLine() {
+    var m = location.pathname.match(/case-([a-z-]+)\.html/);
+    return (m && CASE_LINES[m[1]]) || "Oh, a case study. Good choice.";
+  }
+  var SECTIONS = {
+    work: { emotion: "curious", line: "Seven case studies. Open one, I'll peek over the edge." },
+    process: { act: "walk", line: "Tokens → components → code. I carry the chip to Ship.", then: { emotion: "proud", line: "Shipped. Zero drift." } },
+    story: { emotion: "shy", line: "That's him. I'm the sidekick." },
+    gallery: { emotion: "love", line: "Ooh, art. Click a piece and I'll hold the frame." },
+    writing: { act: "read", line: "Reading the carousels. Spacing is 80%, apparently." },
+    skills: { emotion: "proud", line: "skills.* All tokens, no fluff." },
+    contact: { act: "wave", line: "Say hi. He replies within a day." }
+  };
+  function wireReactions() {
+    var lastReact = 0;
+    function react(r) {
+      if (asleep || busy || Date.now() - lastReact < 2500) return;
+      lastReact = Date.now();
+      stopAct();
+      if (r.act) act(r.act); else if (r.emotion) emote(r.emotion);
+      if (r.line) say(r.line, 3200);
+      if (r.then) setTimeout(function () { if (!asleep) { emote(r.then.emotion); say(r.then.line, 2600); } }, 3600);
+    }
+
+    /* sections scrolling past (home page) */
+    if (!isCase && global.IntersectionObserver) {
+      var seen = {};
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var id = en.target.id;
+          if (en.isIntersecting && en.intersectionRatio >= 0.35 && !seen[id] && SECTIONS[id]) { seen[id] = true; react(SECTIONS[id]); }
+        });
+      }, { threshold: [0.35] });
+      Object.keys(SECTIONS).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+      /* opening a case card */
+      Array.prototype.forEach.call(document.querySelectorAll("details.case"), function (d) {
+        d.addEventListener("toggle", function () {
+          if (d.open) react({ emotion: "curious", line: pick(["Ooh, opening that one?", "Good pick. Every screen is recreated.", "Peeking over the edge…"]) });
+        });
+      });
+      /* hovering the email actions */
+      var excitedAt = 0;
+      Array.prototype.forEach.call(document.querySelectorAll("#emailLink, .hero__cta .btn--ghost, .cs-cta .btn-sun"), function (a) {
+        a.addEventListener("mouseenter", function () {
+          if (busy || Date.now() - excitedAt < 6000) return;
+          excitedAt = Date.now(); emote("excited", 1200); say(pick(["Yes! Do it.", "Go on, say hi.", "👍 He replies within a day."]), 2200);
+        });
+      });
+    }
+
+    /* scroll speed: run when fast, dizzy on quick back-and-forth */
+    var sLastY = global.scrollY, sLastT = 0, runTimer = 0, flips = [], dizzyAt = 0, lastDir = 0;
+    global.addEventListener("scroll", function () {
+      var now = performance.now(), y = global.scrollY;
+      if (sLastT) {
+        var v = (y - sLastY) / Math.max(8, now - sLastT), dir = v > 0 ? 1 : v < 0 ? -1 : 0;
+        if (Math.abs(v) > 0.9) { root.classList.add("is-running"); clearTimeout(runTimer); runTimer = setTimeout(function () { root.classList.remove("is-running"); }, 500); }
+        if (dir && lastDir && dir !== lastDir) {
+          flips.push(now); flips = flips.filter(function (t) { return now - t < 1500; });
+          if (flips.length >= 4 && now - dizzyAt > 5000) { dizzyAt = now; flips = []; stopAct(); emote("dizzy", 1600); say(pick(["Whoa. Slow down.", "Dizzy… which way is up?", "Pick a direction!"]), 1800); }
+        }
+        if (dir) lastDir = dir;
+      }
+      sLastY = y; sLastT = now;
+    }, { passive: true });
+
+    /* dark mode: night cap · inspect mode: glasses and self-measurement */
+    var isDark = function () { return document.documentElement.getAttribute("data-theme") === "dark"; };
+    root.classList.toggle("is-night", isDark());
+    if (global.MutationObserver) {
+      new MutationObserver(function () { root.classList.toggle("is-night", isDark()); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+      var wasInspecting = false;
+      new MutationObserver(function () {
+        var on = document.body.classList.contains("inspecting");
+        if (on && !wasInspecting) { stopAct(); emote("curious", 2000); say("Sunny · " + Math.round(charW) + " × " + Math.round(charW) + " · color/sun", 2600); }
+        wasInspecting = on;
+      }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    /* résumé download */
+    Array.prototype.forEach.call(document.querySelectorAll(".nav__resume"), function (a) {
+      a.addEventListener("click", function () { stopAct(); emote("proud", 1800); say("📄 Carrying your PDF… there, it's yours.", 2600); });
+    });
+
+    /* typing "sunny" */
+    var typed = "";
+    global.addEventListener("keydown", function (e) {
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable || e.key.length !== 1) return;
+      typed = (typed + e.key.toLowerCase()).slice(-5);
+      if (typed === "sunny") { typed = ""; stopAct(); act("dance"); say("You found me! ☀", 2400); sunRain(); }
+    });
+    function sunRain() {
+      var layer = document.createElement("div"); layer.className = "sun-rain"; layer.setAttribute("aria-hidden", "true");
+      for (var i = 0; i < 28; i++) {
+        var s = document.createElement("span");
+        s.textContent = "☀"; s.style.left = (Math.random() * 100) + "%";
+        s.style.animationDelay = (Math.random() * 0.9) + "s"; s.style.animationDuration = (2.2 + Math.random() * 1.4) + "s";
+        s.style.fontSize = (14 + Math.random() * 18) + "px";
+        layer.appendChild(s);
+      }
+      document.body.appendChild(layer);
+      setTimeout(function () { layer.remove(); }, 4200);
+    }
+
+    /* time of day */
+    var h = new Date().getHours();
+    if (h >= 17 && h < 21) root.classList.add("is-evening");
+    setTimeout(function () {
+      if (busy || asleep) return;
+      if (h >= 5 && h < 12) { emote("happy"); say("Good morning ☀", 2000); }
+      else if (h >= 12 && h < 17) { emote("cool", 2600); say("Afternoon. Shades on.", 2000); }
+      else if (h >= 17 && h < 21) { emote("happy"); say("Golden hour. My favourite.", 2200); }
+      else { emote("sleepy", 2600); say("Late one? Me too.", 2200); }
+    }, 4800);
+  }
+
   /* ---------- Boot ---------- */
   function init() {
     try { if (sessionStorage.getItem("sunny:nap")) return; } catch (e) { /* ignore */ }
@@ -563,8 +701,9 @@
       setTimeout(function () { root.classList.add("is-in"); }, 300);
       setTimeout(function () {
         if (soundOn) welcome();
-        if (!welcomed) { act("wave"); say(isCase ? "Oh, a case study. Good choice." : "Hi! I'm Sunny. I'll keep you company."); }
+        if (!welcomed) { act("wave"); say(isCase ? caseLine() : "Hi! I'm Sunny. I'll keep you company."); }
       }, 1100);
+      wireReactions();
       setInterval(direct, 5200);
     } else {
       root.classList.add("is-in", "is-static");

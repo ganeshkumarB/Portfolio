@@ -460,4 +460,15 @@ html.has-sunny body { padding-bottom: 150px; transition: padding-bottom 0.4s eas
 @media (prefers-reduced-motion: reduce) {
   .sunny__svg *, .sunny__char, .s-char { animation: none !important; transition: none !important; }
   .sunny.is-in .sunny__char { transform: none; opacity: 1; }
+  .sun-rain { display: none; }
 }
+
+/* ---------- reactions: night cap, inspector glasses, running, evening, sun rain ---------- */
+.sunny.is-night .s-cap { opacity: 1; }
+body.inspecting .sunny .s-glasses { opacity: 1; }
+.sunny.is-running .s-char { animation: su-run 0.22s ease-in-out infinite; }
+@keyframes su-run { 0%, 100% { transform: translateY(0) scaleX(1); } 50% { transform: translateY(-9px) scaleX(1.04); } }
+.sunny.is-evening .sunny__svg { filter: hue-rotate(-14deg) saturate(1.12); }
+.sun-rain { position: fixed; inset: 0; z-index: 94; pointer-events: none; overflow: hidden; }
+.sun-rain span { position: absolute; top: -40px; color: #ffc93c; text-shadow: 0 1px 0 #15161a; animation: sun-fall 2.6s linear forwards; }
+@keyframes sun-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 8% { opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; } }
