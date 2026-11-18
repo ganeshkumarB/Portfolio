@@ -777,11 +777,12 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
 .contact__footer {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 8px 24px;
   padding-top: 40px;
   font-size: 13px;
   color: var(--muted);
-  white-space: nowrap;
 }
 .contact__footer .mono { font-size: 12px; }
 
