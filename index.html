@@ -18,13 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261126" />
+  <link rel="stylesheet" href="styles.css?v=20261127" />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261126" />
-  <link rel="stylesheet" href="sunny.css?v=20261126" />
+  <link rel="stylesheet" href="mascots.css?v=20261127" />
+  <link rel="stylesheet" href="sunny.css?v=20261127" />
 </head>
 <body>
 
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="bridge__footer">One component, both sides of the bridge. The same tokens drive each.</div>
-        <button type="button" class="hero__hint mono" id="inspectHint" title="Turn on inspect mode"><span class="hero__hint-dot" aria-hidden="true"></span>press <kbd>I</kbd> to inspect any component on this page · <kbd>G</kbd> for the grid</button>
+        <button type="button" class="hero__hint mono" id="inspectHint" title="Turn on inspect mode"><span class="hero__hint-dot" aria-hidden="true"></span>press <kbd>I</kbd> to inspect any component on this page · <kbd>G</kbd> for the grid · <kbd>?</kbd> all shortcuts</button>
       </aside>
     </div>
   </header>
@@ -581,6 +581,34 @@
   </div>
   <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
 
+  <div class="keys" id="keys" role="dialog" aria-modal="true" aria-labelledby="keysTitle" hidden>
+    <div class="keys__card">
+      <div class="keys__head">
+        <span class="keys__title" id="keysTitle">Keyboard shortcuts</span>
+        <button type="button" class="keys__close" aria-label="Close shortcuts">×</button>
+      </div>
+      <dl class="keys__group">
+        <div class="keys__label">Anywhere</div>
+        <div class="keys__row"><dt><kbd>?</kbd></dt><dd>Show or hide this list</dd></div>
+        <div class="keys__row"><dt><kbd>I</kbd></dt><dd>Inspect components: names, tokens and their Figma counterpart</dd></div>
+        <div class="keys__row"><dt><kbd>G</kbd></dt><dd>Toggle the 12-column layout grid</dd></div>
+        <div class="keys__row"><dt><kbd>T</kbd></dt><dd>Switch light and dark mode</dd></div>
+        <div class="keys__row"><dt><kbd>Esc</kbd></dt><dd>Close whatever is open</dd></div>
+      </dl>
+      <dl class="keys__group">
+        <div class="keys__label">While inspecting</div>
+        <div class="keys__row"><dt><kbd>click</kbd></dt><dd>Pin a component, click again to release</dd></div>
+        <div class="keys__row"><dt><kbd>C</kbd></dt><dd>Copy the CSS of the pinned or hovered layer</dd></div>
+      </dl>
+      <dl class="keys__group">
+        <div class="keys__label">Gallery and career map</div>
+        <div class="keys__row"><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Previous or next piece, previous or next year</dd></div>
+        <div class="keys__row"><dt><kbd>Home</kbd><kbd>End</kbd></dt><dd>First or last year on the career map</dd></div>
+      </dl>
+      <p class="keys__foot mono">Shortcuts pause while you type in a field.</p>
+    </div>
+  </div>
+
   <div class="ins" id="inspect" hidden aria-hidden="true">
     <div class="ins__parent"></div>
     <div class="ins__m ins__m--t"></div><span class="ins__m-label ins__m-label--t"></span>
@@ -597,7 +625,7 @@
         <div class="ins__comp-path" id="insCompPath"></div>
       </div>
       <div id="insRows"></div>
-      <div class="ins__hint"><kbd>click</kbd> pin component · <kbd>C</kbd> copy css · <kbd>G</kbd> grid · <kbd>Esc</kbd> exit</div>
+      <div class="ins__hint"><kbd>click</kbd> pin component · <kbd>C</kbd> copy css · <kbd>G</kbd> grid · <kbd>Esc</kbd> exit · <kbd>?</kbd> all shortcuts</div>
     </div>
   </div>
   <div class="layout-grid" id="layoutGrid" hidden aria-hidden="true">
@@ -605,9 +633,9 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261126"></script>
-  <script src="creative.js?v=20261126"></script>
-  <script src="mascots.js?v=20261126"></script>
-  <script src="sunny.js?v=20261126"></script>
+  <script src="script.js?v=20261127"></script>
+  <script src="creative.js?v=20261127"></script>
+  <script src="mascots.js?v=20261127"></script>
+  <script src="sunny.js?v=20261127"></script>
 </body>
 </html>

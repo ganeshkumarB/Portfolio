@@ -1741,3 +1741,57 @@ body.inspecting .hero__hint { color: var(--blue); }
 .contact__hire-note { font-size: 12px; color: var(--muted); }
 a.availability { transition: border-color 0.2s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
 a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+/* ============================================================
+   Keyboard shortcuts overlay (?)
+   ============================================================ */
+.keys {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 16, 19, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.keys[hidden] { display: none; }
+.keys.is-open { opacity: 1; }
+.keys__card {
+  width: min(520px, 100%);
+  padding: 22px 24px 18px;
+  border-radius: 18px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.6);
+  transform: translateY(10px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.keys.is-open .keys__card { transform: none; }
+.keys__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+.keys__title { font-family: var(--font-serif); font-size: 26px; line-height: 1; font-variation-settings: "SOFT" 0, "WONK" 1; }
+.keys__close { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer; }
+.keys__close:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.keys__group { margin: 0; padding: 10px 0; border-top: 1px solid var(--line); }
+.keys__group:first-of-type { border-top: 0; padding-top: 0; }
+.keys__label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.keys__row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 5px 0; font-size: 14px; }
+.keys__row dd { margin: 0; color: var(--body); }
+.keys__row dt { display: flex; gap: 4px; flex: none; }
+.keys kbd {
+  min-width: 26px;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 12px/1.5 var(--font-mono);
+  text-align: center;
+}
+.keys__foot { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+@media (hover: none) { .hero__hint-keys { display: none; } }

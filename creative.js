@@ -272,11 +272,27 @@
   if (insBtn) insBtn.addEventListener("click", function () { setInspect(!inspecting); });
   var insHint = $("#inspectHint");
   if (insHint) insHint.addEventListener("click", function () { setInspect(!inspecting); });
+  /* Keyboard shortcuts overlay (?) */
+  var keys = $("#keys"), keysOpen = false;
+  function setKeys(on) {
+    if (!keys) return;
+    keysOpen = on;
+    if (on) { keys.hidden = false; requestAnimationFrame(function () { keys.classList.add("is-open"); }); $(".keys__close", keys).focus(); }
+    else { keys.classList.remove("is-open"); setTimeout(function () { keys.hidden = true; }, 220); }
+  }
+  if (keys) {
+    $(".keys__close", keys).addEventListener("click", function () { setKeys(false); });
+    keys.addEventListener("click", function (e) { if (e.target === keys) setKeys(false); });
+    $$("[data-keys-open]").forEach(function (b) { b.addEventListener("click", function () { setKeys(true); }); });
+  }
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();
+    if (e.key === "?") { e.preventDefault(); setKeys(!keysOpen); return; }
+    if (k === "escape" && keysOpen) { setKeys(false); return; }
     if (k === "i") setInspect(!inspecting);
     else if (k === "g") grid.hidden = !grid.hidden;
+    else if (k === "t") { var tb = $("#themeToggle"); if (tb) tb.click(); }
     else if (k === "c" && inspecting) copyCss();
     else if (k === "escape" && inspecting) { if (pinned) unpin(); else setInspect(false); }
   });
