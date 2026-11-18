@@ -250,7 +250,7 @@
   }
   function onInspectClick(e) {
     if (!inspecting) return;
-    if (e.target.closest("#inspectToggle, .nav__theme, .nav__pill, .ins__panel")) return;
+    if (e.target.closest("#inspectToggle, #inspectHint, .nav__theme, .nav__pill, .ins__panel")) return;
     e.preventDefault(); e.stopPropagation();
     if (pinned) { unpin(); pick(e); return; }
     var el = document.elementFromPoint(e.clientX, e.clientY);
@@ -269,6 +269,8 @@
   function onInsScroll() { if (pinned) unpin(); current = null; }
   document.addEventListener("click", onInspectClick, true);
   if (insBtn) insBtn.addEventListener("click", function () { setInspect(!inspecting); });
+  var insHint = $("#inspectHint");
+  if (insHint) insHint.addEventListener("click", function () { setInspect(!inspecting); });
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();
