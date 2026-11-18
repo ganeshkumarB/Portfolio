@@ -515,4 +515,104 @@
     if (navigator.clipboard) navigator.clipboard.writeText(emailText).then(done, done);
     else done();
   });
+
+  /* ============================================================
+     Career map: click a year, see what shipped
+     ============================================================ */
+  var SENIOR = "Senior Product Designer (Visual & Systems), Zoho SalesIQ";
+  var VISUAL = "Visual Designer, Zoho SalesIQ";
+  var CAREER = {
+    "2017": { chip: "education", role: "BCA, Computer Applications", items: [
+      { t: "Kongu Arts and Science College, Bharathiar University", d: "Three years of computer applications. The design habit started on the side." }
+    ] },
+    "2018": { chip: "joined zoho", role: "Visual Designer intern → Visual Designer, Zoho SalesIQ", items: [
+      { t: "Joined Zoho as a design intern", d: "Moved onto SalesIQ the same year and have designed it ever since." },
+      { t: "Zobot, the no-code chatbot builder", d: "Sole designer from the first canvas sketches. Website at launch, seven channels today.", href: "case-zobot.html" }
+    ] },
+    "2019": { chip: "visual designer", role: VISUAL, items: [
+      { t: "Zobot ships in SalesIQ 2.0", d: "The drag-and-drop builder goes live for every SalesIQ customer.", href: "case-zobot.html" }
+    ] },
+    "2020": { chip: "visual designer", role: VISUAL, items: [
+      { t: "Reports and analytics revamp", d: "One place to read engagement, support, bots, outbound and live activity. Shipped as Reports 2.0.", href: "case-reports.html" }
+    ] },
+    "2021": { chip: "visual designer", role: VISUAL, items: [
+      { t: "Brand configuration, rebuilt as self-service", d: "Shared settings set once, every channel on its own card.", href: "case-brand-configuration.html" },
+      { t: "Proactive Chat across channels", d: "Triggers and messages that reach visitors before they ask." }
+    ] },
+    "2022": { chip: "visual designer", role: VISUAL, items: [
+      { t: "Outbound broadcast and push campaigns", d: "Write once, choose who gets it, schedule it, see how it went. WhatsApp, web and mobile.", href: "case-outbound.html" }
+    ] },
+    "2023": { chip: "visual designer", role: VISUAL, items: [
+      { t: "Survey, Rating and Feedback", d: "Faces, stars or yes/no at the end of a chat, with a different reply for every rating.", href: "case-feedback.html" },
+      { t: "User-education videos", d: "SalesIQ videos shown at Zoholics, partner events and meetups." }
+    ] },
+    "2024": { chip: "promoted", role: SENIOR, items: [
+      { t: "Senior Product Designer", d: "Visual and systems: owning how SalesIQ looks and how it gets built." },
+      { t: "SalesIQ design system", d: "48+ components on one set of tokens, with light and dark modes.", href: "case-design-system.html" },
+      { t: "Operator Console redesign", d: "Queue, conversation and visitor details in one calm view.", href: "case-operator-console.html" }
+    ] },
+    "2025": { chip: "design systems", role: SENIOR, items: [
+      { t: "Code Connect for every component", d: "Each Figma component mapped to its real code, so Dev Mode shows the truth.", href: "case-design-system.html" },
+      { t: "Figma MCP + Claude workflow", d: "Agents read the mappings and generate production components. The system ships twice: Figma library and code.", href: "case-design-system.html" }
+    ] },
+    "2026": { chip: "now", role: SENIOR, items: [
+      { t: "Portfolio v2 and the pendant mark", d: "This site: designed by me, built with Claude in HTML, CSS and a little JavaScript." },
+      { t: "Writing on LinkedIn", d: "Carousels on UI fundamentals, UX and design systems. One screen, one idea.", href: "#writing" },
+      { t: "Open to lead product design roles", d: "Design systems, design tooling and where AI fits in a designer's workflow.", href: "#contact" }
+    ] }
+  };
+  var careerEl = $("#career");
+  if (careerEl) {
+    var yearBtns = $$(".career__year", careerEl);
+    var careerTrack = $(".career__track", careerEl), careerLine = $(".career__line", careerEl), careerFill = $("#careerFill");
+    var cYear = $("#careerYear"), cRole = $("#careerRole"), cChip = $("#careerChip"), cItems = $("#careerItems");
+    var careerLabels = { "2017": "’14–17" };
+    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+    function selectedIndex() {
+      for (var i = 0; i < yearBtns.length; i++) if (yearBtns[i].getAttribute("aria-selected") === "true") return i;
+      return yearBtns.length - 1;
+    }
+    function placeFill() {
+      var i = selectedIndex();
+      var dot = $(".career__dot", yearBtns[i]).getBoundingClientRect();
+      var line = careerLine.getBoundingClientRect();
+      careerFill.style.width = Math.max(0, dot.left + dot.width / 2 - line.left) + "px";
+    }
+    function selectYear(year, focus) {
+      var data = CAREER[year];
+      if (!data) return;
+      var idx = 0;
+      yearBtns.forEach(function (b, i) {
+        var on = b.getAttribute("data-year") === String(year);
+        b.setAttribute("aria-selected", String(on));
+        b.setAttribute("tabindex", on ? "0" : "-1");
+        if (on) idx = i;
+      });
+      yearBtns.forEach(function (b, i) { b.classList.toggle("is-past", i < idx); });
+      placeFill();
+      cYear.textContent = careerLabels[year] || year;
+      cRole.textContent = data.role;
+      cChip.textContent = data.chip;
+      cItems.innerHTML = data.items.map(function (it, i) {
+        var link = it.href ? '<a href="' + it.href + '">' + (it.href.charAt(0) === "#" ? "Jump to section" : "Read the case study") + " →</a>" : "";
+        return '<li class="career__item" style="--i:' + i + '"><b>' + esc(it.t) + "</b><span>" + esc(it.d) + "</span>" + link + "</li>";
+      }).join("");
+      if (focus) yearBtns[idx].focus();
+    }
+    yearBtns.forEach(function (b) {
+      b.addEventListener("click", function () { selectYear(b.getAttribute("data-year"), false); });
+    });
+    careerTrack.addEventListener("keydown", function (e) {
+      var cur = selectedIndex(), next = null;
+      if (e.key === "ArrowRight") next = Math.min(yearBtns.length - 1, cur + 1);
+      else if (e.key === "ArrowLeft") next = Math.max(0, cur - 1);
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = yearBtns.length - 1;
+      if (next === null) return;
+      e.preventDefault();
+      selectYear(yearBtns[next].getAttribute("data-year"), true);
+    });
+    window.addEventListener("resize", placeFill);
+    selectYear("2026", false);
+  }
 })();

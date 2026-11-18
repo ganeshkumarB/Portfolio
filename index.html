@@ -18,13 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261124" />
+  <link rel="stylesheet" href="styles.css?v=20261125" />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261124" />
-  <link rel="stylesheet" href="sunny.css?v=20261124" />
+  <link rel="stylesheet" href="mascots.css?v=20261125" />
+  <link rel="stylesheet" href="sunny.css?v=20261125" />
 </head>
 <body>
 
@@ -304,35 +304,32 @@
       <h2 class="section__title">Story</h2>
       <p class="story__quote">The best compliment my work gets is when a non-technical user sets something up without asking for help.</p>
       <p class="story__text">I joined Zoho as an intern in 2018 and have designed SalesIQ ever since: research, UX, visual design and the design system that keeps it consistent. Lately I'm obsessed with the layer between design and code. My day-to-day is Figma variables, design tokens and Code Connect, and I'm building AI-assisted workflows with Claude and Figma MCP that generate a design system twice: once as a Figma library, once as production components. Outside the product I make user-education videos for SalesIQ shown at Zoholics, partner events and meetups.</p>
-      <ul class="timeline">
-        <li class="timeline__row">
-          <span class="mono timeline__when">2024 — now</span>
-          <span class="timeline__what">
-            <span class="timeline__role">Senior Product Designer (Visual &amp; Systems), Zoho SalesIQ</span>
-            <span class="timeline__note">Design system owner, Figma MCP and Code Connect, Operator Console</span>
-          </span>
-        </li>
-        <li class="timeline__row">
-          <span class="mono timeline__when">2018 — 2024</span>
-          <span class="timeline__what">
-            <span class="timeline__role">Visual Designer, Zoho SalesIQ</span>
-            <span class="timeline__note">Zobot, Reports, Proactive Chat, Brand, Outbound, Push, Feedback</span>
-          </span>
-        </li>
-        <li class="timeline__row">
-          <span class="mono timeline__when">2018</span>
-          <span class="timeline__what">
-            <span class="timeline__role">Visual Designer intern, Zoho</span>
-          </span>
-        </li>
-        <li class="timeline__row">
-          <span class="mono timeline__when">2014 — 2017</span>
-          <span class="timeline__what">
-            <span class="timeline__role">BCA, Computer Applications</span>
-            <span class="timeline__note">Kongu Arts and Science College, Bharathiar University</span>
-          </span>
-        </li>
-      </ul>
+      <div class="career" id="career" data-layer="Career map">
+        <div class="career__head">
+          <span class="mono career__kicker">career/&nbsp;&nbsp;· intern to senior designer&nbsp;&nbsp;· click a year</span>
+          <span class="mono career__keys" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd></span>
+        </div>
+        <div class="career__track" role="tablist" aria-label="Career years">
+          <span class="career__line" aria-hidden="true"><span class="career__fill" id="careerFill"></span></span>
+          <button type="button" class="career__year" role="tab" data-year="2017" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">’14–17</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2018" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2018</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2019" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2019</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2020" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2020</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2021" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2021</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2022" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2022</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2023" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2023</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2024" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2024</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2025" aria-selected="false" aria-controls="careerPanel" tabindex="-1"><span class="career__dot"></span><span class="mono career__lbl">2025</span></button>
+          <button type="button" class="career__year" role="tab" data-year="2026" aria-selected="true" aria-controls="careerPanel" tabindex="0"><span class="career__dot"></span><span class="mono career__lbl">2026</span></button>
+        </div>
+        <div class="career__panel" role="tabpanel" id="careerPanel" aria-live="polite">
+          <div class="career__meta">
+            <span class="career__big" id="careerYear">2026</span>
+            <span class="career__role"><span class="mono career__chip" id="careerChip">now</span><span id="careerRole">Senior Product Designer (Visual &amp; Systems), Zoho SalesIQ</span></span>
+          </div>
+          <ul class="career__items" id="careerItems"></ul>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -603,9 +600,9 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261124"></script>
-  <script src="creative.js?v=20261124"></script>
-  <script src="mascots.js?v=20261124"></script>
-  <script src="sunny.js?v=20261124"></script>
+  <script src="script.js?v=20261125"></script>
+  <script src="creative.js?v=20261125"></script>
+  <script src="mascots.js?v=20261125"></script>
+  <script src="sunny.js?v=20261125"></script>
 </body>
 </html>
