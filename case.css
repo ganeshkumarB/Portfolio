@@ -899,3 +899,17 @@ a.lbl:hover { color: var(--ink); }
 /* --- Cover band between hero and visual --- */
 .cs-cover { padding: 0 var(--gutter) 32px; }
 .cs-cover__img { display: block; width: 100%; height: auto; border-radius: 16px; }
+
+/* --- Step-by-step reveal inside sections --- */
+.js [data-reveal="step"] { transform: translateY(18px) scale(0.98); transition-duration: 0.6s, 0.8s; }
+.js .nrow[data-reveal="step"] { transform: translateX(-18px); }
+.js .arrow[data-reveal="step"] { transform: translateX(-10px); }
+.js [data-reveal="step"].is-in { transform: none; }
+.js .cs-step[data-reveal] > .lbl,
+.js .nrow[data-reveal] > .n {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.3s ease calc(var(--d, 0ms) + 0.3s), transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--d, 0ms) + 0.3s);
+}
+.js .cs-step.is-in > .lbl,
+.js .nrow.is-in > .n { opacity: 1; transform: none; }

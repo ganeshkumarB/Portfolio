@@ -224,6 +224,7 @@
     [".fact", 80],
     [".work__list", 0],
     [".pipeline", 0],
+    [".step", 120],
     [".story__portrait", 0],
     [".story__copy > *", 90],
     [".piece", 60],
@@ -242,6 +243,10 @@
       el.setAttribute("data-reveal", el.classList.contains("piece") ? "scale" : "");
       el.style.setProperty("--d", (i % 8) * t[1] + "ms");
     });
+  });
+  $$(".pipeline__arrow").forEach(function (el, i) {
+    el.setAttribute("data-reveal", "");
+    el.style.setProperty("--d", (i * 120 + 70) + "ms");
   });
 
   function countUp(el) {

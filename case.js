@@ -49,6 +49,14 @@
   /* Reveal */
   var targets = $$(".cs-hero > *, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-section, .cs-next");
   targets.forEach(function (el, i) { el.setAttribute("data-reveal", ""); el.style.setProperty("--d", (i % 4) * 60 + "ms"); });
+  /* Steps, tiles, cards and decision rows come in one by one, staggered by their position in the row */
+  var steps = $$(".cs-steps > *, .row--arrows > *, .nrows > .nrow, .g > .tile, .g > .card, .branches-v > .branch");
+  steps.forEach(function (el) {
+    var i = Array.prototype.indexOf.call(el.parentElement.children, el);
+    el.setAttribute("data-reveal", "step");
+    el.style.setProperty("--d", Math.min(i, 9) * 110 + "ms");
+  });
+  targets = targets.concat(steps);
   if ("IntersectionObserver" in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
