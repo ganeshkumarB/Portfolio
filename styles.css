@@ -1532,9 +1532,7 @@ body.inspecting { user-select: none; }
 .contact__links a.icon-link:hover, .icon-link:focus-visible { color: var(--bg); background: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
 
 /* Contact: phone row under mailto */
-.contact__tel { margin-top: -12px; }
 .contact__link--sm { font-size: 26px; line-height: 1.3; border-bottom-width: 1px; }
-.contact__tel .contact__prompt { font-size: 15px; }
 
 /* Inline highlight (name, years) */
 .hl {
