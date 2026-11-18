@@ -61,8 +61,10 @@
     if (el.dataset.layer) return el.dataset.layer;
     var cls = Array.prototype.find.call(el.classList, function (c) { return !/^(is-|mono|w$|w--)/.test(c); });
     if (!cls) return el.tagName.toLowerCase();
+    var aliases = { btn: "Button", cta: "CTA", ig: "Instagram", nav: "Nav", cs: "Case study" };
     return cls.split("__").map(function (p) {
-      return p.split("--")[0].replace(/-/g, " ").replace(/^\w/, function (m) { return m.toUpperCase(); });
+      var base = p.split("--")[0];
+      return aliases[base] || base.replace(/-/g, " ").replace(/^\w/, function (m) { return m.toUpperCase(); });
     }).join(" / ") + (cls.indexOf("--") > -1 ? " · " + cls.split("--")[1] : "");
   }
   function describe(el) {
@@ -97,7 +99,65 @@
   var m = { t: $(".ins__m--t", ins), b: $(".ins__m--b", ins), l: $(".ins__m--l", ins), r: $(".ins__m--r", ins) };
   var ml = { t: $(".ins__m-label--t", ins), b: $(".ins__m-label--b", ins), l: $(".ins__m-label--l", ins), r: $(".ins__m-label--r", ins) };
   var insName = $("#insName"), insSize = $("#insSize"), insRows = $("#insRows");
-  var inspecting = false, current = null, currentRows = [];
+  var insComp = $("#insComp"), insCompName = $("#insCompName"), insCompFig = $("#insCompFig"), insCompPath = $("#insCompPath");
+  var inspecting = false, current = null, currentRows = [], pinned = null;
+
+  /* Component registry: site element -> name + Figma counterpart (30-days file) */
+  var FIGMA = "https://www.figma.com/design/ju6DxHGCd699J8mAi2yc7h/30-days?node-id=";
+  var components = [
+    { sel: ".nav__resume", name: "Nav / Résumé button", figma: "Résumé button=Progress fill", node: "856-183" },
+    { sel: ".nav__brand", name: "Brand / Pendant lockup", figma: "Spotlight=Pendant", node: "851-4653" },
+    { sel: ".nav__theme", name: "Nav / Theme toggle", figma: "Nav pill / Theme", node: "851-4657" },
+    { sel: ".availability", name: "Hero / Availability pill", figma: "Hero / Availability", node: "851-4673" },
+    { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Hero / CTA / Primary", node: "851-4678" },
+    { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Hero / CTA / Ghost", node: "851-4678" },
+    { sel: ".bridge", name: "Hero / Canvas | Code card", figma: "Canvas | Code card", node: "851-4685" },
+    { sel: ".fact", name: "Facts / Fact", figma: "Facts / row / Fact", node: "851-4714" },
+    { sel: ".case__cta", name: "Button / Primary · small", figma: "Work / Case / CTA", node: "851-4734" },
+    { sel: ".case", name: "Work / Case card", figma: "Work / list / Case", node: "851-4734" },
+    { sel: ".step", name: "Process / Step", figma: "Process / pipeline / Step", node: "851-4826" },
+    { sel: ".story__portrait", name: "Story / Portrait", figma: "Story / Portrait placeholder", node: "851-4856" },
+    { sel: ".timeline__row", name: "Story / Timeline row", figma: "Story / Timeline / Row", node: "851-4856" },
+    { sel: ".piece", name: "Gallery / Piece", figma: "Illustration gallery / grid / Piece", node: "851-4888" },
+    { sel: ".gallery__more .btn", name: "Button / Ghost", figma: "Illustration gallery / more", node: "851-4888" },
+    { sel: ".featured", name: "Writing / Featured post", figma: "Writing / Open post", node: "851-5026" },
+    { sel: ".post", name: "Writing / Post row", figma: "Writing / Post list / Post", node: "851-5026" },
+    { sel: ".group", name: "Skills / Token group", figma: "Skills / groups / Group", node: "851-5096" },
+    { sel: ".icon-link", name: "Contact / Icon link", figma: "Contact / links / Icon", node: "851-5164" },
+    { sel: ".contact__link", name: "Contact / Link", figma: "Contact / mailto / link", node: "851-5164" },
+    { sel: ".btn--primary", name: "Button / Primary", figma: "Button / Primary", node: "851-4678" },
+    { sel: ".btn--ghost", name: "Button / Ghost", figma: "Button / Ghost", node: "851-4678" }
+  ];
+  function componentFor(el) {
+    var node = el;
+    while (node && node !== document.body) {
+      for (var i = 0; i < components.length; i++) {
+        if (node.matches(components[i].sel)) return { el: node, def: components[i] };
+      }
+      node = node.parentElement;
+    }
+    return null;
+  }
+  function pathTo(comp, el) {
+    var parts = [];
+    var node = el;
+    while (node && node !== comp.el) { parts.unshift(layerName(node)); node = node.parentElement; }
+    return parts.join(" / ");
+  }
+  function renderComponent(comp, el) {
+    if (!comp) { insComp.hidden = true; return; }
+    insComp.hidden = false;
+    insCompName.textContent = comp.def.name;
+    insCompFig.textContent = comp.def.figma + " ↗";
+    insCompFig.href = FIGMA + comp.def.node;
+    var inner = comp.el === el ? "" : pathTo(comp, el);
+    insCompPath.textContent = inner ? "layer · " + inner : "component root";
+  }
+  function renderRows(rows) {
+    insRows.innerHTML = rows.map(function (row) {
+      return '<div class="ins__row"><b>' + row.k + '</b><i>' + (row.sw ? '<span class="ins__sw" style="background:' + row.sw + '"></span>' : "") + row.v + "</i></div>";
+    }).join("");
+  }
 
   function place(el, x, y, w, h) {
     el.style.left = x + "px"; el.style.top = y + "px";
@@ -114,6 +174,7 @@
     ml[key].style.top = ((y1 + y2) / 2) + "px";
   }
   function pick(e) {
+    if (pinned) return;
     var el = document.elementFromPoint(e.clientX, e.clientY);
     if (!el || el === current) return;
     if (el === document.body || el === document.documentElement || el.closest(".ins, .nav__pill, .toast, .token-diff")) return;
@@ -144,19 +205,57 @@
     insName.textContent = layerName(el);
     insSize.textContent = Math.round(r.width) + " × " + Math.round(r.height);
     currentRows = describe(el);
-    insRows.innerHTML = currentRows.map(function (row) {
-      return '<div class="ins__row"><b>' + row.k + '</b><i>' + (row.sw ? '<span class="ins__sw" style="background:' + row.sw + '"></span>' : "") + row.v + "</i></div>";
-    }).join("");
+    renderRows(currentRows);
+    renderComponent(componentFor(el), el);
   }
-  function copyCss(e) {
-    if (!inspecting) return;
-    if (e.target.closest("#inspectToggle, .nav__theme")) return;
-    e.preventDefault(); e.stopPropagation();
-    if (!current) return;
-    var sel = current.classList.length ? "." + current.classList[0] : current.tagName.toLowerCase();
+  /* Click a component to pin it: the panel locks on the component root,
+     with its token names, spacing and Figma counterpart. */
+  function pin(comp) {
+    pinned = comp.el;
+    ins.classList.add("is-pinned");
+    current = null;
+    var r = pinned.getBoundingClientRect();
+    place(box, r.left, r.top, r.width, r.height);
+    dim.textContent = Math.round(r.width) + " × " + Math.round(r.height);
+    dim.style.left = (r.left + r.width / 2) + "px";
+    dim.style.top = r.bottom + "px";
+    parentBox.style.opacity = 0;
+    var cs = getComputedStyle(pinned);
+    var pt = parseFloat(cs.paddingTop), pb = parseFloat(cs.paddingBottom), pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    measure("t", cx, r.top, cx, r.top + pt, pt);
+    measure("b", cx, r.bottom - pb, cx, r.bottom, pb);
+    measure("l", r.left, cy, r.left + pl, cy, pl);
+    measure("r", r.right - pr, cy, r.right, cy, pr);
+    insName.textContent = comp.def.name;
+    insSize.textContent = Math.round(r.width) + " × " + Math.round(r.height);
+    currentRows = describe(pinned);
+    renderRows(currentRows);
+    renderComponent(comp, pinned);
+    insCompPath.textContent = "pinned · click again to release";
+    toast("pinned " + comp.def.name);
+  }
+  function unpin() {
+    pinned = null;
+    ins.classList.remove("is-pinned");
+    current = null;
+  }
+  function copyCss() {
+    var target = pinned || current;
+    if (!target) return;
+    var sel = target.classList.length ? "." + target.classList[0] : target.tagName.toLowerCase();
     var css = sel + " {\n" + currentRows.map(function (r) { return "  " + r.css + ";"; }).join("\n") + "\n}";
     var done = function () { toast("✓ " + sel + " css copied"); };
     if (navigator.clipboard) navigator.clipboard.writeText(css).then(done, done); else done();
+  }
+  function onInspectClick(e) {
+    if (!inspecting) return;
+    if (e.target.closest("#inspectToggle, .nav__theme, .nav__pill, .ins__panel")) return;
+    e.preventDefault(); e.stopPropagation();
+    if (pinned) { unpin(); pick(e); return; }
+    var el = document.elementFromPoint(e.clientX, e.clientY);
+    var comp = el && componentFor(el);
+    if (comp) pin(comp); else toast("not a registered component · press C to copy css");
   }
   function setInspect(on) {
     inspecting = on;
@@ -164,18 +263,19 @@
     ins.hidden = !on;
     if (insBtn) insBtn.setAttribute("aria-pressed", String(on));
     if (on) { document.addEventListener("mousemove", pick); window.addEventListener("scroll", onInsScroll, { passive: true }); }
-    else { document.removeEventListener("mousemove", pick); window.removeEventListener("scroll", onInsScroll); current = null; }
-    if (on) toast("inspect mode · hover layers, click to copy css");
+    else { document.removeEventListener("mousemove", pick); window.removeEventListener("scroll", onInsScroll); unpin(); insComp.hidden = true; }
+    if (on) toast("inspect mode · hover layers, click a component to pin it");
   }
-  function onInsScroll() { current = null; }
-  document.addEventListener("click", copyCss, true);
+  function onInsScroll() { if (pinned) unpin(); current = null; }
+  document.addEventListener("click", onInspectClick, true);
   if (insBtn) insBtn.addEventListener("click", function () { setInspect(!inspecting); });
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();
     if (k === "i") setInspect(!inspecting);
     else if (k === "g") grid.hidden = !grid.hidden;
-    else if (k === "escape" && inspecting) setInspect(false);
+    else if (k === "c" && inspecting) copyCss();
+    else if (k === "escape" && inspecting) { if (pinned) unpin(); else setInspect(false); }
   });
 
   /* ============================================================

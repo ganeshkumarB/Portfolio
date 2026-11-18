@@ -1315,6 +1315,16 @@ body.inspecting { user-select: none; }
 .ins__row b { font-weight: 500; color: var(--blue); white-space: nowrap; }
 .ins__row i { font-style: normal; color: #9a9ea8; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ins__sw { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 2px; vertical-align: -1px; }
+.ins__comp { margin: 0 0 8px; padding: 8px 10px; border-radius: 8px; background: #1a1c22; border: 1px solid #2a2d36; }
+.ins__comp[hidden] { display: none; }
+.ins__comp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: #fff; font-size: 12px; }
+.ins__comp-tag { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #a78bfa; }
+.ins__comp a { color: #d7dae0; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 2px; }
+.ins__comp a:hover { color: #fff; text-decoration-color: #fff; }
+.ins__comp-path { color: #6b6f78; font-size: 10px; }
+.ins.is-pinned .ins__panel { pointer-events: auto; }
+.ins.is-pinned .ins__box { border-width: 2px; border-color: #a78bfa; background: rgba(167, 139, 250, 0.08); }
+.ins.is-pinned .ins__dim { background: #a78bfa; }
 .ins__hint { margin-top: 10px; padding-top: 8px; border-top: 1px solid #262830; color: #6b6f78; }
 .ins__hint kbd { padding: 0 4px; border: 1px solid #3a3d45; border-radius: 4px; color: #d7dae0; font: inherit; }
 
