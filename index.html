@@ -17,16 +17,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/fraunces-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261158" />
-  <link rel="stylesheet" href="styles.css?v=20261158" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261159" />
+  <link rel="stylesheet" href="styles.css?v=20261159" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261158" />
-  <link rel="stylesheet" href="sunny.css?v=20261158" />
+  <link rel="stylesheet" href="mascots.css?v=20261159" />
+  <link rel="stylesheet" href="sunny.css?v=20261159" />
 </head>
 <body>
 
@@ -605,6 +605,7 @@
         <h3 class="sunny-can__title">What Sunny can do</h3>
         <p class="sunny-can__intro">100% SVG and a little JavaScript, drawn in Figma. It knows this site inside out.</p>
         <button type="button" class="btn btn--primary btn--sm" data-ask="">Ask Sunny something</button>
+        <p class="sunny-can__how mono" id="sunnyHow">Answers come from a set list I wrote. No AI service, nothing stored.</p>
         <div class="sunny-can__voice" id="sunnyVoice" role="group" aria-label="Sunny's sound">
           <span class="mono">sound</span>
           <button type="button" data-voice="soft">soft</button>
@@ -612,6 +613,7 @@
           <button type="button" data-voice="retro">retro</button>
           <button type="button" data-voice="bell">bell</button>
           <button type="button" data-voice="off">off</button>
+          <span class="sunny-can__voice-note">off until you choose</span>
         </div>
       </div>
       <ul class="sunny-can__list">
@@ -701,7 +703,10 @@
         <div class="keys__row"><dt><kbd>Home</kbd><kbd>End</kbd></dt><dd>First or last year on the career map</dd></div>
         <div class="keys__row"><dt><kbd>V</kbd></dt><dd>Switch the gallery between grid and collage</dd></div>
       </dl>
-      <p class="keys__foot mono">Shortcuts pause while you type in a field.</p>
+      <div class="keys__toggle">
+        <label class="keys__switch"><input type="checkbox" id="keysEnabled" checked /><span class="keys__switch-track" aria-hidden="true"></span><span>Single-key shortcuts</span></label>
+        <span class="keys__foot mono" id="keysState">on · pause while you type · <kbd>?</kbd> and <kbd>Esc</kbd> always work</span>
+      </div>
     </div>
   </div>
 
@@ -729,11 +734,11 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261158"></script>
-  <script src="creative.js?v=20261158"></script>
-  <script src="mascots.js?v=20261158"></script>
-  <script src="sunny.js?v=20261158"></script>
-  <script src="sunny-ai.js?v=20261158"></script>
-  <script src="extras.js?v=20261158"></script>
+  <script src="script.js?v=20261159"></script>
+  <script src="creative.js?v=20261159"></script>
+  <script src="mascots.js?v=20261159"></script>
+  <script src="sunny.js?v=20261159"></script>
+  <script src="sunny-ai.js?v=20261159"></script>
+  <script src="extras.js?v=20261159"></script>
 </body>
 </html>

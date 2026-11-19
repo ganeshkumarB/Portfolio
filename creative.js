@@ -301,17 +301,31 @@
     keys.addEventListener("click", function (e) { if (e.target === keys) setKeys(false); });
     $$("[data-keys-open]").forEach(function (b) { b.addEventListener("click", function () { setKeys(true); }); });
   }
+  /* single-key shortcuts can be switched off (screen readers and voice control send letters too); ? and Esc always work */
+  function shortcutsOn() { try { return localStorage.getItem("keys:shortcuts") !== "off"; } catch (e) { return true; } }
+  var keysEnabled = $("#keysEnabled"), keysState = $("#keysState");
+  function applyShortcuts(on) {
+    document.body.classList.toggle("no-shortcuts", !on);
+    if (keysEnabled) keysEnabled.checked = on;
+    if (keysState) keysState.innerHTML = on ? "on · pause while you type · <kbd>?</kbd> and <kbd>Esc</kbd> always work" : "off · use the buttons in the nav and on the page · <kbd>?</kbd> and <kbd>Esc</kbd> still work";
+  }
+  applyShortcuts(shortcutsOn());
+  if (keysEnabled) keysEnabled.addEventListener("change", function () {
+    try { localStorage.setItem("keys:shortcuts", keysEnabled.checked ? "on" : "off"); } catch (e) { /* ignore */ }
+    applyShortcuts(keysEnabled.checked);
+  });
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();
     if (e.key === "?") { e.preventDefault(); setKeys(!keysOpen); return; }
     if (k === "escape" && keysOpen) { setKeys(false); return; }
+    if (k === "escape" && inspecting) { if (pinned) unpin(); else setInspect(false); return; }
+    if (!shortcutsOn()) return;
     if (k === "i") setInspect(!inspecting);
     else if (k === "g") grid.hidden = !grid.hidden;
     else if (k === "t") { var tb = $("#themeToggle"); if (tb) tb.click(); }
     else if (k === "v" && viewSwitch) { setView(VIEWS[(VIEWS.indexOf(currentView) + 1) % VIEWS.length]); }
     else if (k === "c" && inspecting) copyCss();
-    else if (k === "escape" && inspecting) { if (pinned) unpin(); else setInspect(false); }
   });
 
   /* ============================================================

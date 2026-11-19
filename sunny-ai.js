@@ -34,12 +34,12 @@
     { k: ["writing", "blog", "posts", "linkedin", "carousel", "instagram"], a: "Short carousels on UI fundamentals, UX and design systems. Spacing is 80% of good UI, apparently.", link: [home + "#writing", "Writing"] },
     { k: ["process", "how", "ship", "workflow", "pipeline", "figma to code"], a: "Five steps, one source of truth: tokens, components, Code Connect, Figma MCP, ship. Same component across web, mobile SDK and WhatsApp, zero drift.", link: [home + "#process", "How the system ships"] },
     { k: ["nda", "real", "screenshots", "actual", "confidential", "secret"], a: "Most of the work is under NDA with Zoho, so the case studies recreate every screen with sample data. The full Figma files are shown live on a call or shared with a password on request.", link: ["mailto:" + MAIL + "?subject=Request%20access", "Request access"] },
-    { k: ["sunny", "you", "who are you", "mascot", "what are you", "your name"], a: "I'm Sunny. 100% SVG and a little JavaScript, built from a Figma frame. I follow your cursor, nap when it's quiet, and I know this site inside out. Try dragging me." },
+    { k: ["sunny", "you", "who are you", "mascot", "what are you", "your name"], a: "I'm Sunny. 100% SVG and a little JavaScript, built from a Figma frame. My answers come from a set list Ganesh wrote, unless he has switched on the AI service. Try dragging me." },
     { k: ["site", "website", "built", "made", "stack", "framework", "how was this"], a: "Designed by Ganesh, built with Claude in plain HTML, CSS and a little JavaScript. No framework, no build step. There's a page with the timeline and AI's drafts next to the finals.", link: ["how-this-site-was-built.html", "How this site was built"] },
     { k: ["ai", "use ai", "claude", "artificial", "chatgpt", "honest", "wrong"], a: "AI drafts, he decides. Claude and Figma MCP sit inside the design-system workflow; nothing generated ships unreviewed. There's a page on it, including the times AI got it wrong.", link: ["how-i-use-ai.html", "How I use AI"] },
     { k: ["prompt", "prompts", "prompt library", "library", "download prompts"], a: "Seven prompts for tokens, components, Code Connect and critique, free to copy or download as Markdown.", link: ["prompts.html", "Prompt library"] },
     { k: ["replay", "animation", "step 04", "prompt to component", "demo"], a: "Under the pipeline there's a replay of step 04: a prompt goes in, Figma MCP builds the component, Code Connect returns the code.", link: [home + "#process", "How the system ships"] },
-    { k: ["sound", "sounds", "voice", "noise", "mute", "quiet", "chirp", "audio"], a: "My cues are synthesized, no audio files. Four voices: soft, bubbly, retro and bell, or off. Pick one in the AI section.", link: [home + "#ai", "What Sunny can do"] },
+    { k: ["sound", "sounds", "voice", "noise", "mute", "quiet", "chirp", "audio"], a: "I'm silent until you turn sound on. Four synthesized voices, no audio files: soft, bubbly, retro and bell. Pick one in the AI section.", link: [home + "#ai", "What Sunny can do"] },
     { k: ["dark", "light", "theme", "night mode", "dark mode"], a: "Flipping the lights.", act: "theme" },
     { k: ["shortcut", "shortcuts", "keyboard", "keys", "hotkey"], a: "Here they are.", act: "keys" },
     { k: ["inspect", "inspector", "layers", "figma counterpart", "component names"], a: "Press I anywhere on the home page, or click the { } button in the nav. Hover a layer to see its tokens, click to pin a component and see its Figma counterpart.", link: [home + "#hey", "Home"] },
@@ -183,10 +183,10 @@
     askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
-        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers from this site" : "answers from this site") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers from this site" : "scripted · from a set list") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
         '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study.</p></div></div>' +
         '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh’s work…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
-        '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers from ganeshuxcraft.in · can be wrong · not stored" : "Answers from ganeshuxcraft.in · can be wrong · not stored") + '</p></div>' +
+        '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers via Ganesh’s own server · can be wrong · nothing stored" : "Answers from a set list Ganesh wrote · no AI service · nothing stored") + '</p></div>' +
       "</div>");
     root.appendChild(panel);
     charEl.appendChild(askBtn);
@@ -200,9 +200,12 @@
     panel.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
     document.addEventListener("keydown", function (e) {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.key.toLowerCase() === "a") { e.preventDefault(); setOpen(!open); }
+      var off = false; try { off = localStorage.getItem("keys:shortcuts") === "off"; } catch (err) { /* ignore */ }
+      if (!off && e.key.toLowerCase() === "a") { e.preventDefault(); setOpen(!open); }
     });
     setTimeout(function () { if (!open) askBtn.classList.add("is-nudge"); }, 9000);
+    var how = document.getElementById("sunnyHow");
+    if (how && AI_ENDPOINT) how.textContent = "Answers come from Claude through my own server; the key never ships with the site. Nothing is stored.";
     global.SunnyAsk = {
       open: function () { setOpen(true); },
       ask: function (q) { setOpen(true); if (busy || !q) return; var pending = log.querySelector(".ask__chips"); if (pending) pending.remove(); add("you", q); respond(q); }

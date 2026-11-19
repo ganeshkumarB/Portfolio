@@ -188,7 +188,7 @@
      Browsers only let audio start after a gesture (click, key, touch). Cues
      triggered by a gesture play right away; cues from Sunny's own acts play
      only once a gesture has unlocked audio. All of it is quiet. */
-  var actx = null, unlocked = false, soundOn = true, extraCues = true;
+  var actx = null, unlocked = false, soundOn = false, extraCues = true;
   /* sound profiles: the same cues, a different instrument.
      pitch scales every note, wave overrides the oscillator, gain scales volume,
      attack/release stretch the envelope, filter is a low-pass cutoff, noise scales the hiss bursts */
@@ -200,7 +200,7 @@
   };
   var voiceName = "soft";
   try {
-    soundOn = localStorage.getItem("sunny:sound") !== "off";
+    soundOn = localStorage.getItem("sunny:sound") === "on"; /* off until the visitor turns it on */
     extraCues = localStorage.getItem("sunny:cues") !== "off";
     if (VOICES[localStorage.getItem("sunny:voice")]) voiceName = localStorage.getItem("sunny:voice");
   } catch (e) { /* ignore */ }
