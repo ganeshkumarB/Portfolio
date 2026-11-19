@@ -1830,7 +1830,36 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 .view-switch__btn:hover { color: var(--ink); }
 .view-switch__btn.is-on { background: var(--ink); color: var(--bg); }
 .view-switch__key { margin: 0 4px 0 6px; padding: 0 5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; font: inherit; font-size: 10px; color: var(--muted); }
-@media (max-width: 1080px) { .view-switch__btn[data-view="desk"], .view-switch__key { display: none; } }
+@media (max-width: 1080px) { .view-switch__btn[data-view="desk"], .view-switch__btn[data-view="collage"], .view-switch__key { display: none; } }
+
+/* collage: eight pieces float around a big title, with room to breathe */
+.gallery__grid.is-collage { display: block; position: relative; height: 820px; }
+.gallery__grid.is-collage .gallery__col { display: contents; }
+.gallery__grid.is-collage .piece {
+  position: absolute;
+  gap: 8px;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+  will-change: transform;
+}
+.gallery__grid.is-collage .piece.is-hidden { display: none; }
+.gallery__grid.is-collage .piece__image {
+  height: auto !important;
+  aspect-ratio: var(--ar, 4 / 3);
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.35);
+}
+.gallery__grid.is-collage .piece__image img { object-fit: cover; }
+.gallery__grid.is-collage .piece:hover .piece__image img { transform: scale(1.03); }
+.gallery__grid.is-collage .piece__caption { font-size: 12px; color: var(--muted); opacity: 0; transition: opacity 0.3s ease; }
+.gallery__grid.is-collage .piece:hover .piece__caption { opacity: 1; }
+.collage__title { position: absolute; left: 50%; top: 42%; z-index: 1; transform: translate(-50%, -50%); text-align: center; pointer-events: none; white-space: nowrap; }
+.collage__h { font-family: var(--font-serif); font-weight: 400; font-size: clamp(64px, 8.6vw, 124px); line-height: 0.95; letter-spacing: -0.02em; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
+.collage__sub { margin-top: 16px; font-size: 18px; color: var(--muted); pointer-events: auto; }
+.collage__sub .mono { font-size: 13px; }
+.collage__shuffle { padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.collage__shuffle:hover { background: var(--ink); color: var(--bg); }
 @media (max-width: 720px) {
   .view-switch { flex-wrap: wrap; }
 }

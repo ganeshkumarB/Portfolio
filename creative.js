@@ -488,20 +488,73 @@
   var gallery = $(".gallery__grid");
   var pieces = $$(".piece", gallery);
   var isDesk = false, dragState = null, suppressClick = false;
-  var VIEWS = ["grid", "desk"], currentView = "grid";
-  var VIEW_TOASTS = { grid: "grid · four columns", desk: "desk mode · drag the prints around" };
+  var VIEWS = ["grid", "desk", "collage"], currentView = "grid";
+  var VIEW_TOASTS = { grid: "grid · four columns", desk: "desk mode · drag the prints around", collage: "collage · move the mouse, shuffle for more" };
+  /* back to a clean slate: no inline positions, no hidden pieces, no collage title */
+  function resetPieces() {
+    isDesk = false;
+    gallery.style.height = "";
+    gallery.classList.remove("is-desk", "is-collage");
+    pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); p.classList.remove("is-hidden"); });
+    var t = $(".collage__title", gallery); if (t) t.remove();
+  }
   function toGrid() {
     var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
+    flip(before, resetPieces);
+  }
+
+  /* Collage: eight pieces float around a big title, the rest come in on shuffle */
+  var SLOTS = [
+    { x: 5, y: 16, w: 17, ar: "1 / 1", d: 0.6 },
+    { x: 26, y: 4, w: 10, ar: "4 / 3", d: 1 },
+    { x: 61, y: 6, w: 11, ar: "3 / 4", d: 0.9 },
+    { x: 78, y: 12, w: 14, ar: "1 / 1", d: 0.5 },
+    { x: 85, y: 44, w: 12, ar: "1 / 1", d: 0.8 },
+    { x: 2, y: 54, w: 22, ar: "1 / 1", d: 0.4 },
+    { x: 42, y: 62, w: 18, ar: "4 / 3", d: 0.7 },
+    { x: 74, y: 70, w: 15, ar: "4 / 3", d: 0.9 }
+  ];
+  var collagePage = 0, collageRaf = 0, collageMX = 0, collageMY = 0;
+  function collageTitle() {
+    var t = document.createElement("div");
+    t.className = "collage__title";
+    t.innerHTML = '<p class="collage__h">Illustration</p><p class="collage__sub">visual work · <span class="mono">' + pieces.length + ' pieces</span> · <button type="button" class="collage__shuffle mono" title="Show eight more">shuffle ↻</button></p>';
+    $(".collage__shuffle", t).addEventListener("click", function () { collagePage++; layoutCollage(true); });
+    return t;
+  }
+  function layoutCollage(animate) {
+    var n = pieces.length, start = (collagePage * SLOTS.length) % n;
+    var shown = SLOTS.map(function (_, i) { return pieces[(start + i) % n]; });
+    pieces.forEach(function (p) { p.classList.toggle("is-hidden", shown.indexOf(p) < 0); });
+    shown.forEach(function (p, i) {
+      var s = SLOTS[i];
+      p.style.left = s.x + "%"; p.style.top = s.y + "%"; p.style.width = s.w + "%";
+      p.style.setProperty("--ar", s.ar); p.style.setProperty("--d", s.d); p.style.zIndex = 2 + i;
+      if (animate && !reduced) { p.style.opacity = "0"; p.style.transform = "translateY(14px)"; setTimeout(function () { p.style.opacity = ""; p.style.transform = ""; }, 30 + i * 40); }
+    });
+  }
+  function toCollage() {
+    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
     flip(before, function () {
-      isDesk = false;
-      gallery.classList.remove("is-desk");
-      gallery.style.height = "";
-      pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); });
+      resetPieces();
+      gallery.classList.add("is-collage");
+      gallery.appendChild(collageTitle());
+      layoutCollage(false);
+    });
+  }
+  function collageTick() {
+    collageRaf = 0;
+    var r = gallery.getBoundingClientRect();
+    var dx = (collageMX - (r.left + r.width / 2)) / r.width, dy = (collageMY - (r.top + r.height / 2)) / r.height;
+    pieces.forEach(function (p) {
+      if (p.classList.contains("is-hidden")) return;
+      var d = parseFloat(p.style.getPropertyValue("--d")) || 0.6;
+      p.style.transform = "translate(" + (-dx * 26 * d).toFixed(1) + "px," + (-dy * 18 * d).toFixed(1) + "px)";
     });
   }
   function setView(name, quiet) {
     if (VIEWS.indexOf(name) < 0 || name === currentView) return;
-    if (name === "desk") toDesk(); else toGrid();
+    if (name === "desk") toDesk(); else if (name === "collage") toCollage(); else toGrid();
     currentView = name;
     viewBtns.forEach(function (b) { var on = b.getAttribute("data-view") === name; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); });
     try { localStorage.setItem("gallery:view", name); } catch (e) { /* ignore */ }
@@ -512,8 +565,8 @@
     apply();
     pieces.forEach(function (p, i) {
       var a = before[i], b = p.getBoundingClientRect();
+      if (reduced || !a.width || !b.width) return; /* hidden before or after: nothing to animate */
       var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
-      if (reduced) return;
       p.animate(
         [{ transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ") " + (isDesk ? "" : "rotate(" + (p.dataset.rot || 0) + "deg)"), transformOrigin: "0 0" },
          { transform: isDesk ? "rotate(" + p.dataset.rot + "deg)" : "none", transformOrigin: "0 0" }],
@@ -533,6 +586,7 @@
     var scrollBefore = window.scrollY;
     var order = pieces.map(function (_, i) { return i; }).sort(function () { return Math.random() - 0.5; });
     flip(before, function () {
+      resetPieces();
       isDesk = true;
       gallery.classList.add("is-desk");
       gallery.style.height = H + "px";
@@ -554,8 +608,18 @@
     viewBtns.forEach(function (b) { b.addEventListener("click", function () { setView(b.getAttribute("data-view")); }); });
     try {
       var saved = localStorage.getItem("gallery:view");
-      if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1) setView(saved, true);
+      if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1 && window.innerWidth > 1080) setView(saved, true);
     } catch (e) { /* ignore */ }
+    /* collage parallax: pieces drift against the pointer, deeper ones more */
+    if (finePointer) gallery.addEventListener("pointermove", function (e) {
+      if (currentView !== "collage") return;
+      collageMX = e.clientX; collageMY = e.clientY;
+      if (!collageRaf) collageRaf = requestAnimationFrame(collageTick);
+    });
+    gallery.addEventListener("pointerleave", function () {
+      if (currentView !== "collage") return;
+      pieces.forEach(function (p) { if (!p.classList.contains("is-hidden")) p.style.transform = ""; });
+    });
     /* ?view=desk opens the gallery in that view (handy for sharing a look) */
     var qv = new URLSearchParams(location.search).get("view");
     if (qv && VIEWS.indexOf(qv) > -1) {
