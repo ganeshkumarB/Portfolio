@@ -1,0 +1,155 @@
+/* Ask Sunny: a small chat panel next to the mascot.
+   Works out of the box from this site's own content (no server, no key).
+   Set AI_ENDPOINT to a deployed copy of ai/worker.js and Sunny answers
+   with Claude instead, falling back to the local answers if the call fails. */
+(function (global) {
+  "use strict";
+  var AI_ENDPOINT = global.SUNNY_AI_ENDPOINT || ""; /* e.g. "https://sunny-ai.yourname.workers.dev" */
+
+  var isHome = /\/(index\.html)?$/.test(location.pathname) || location.pathname === "/";
+  var home = isHome ? "" : "index.html";
+  var MAIL = "ganesh.rayanbalu@gmail.com";
+
+  /* ---------- what Sunny knows (from the site) ---------- */
+  var KB = [
+    { k: ["who", "ganesh", "about", "designer", "what do you do", "intro", "introduce"], a: "Ganeshkumar B is a Senior Product Designer on Zoho SalesIQ, eight years in. He owns the 48+ component design system and the Figma-to-code workflow behind it.", link: [home + "#story", "Read the story"] },
+    { k: ["role", "roles", "looking", "open to", "hiring", "hire", "job", "position", "lead"], a: "He's looking for a lead, staff or senior product design role with design system ownership, in an enterprise or B2B SaaS team.", link: ["hire.html", "Hiring me? Quick answers"] },
+    { k: ["notice", "period", "join", "start", "available", "availability", "when can"], a: "Notice period is 30 days.", link: ["hire.html", "More for recruiters"] },
+    { k: ["where", "location", "chennai", "remote", "relocate", "relocation", "based", "timezone", "ist", "city"], a: "Chennai, India, on IST. Open to on-site or hybrid in Chennai, remote for Indian or international teams with IST overlap, and relocating for the right role.", link: ["hire.html", "Hiring me? Quick answers"] },
+    { k: ["email", "contact", "reach", "mail", "talk", "call", "message"], a: "Email is the way: " + MAIL + ". He replies within a day.", link: ["mailto:" + MAIL + "?subject=Hello%20from%20the%20portfolio", "Email Ganesh"] },
+    { k: ["code", "coding", "html", "css", "javascript", "developer", "engineer", "front end", "frontend"], a: "Enough to ship this site: HTML and CSS by hand, JavaScript with help from Claude. On the product he works in Figma variables and Code Connect so every component maps to real code. He's not a front-end engineer and doesn't pretend to be.", link: ["hire.html", "The FAQ"] },
+    { k: ["team", "lead a team", "manage", "managed", "reports", "people", "mentor"], a: "He has led design direction, not people: owns the SalesIQ design system and the design reviews across a five-engineer team, no direct reports yet. A lead role where that changes is exactly what he's after.", link: ["hire.html", "The FAQ"] },
+    { k: ["tools", "tool", "figma", "software", "stack", "use", "photoshop", "illustrator", "after effects", "spline"], a: "Figma every day: variables and modes, Code Connect, Dev Mode and Figma MCP. Claude and ChatGPT for critique and design-to-code. Photoshop, Illustrator, After Effects and Spline for visuals and motion.", link: [home + "#skills", "Skills, as tokens"] },
+    { k: ["resume", "résumé", "cv", "pdf", "download"], a: "There's a printable one-page résumé, plus the full two-page PDF.", link: ["resume.html", "Open the résumé"] },
+    { k: ["case", "case study", "case studies", "work", "projects", "portfolio", "show me the work"], a: "Seven case studies on Zoho SalesIQ: Zobot, the design system, Operator Console, Reports, Brand configuration, Outbound and Feedback. Every screen is recreated with sample data because the real work is under NDA.", link: [home + "#work", "Selected work"] },
+    { k: ["zobot", "chatbot", "bot builder", "no-code", "bot"], a: "Zobot is the no-code chatbot builder: a drag-and-drop canvas so a non-technical admin can publish a working bot. Ganesh was the sole designer. Website at launch, seven channels today.", link: ["case-zobot.html", "Zobot case study"] },
+    { k: ["design system", "components", "tokens", "variables", "code connect", "mcp", "48"], a: "The SalesIQ design system: 48+ components on one set of tokens, light and dark modes, every component mapped to its code with Code Connect, and an AI workflow with Claude and Figma MCP that generates the system twice, as a Figma library and as production components.", link: ["case-design-system.html", "Design system case study"] },
+    { k: ["operator", "console", "agents", "queue", "support"], a: "The Operator Console redesign puts the queue, the conversation and everything about the visitor in one calm view for agents handling many chats.", link: ["case-operator-console.html", "Operator Console case study"] },
+    { k: ["reports", "analytics", "charts", "dashboard", "metrics"], a: "Reports 2.0: one place to read engagement, support, bots, outbound and live activity. Every chart answers one question.", link: ["case-reports.html", "Reports case study"] },
+    { k: ["brand", "brand configuration", "channels", "whatsapp", "widget"], a: "Brand configuration rebuilt as self-service: shared settings set once, every channel (web, mobile SDK, WhatsApp) on its own card. No developer needed.", link: ["case-brand-configuration.html", "Brand configuration case study"] },
+    { k: ["outbound", "broadcast", "push", "campaign", "notification"], a: "Outbound: write a campaign on the left, see it on the right, choose who gets it and when. Broadcasts and push on WhatsApp, web and mobile.", link: ["case-outbound.html", "Outbound case study"] },
+    { k: ["feedback", "rating", "survey", "stars", "csat"], a: "Rating & Feedback: ask the moment a chat ends, with faces, stars or yes/no, and a different reply for every rating. Hands off to Zoho Survey when more is needed.", link: ["case-feedback.html", "Feedback case study"] },
+    { k: ["gallery", "illustration", "illustrations", "3d", "art", "visual"], a: "Eighteen pieces: 3D renders, illustrations and app concepts. Try the collage view, and click any piece to open it.", link: [home + "#gallery", "Illustration & visual work"] },
+    { k: ["writing", "blog", "posts", "linkedin", "carousel", "instagram"], a: "Short carousels on UI fundamentals, UX and design systems. Spacing is 80% of good UI, apparently.", link: [home + "#writing", "Writing"] },
+    { k: ["process", "how", "ship", "workflow", "pipeline", "figma to code"], a: "Five steps, one source of truth: tokens, components, Code Connect, Figma MCP, ship. Same component across web, mobile SDK and WhatsApp, zero drift.", link: [home + "#process", "How the system ships"] },
+    { k: ["nda", "real", "screenshots", "actual", "confidential", "secret"], a: "Most of the work is under NDA with Zoho, so the case studies recreate every screen with sample data. The full Figma files are shown live on a call or shared with a password on request.", link: ["mailto:" + MAIL + "?subject=Request%20access", "Request access"] },
+    { k: ["sunny", "you", "who are you", "mascot", "what are you", "your name"], a: "I'm Sunny. 100% SVG and a little JavaScript, built from a Figma frame. I follow your cursor, nap when it's quiet, and I know this site inside out. Try dragging me." },
+    { k: ["site", "website", "built", "made", "stack", "framework", "claude"], a: "Designed by Ganesh, built with Claude in plain HTML, CSS and a little JavaScript. No framework, no build step. Press ? for the keyboard shortcuts." },
+    { k: ["dark", "light", "theme", "night mode", "dark mode"], a: "Flipping the lights.", act: "theme" },
+    { k: ["shortcut", "shortcuts", "keyboard", "keys", "hotkey"], a: "Here they are.", act: "keys" },
+    { k: ["inspect", "inspector", "layers", "figma counterpart", "component names"], a: "Press I anywhere on the home page, or click the { } button in the nav. Hover a layer to see its tokens, click to pin a component and see its Figma counterpart.", link: [home + "#hey", "Home"] },
+    { k: ["hi", "hello", "hey", "yo", "good morning", "good evening"], a: "Hi! Ask me anything about Ganesh, the work, or how this site was made." },
+    { k: ["thanks", "thank you", "cool", "nice", "great", "awesome"], a: "Anytime. ☀" }
+  ];
+  var SUGGEST = isHome
+    ? ["What does Ganesh do?", "Is he open to roles?", "Notice period?", "Does he code?", "Show me the gallery"]
+    : ["Is he open to roles?", "Notice period?", "Does he code?", "What tools does he use?", "Email him"];
+
+  function norm(s) { return s.toLowerCase().replace(/[^a-z0-9+& ]+/g, " ").replace(/\s+/g, " ").trim(); }
+  function answerLocal(q) {
+    var n = " " + norm(q) + " ";
+    var best = null, bestScore = 0;
+    KB.forEach(function (e) {
+      var score = 0;
+      e.k.forEach(function (k) { if (n.indexOf(" " + k + " ") > -1) score += k.indexOf(" ") > -1 ? 3 : 2; else if (k.length > 4 && n.indexOf(k) > -1) score += 1; });
+      if (score > bestScore) { bestScore = score; best = e; }
+    });
+    if (!best || bestScore < 2) return { a: "I don't know that one yet. Ganesh does, though.", link: ["mailto:" + MAIL + "?subject=Question%20from%20the%20portfolio", "Email Ganesh"] };
+    return best;
+  }
+
+  /* ---------- panel ---------- */
+  var root, panel, log, input, askBtn, open = false, history = [], busy = false;
+  function el(html) { var d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+  function linkHtml(l) { if (!l) return ""; var ext = /^(https?:|mailto:)/.test(l[0]); return '<a class="ask__link" href="' + l[0] + '"' + (ext && l[0].indexOf("mailto:") !== 0 ? ' target="_blank" rel="noopener"' : "") + ">" + esc(l[1]) + " →</a>"; }
+  function add(role, text, link) {
+    var m = el('<div class="ask__msg ask__msg--' + role + '"><p>' + esc(text) + "</p>" + linkHtml(link) + "</div>");
+    log.appendChild(m); log.scrollTop = log.scrollHeight;
+    return m;
+  }
+  function typing(on) {
+    var t = log.querySelector(".ask__typing");
+    if (on && !t) { log.appendChild(el('<div class="ask__typing" aria-label="Sunny is thinking"><i></i><i></i><i></i></div>')); log.scrollTop = log.scrollHeight; }
+    else if (!on && t) t.remove();
+  }
+  function setOpen(on) {
+    open = on;
+    root.classList.toggle("has-ask", on);
+    panel.hidden = !on;
+    askBtn.setAttribute("aria-expanded", String(on));
+    if (on) { askBtn.classList.remove("is-nudge"); setTimeout(function () { input.focus(); }, 50); if (global.Sunny) Sunny.emote("happy"); }
+  }
+  function doAction(act) {
+    if (act === "theme") { var t = document.getElementById("themeToggle"); if (t) t.click(); }
+    if (act === "keys") { document.dispatchEvent(new KeyboardEvent("keydown", { key: "?", bubbles: true })); }
+  }
+  function scrollIfSameSection(link) {
+    if (!link || link[0].indexOf("#") !== 0) return;
+    var sec = document.querySelector(link[0]);
+    if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function respond(text) {
+    history.push({ role: "user", content: text });
+    busy = true; typing(true);
+    if (global.Sunny) Sunny.emote("curious", 1600);
+    var local = answerLocal(text);
+    var finish = function (reply, link, act) {
+      typing(false); busy = false;
+      add("sunny", reply, link);
+      history.push({ role: "assistant", content: reply });
+      if (history.length > 16) history = history.slice(-16);
+      if (global.Sunny) Sunny.say(reply.length > 90 ? reply.slice(0, 88) + "…" : reply, 3200);
+      if (act) setTimeout(function () { doAction(act); }, 400);
+      scrollIfSameSection(link);
+    };
+    if (!AI_ENDPOINT) { setTimeout(function () { finish(local.a, local.link, local.act); }, 420 + Math.min(900, text.length * 12)); return; }
+    var ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+    fetch(AI_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: history.slice(-8), page: location.pathname }), signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(function (data) { clearTimeout(timer); finish(data.reply || local.a, data.link || local.link, local.act); })
+      .catch(function () { clearTimeout(timer); finish(local.a, local.link, local.act); });
+  }
+  function send() {
+    var text = input.value.trim();
+    if (!text || busy) return;
+    input.value = "";
+    add("you", text);
+    respond(text);
+  }
+  function build() {
+    root = global.Sunny && Sunny.el;
+    if (!root) return false;
+    var charEl = root.querySelector(".sunny__char");
+    askBtn = el('<button type="button" class="sunny__ask mono" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny">ask ✦</button>');
+    panel = el(
+      '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
+        '<div class="ask__head"><span class="ask__title">Ask Sunny</span><span class="ask__mode mono">' + (AI_ENDPOINT ? "claude" : "offline · site knowledge") + '</span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__log"></div>' +
+        '<div class="ask__chips">' + SUGGEST.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("") + "</div>" +
+        '<form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh, the work, this site…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send">↑</button></form>' +
+        (AI_ENDPOINT ? '<p class="ask__note mono">Messages go to Ganesh’s assistant service to be answered by Claude. No account, nothing stored.</p>' : "") +
+      "</div>");
+    root.appendChild(panel);
+    charEl.appendChild(askBtn);
+    log = panel.querySelector(".ask__log");
+    input = panel.querySelector(".ask__input");
+    add("sunny", "Hi! I know this site inside out. Ask me about Ganesh, the work, or how it was built.");
+    askBtn.addEventListener("click", function (e) { e.stopPropagation(); setOpen(!open); });
+    panel.querySelector(".ask__close").addEventListener("click", function () { setOpen(false); });
+    panel.querySelector(".ask__form").addEventListener("submit", function (e) { e.preventDefault(); send(); });
+    Array.prototype.forEach.call(panel.querySelectorAll(".ask__chip"), function (c) {
+      c.addEventListener("click", function () { add("you", c.textContent); respond(c.textContent); });
+    });
+    panel.addEventListener("keydown", function (e) { if (e.key === "Escape") { setOpen(false); askBtn.focus(); } e.stopPropagation(); });
+    panel.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
+    document.addEventListener("keydown", function (e) {
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key.toLowerCase() === "a") { e.preventDefault(); setOpen(!open); }
+    });
+    setTimeout(function () { if (!open) askBtn.classList.add("is-nudge"); }, 9000);
+    return true;
+  }
+  var tries = 0, t = setInterval(function () { if (build() || ++tries > 60) clearInterval(t); }, 100);
+})(window);
