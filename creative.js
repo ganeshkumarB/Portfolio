@@ -5,7 +5,7 @@
 
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var toastEl = $("#toast");
   var toastTimer = null;
@@ -313,7 +313,9 @@
   if (keysEnabled) keysEnabled.addEventListener("change", function () {
     try { localStorage.setItem("keys:shortcuts", keysEnabled.checked ? "on" : "off"); } catch (e) { /* ignore */ }
     applyShortcuts(keysEnabled.checked);
+    window.dispatchEvent(new CustomEvent("prefs:change"));
   });
+  window.addEventListener("prefs:change", function () { applyShortcuts(shortcutsOn()); });
   document.addEventListener("keydown", function (e) {
     if (typingTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key.toLowerCase();

@@ -162,7 +162,7 @@
     }
   };
 
-  var reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
 
   function mountOne(el) {
     var name = el.getAttribute("data-mascot");

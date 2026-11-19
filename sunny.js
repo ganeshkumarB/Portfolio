@@ -13,7 +13,7 @@
 (function (global) {
   "use strict";
   if (global.Sunny) return;
-  var reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
   var finePointer = global.matchMedia && global.matchMedia("(pointer: fine)").matches;
   var INK = "#111111", SUN = "#FFC93C", DEEP = "#F2AE2E";
 

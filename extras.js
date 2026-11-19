@@ -3,7 +3,7 @@
   "use strict";
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
 
   /* ============================================================
      Prompt to component: a looping replay of the real workflow
@@ -88,6 +88,7 @@
       });
     });
     var tries = 0, tv = setInterval(function () { if (window.Sunny && window.Sunny.voice) { markVoice(); clearInterval(tv); } else if (++tries > 50) clearInterval(tv); }, 100);
+    window.addEventListener("prefs:change", markVoice);
   }
 
   /* "Ask Sunny" buttons on the page open the chat, with a question if given */
