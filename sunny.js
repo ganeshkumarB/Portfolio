@@ -763,5 +763,7 @@
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+  /* mount after the page has loaded, in an idle slot, so the first paint is not waiting on the mascot */
+  function later(fn) { if (global.requestIdleCallback) global.requestIdleCallback(fn, { timeout: 1200 }); else setTimeout(fn, 120); }
+  if (document.readyState === "complete") later(init); else global.addEventListener("load", function () { later(init); });
 })(window);

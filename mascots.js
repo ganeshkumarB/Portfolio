@@ -489,6 +489,8 @@
 
   function move(el, name) { if (name === "glance") glance(el); else if (name === "stroll") stroll(el); else if (SIGNATURE[el.getAttribute("data-mascot")]) SIGNATURE[el.getAttribute("data-mascot")](el); }
   global.Mascots = { mount: mount, replay: replay, emote: emote, emoteAll: emoteAll, greet: greet, move: move, emotions: Object.keys(EMOTIONS), art: ART };
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { mount(); });
-  else mount();
+  function later(fn) { if (global.requestIdleCallback) global.requestIdleCallback(fn, { timeout: 1500 }); else setTimeout(fn, 150); }
+  function mountAll() { mount(); }
+  if (document.readyState === "complete") later(mountAll);
+  else global.addEventListener("load", function () { later(mountAll); });
 })(window);

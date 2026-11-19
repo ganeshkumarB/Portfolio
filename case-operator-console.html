@@ -17,16 +17,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/fraunces-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261160" />
-  <link rel="stylesheet" href="styles.css?v=20261160" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261162" />
+  <link rel="stylesheet" href="styles.css?v=20261162" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261160" />
-  <link rel="stylesheet" href="sunny.css?v=20261160" />
+  <link rel="stylesheet" href="case.css?v=20261162" />
+  <link rel="stylesheet" href="sunny.css?v=20261162" />
 </head>
 <body class="is-ready cs-page">
 
@@ -66,16 +66,16 @@
   </section>
 
   <section class="cs-cover" data-layer="Cover">
-    <img class="cs-cover__img" src="assets/covers/operator-console.webp" alt="Operator console cover: rail, folders, queue and conversation laid out left to right" width="2000" height="404" />
+    <img fetchpriority="high" decoding="async" class="cs-cover__img" src="assets/covers/operator-console.webp" alt="Operator console cover: rail, folders, queue and conversation laid out left to right" width="2000" height="404" />
   </section>
 
   <section class="cs-visual" data-layer="Visual" aria-label="Recreated operator console with sample data">
     <div class="cs-scroll">
     <div class="console">
       <div class="console__top">
-        <div class="title" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)"><img src="assets/case/console-logo.svg" width="22" height="22" alt="" /> Console <span class="lbl lbl--9 lbl--soft">Sample data</span></div>
+        <div class="title" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)"><img loading="lazy" decoding="async" src="assets/case/console-logo.svg" width="22" height="22" alt="" /> Console <span class="lbl lbl--9 lbl--soft">Sample data</span></div>
         <div class="console__search">Search chats, visitors and more</div>
-        <div style="display:flex;align-items:center;gap:14px"><span class="pill pill--green pill--sm" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px"><img src="assets/case/dot-green.svg" width="8" height="8" alt="" />Available</span><span class="avatar avatar--30 avatar--blue">AR</span></div>
+        <div style="display:flex;align-items:center;gap:14px"><span class="pill pill--green pill--sm" style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px"><img loading="lazy" decoding="async" src="assets/case/dot-green.svg" width="8" height="8" alt="" />Available</span><span class="avatar avatar--30 avatar--blue">AR</span></div>
       </div>
       <div class="console__body">
         <div class="console__rail"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -121,21 +121,21 @@
             <div class="ph">Type “/” for canned replies</div>
             <div class="foot">
               <div class="tools"><span>B</span><span>I</span><span>⌘</span><span>☺</span><span>⎘</span></div>
-              <div style="display:flex;gap:8px"><span class="btn-mini btn-mini--secondary btn-mini--sm" style="gap:6px">Close <img src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span><span class="btn-mini btn-mini--primary btn-mini--sm" style="padding:7px 14px">Send</span></div>
+              <div style="display:flex;gap:8px"><span class="btn-mini btn-mini--secondary btn-mini--sm" style="gap:6px">Close <img loading="lazy" decoding="async" src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span><span class="btn-mini btn-mini--primary btn-mini--sm" style="padding:7px 14px">Send</span></div>
             </div>
           </div>
         </div>
         <div class="console__ctx">
-          <div class="ctx__id"><span class="avatar avatar--44 avatar--blue">PS<img src="assets/case/presence-dot.svg" width="10" height="10" alt="" /></span><div><b>Priya Sharma</b><span>Bengaluru, India</span></div></div>
+          <div class="ctx__id"><span class="avatar avatar--44 avatar--blue">PS<img loading="lazy" decoding="async" src="assets/case/presence-dot.svg" width="10" height="10" alt="" /></span><div><b>Priya Sharma</b><span>Bengaluru, India</span></div></div>
           <div class="ctx__contact"><span>priya@example.com</span><span>+91 98000 00000</span></div>
           <div class="pills"><span class="pill pill--green pill--sm">Support</span><span class="pill pill--blue pill--sm">Enterprise</span><span class="pill pill--red pill--sm">VIP</span></div>
           <div style="display:flex;gap:10px"><div class="ctx__stat"><span class="lbl">Lead score</span><span class="t-serif t-serif--24">482</span></div><div class="ctx__stat"><span class="lbl">Opportunity</span><span class="t-serif t-serif--24" style="color:var(--cs-green-2)">84%</span></div></div>
           <div style="display:flex;flex-direction:column;gap:8px"><div class="kv"><span class="k">Type</span><span class="v">Returning</span></div><div class="kv"><span class="k">Current page</span><span class="v">/pricing</span></div><div class="kv"><span class="k">Visits</span><span class="v">6</span></div></div>
           <div class="ctx__acc">
-            <div><div class="t">Zoho CRM <img src="assets/case/chevron-up.svg" width="16" height="16" alt="" /></div><div class="kv" style="padding:8px 10px;border-radius:8px;background:var(--cs-surface)"><span style="color:var(--ink)">Lead · Qualified</span><span class="k">Owner: Arun</span></div></div>
-            <div><div class="t">Zoho Desk <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
-            <div><div class="t">Recent chats <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
-            <div><div class="t">Notes <img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+            <div><div class="t">Zoho CRM <img loading="lazy" decoding="async" src="assets/case/chevron-up.svg" width="16" height="16" alt="" /></div><div class="kv" style="padding:8px 10px;border-radius:8px;background:var(--cs-surface)"><span style="color:var(--ink)">Lead · Qualified</span><span class="k">Owner: Arun</span></div></div>
+            <div><div class="t">Zoho Desk <img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+            <div><div class="t">Recent chats <img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
+            <div><div class="t">Notes <img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div></div>
           </div>
         </div>
       </div>
@@ -172,10 +172,10 @@
         </div>
         <div class="anat" style="width:260px;flex:none">
           <div class="anat__stage">
-            <div class="anat__chat anat__chat--on"><img src="assets/case/avatar-blue-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--blue" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
-            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
-            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
-            <div class="anat__chat"><img src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat anat__chat--on"><img loading="lazy" decoding="async" src="assets/case/avatar-blue-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--blue" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img loading="lazy" decoding="async" src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img loading="lazy" decoding="async" src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
+            <div class="anat__chat"><img loading="lazy" decoding="async" src="assets/case/avatar-grey-20.svg" width="20" height="20" alt="" /><div class="col" style="gap:4px"><i class="skel skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:130px"></i></div></div>
           </div>
           <span class="lbl lbl--10 lbl--blue">02 Queue</span><p class="t-h t-h--16">Conversations</p><p class="t-p t-p--13">Who is waiting, the last line, and how long ago.</p>
         </div>
@@ -191,7 +191,7 @@
         </div>
         <div class="anat" style="width:250px;flex:none">
           <div class="anat__stage">
-            <div style="display:flex;align-items:center;gap:8px"><img src="assets/case/avatar-grey-28.svg" width="28" height="28" alt="" /><div class="col" style="gap:4px"><i class="skel skel--7 skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:60px"></i></div></div>
+            <div style="display:flex;align-items:center;gap:8px"><img loading="lazy" decoding="async" src="assets/case/avatar-grey-28.svg" width="28" height="28" alt="" /><div class="col" style="gap:4px"><i class="skel skel--7 skel--mid" style="width:90px"></i><i class="skel skel--5" style="width:60px"></i></div></div>
             <i class="skel" style="width:150px;display:block"></i><i class="skel" style="width:120px;display:block"></i><i class="skel" style="width:140px;display:block"></i>
             <div style="display:flex;gap:6px"><i style="width:40px;height:14px;border-radius:7px;background:var(--cs-green-tint)"></i><i style="width:50px;height:14px;border-radius:7px;background:var(--cs-blue-tint)"></i><i style="width:30px;height:14px;border-radius:7px;background:var(--cs-red-tint)"></i></div>
           </div>
@@ -251,7 +251,7 @@
           <div class="slash-list"><div class="on"><span class="cmd">/refund-policy</span><span class="desc">Our refund window is 30 days…</span></div><div><span class="cmd">/refund-status</span><span class="desc">I’ve checked your refund…</span></div></div>
           <div style="display:flex;align-items:center;justify-content:space-between">
             <div style="display:flex;gap:18px;font-size:14px;color:var(--muted)"><span style="color:var(--blue);font-weight:600;display:flex;flex-direction:column;gap:4px">Reply<i style="width:40px;height:3px;border-radius:1.5px;background:var(--blue)"></i></span><span>Notes</span></div>
-            <span class="btn-mini btn-mini--secondary" style="gap:6px;font-weight:500;padding:8px 14px">Close <img src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span>
+            <span class="btn-mini btn-mini--secondary" style="gap:6px;font-weight:500;padding:8px 14px">Close <img loading="lazy" decoding="async" src="assets/case/chevron-down-ink.svg" width="16" height="16" alt="" /></span>
           </div>
         </div>
         <div class="col fixed" style="width:340px;flex:none">
@@ -276,10 +276,10 @@
           <div class="kv kv--13"><span class="k">Type</span><span class="v">Returning visitor</span></div>
           <div class="kv kv--13"><span class="k">Lead score</span><span class="v">482</span></div>
           <div class="kv kv--13"><span class="k">Opportunity</span><span class="v">84%</span></div>
-          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Recent chats</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
-          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Notes</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
-          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho CRM</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
-          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho Desk</span><img src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Recent chats</span><img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Notes</span><img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho CRM</span><img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
+          <div class="kv kv--14" style="padding-top:10px;border-top:1px solid var(--cs-line)"><span style="color:var(--ink)">Zoho Desk</span><img loading="lazy" decoding="async" src="assets/case/chevron-down.svg" width="16" height="16" alt="" /></div>
         </div>
         <div class="col grow">
           <div class="nrow nrow--tile"><span class="n t-serif t-serif--36">01</span><div><h3>Identity first</h3><p>Name, location and contact on top, so the agent knows who they are talking to.</p></div></div>
@@ -311,8 +311,8 @@
     <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="case.js?v=20261160"></script>
-  <script src="sunny.js?v=20261160"></script>
-  <script src="sunny-ai.js?v=20261160"></script>
+  <script src="case.js?v=20261162"></script>
+  <script src="sunny.js?v=20261162"></script>
+  <script src="sunny-ai.js?v=20261162"></script>
 </body>
 </html>
