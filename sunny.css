@@ -515,7 +515,8 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .sunny__ask.is-nudge { animation: ask-float 3.2s ease-in-out infinite, ask-nudge 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 2; }
 @keyframes ask-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
 @keyframes ask-nudge { 0%, 100% { scale: 1; } 40% { scale: 1.08; } }
-.sunny.has-ask .sunny__ask, .sunny.is-talking .sunny__ask, .sunny.is-carried .sunny__ask, .sunny.is-static .sunny__ask, .sunny.is-gone .sunny__ask { opacity: 0; pointer-events: none; }
+.sunny.has-ask .sunny__ask, .sunny.is-carried .sunny__ask, .sunny.is-static .sunny__ask, .sunny.is-gone .sunny__ask { opacity: 0; pointer-events: none; }
+.sunny__ask { z-index: 3; }
 .sunny.has-ask .sunny__bubble { display: none; }
 
 .ask {
