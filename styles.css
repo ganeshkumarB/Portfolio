@@ -2063,7 +2063,6 @@ body.recruiter .work .section__intro::before { content: "Three case studies. Swi
    ============================================================ */
 .nav__prefs { flex: none; width: 38px; height: 38px; display: grid; place-items: center; padding: 0; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--bg); color: var(--ink); cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
 .nav__prefs:hover, .nav__prefs[aria-expanded="true"] { background: var(--ink); color: var(--bg); }
-.nav__prefs svg circle { fill: currentColor; }
 .prefs { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 20px; background: rgba(15, 16, 19, 0.55); backdrop-filter: blur(4px); }
 .prefs[hidden] { display: none; }
 .prefs__card { width: min(520px, 100%); max-height: calc(100vh - 40px); overflow: auto; padding: 22px 24px 18px; border-radius: 20px; background: var(--card); color: var(--ink); box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.6); }

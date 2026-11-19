@@ -30,8 +30,8 @@
     var btn = doc.createElement("button");
     btn.type = "button"; btn.className = "nav__prefs"; btn.id = "prefsToggle";
     btn.setAttribute("aria-haspopup", "dialog"); btn.setAttribute("aria-expanded", "false");
-    btn.title = "Preferences: shortcuts, motion, Sunny, sound, text size"; btn.setAttribute("aria-label", "Preferences");
-    btn.innerHTML = '<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3 6h14M3 14h14"/><circle cx="8" cy="6" r="2.2" fill="var(--pill, #15161a)"/><circle cx="12.5" cy="14" r="2.2" fill="var(--pill, #15161a)"/></svg>';
+    btn.title = "Accessibility and preferences: shortcuts, motion, Sunny, sound, text size"; btn.setAttribute("aria-label", "Accessibility and preferences");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="7.3" r="1.3" fill="currentColor" stroke="none"/><path d="M7 10.2c3.3.9 6.7.9 10 0"/><path d="M12 10.8v3.4l-2.1 4.2M12 14.2l2.1 4.2"/></svg>';
     if (resume) {
       /* one pill: preferences segment, divider, résumé */
       var group = doc.createElement("div"); group.className = "nav__tools";
@@ -43,7 +43,7 @@
     panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); panel.setAttribute("aria-labelledby", "prefsTitle");
     panel.innerHTML =
       '<div class="prefs__card">' +
-        '<div class="prefs__head"><span class="prefs__title" id="prefsTitle">Preferences</span><button type="button" class="prefs__close" aria-label="Close preferences">×</button></div>' +
+        '<div class="prefs__head"><span class="prefs__title" id="prefsTitle">Accessibility &amp; preferences</span><button type="button" class="prefs__close" aria-label="Close preferences">×</button></div>' +
         '<p class="prefs__intro">Saved in this browser only. Nothing is sent anywhere.</p>' +
         row("shortcuts", "Single-key shortcuts", "I, G, T, V, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Off is safer with screen readers and voice control.") +
         row("motion", "Reduce motion", "Stops the intro, reveals, Sunny’s acts and the replay. Follows your system setting unless you choose here.") +
