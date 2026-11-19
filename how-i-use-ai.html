@@ -53,7 +53,7 @@
     <a class="cs-back" href="index.html#contact"><span aria-hidden="true">←</span> Back to the site</a>
     <div class="cs-tags"><span class="tag">&lt;AI /&gt;</span><span class="lbl lbl--12">Honest version</span></div>
     <h1 class="cs-title">How I use AI</h1>
-    <p class="cs-lede">AI drafts, I decide. Claude and Figma MCP sit inside my design-system workflow, not instead of it. Here is where they help, where they got it wrong, and the rules I hold to.</p>
+    <p class="cs-lede">AI drafts, I decide. Where Claude and Figma MCP help, where they got it wrong, and the rules I hold to.</p>
     <div class="cs-meta">
       <hr />
       <dl>
@@ -71,7 +71,7 @@
       <div class="cs-head">
         <span class="lbl lbl--12 lbl--blue">01</span>
         <h2 class="cs-h2">What AI does, what I decide</h2>
-        <p class="cs-sub">The split, as plainly as I can put it.</p>
+        <p class="cs-sub">The split, plainly.</p>
       </div>
       <div class="g g--2">
         <div class="card card--split">
@@ -101,7 +101,7 @@
       <div class="cs-head">
         <span class="lbl lbl--12 lbl--blue">02</span>
         <h2 class="cs-h2">Where it sits in the workflow</h2>
-        <p class="cs-sub">The same five steps as the pipeline on the home page.</p>
+        <p class="cs-sub">The same five steps as the pipeline.</p>
       </div>
       <div class="nrows">
         <div class="nrow"><span class="lbl lbl--12 lbl--blue n">01</span><div><h3>Tokens</h3><p>I set the colours, type, space and radius as Figma variables. AI proposes the dark-mode counterparts and checks contrast; I accept or adjust each pair.</p></div></div>
@@ -116,7 +116,7 @@
       <div class="cs-head">
         <span class="lbl lbl--12 lbl--blue">03</span>
         <h2 class="cs-h2">When AI got it wrong</h2>
-        <p class="cs-sub">Real examples from building this site. Each was caught by review, not by the model.</p>
+        <p class="cs-sub">Real examples from this site. Each caught by review, not by the model.</p>
       </div>
       <div class="g g--2 g--20">
         <div class="tile tile--wrong"><p class="t-h t-h--17">The logo's g went white in dark mode</p><p class="t-p">Claude mapped the mark's ink to the theme token, so the g on the lamp cone inverted with the page. It looked broken, not clever. Fixed by pinning the g to ink and leaving the cone light.</p></div><div class="tile"><p class="t-h t-h--17">A metric that did not exist</p><p class="t-p">An early draft of the facts row claimed a 30% improvement. No source, so it was deleted. Everything on the site now is a count I can stand behind.</p></div><div class="tile"><p class="t-h t-h--17">Career years filled in by guesswork</p><p class="t-p">The career map needed one entry per year from 2018 to now. Claude placed the middle years from the résumé's date ranges, which is a guess. Those placements are flagged and I am confirming them one by one.</p></div><div class="tile"><p class="t-h t-h--17">A gallery view that rendered blank</p><p class="t-p">The bento layout came back empty: the grid aligned items to the start and each tile collapsed to zero height. A one-line CSS fix, found by reading the computed styles, not by asking again.</p></div><div class="tile"><p class="t-h t-h--17">A one-page résumé that spilled to two</p><p class="t-p">The print stylesheet let the sheet grow with its content. The page now has a fixed A4 height and hidden overflow, and the PDF is checked for a single page every time it is regenerated.</p></div><div class="tile"><p class="t-h t-h--17">Text a screen reader would read as nonsense</p><p class="t-p">The résumé button exposed its progress counter, so it read as “Résumé.pdf0%”. AI did not catch this; a review pass did. The counter is hidden from assistive tech now.</p></div>
@@ -127,7 +127,7 @@
       <div class="cs-head">
         <span class="lbl lbl--12 lbl--blue">04</span>
         <h2 class="cs-h2">Rules I hold to</h2>
-        <p class="cs-sub">Short, because rules that need explaining get skipped.</p>
+        <p class="cs-sub">Short, so they get followed.</p>
       </div>
       <div class="g g--4">
         <div class="tile"><p class="t-h t-h--17">Draft, never decide</p><p class="t-p">AI output is a starting point. It never ships without a human reading it.</p></div><div class="tile"><p class="t-h t-h--17">Tokens or nothing</p><p class="t-p">A generated component binds to the system's variables or it is rejected.</p></div><div class="tile"><p class="t-h t-h--17">No real data in prompts</p><p class="t-p">Case studies use sample data. The product's real content stays inside Zoho.</p></div><div class="tile"><p class="t-h t-h--17">Say when it is AI</p><p class="t-p">This page, the chat and the palette tool all say what is generated and what is not.</p></div>
