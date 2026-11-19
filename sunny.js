@@ -193,9 +193,10 @@
     soundOn = localStorage.getItem("sunny:sound") !== "off";
     extraCues = localStorage.getItem("sunny:cues") !== "off";
   } catch (e) { /* ignore */ }
+  var gestured = false; /* browsers only start audio after a click, tap or key press */
   function ctx() {
     var AC = global.AudioContext || global.webkitAudioContext;
-    if (!AC) return null;
+    if (!AC || !gestured) return null;
     if (!actx) actx = new AC();
     if (actx.state === "suspended") actx.resume();
     if (actx.state === "running") unlocked = true;
@@ -474,7 +475,7 @@
     if (finePointer) global.addEventListener("pointermove", onPointer, { passive: true });
     global.addEventListener("keydown", function () { lastInput = Date.now(); wake(); });
     global.addEventListener("touchstart", function () { lastInput = Date.now(); wake(); }, { passive: true });
-    function firstGesture() { if (!soundOn) return; ctx(); welcome(); }
+    function firstGesture() { gestured = true; if (!soundOn) return; ctx(); welcome(); }
     global.addEventListener("pointerdown", firstGesture, { passive: true });
     global.addEventListener("keydown", firstGesture);
     global.addEventListener("touchstart", firstGesture, { passive: true });
