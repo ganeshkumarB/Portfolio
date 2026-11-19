@@ -1354,7 +1354,7 @@ body.inspecting { user-select: none; }
 }
 .ins__panel {
   position: fixed;
-  right: 20px;
+  left: 20px;
   bottom: 20px;
   width: 320px;
   padding: 14px 16px;
