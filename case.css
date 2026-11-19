@@ -1033,3 +1033,31 @@ a.lbl:hover { color: var(--ink); }
 .cs-note b, .compare figcaption b { color: var(--ink); }
 @media (max-width: 720px) { .prompt__head { flex-wrap: wrap; } .prompt__title { flex-basis: 100%; order: 2; } }
 .cs-note { width: 100%; align-self: flex-start; margin-left: 0; text-align: left; }
+
+/* job-description matcher on the hiring page */
+.cs-page .recruiter__card { border: 0; background: var(--cs-surface); border-radius: 20px; padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; }
+.cs-page .jd__input, .cs-page .jd__case { background: var(--cs-card); border-color: var(--cs-line); }
+.cs-page .jd__result { border-top-color: var(--cs-line); }
+
+/* ============================================================
+   Quick read / Full story
+   ============================================================ */
+.readmode { display: inline-flex; gap: 4px; padding: 4px; margin: 14px 0 4px; border: 1px solid var(--cs-line); border-radius: 999px; background: var(--cs-card); }
+.readmode__btn { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 500 13px/1.4 var(--font-sans); cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.readmode__btn .mono { font-size: 10px; letter-spacing: 0.06em; opacity: 0.7; }
+.readmode__btn:hover { color: var(--ink); }
+.readmode__btn.is-on { background: var(--ink); color: var(--bg); }
+.readmode__btn.is-on .mono { opacity: 0.8; }
+.quick { padding: 0 var(--gutter) 72px; }
+.quick__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.quick__cell { display: flex; flex-direction: column; gap: 10px; padding: 24px 26px; border-radius: 20px; background: var(--cs-surface); }
+.quick__cell--wide { grid-column: 1 / -1; }
+.quick__cell p { font-size: 17px; line-height: 1.55; color: var(--ink); margin: 0; }
+.quick__cell--wide p { font-size: 20px; line-height: 1.5; }
+.quick__cell b { font-weight: 600; }
+.quick__cell--ink { background: var(--cs-dark); }
+.quick__cell--ink p { color: #fff; }
+.quick__foot { margin-top: 16px; font-size: 11px; color: var(--muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.quick__more { padding: 0; border: 0; background: none; color: var(--ink); font: inherit; cursor: pointer; text-decoration: underline; }
+body.is-quick .cs-content, body.is-quick .cs-cover, body.is-quick .cs-visual, body.is-quick .cs-note { display: none; }
+@media (max-width: 720px) { .quick__grid { grid-template-columns: 1fr; } .quick__cell { padding: 18px; } .quick { padding-bottom: 48px; } }

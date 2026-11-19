@@ -17,16 +17,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/fraunces-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261163" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261163" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261163" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261164" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261164" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261164" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261163" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="mascots.css?v=20261163" /></noscript>
-  <link rel="stylesheet" href="sunny.css?v=20261163" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261163" /></noscript>
+  <link rel="stylesheet" href="mascots.css?v=20261164" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="mascots.css?v=20261164" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261164" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261164" /></noscript>
 </head>
 <body>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
@@ -54,10 +54,12 @@
 
     <div class="hero__grid">
       <div class="hero__copy">
-        <a class="availability" href="hire.html" data-intro style="--i:0" title="Hiring me? Quick answers">
+        <div class="hero__pills"><a class="availability" href="hire.html" data-intro style="--i:0" title="Hiring me? Quick answers">
           <img loading="lazy" decoding="async" src="assets/dot-amber.svg" width="8" height="8" alt="" />
           Open to lead product design roles
         </a>
+          <button type="button" class="mode-toggle mono" id="modeToggle" aria-pressed="false" data-intro style="--i:0" title="A condensed view: three case studies, outcomes, role details and contact"><span class="mode-toggle__track" aria-hidden="true"></span>Recruiter view</button>
+        </div>
         <h1 class="hero__title" id="heroTitle">I design the system, and the bridge between Figma and code.</h1>
         <p class="hero__lede" data-intro style="--i:2">Eight years designing Zoho SalesIQ. I own its design system and the workflow that turns it into code.</p>
         <div class="hero__cta" data-intro style="--i:3">
@@ -140,6 +142,44 @@
     </div>
   </section>
 
+
+  <!-- ===== Recruiter strip (shown in Recruiter view) ===== -->
+  <section class="recruiter" id="recruiter" aria-label="For recruiters">
+    <div class="recruiter__grid">
+      <div class="recruiter__card">
+        <span class="mono recruiter__kicker">role details</span>
+        <dl class="recruiter__facts">
+          <div><dt>Looking for</dt><dd>Lead, staff or senior product designer · design systems</dd></div>
+          <div><dt>Notice period</dt><dd>30 days</dd></div>
+          <div><dt>Location</dt><dd>Chennai, India · IST · remote or relocation</dd></div>
+          <div><dt>Experience</dt><dd>8+ years on Zoho SalesIQ, intern to senior</dd></div>
+        </dl>
+        <div class="recruiter__actions">
+          <a class="btn btn--primary btn--sm" href="mailto:ganesh.rayanbalu@gmail.com?subject=Hiring%20conversation">Email me</a>
+          <a class="btn btn--ghost btn--sm" href="assets/Ganeshkumar-B-Resume-1page.pdf" download>One-page résumé</a>
+          <a class="btn btn--ghost btn--sm" href="hire.html">Hiring FAQ</a>
+        </div>
+      </div>
+      <div class="recruiter__card">
+        <span class="mono recruiter__kicker">three case studies · what shipped</span>
+        <ul class="recruiter__list">
+          <li><a href="case-zobot.html"><b>Zobot, the no-code chatbot builder</b><span>Sole designer. Website at launch, 7 channels today.</span></a></li>
+          <li><a href="case-design-system.html"><b>SalesIQ design system</b><span>48+ components on one set of tokens, mapped to code with Code Connect.</span></a></li>
+          <li><a href="case-operator-console.html"><b>Operator Console</b><span>Queue, chat and visitor in one view for agents on many chats.</span></a></li>
+        </ul>
+      </div>
+      <div class="recruiter__card recruiter__card--wide">
+        <span class="mono recruiter__kicker">match me to your job description</span>
+        <form class="jd" id="jdForm">
+          <label class="jd__label" for="jdText">Paste the job description. Matching happens in your browser, keyword by keyword. Nothing is sent anywhere.</label>
+          <textarea class="jd__input" id="jdText" rows="5" placeholder="Paste a job description here…"></textarea>
+          <div class="jd__row"><button type="submit" class="btn btn--primary btn--sm">Match</button><button type="button" class="btn btn--ghost btn--sm" id="jdClear">Clear</button><span class="mono jd__note" id="jdNote"></span></div>
+        </form>
+        <div class="jd__result" id="jdResult" hidden></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== Work ===== -->
   <section class="section work" id="work" data-layer="Work">
     <div class="section__head section__head--end">
@@ -183,7 +223,7 @@
         </div>
       </details>
 
-      <details class="case">
+      <details class="case" id="case-operator-console">
         <summary class="case__summary">
           <span class="case__title">Operator Console <span class="case__toggle" aria-hidden="true"></span></span>
           <span class="case__meta"><code class="mono case__tag">&lt;OperatorConsole /&gt;</code><span>Queue, chat and visitor in one view</span></span>
@@ -761,11 +801,11 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261163"></script>
-  <script src="creative.js?v=20261163"></script>
-  <script src="mascots.js?v=20261163"></script>
-  <script src="sunny.js?v=20261163"></script>
-  <script src="sunny-ai.js?v=20261163"></script>
-  <script src="extras.js?v=20261163"></script>
+  <script src="script.js?v=20261164"></script>
+  <script src="creative.js?v=20261164"></script>
+  <script src="mascots.js?v=20261164"></script>
+  <script src="sunny.js?v=20261164"></script>
+  <script src="sunny-ai.js?v=20261164"></script>
+  <script src="extras.js?v=20261164"></script>
 </body>
 </html>

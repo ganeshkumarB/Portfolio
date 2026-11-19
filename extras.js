@@ -123,4 +123,110 @@
     stage.addEventListener("pointercancel", function () { dragging = false; });
     set(+range.value || 50);
   });
+
+  /* ============================================================
+     Recruiter view: a condensed home page, remembered per browser
+     ============================================================ */
+  var modeBtn = $("#modeToggle");
+  if (modeBtn) {
+    function setMode(on, quiet) {
+      document.body.classList.toggle("recruiter", on);
+      modeBtn.setAttribute("aria-pressed", String(on));
+      try { localStorage.setItem("site:mode", on ? "recruiter" : "full"); } catch (e) { /* ignore */ }
+      try {
+        var u = new URL(location.href);
+        if (on) u.searchParams.set("mode", "recruiter"); else u.searchParams.delete("mode");
+        history.replaceState(null, "", u.pathname + (u.search || "") + u.hash);
+      } catch (e) { /* ignore */ }
+      if (!quiet) {
+        var target = on ? $("#recruiter") : $("#hey");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (window.Sunny && !on) Sunny.say("Full site again. Welcome back!", 2400);
+      }
+      window.dispatchEvent(new Event("resize"));
+    }
+    var wantsMode = false;
+    try { wantsMode = new URL(location.href).searchParams.get("mode") === "recruiter" || localStorage.getItem("site:mode") === "recruiter"; } catch (e) { /* ignore */ }
+    if (wantsMode) setMode(true, true);
+    modeBtn.addEventListener("click", function () { setMode(!document.body.classList.contains("recruiter")); });
+  }
+
+  /* ============================================================
+     Match me to your job description: keyword matching, in the browser
+     ============================================================ */
+  var jdForm = $("#jdForm");
+  if (jdForm) {
+    var CASES = {
+      zobot: ["case-zobot.html", "Zobot, the no-code chatbot builder"],
+      system: ["case-design-system.html", "SalesIQ design system"],
+      console: ["case-operator-console.html", "Operator Console"],
+      reports: ["case-reports.html", "Reports and analytics"],
+      brand: ["case-brand-configuration.html", "Brand configuration"],
+      outbound: ["case-outbound.html", "Outbound campaigns"],
+      feedback: ["case-feedback.html", "Rating & Feedback"]
+    };
+    /* each skill: how a job description tends to say it, and which case studies show it */
+    var SKILLS = [
+      { label: "Design systems", k: ["design system", "design systems", "component library", "component libraries", "ui kit", "pattern library"], c: ["system"] },
+      { label: "Design tokens & Figma variables", k: ["design token", "tokens", "figma variables", "variables", "theming", "dark mode"], c: ["system"] },
+      { label: "Figma", k: ["figma"], c: ["system", "zobot"] },
+      { label: "Code Connect / Dev Mode", k: ["code connect", "dev mode", "handoff", "hand-off", "design-to-code", "design to code", "developer handoff"], c: ["system"] },
+      { label: "AI-assisted design", k: ["ai", "llm", "generative", "mcp", "claude", "chatgpt", "copilot", "ai-assisted", "ai tools"], c: ["system"] },
+      { label: "Enterprise / B2B SaaS", k: ["b2b", "saas", "enterprise", "platform"], c: ["console", "reports", "system"] },
+      { label: "End-to-end product design", k: ["end-to-end", "end to end", "0 to 1", "zero to one", "from concept", "full product lifecycle", "product design"], c: ["zobot", "outbound", "brand"] },
+      { label: "No-code / builders", k: ["no-code", "no code", "low-code", "builder", "workflow", "automation", "chatbot", "bot"], c: ["zobot"] },
+      { label: "Conversational / messaging", k: ["chat", "messaging", "conversational", "live chat", "whatsapp", "support"], c: ["console", "zobot", "feedback"] },
+      { label: "Dashboards & data visualisation", k: ["dashboard", "dashboards", "analytics", "data visualization", "data visualisation", "charts", "reporting", "reports"], c: ["reports"] },
+      { label: "Complex workflows / admin tools", k: ["complex", "admin", "configuration", "settings", "internal tools", "operations", "agent"], c: ["console", "brand"] },
+      { label: "Cross-platform (web, mobile SDK)", k: ["mobile", "ios", "android", "sdk", "cross-platform", "responsive", "multi-platform"], c: ["system", "brand"] },
+      { label: "User research & usability testing", k: ["user research", "research", "usability", "user testing", "interviews", "discovery", "customer feedback"], c: ["console", "reports", "feedback"] },
+      { label: "Information architecture", k: ["information architecture", " ia ", "navigation", "taxonomy", "structure"], c: ["reports", "console"] },
+      { label: "Interaction design & prototyping", k: ["interaction design", "prototyp", "micro-interaction", "motion", "animation"], c: ["zobot", "outbound"] },
+      { label: "Accessibility", k: ["accessibility", "a11y", "wcag", "inclusive"], c: ["system"] },
+      { label: "Design leadership & critique", k: ["lead", "leadership", "mentor", "critique", "design review", "stakeholder", "cross-functional", "collaborat"], c: ["system", "console"] },
+      { label: "HTML & CSS", k: ["html", "css", "front-end", "frontend", "front end", "code"], c: ["system"] },
+      { label: "Visual & brand design", k: ["visual design", "branding", "brand", "illustration", "typography"], c: ["brand", "zobot"] },
+      { label: "Survey & feedback flows", k: ["survey", "feedback", "csat", "nps", "rating"], c: ["feedback"] }
+    ];
+    /* things a JD may ask for that the site does not claim; say so instead of pretending */
+    var NOT_HERE = [
+      { label: "People management", k: ["people manag", "direct reports", "manage a team", "managing a team", "hire and grow"] },
+      { label: "Consumer / B2C products", k: ["b2c", "consumer app", "consumer product", "e-commerce", "ecommerce"] },
+      { label: "Native app engineering", k: ["swift", "kotlin", "react native", "flutter"] },
+      { label: "Game design", k: ["game design", "unity", "unreal"] },
+      { label: "Marketing design / growth", k: ["marketing campaigns", "growth design", "landing pages", "seo"] }
+    ];
+    var jdText = $("#jdText"), jdResult = $("#jdResult"), jdNote = $("#jdNote"), jdClear = $("#jdClear");
+    function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+    function match(text) {
+      var t = " " + text.toLowerCase().replace(/[^a-z0-9+&/ -]+/g, " ").replace(/\s+/g, " ") + " ";
+      var hits = [], caseScore = {};
+      SKILLS.forEach(function (s) {
+        var n = 0;
+        s.k.forEach(function (k) { var i = 0; while ((i = t.indexOf(k, i)) > -1) { n++; i += k.length; } });
+        if (n) { hits.push({ s: s, n: n }); s.c.forEach(function (c, idx) { caseScore[c] = (caseScore[c] || 0) + n * (idx === 0 ? 2 : 1); }); }
+      });
+      hits.sort(function (a, b) { return b.n - a.n; });
+      var misses = NOT_HERE.filter(function (m) { return m.k.some(function (k) { return t.indexOf(k) > -1; }); });
+      var cases = Object.keys(caseScore).sort(function (a, b) { return caseScore[b] - caseScore[a]; }).slice(0, 3);
+      return { hits: hits, misses: misses, cases: cases, caseScore: caseScore };
+    }
+    jdForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var text = jdText.value.trim();
+      if (text.length < 40) { jdNote.textContent = "Paste a little more of the description."; return; }
+      var r = match(text);
+      jdNote.textContent = "";
+      var words = text.split(/\s+/).length;
+      var head = r.hits.length ? (r.hits.length + " of the things this role asks for show up in the work. Start with " + (r.cases.length ? CASES[r.cases[0]][1] : "the case studies") + ".") : "No clear overlap found. Try pasting the responsibilities and requirements sections.";
+      var html = '<p class="jd__summary">' + esc(head) + "</p>";
+      if (r.hits.length) html += '<div><h4>Matched in the work</h4><div class="jd__chips">' + r.hits.map(function (h) { return '<span class="jd__chip">' + esc(h.s.label) + (h.n > 1 ? " ×" + h.n : "") + "</span>"; }).join("") + "</div></div>";
+      if (r.misses.length) html += '<div><h4>Asked for, not shown here</h4><div class="jd__chips">' + r.misses.map(function (m) { return '<span class="jd__chip jd__chip--miss">' + esc(m.label) + "</span>"; }).join("") + '</div><p class="jd__honest">Worth asking about on a call rather than assuming.</p></div>';
+      if (r.cases.length) html += '<div><h4>Read these first</h4><div class="jd__cases">' + r.cases.map(function (c, i) { return '<a class="jd__case" href="' + CASES[c][0] + '"><i>0' + (i + 1) + "</i><b>" + esc(CASES[c][1]) + "</b><span>" + r.caseScore[c] + " matching signals</span></a>"; }).join("") + "</div></div>";
+      html += '<p class="jd__honest">Keyword matching in your browser against ' + SKILLS.length + " skills on this site, across " + words + " words. Nothing was sent anywhere.</p>";
+      jdResult.innerHTML = html; jdResult.hidden = false;
+      if (window.Sunny && !document.body.classList.contains("recruiter")) Sunny.say(r.hits.length ? "Matched " + r.hits.length + " skills. Read the first case." : "Hmm, not much overlap there.", 3000);
+    });
+    if (jdClear) jdClear.addEventListener("click", function () { jdText.value = ""; jdResult.hidden = true; jdResult.innerHTML = ""; jdNote.textContent = ""; jdText.focus(); });
+  }
 })();
