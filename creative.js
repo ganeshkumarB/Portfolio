@@ -488,18 +488,35 @@
   var gallery = $(".gallery__grid");
   var pieces = $$(".piece", gallery);
   var isDesk = false, dragState = null, suppressClick = false;
-  var VIEWS = ["grid", "desk", "strip", "list", "wall"], currentView = "grid";
-  var VIEW_TOASTS = { grid: "grid · four columns", desk: "desk mode · drag the prints around", strip: "strip · swipe sideways", list: "list · titles and tags", wall: "wall · square tiles, click to open" };
+  var VIEWS = ["grid", "desk", "strip", "list", "wall", "spotlight", "polaroid", "film", "flow"], currentView = "grid";
+  var VIEW_TOASTS = {
+    grid: "grid · four columns", desk: "desk mode · drag the prints around", strip: "strip · swipe sideways", list: "list · titles and tags", wall: "wall · square tiles, click to open",
+    spotlight: "spotlight · lights off, the lamp follows you", polaroid: "polaroid · instant prints, hover to straighten", film: "film · a negative strip, hover for colour", flow: "flow · click the sides or use ← →"
+  };
+  var flowIndex = 0;
+  function layoutFlow() {
+    var step = window.innerWidth < 720 ? 110 : 170;
+    pieces.forEach(function (p, i) {
+      var o = i - flowIndex, a = Math.abs(o);
+      p.style.transform = "translateX(" + (o * step) + "px) translateZ(" + (-a * 160) + "px) rotateY(" + (-o * 32) + "deg)";
+      p.style.zIndex = 100 - a;
+      p.style.opacity = a > 4 ? 0 : 1 - a * 0.12;
+      p.classList.toggle("is-active", o === 0);
+    });
+  }
+  function setFlow(i) { flowIndex = (i + pieces.length) % pieces.length; layoutFlow(); }
   function applyView(name) {
     isDesk = false;
     gallery.style.height = "";
-    pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); });
+    pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); p.classList.remove("is-active"); });
     VIEWS.forEach(function (v) { gallery.classList.remove("is-" + v); });
     if (name !== "grid") gallery.classList.add("is-" + name);
+    if (name === "flow") { flowIndex = Math.min(flowIndex, pieces.length - 1); layoutFlow(); }
   }
   function setView(name, quiet) {
     if (VIEWS.indexOf(name) < 0 || name === currentView) return;
     if (name === "desk") { if (currentView !== "grid") applyView("grid"); toDesk(); }
+    else if (name === "flow" || currentView === "flow") { applyView(name); }
     else {
       var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
       flip(before, function () { applyView(name); });
@@ -547,6 +564,30 @@
       var saved = localStorage.getItem("gallery:view");
       if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1) setView(saved, true);
     } catch (e) { /* ignore */ }
+    /* spotlight: the lamp follows the pointer */
+    gallery.addEventListener("pointermove", function (e) {
+      if (currentView !== "spotlight") return;
+      var r = gallery.getBoundingClientRect();
+      gallery.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      gallery.style.setProperty("--my", (e.clientY - r.top) + "px");
+      gallery.classList.add("is-lit");
+    });
+    gallery.addEventListener("pointerleave", function () { gallery.classList.remove("is-lit"); });
+    /* flow: click a side card to bring it forward, arrows to step */
+    pieces.forEach(function (p, i) {
+      p.addEventListener("click", function (e) {
+        if (currentView !== "flow" || i === flowIndex) return;
+        e.preventDefault(); e.stopImmediatePropagation(); setFlow(i);
+      }, true);
+    });
+    window.addEventListener("resize", function () { if (currentView === "flow") layoutFlow(); });
+    document.addEventListener("keydown", function (e) {
+      if (currentView !== "flow" || typingTarget(e)) return;
+      var lb = $("#lightbox"); if (lb && !lb.hidden) return;
+      var r = gallery.getBoundingClientRect(); if (r.bottom < 0 || r.top > window.innerHeight) return;
+      if (e.key === "ArrowRight") { e.preventDefault(); setFlow(flowIndex + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); setFlow(flowIndex - 1); }
+    });
     var zTop = 100;
     pieces.forEach(function (p) {
       p.addEventListener("pointerdown", function (e) {
