@@ -76,8 +76,7 @@
     });
     moveIndicator(activeLink);
   }
-  moveIndicator(activeLink);
-  requestAnimationFrame(function () { nav.classList.add("is-ready"); });
+  requestAnimationFrame(function () { moveIndicator(activeLink); nav.classList.add("is-ready"); });
   window.addEventListener("resize", function () { moveIndicator(activeLink); });
 
   links.forEach(function (a) {

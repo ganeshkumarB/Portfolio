@@ -150,8 +150,9 @@
   function build() {
     root = document.createElement("div");
     root.className = "sunny";
-    root.setAttribute("aria-hidden", "true");
-    root.innerHTML = '<div class="sunny__char"><div class="sunny__bubble"></div><button type="button" class="sunny__nap" aria-label="Let Sunny nap" title="Let Sunny nap">zz</button>' + art() + '</div>';
+    root.setAttribute("role", "complementary");
+    root.setAttribute("aria-label", "Sunny, the site mascot");
+    root.innerHTML = '<div class="sunny__char"><div class="sunny__bubble" aria-hidden="true"></div><button type="button" class="sunny__nap" aria-label="Let Sunny nap" title="Let Sunny nap">zz</button>' + art() + '</div>';
     document.body.appendChild(root);
     charEl = root.querySelector(".sunny__char");
     bubble = root.querySelector(".sunny__bubble");
