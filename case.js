@@ -39,7 +39,7 @@
   function onScroll() {
     var y = window.scrollY, max = root.scrollHeight - innerHeight;
     progress.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
-    if (resumePct) { var pct = max > 0 ? Math.round(Math.min(1, y / max) * 100) : 0; resumePct.textContent = pct + "%"; resumeFill.style.width = pct + "%"; }
+    if (resumeFill) { var pct = max > 0 ? Math.round(Math.min(1, y / max) * 100) : 0; if (resumePct) resumePct.textContent = pct + "%"; resumeFill.style.width = pct + "%"; }
     var f = y > 140;
     if (f !== floating) { floating = f; nav.classList.toggle("is-floating", f); moveIndicator(active); }
   }
