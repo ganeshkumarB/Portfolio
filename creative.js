@@ -293,6 +293,7 @@
     if (k === "i") setInspect(!inspecting);
     else if (k === "g") grid.hidden = !grid.hidden;
     else if (k === "t") { var tb = $("#themeToggle"); if (tb) tb.click(); }
+    else if (k === "v" && viewSwitch) { setView(VIEWS[(VIEWS.indexOf(currentView) + 1) % VIEWS.length]); }
     else if (k === "c" && inspecting) copyCss();
     else if (k === "escape" && inspecting) { if (pinned) unpin(); else setInspect(false); }
   });
@@ -482,10 +483,32 @@
   /* ============================================================
      Gallery desk mode (scatter + drag)
      ============================================================ */
-  var deskBtn = $("#deskToggle");
+  var viewSwitch = $("#deskToggle");
+  var viewBtns = $$(".view-switch__btn", viewSwitch);
   var gallery = $(".gallery__grid");
   var pieces = $$(".piece", gallery);
   var isDesk = false, dragState = null, suppressClick = false;
+  var VIEWS = ["grid", "desk", "strip", "list", "wall"], currentView = "grid";
+  var VIEW_TOASTS = { grid: "grid · four columns", desk: "desk mode · drag the prints around", strip: "strip · swipe sideways", list: "list · titles and tags", wall: "wall · square tiles, click to open" };
+  function applyView(name) {
+    isDesk = false;
+    gallery.style.height = "";
+    pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); });
+    VIEWS.forEach(function (v) { gallery.classList.remove("is-" + v); });
+    if (name !== "grid") gallery.classList.add("is-" + name);
+  }
+  function setView(name, quiet) {
+    if (VIEWS.indexOf(name) < 0 || name === currentView) return;
+    if (name === "desk") { if (currentView !== "grid") applyView("grid"); toDesk(); }
+    else {
+      var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
+      flip(before, function () { applyView(name); });
+    }
+    currentView = name;
+    viewBtns.forEach(function (b) { var on = b.getAttribute("data-view") === name; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); });
+    try { localStorage.setItem("gallery:view", name); } catch (e) { /* ignore */ }
+    if (!quiet) toast(VIEW_TOASTS[name]);
+  }
 
   function flip(before, apply) {
     apply();
@@ -517,23 +540,13 @@
       });
     });
     window.scrollTo(0, scrollBefore);
-    deskBtn.innerHTML = "view: grid ⇄ <b>desk</b>";
-    deskBtn.setAttribute("aria-pressed", "true");
-    toast("desk mode · drag the prints around");
   }
-  function toGrid() {
-    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
-    flip(before, function () {
-      isDesk = false;
-      gallery.classList.remove("is-desk");
-      gallery.style.height = "";
-      pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); });
-    });
-    deskBtn.innerHTML = "view: <b>grid</b> ⇄ desk";
-    deskBtn.setAttribute("aria-pressed", "false");
-  }
-  if (deskBtn) {
-    deskBtn.addEventListener("click", function () { isDesk ? toGrid() : toDesk(); });
+  if (viewSwitch) {
+    viewBtns.forEach(function (b) { b.addEventListener("click", function () { setView(b.getAttribute("data-view")); }); });
+    try {
+      var saved = localStorage.getItem("gallery:view");
+      if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1) setView(saved, true);
+    } catch (e) { /* ignore */ }
     var zTop = 100;
     pieces.forEach(function (p) {
       p.addEventListener("pointerdown", function (e) {
