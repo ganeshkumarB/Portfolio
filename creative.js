@@ -113,7 +113,6 @@
     { sel: ".nav__inspect", name: "Nav / Inspect button", figma: "no Figma counterpart, built in code", node: "" },
     { sel: ".nav__pill", name: "Nav / Pill", figma: "Nav pill · Active=Hey…Contact", node: "2-99" },
     { sel: ".replay", name: "Process / Step 04 replay", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".tokenlab", name: "Skills / Token playground", figma: "no Figma counterpart, built in code", node: "" },
     { sel: ".availability", name: "Hero / Availability pill", figma: "Tags & chips · Type=Status", node: "2-178" },
     { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Button · Type=Primary, State=Default", node: "2-45" },
     { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" },

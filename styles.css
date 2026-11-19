@@ -1917,42 +1917,6 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 @media (max-width: 1080px) { .replay { grid-template-columns: 1fr; } .replay__arrow { transform: rotate(90deg); justify-self: center; } }
 
 /* ============================================================
-   Token playground: palette generator
-   ============================================================ */
-.tokenlab { margin-top: 28px; padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); display: flex; flex-direction: column; gap: 18px; }
-.tokenlab__head { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
-.tokenlab__head h3 { font-family: var(--font-serif); font-weight: 400; font-size: 26px; line-height: 1.1; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
-.tokenlab__head p { margin-top: 6px; font-size: 15px; color: var(--muted); max-width: 520px; }
-.tokenlab__kicker { display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.tokenlab__controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.tokenlab__pick { display: inline-flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); cursor: pointer; }
-.tokenlab__pick input[type="color"] { width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
-.tokenlab__pick input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-.tokenlab__pick input[type="color"]::-webkit-color-swatch { border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 50%; }
-.tokenlab__pick .mono { font-size: 13px; color: var(--ink); }
-.tokenlab__name { padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 500 13px/1 var(--font-mono); width: 150px; }
-.tokenlab__name:focus { outline: none; border-color: var(--ink); }
-.lab__ramp { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
-.lab__sw { display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; min-height: 108px; padding: 10px 8px; border-radius: 12px; background: var(--c); color: var(--fg); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.lab__sw:hover { transform: translateY(-3px); }
-.lab__step { font-size: 12px; opacity: 0.9; }
-.lab__hex { font-size: 10px; opacity: 0.8; }
-.lab__aa { margin-top: 4px; align-self: flex-start; padding: 1px 6px; border-radius: 999px; background: rgba(0, 0, 0, 0.18); font: 500 10px/1.5 var(--font-mono); opacity: 0.85; }
-.lab__aa.is-ok { background: rgba(255, 255, 255, 0.28); }
-.tokenlab__foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-.lab__preview { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--p-bg); color: var(--p-ink); font-size: 13px; }
-.lab__preview b { font-weight: 600; }
-.lab__preview .lab__btn { padding: 6px 12px; border-radius: 999px; background: var(--p-accent); color: var(--p-accent-fg); font-size: 12px; font-weight: 500; }
-.lab__preview .lab__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--p-accent); }
-.tokenlab__actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; align-items: center; }
-.tokenlab__actions .btn { display: inline-flex; align-items: center; cursor: pointer; font-family: var(--font-sans); }
-.tokenlab__note { width: 100%; font-size: 11px; color: var(--muted); }
-.lab__toast { font-size: 12px; color: var(--green); opacity: 0; transition: opacity 0.2s ease; }
-.lab__toast.is-show { opacity: 1; }
-@media (max-width: 1080px) { .lab__ramp { grid-template-columns: repeat(5, 1fr); } }
-@media (max-width: 720px) { .lab__ramp { grid-template-columns: repeat(2, 1fr); } .lab__sw { min-height: 84px; } .tokenlab { padding: 18px; } }
-
-/* ============================================================
    Compare slider: before / after
    ============================================================ */
 .compare { margin: 0; width: 100%; --pos: 50%; }

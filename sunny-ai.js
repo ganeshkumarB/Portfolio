@@ -38,7 +38,6 @@
     { k: ["site", "website", "built", "made", "stack", "framework", "how was this"], a: "Designed by Ganesh, built with Claude in plain HTML, CSS and a little JavaScript. No framework, no build step. There's a page with the timeline and AI's drafts next to the finals.", link: ["how-this-site-was-built.html", "How this site was built"] },
     { k: ["ai", "use ai", "claude", "artificial", "chatgpt", "honest", "wrong"], a: "AI drafts, he decides. Claude and Figma MCP sit inside the design-system workflow; nothing generated ships unreviewed. There's a page on it, including the times AI got it wrong.", link: ["how-i-use-ai.html", "How I use AI"] },
     { k: ["prompt", "prompts", "prompt library", "library", "download prompts"], a: "Seven prompts for tokens, components, Code Connect and critique, free to copy or download as Markdown.", link: ["prompts.html", "Prompt library"] },
-    { k: ["palette", "colour", "color", "ramp", "generator", "playground", "token playground"], a: "The token playground: pick a colour, get a ten-step ramp with contrast on every swatch, copy it as CSS or Figma JSON. Algorithmic, no AI.", link: [home + "#tokenlab", "Token playground"] },
     { k: ["replay", "animation", "step 04", "prompt to component", "demo"], a: "Under the pipeline there's a replay of step 04: a prompt goes in, Figma MCP builds the component, Code Connect returns the code.", link: [home + "#process", "How the system ships"] },
     { k: ["dark", "light", "theme", "night mode", "dark mode"], a: "Flipping the lights.", act: "theme" },
     { k: ["shortcut", "shortcuts", "keyboard", "keys", "hotkey"], a: "Here they are.", act: "keys" },
@@ -66,8 +65,7 @@
     "sunny": ["How was this site built?", "Show me the gallery", "Keyboard shortcuts?"],
     "site": ["How does he use AI?", "Does he code?", "Keyboard shortcuts?"],
     "ai": ["Show me the prompts", "When did AI get it wrong?", "How was this site built?"],
-    "prompt": ["How does he use AI?", "Tell me about the design system", "Email him"],
-    "palette": ["How does the system ship?", "Tell me about the design system", "Show me the prompts"]
+    "prompt": ["How does he use AI?", "Tell me about the design system", "Email him"]
   };
   var FOLLOW_DEFAULT = ["Is he open to roles?", "Show me the case studies", "Email him"];
   function norm(s) { return s.toLowerCase().replace(/[^a-z0-9+& ]+/g, " ").replace(/\s+/g, " ").trim(); }
