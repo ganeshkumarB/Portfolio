@@ -539,19 +539,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
   transform-origin: 90% 100%;
 }
 .ask[hidden] { display: none; }
-.ask::after {
-  content: "";
-  position: absolute;
-  right: 44px;
-  bottom: -9px;
-  width: 18px;
-  height: 18px;
-  background: var(--card, #fff);
-  border-right: 1px solid var(--line, #e6e7ea);
-  border-bottom: 1px solid var(--line, #e6e7ea);
-  transform: rotate(45deg);
-  border-radius: 2px;
-}
+
 @keyframes ask-in { from { opacity: 0; transform: translateY(12px) scale(0.96); } to { opacity: 1; transform: none; } }
 
 .ask__head {
@@ -624,6 +612,5 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 @media (max-width: 720px) {
   .sunny__ask { left: -50px; top: 44px; padding: 6px 10px; font-size: 11px; }
   .ask { right: 4px; bottom: 134px; border-radius: 18px; }
-  .ask::after { right: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { .ask, .sunny__ask, .ask__typing i { animation: none; } }
