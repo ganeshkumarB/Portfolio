@@ -1981,3 +1981,19 @@ body.no-shortcuts .hero__hint { display: none; }
 @media (max-width: 1080px) { .ai__grid { grid-template-columns: 1fr; } .sunny-can { grid-template-columns: 1fr; gap: 24px; } }
 @media (max-width: 720px) { .sunny-can { padding: 24px 20px; } .sunny-can__list { grid-template-columns: 1fr; } }
 #insCompFig.is-none { color: #8a8f99; text-decoration: none; border-bottom: 0; cursor: default; pointer-events: none; }
+
+/* recruiter short path */
+.work__hurry { margin: -28px 0 8px; font-size: 12px; color: var(--muted); }
+.work__hurry a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.work__hurry a:hover { border-bottom-color: var(--ink); }
+.case__start { padding: 2px 8px; border-radius: 999px; background: var(--sun); color: #15161a; font: 500 10px/1.6 var(--font-mono); letter-spacing: 0.04em; }
+@media (max-width: 720px) { .work__hurry { margin-top: -12px; } }
+
+/* testimonials */
+.quotes[hidden] { display: none; }
+.quotes__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.quote { margin: 0; display: flex; flex-direction: column; gap: 18px; padding: 26px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
+.quote blockquote { margin: 0; font-family: var(--font-serif); font-size: 22px; line-height: 1.3; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
+.quote figcaption { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--muted); }
+.quote figcaption b { font-weight: 600; color: var(--ink); }
+@media (max-width: 1080px) { .quotes__grid { grid-template-columns: 1fr; } }
