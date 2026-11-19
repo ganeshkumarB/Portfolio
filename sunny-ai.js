@@ -39,6 +39,7 @@
     { k: ["ai", "use ai", "claude", "artificial", "chatgpt", "honest", "wrong"], a: "AI drafts, he decides. Claude and Figma MCP sit inside the design-system workflow; nothing generated ships unreviewed. There's a page on it, including the times AI got it wrong.", link: ["how-i-use-ai.html", "How I use AI"] },
     { k: ["prompt", "prompts", "prompt library", "library", "download prompts"], a: "Seven prompts for tokens, components, Code Connect and critique, free to copy or download as Markdown.", link: ["prompts.html", "Prompt library"] },
     { k: ["replay", "animation", "step 04", "prompt to component", "demo"], a: "Under the pipeline there's a replay of step 04: a prompt goes in, Figma MCP builds the component, Code Connect returns the code.", link: [home + "#process", "How the system ships"] },
+    { k: ["sound", "sounds", "voice", "noise", "mute", "quiet", "chirp", "audio"], a: "My cues are synthesized, no audio files. Four voices: soft, bubbly, retro and bell, or off. Pick one in the AI section.", link: [home + "#ai", "What Sunny can do"] },
     { k: ["dark", "light", "theme", "night mode", "dark mode"], a: "Flipping the lights.", act: "theme" },
     { k: ["shortcut", "shortcuts", "keyboard", "keys", "hotkey"], a: "Here they are.", act: "keys" },
     { k: ["inspect", "inspector", "layers", "figma counterpart", "component names"], a: "Press I anywhere on the home page, or click the { } button in the nav. Hover a layer to see its tokens, click to pin a component and see its Figma counterpart.", link: [home + "#hey", "Home"] },

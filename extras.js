@@ -70,6 +70,26 @@
     if (restart) restart.addEventListener("click", function () { playing = true; run(); });
   }
 
+  /* sound profile switcher */
+  var voiceBox = $("#sunnyVoice");
+  if (voiceBox) {
+    var voiceBtns = $$("[data-voice]", voiceBox);
+    function markVoice() {
+      var S = window.Sunny, cur = S ? (S.soundOn() ? S.voice() : "off") : "soft";
+      voiceBtns.forEach(function (b) { b.classList.toggle("is-on", b.getAttribute("data-voice") === cur); });
+    }
+    voiceBtns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var S = window.Sunny; if (!S) return;
+        var v = b.getAttribute("data-voice");
+        if (v === "off") { S.setSound(false); S.say("Quiet mode. Still here.", 2000); }
+        else { S.setVoice(v, true); S.emote("happy", 1400); }
+        markVoice();
+      });
+    });
+    var tries = 0, tv = setInterval(function () { if (window.Sunny && window.Sunny.voice) { markVoice(); clearInterval(tv); } else if (++tries > 50) clearInterval(tv); }, 100);
+  }
+
   /* "Ask Sunny" buttons on the page open the chat, with a question if given */
   $$("[data-ask]").forEach(function (btn) {
     btn.addEventListener("click", function () {

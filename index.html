@@ -18,15 +18,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261151" />
+  <link rel="stylesheet" href="styles.css?v=20261152" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261151" />
-  <link rel="stylesheet" href="sunny.css?v=20261151" />
+  <link rel="stylesheet" href="mascots.css?v=20261152" />
+  <link rel="stylesheet" href="sunny.css?v=20261152" />
 </head>
 <body>
 
@@ -605,6 +605,14 @@
         <h3 class="sunny-can__title">What Sunny can do</h3>
         <p class="sunny-can__intro">100% SVG and a little JavaScript, drawn in Figma. It knows this site inside out.</p>
         <button type="button" class="btn btn--primary btn--sm" data-ask="">Ask Sunny something</button>
+        <div class="sunny-can__voice" id="sunnyVoice" role="group" aria-label="Sunny's sound">
+          <span class="mono">sound</span>
+          <button type="button" data-voice="soft">soft</button>
+          <button type="button" data-voice="bubbly">bubbly</button>
+          <button type="button" data-voice="retro">retro</button>
+          <button type="button" data-voice="bell">bell</button>
+          <button type="button" data-voice="off">off</button>
+        </div>
       </div>
       <ul class="sunny-can__list">
         <li><kbd class="mono">A</kbd><div><b>Answers questions</b><p>Roles, notice, tools, any case study. Try <button type="button" class="sunny-can__try" data-ask="Is he open to roles?">Is he open to roles?</button> or <button type="button" class="sunny-can__try" data-ask="Which project is most relevant to AI?">Which project is most relevant to AI?</button></p></div></li>
@@ -721,11 +729,11 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261151"></script>
-  <script src="creative.js?v=20261151"></script>
-  <script src="mascots.js?v=20261151"></script>
-  <script src="sunny.js?v=20261151"></script>
-  <script src="sunny-ai.js?v=20261151"></script>
-  <script src="extras.js?v=20261151"></script>
+  <script src="script.js?v=20261152"></script>
+  <script src="creative.js?v=20261152"></script>
+  <script src="mascots.js?v=20261152"></script>
+  <script src="sunny.js?v=20261152"></script>
+  <script src="sunny-ai.js?v=20261152"></script>
+  <script src="extras.js?v=20261152"></script>
 </body>
 </html>

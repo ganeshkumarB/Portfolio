@@ -189,10 +189,22 @@
      triggered by a gesture play right away; cues from Sunny's own acts play
      only once a gesture has unlocked audio. All of it is quiet. */
   var actx = null, unlocked = false, soundOn = true, extraCues = true;
+  /* sound profiles: the same cues, a different instrument.
+     pitch scales every note, wave overrides the oscillator, gain scales volume,
+     attack/release stretch the envelope, filter is a low-pass cutoff, noise scales the hiss bursts */
+  var VOICES = {
+    soft:   { pitch: 0.75, wave: "sine",     gain: 0.9,  attack: 0.03,  release: 1.6, filter: 1600, noise: 0.5 },
+    bubbly: { pitch: 1,    wave: null,       gain: 1,    attack: 0.012, release: 1,   filter: 0,    noise: 1 },
+    retro:  { pitch: 1,    wave: "square",   gain: 0.4,  attack: 0.004, release: 0.8, filter: 2600, noise: 0.6 },
+    bell:   { pitch: 1.5,  wave: "triangle", gain: 0.75, attack: 0.004, release: 2.4, filter: 0,    noise: 0.5 }
+  };
+  var voiceName = "soft";
   try {
     soundOn = localStorage.getItem("sunny:sound") !== "off";
     extraCues = localStorage.getItem("sunny:cues") !== "off";
+    if (VOICES[localStorage.getItem("sunny:voice")]) voiceName = localStorage.getItem("sunny:voice");
   } catch (e) { /* ignore */ }
+  var voice = VOICES[voiceName];
   var gestured = false; /* browsers only start audio after a click, tap or key press */
   function ctx() {
     var AC = global.AudioContext || global.webkitAudioContext;
@@ -205,17 +217,19 @@
   function tone(notes, type, vol) {
     /* notes: [frequency, start, duration, glideTo] in seconds */
     var ac = ctx(); if (!ac) return;
-    var t = ac.currentTime;
+    var t = ac.currentTime, v = voice;
     notes.forEach(function (n) {
-      var o = ac.createOscillator(), g = ac.createGain();
-      o.type = type || "sine";
-      o.frequency.setValueAtTime(n[0], t + n[1]);
-      if (n[3]) o.frequency.exponentialRampToValueAtTime(n[3], t + n[1] + n[2]);
+      var o = ac.createOscillator(), g = ac.createGain(), dur = n[2] * v.release;
+      o.type = v.wave || type || "sine";
+      o.frequency.setValueAtTime(n[0] * v.pitch, t + n[1]);
+      if (n[3]) o.frequency.exponentialRampToValueAtTime(n[3] * v.pitch, t + n[1] + dur);
       g.gain.setValueAtTime(0.0001, t + n[1]);
-      g.gain.exponentialRampToValueAtTime(vol || 0.06, t + n[1] + 0.012);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + n[2]);
-      o.connect(g); g.connect(ac.destination);
-      o.start(t + n[1]); o.stop(t + n[1] + n[2] + 0.03);
+      g.gain.exponentialRampToValueAtTime((vol || 0.06) * v.gain, t + n[1] + v.attack);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + dur);
+      var out = g;
+      if (v.filter) { var f = ac.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = v.filter; g.connect(f); out = f; }
+      o.connect(g); out.connect(ac.destination);
+      o.start(t + n[1]); o.stop(t + n[1] + dur + 0.03);
     });
   }
   function hiss(dur, from, to, vol, filterType) {
@@ -226,7 +240,7 @@
     var src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(), t = ac.currentTime;
     src.buffer = buf; f.type = filterType || "bandpass"; f.Q.value = 0.8;
     f.frequency.setValueAtTime(from, t); f.frequency.exponentialRampToValueAtTime(to, t + dur);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.05, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime((vol || 0.05) * voice.noise, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     src.connect(f); f.connect(g); g.connect(ac.destination); src.start(t); src.stop(t + dur + 0.02);
   }
   var SFX = {
@@ -277,6 +291,12 @@
   function setCues(on) {
     extraCues = !!on;
     try { localStorage.setItem("sunny:cues", extraCues ? "on" : "off"); } catch (e) { /* ignore */ }
+  }
+  function setVoice(name, preview) {
+    if (!VOICES[name]) return;
+    voiceName = name; voice = VOICES[name];
+    try { localStorage.setItem("sunny:voice", name); } catch (e) { /* ignore */ }
+    if (preview) { gestured = true; unlocked = true; if (!soundOn) setSound(true); play("boop"); setTimeout(function () { play("ding"); }, 220); }
   }
   /* welcome: a chime with the wave. Browsers only allow sound after a click,
      tap or key press, so if the page opened without one we wait for the first. */
@@ -739,6 +759,7 @@
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
     setCues: setCues, cuesOn: function () { return extraCues; },
+    setVoice: setVoice, voice: function () { return voiceName; }, voices: Object.keys(VOICES),
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
   };
