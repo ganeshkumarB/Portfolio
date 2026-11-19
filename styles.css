@@ -2120,3 +2120,7 @@ html.text-lg body { zoom: 1.125; }
 .nav__tools .nav__resume-pct { color: rgba(255, 255, 255, 0.6); }
 .nav__tools .nav__resume-fill { background: rgba(255, 213, 74, 0.35); }
 .nav__tools .nav__resume:hover { background: var(--pill-active); }
+
+/* while the nav floats, the pill collapses to the accessibility button instead of leaving an empty half */
+.nav.is-floating .nav__tools .nav__resume { display: none; }
+.nav.is-floating .nav__tools .nav__prefs { width: 38px; height: 38px; }
