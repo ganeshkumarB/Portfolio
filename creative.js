@@ -488,12 +488,50 @@
   var gallery = $(".gallery__grid");
   var pieces = $$(".piece", gallery);
   var isDesk = false, dragState = null, suppressClick = false;
-  var VIEWS = ["grid", "desk", "strip", "list", "wall", "spotlight", "polaroid", "film", "flow"], currentView = "grid";
+  var VIEWS = ["grid", "desk", "strip", "list", "wall", "spotlight", "polaroid", "film", "flow", "bento", "marquee", "orbit", "deck"], currentView = "grid";
+  var INLINE_VIEWS = { flow: 1, orbit: 1, deck: 1, marquee: 1 }; /* views laid out with inline transforms or clones: no FLIP */
   var VIEW_TOASTS = {
     grid: "grid · four columns", desk: "desk mode · drag the prints around", strip: "strip · swipe sideways", list: "list · titles and tags", wall: "wall · square tiles, click to open",
-    spotlight: "spotlight · lights off, the lamp follows you", polaroid: "polaroid · instant prints, hover to straighten", film: "film · a negative strip, hover for colour", flow: "flow · click the sides or use ← →"
+    spotlight: "spotlight · lights off, the lamp follows you", polaroid: "polaroid · instant prints, hover to straighten", film: "film · a negative strip, hover for colour", flow: "flow · click the sides or use ← →",
+    bento: "bento · one big tile per group", marquee: "marquee · hover to pause", orbit: "orbit · hover to pause the ring", deck: "deck · click beside the cards or use ← → to deal"
   };
-  var flowIndex = 0;
+  var flowIndex = 3, deckIndex = 0, marqueeClone = null;
+  var orbitSpin = 0, orbitRaf = 0, orbitLast = 0;
+  function layoutOrbit() {
+    var n = pieces.length, step = 360 / n, w = window.innerWidth < 720 ? 150 : 230;
+    var radius = Math.round((w / 2 + 10) / Math.tan(Math.PI / n));
+    gallery.style.setProperty("--orbit-r", radius + "px");
+    pieces.forEach(function (p, i) { p.style.setProperty("--a", (i * step) + "deg"); });
+    orbitLast = 0;
+    if (!orbitRaf && !reduced) orbitRaf = requestAnimationFrame(orbitTick);
+  }
+  function orbitTick(ts) {
+    orbitRaf = 0;
+    if (currentView !== "orbit") return;
+    if (orbitLast && !gallery.matches(":hover")) orbitSpin = (orbitSpin - (ts - orbitLast) * 0.006) % 360; /* one turn a minute */
+    orbitLast = ts;
+    gallery.style.setProperty("--spin", orbitSpin.toFixed(2) + "deg");
+    orbitRaf = requestAnimationFrame(orbitTick);
+  }
+  function layoutDeck() {
+    var n = pieces.length;
+    pieces.forEach(function (p, i) {
+      var d = (i - deckIndex + n) % n, sign = i % 2 ? 1 : -1;
+      p.style.transform = "translateY(" + (d * 9) + "px) scale(" + (1 - d * 0.045) + ") rotate(" + (d ? sign * (1.5 + d * 0.6) : 0) + "deg)";
+      p.style.zIndex = 100 - d;
+      p.style.opacity = d > 5 ? 0 : 1;
+      p.classList.toggle("is-active", d === 0);
+    });
+  }
+  function setDeck(i) { deckIndex = (i + pieces.length) % pieces.length; layoutDeck(); }
+  function mountMarquee() {
+    marqueeClone = document.createElement("div");
+    marqueeClone.className = "marquee-clone";
+    marqueeClone.setAttribute("aria-hidden", "true");
+    pieces.forEach(function (p) { var c = p.cloneNode(true); c.removeAttribute("data-reveal"); c.setAttribute("tabindex", "-1"); marqueeClone.appendChild(c); });
+    gallery.appendChild(marqueeClone);
+  }
+  function unmountMarquee() { if (marqueeClone) { marqueeClone.remove(); marqueeClone = null; } }
   function layoutFlow() {
     var step = window.innerWidth < 720 ? 110 : 170;
     pieces.forEach(function (p, i) {
@@ -510,13 +548,18 @@
     gallery.style.height = "";
     pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); p.classList.remove("is-active"); });
     VIEWS.forEach(function (v) { gallery.classList.remove("is-" + v); });
+    unmountMarquee();
+    gallery.style.removeProperty("--orbit-r");
     if (name !== "grid") gallery.classList.add("is-" + name);
     if (name === "flow") { flowIndex = Math.min(flowIndex, pieces.length - 1); layoutFlow(); }
+    else if (name === "orbit") layoutOrbit();
+    else if (name === "deck") layoutDeck();
+    else if (name === "marquee") mountMarquee();
   }
   function setView(name, quiet) {
     if (VIEWS.indexOf(name) < 0 || name === currentView) return;
     if (name === "desk") { if (currentView !== "grid") applyView("grid"); toDesk(); }
-    else if (name === "flow" || currentView === "flow") { applyView(name); }
+    else if (INLINE_VIEWS[name] || INLINE_VIEWS[currentView]) { applyView(name); }
     else {
       var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
       flip(before, function () { applyView(name); });
@@ -590,13 +633,20 @@
         e.preventDefault(); e.stopImmediatePropagation(); setFlow(i);
       }, true);
     });
-    window.addEventListener("resize", function () { if (currentView === "flow") layoutFlow(); });
+    window.addEventListener("resize", function () { if (currentView === "flow") layoutFlow(); else if (currentView === "orbit") layoutOrbit(); });
+    /* deck: click the table (not a card) to deal the next one */
+    gallery.addEventListener("click", function (e) {
+      if (currentView !== "deck" || e.target.closest(".piece")) return;
+      setDeck(deckIndex + 1);
+    });
     document.addEventListener("keydown", function (e) {
-      if (currentView !== "flow" || typingTarget(e)) return;
+      if ((currentView !== "flow" && currentView !== "deck") || typingTarget(e)) return;
       var lb = $("#lightbox"); if (lb && !lb.hidden) return;
       var r = gallery.getBoundingClientRect(); if (r.bottom < 0 || r.top > window.innerHeight) return;
-      if (e.key === "ArrowRight") { e.preventDefault(); setFlow(flowIndex + 1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); setFlow(flowIndex - 1); }
+      var step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!step) return;
+      e.preventDefault();
+      if (currentView === "flow") setFlow(flowIndex + step); else setDeck(deckIndex + step);
     });
     var zTop = 100;
     pieces.forEach(function (p) {

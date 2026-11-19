@@ -1807,8 +1807,10 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 .view-switch {
   align-self: flex-start;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 2px;
+  max-width: 100%;
   margin-top: 2px;
   padding: 3px;
   border: 1px solid var(--line);
@@ -1955,7 +1957,88 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 .gallery__grid.is-flow .piece__caption { opacity: 0; transition: opacity 0.3s ease; justify-content: center; }
 .gallery__grid.is-flow .piece.is-active { cursor: zoom-in; }
 .gallery__grid.is-flow .piece.is-active .piece__caption { opacity: 1; }
-@media (max-width: 1080px) { .gallery__grid.is-polaroid { grid-template-columns: repeat(3, 1fr); } }
+/* bento: editorial grid, one big tile per group of six */
+.gallery__grid.is-bento { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 150px; grid-auto-flow: dense; align-items: stretch; gap: 12px; }
+.gallery__grid.is-bento .gallery__col { display: contents; }
+.gallery__grid.is-bento .piece { position: relative; gap: 0; min-height: 0; border-radius: 16px; overflow: hidden; }
+.gallery__grid.is-bento .piece__image { flex: 1 1 auto; min-height: 0; }
+.gallery__grid.is-bento .piece:nth-child(6n+1) { grid-column: span 3; grid-row: span 2; }
+.gallery__grid.is-bento .piece:nth-child(6n+2) { grid-column: span 2; }
+.gallery__grid.is-bento .piece:nth-child(6n+3) { grid-column: span 1; }
+.gallery__grid.is-bento .piece:nth-child(6n+4) { grid-column: span 3; }
+.gallery__grid.is-bento .piece:nth-child(6n+5) { grid-column: span 2; grid-row: span 2; }
+.gallery__grid.is-bento .piece:nth-child(6n+6) { grid-column: span 4; }
+.gallery__grid.is-bento .piece__image { height: 100% !important; padding: 0; border: 0; border-radius: 16px; }
+.gallery__grid.is-bento .piece__image img { object-fit: cover; }
+.gallery__grid.is-bento .piece__caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 28px 14px 12px;
+  background: linear-gradient(to top, rgba(15, 16, 19, 0.78), rgba(15, 16, 19, 0));
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.gallery__grid.is-bento .piece__caption span:last-child { color: rgba(255, 255, 255, 0.7); }
+.gallery__grid.is-bento .piece:hover .piece__caption { opacity: 1; transform: none; }
+
+/* marquee: an endless ticker, pauses on hover */
+.gallery__grid.is-marquee { display: flex; gap: 0; overflow: hidden; padding: 8px 0; mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+.gallery__grid.is-marquee .gallery__col { display: contents; }
+.gallery__grid.is-marquee .piece, .gallery__grid.is-marquee .marquee-clone .piece { flex: 0 0 300px; padding: 0 10px; animation: marquee 48s linear infinite; }
+.gallery__grid.is-marquee .marquee-clone { display: contents; }
+.gallery__grid.is-marquee .marquee-clone .piece { pointer-events: none; }
+.gallery__grid.is-marquee:hover .piece { animation-play-state: paused; }
+.gallery__grid.is-marquee .piece__image { height: 200px !important; }
+.gallery__grid.is-marquee .piece__caption { font-size: 13px; }
+@keyframes marquee { to { transform: translateX(-5760px); } } /* 18 pieces × 320px: one full set, then it repeats seamlessly */
+
+/* orbit: a slowly turning 3D ring, hover to pause */
+.gallery__grid.is-orbit { display: block; position: relative; height: 560px; perspective: 1800px; overflow: hidden; border-radius: 18px; background: var(--surface); }
+.gallery__grid.is-orbit .gallery__col { display: contents; }
+.gallery__grid.is-orbit::before { content: ""; position: absolute; inset: 0; } /* keeps the hover area stable while cards pass */
+.gallery__grid.is-orbit { --spin: 0deg; --orbit-r: 640px; }
+.gallery__grid.is-orbit .piece {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 230px;
+  margin: -175px 0 0 -115px;
+  gap: 8px;
+  backface-visibility: hidden;
+  transform: rotateY(calc(var(--a, 0deg) + var(--spin))) translateZ(var(--orbit-r));
+}
+.gallery__grid.is-orbit .piece__image { height: 260px !important; box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.45); background: var(--card); }
+.gallery__grid.is-orbit .piece__image img { transform: none !important; }
+.gallery__grid.is-orbit .piece__caption { font-size: 13px; justify-content: center; }
+
+/* deck: cards stacked, deal with ← → or a click on the table */
+.gallery__grid.is-deck { display: block; position: relative; height: 480px; border-radius: 18px; background: var(--surface); overflow: hidden; cursor: pointer; }
+.gallery__grid.is-deck .gallery__col { display: contents; }
+.gallery__grid.is-deck .piece {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  width: 440px;
+  margin-left: -220px;
+  gap: 10px;
+  padding: 10px 10px 12px;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(0, 0, 0, 0.05);
+  transform-origin: 50% 100%;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+  cursor: zoom-in;
+}
+.gallery__grid.is-deck .piece:not(.is-active) { box-shadow: 0 10px 24px -20px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(0, 0, 0, 0.05); }
+.gallery__grid.is-deck .piece__image { height: 300px !important; border: 0; padding: 0; }
+.gallery__grid.is-deck .piece__image img { transform: none !important; }
+.gallery__grid.is-deck .piece__caption { opacity: 0; transition: opacity 0.3s ease; }
+.gallery__grid.is-deck .piece.is-active .piece__caption { opacity: 1; }
+.gallery__grid.is-deck::after { content: "click beside the cards or press → to deal"; position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--font-mono); font-weight: 500; font-size: 11px; letter-spacing: 0.04em; color: var(--muted); }
+@media (max-width: 1080px) { .gallery__grid.is-polaroid { grid-template-columns: repeat(3, 1fr); } .gallery__grid.is-bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 130px; } .gallery__grid.is-bento .piece:nth-child(6n+6) { grid-column: span 2; } .gallery__grid.is-bento .piece:nth-child(6n+4) { grid-column: span 2; } }
 @media (max-width: 720px) {
   .gallery__grid.is-polaroid { grid-template-columns: repeat(2, 1fr); gap: 26px 14px; }
   .gallery__grid.is-spotlight { padding: 14px; }
