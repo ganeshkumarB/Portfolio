@@ -21,15 +21,24 @@
   <style>
     .lost { min-height: calc(100vh - 80px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 48px var(--gutter) 120px; text-align: center; }
     .lost__code { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-    .lost__digits { display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin: 8px 0 4px; }
+    .lost__digits { display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin: 44px 0 4px; }
     .lost__four { font-family: var(--font-serif); font-weight: 400; font-size: clamp(120px, 20vw, 250px); line-height: 0.9; letter-spacing: -0.03em; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
-    .lost__dock { position: relative; width: 250px; height: 230px; flex: none; }
-    .lost__lamp { position: absolute; left: 50%; bottom: -6px; width: 210px; height: auto; transform: translateX(-50%); pointer-events: none; }
+    .lost__dock { position: relative; width: 270px; height: 262px; flex: none; }
+    .lost__lamp { position: absolute; left: 50%; bottom: -8px; width: 262px; height: auto; transform: translateX(-50%); pointer-events: none; overflow: visible; }
     .lost__lamp .pendant__g { display: none; }
     .lost__lamp .pendant__lamp { animation: pendant-swing 6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 0; }
     .lost__lamp .pendant__pool { animation: pendant-pool 6s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
-    /* Sunny leaves the corner and stands in the lamplight */
-    .sunny { position: absolute !important; right: auto !important; bottom: auto !important; width: 150px !important; height: 150px !important; transform-origin: 50% 100%; transform: scale(1.5); z-index: 5; }
+    /* night: a dark shade with a lit bulb, the cone and pool glow */
+    :root[data-theme="dark"] .lost__lamp .pendant__ink { fill: #2a2d36; stroke: #4a4e5a; stroke-width: 2; }
+    :root[data-theme="dark"] .lost__lamp .pendant__cord { stroke: #4a4e5a; }
+    :root[data-theme="dark"] .lost__lamp .pendant__cone { opacity: 1; filter: drop-shadow(0 0 34px rgba(255, 213, 74, 0.35)); }
+    :root[data-theme="dark"] .lost__lamp .pendant__bulb { fill: #fff1a8; filter: drop-shadow(0 0 12px #ffd54a); }
+    :root[data-theme="dark"] .lost__lamp .pendant__pool { filter: drop-shadow(0 0 26px rgba(255, 213, 74, 0.55)); }
+    :root[data-theme="dark"] .lost__lamp stop:first-child { stop-color: #ffd964; }
+    :root[data-theme="dark"] .lost__lamp stop:last-child { stop-color: #f6c43a; }
+    /* Sunny leaves the corner and stands in the lamplight; no night cap under a lamp */
+    .sunny { position: absolute !important; right: auto !important; bottom: auto !important; width: 150px !important; height: 150px !important; transform-origin: 50% 100%; transform: scale(1.35); z-index: 5; }
+    .sunny.is-night .s-cap { opacity: 0; }
     .sunny__bubble { right: auto; left: 50%; transform-origin: 50% 100%; transform: translate(-50%, 8px) scale(0.9); border-radius: 14px 14px 14px 4px; }
     .sunny.is-talking .sunny__bubble { transform: translate(-50%, 0) scale(1); }
     .lost__title { font-family: var(--font-serif); font-weight: 400; font-size: clamp(32px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.01em; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
@@ -40,9 +49,9 @@
     @media (max-width: 720px) {
       .lost { padding-top: 24px; gap: 16px; }
       .lost__digits { gap: 4px; }
-      .lost__dock { width: 170px; height: 170px; }
-      .lost__lamp { width: 150px; }
-      .sunny { transform: scale(1.05); }
+      .lost__dock { width: 180px; height: 184px; }
+      .lost__lamp { width: 176px; }
+      .sunny { transform: scale(0.95); }
       .lost__lede { font-size: 16px; }
     }
     @media (prefers-reduced-motion: reduce) { .lost__lamp .pendant__lamp, .lost__lamp .pendant__pool { animation: none; } }
@@ -71,7 +80,7 @@
     <div class="lost__digits" aria-label="404">
       <span class="lost__four" aria-hidden="true">4</span>
       <div class="lost__dock" id="sunnyDock">
-        <svg class="pendant lost__lamp" viewBox="0 0 260 300" width="210" height="242" aria-hidden="true" focusable="false"><defs><linearGradient id="lampCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#lampCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg>
+        <svg class="pendant lost__lamp" viewBox="0 0 260 300" width="262" height="302" aria-hidden="true" focusable="false"><defs><linearGradient id="lampCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#lampCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg>
       </div>
       <span class="lost__four" aria-hidden="true">4</span>
     </div>
