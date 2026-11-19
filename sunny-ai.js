@@ -63,14 +63,16 @@
   function el(html) { var d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; }
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
   function linkHtml(l) { if (!l) return ""; var ext = /^(https?:|mailto:)/.test(l[0]); return '<a class="ask__link" href="' + l[0] + '"' + (ext && l[0].indexOf("mailto:") !== 0 ? ' target="_blank" rel="noopener"' : "") + ">" + esc(l[1]) + " →</a>"; }
+  /* a tiny Sunny face for the header and the message avatars */
+  var AVA = '<span class="ask__ava" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 10c1-3-1.5-4-.5-7" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16.5" cy="5.5" rx="3" ry="1.6" transform="rotate(-24 16.5 5.5)" fill="#FFC93C" stroke="#111" stroke-width="1.2"/><circle cx="20" cy="23" r="15" fill="#FFC93C" stroke="#111" stroke-width="2"/><ellipse cx="14.5" cy="22" rx="2.3" ry="3" fill="#111"/><ellipse cx="25.5" cy="22" rx="2.3" ry="3" fill="#111"/><circle cx="15.3" cy="20.8" r="0.9" fill="#fff"/><circle cx="26.3" cy="20.8" r="0.9" fill="#fff"/><path d="M16 28q4 3.5 8 0" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="10.5" cy="26" rx="2" ry="1.1" fill="#F6A3A3" opacity=".8"/><ellipse cx="29.5" cy="26" rx="2" ry="1.1" fill="#F6A3A3" opacity=".8"/></svg></span>';
   function add(role, text, link) {
-    var m = el('<div class="ask__msg ask__msg--' + role + '"><p>' + esc(text) + "</p>" + linkHtml(link) + "</div>");
+    var m = el('<div class="ask__msg ask__msg--' + role + '">' + (role === "sunny" ? AVA : "") + '<div class="ask__body"><p>' + esc(text) + "</p>" + linkHtml(link) + "</div></div>");
     log.appendChild(m); log.scrollTop = log.scrollHeight;
     return m;
   }
   function typing(on) {
     var t = log.querySelector(".ask__typing");
-    if (on && !t) { log.appendChild(el('<div class="ask__typing" aria-label="Sunny is thinking"><i></i><i></i><i></i></div>')); log.scrollTop = log.scrollHeight; }
+    if (on && !t) { log.appendChild(el('<div class="ask__typing" aria-label="Sunny is thinking">' + AVA + '<span class="ask__dots"><i></i><i></i><i></i></span></div>')); log.scrollTop = log.scrollHeight; }
     else if (!on && t) t.remove();
   }
   function setOpen(on) {
@@ -122,13 +124,13 @@
     root = global.Sunny && Sunny.el;
     if (!root) return false;
     var charEl = root.querySelector(".sunny__char");
-    askBtn = el('<button type="button" class="sunny__ask mono" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny">ask ✦</button>');
+    askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
-        '<div class="ask__head"><span class="ask__title">Ask Sunny</span><span class="ask__mode mono">' + (AI_ENDPOINT ? "claude" : "offline · site knowledge") + '</span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '">' + (AI_ENDPOINT ? "online · answers with Claude" : "online · knows this site") + '</span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
         '<div class="ask__log"></div>' +
         '<div class="ask__chips">' + SUGGEST.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("") + "</div>" +
-        '<form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh, the work, this site…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send">↑</button></form>' +
+        '<form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh, the work, this site…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></button></form>' +
         (AI_ENDPOINT ? '<p class="ask__note mono">Messages go to Ganesh’s assistant service to be answered by Claude. No account, nothing stored.</p>' : "") +
       "</div>");
     root.appendChild(panel);
