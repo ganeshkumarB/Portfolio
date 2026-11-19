@@ -587,6 +587,7 @@
     gallery: { emotion: "love", line: "Ooh, art. Click a piece and I'll hold the frame." },
     writing: { act: "read", line: "Reading the carousels. Spacing is 80%, apparently." },
     skills: { emotion: "proud", line: "skills.* All tokens, no fluff." },
+    ai: { emotion: "proud", line: "That's my section. Press A and ask me anything." },
     contact: { act: "wave", line: "Say hi. He replies within a day." }
   };
   function wireReactions() {

@@ -204,6 +204,10 @@
       if (e.key.toLowerCase() === "a") { e.preventDefault(); setOpen(!open); }
     });
     setTimeout(function () { if (!open) askBtn.classList.add("is-nudge"); }, 9000);
+    global.SunnyAsk = {
+      open: function () { setOpen(true); },
+      ask: function (q) { setOpen(true); if (busy || !q) return; var pending = log.querySelector(".ask__chips"); if (pending) pending.remove(); add("you", q); respond(q); }
+    };
     return true;
   }
   var tries = 0, t = setInterval(function () { if (build() || ++tries > 60) clearInterval(t); }, 100);

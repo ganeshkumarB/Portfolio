@@ -18,15 +18,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261147" />
+  <link rel="stylesheet" href="styles.css?v=20261148" />
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="mascots.css?v=20261147" />
-  <link rel="stylesheet" href="sunny.css?v=20261147" />
+  <link rel="stylesheet" href="mascots.css?v=20261148" />
+  <link rel="stylesheet" href="sunny.css?v=20261148" />
 </head>
 <body>
 
@@ -43,6 +43,7 @@
         <a class="nav__link" href="#work">Work</a>
         <a class="nav__link" href="#process">Process</a>
         <a class="nav__link" href="#story">Story</a>
+        <a class="nav__link" href="#ai">AI</a>
         <a class="nav__link" href="#contact">Contact</a>
         <button type="button" class="nav__inspect mono" id="inspectToggle" aria-pressed="false" title="Inspect components (I)" aria-label="Inspect components">{ }</button>
       </div>
@@ -595,6 +596,50 @@
   </section>
 
   <!-- ===== Contact ===== -->
+  <!-- ===== AI & Sunny ===== -->
+  <section class="section section--tight ai" id="ai" data-layer="AI">
+    <div class="section__head">
+      <h2 class="section__title">Built with AI, in the open</h2>
+      <p class="section__intro">Where Claude fits in the work, the prompts behind it, and the build log of this site. Plus the little sun in the corner.</p>
+    </div>
+    <div class="ai__grid">
+      <a class="ai__card" href="how-i-use-ai.html" data-reveal>
+        <span class="mono ai__num">01</span>
+        <h3 class="ai__title">How I use AI</h3>
+        <p class="ai__desc">AI drafts, I decide. The split, the five-step workflow, and six times it got it wrong on this very site.</p>
+        <span class="mono ai__go">Read →</span>
+      </a>
+      <a class="ai__card" href="prompts.html" data-reveal>
+        <span class="mono ai__num">02</span>
+        <h3 class="ai__title">Prompt library</h3>
+        <p class="ai__desc">Seven prompts for tokens, dark mode, components, Code Connect and critique. Copy one, or download the set.</p>
+        <span class="mono ai__go">Open →</span>
+      </a>
+      <a class="ai__card" href="how-this-site-was-built.html" data-reveal>
+        <span class="mono ai__num">03</span>
+        <h3 class="ai__title">How this site was built</h3>
+        <p class="ai__desc">Figma, Claude Code and GitHub Pages. Drag between AI's first draft and the final, day by day.</p>
+        <span class="mono ai__go">Open →</span>
+      </a>
+    </div>
+    <div class="sunny-can" data-reveal>
+      <div class="sunny-can__head">
+        <span class="mono sunny-can__kicker">meet sunny</span>
+        <h3 class="sunny-can__title">What Sunny can do</h3>
+        <p class="sunny-can__intro">The mascot in the corner is 100% SVG and a little JavaScript, drawn in Figma. It also knows this site inside out.</p>
+        <button type="button" class="btn btn--primary btn--sm" data-ask="">Ask Sunny something</button>
+      </div>
+      <ul class="sunny-can__list">
+        <li><kbd class="mono">A</kbd><div><b>Answers questions</b><p>Roles, notice period, tools, any case study. Try <button type="button" class="sunny-can__try" data-ask="Is he open to roles?">Is he open to roles?</button> or <button type="button" class="sunny-can__try" data-ask="Which project is most relevant to AI?">Which project is most relevant to AI?</button></p></div></li>
+        <li><kbd class="mono">drag</kbd><div><b>Comes along</b><p>Follows your cursor with its eyes, and you can pick it up and carry it anywhere on the page.</p></div></li>
+        <li><kbd class="mono">scroll</kbd><div><b>Reacts to each section</b><p>Runs the pipeline step by step, reads the carousels in Writing, waves at Contact.</p></div></li>
+        <li><kbd class="mono">click</kbd><div><b>Does a trick</b><p>Blushes and chirps, then yoga, skating, a selfie, a nap on the job. A dozen acts, picked at random.</p></div></li>
+        <li><kbd class="mono">I</kbd><div><b>Joins inspect mode</b><p>Puts on glasses and names its own tokens: 150 × 150, color/sun.</p></div></li>
+        <li><kbd class="mono">sunny</kbd><div><b>Has a secret</b><p>Type the word anywhere on the page. Dark mode gives it a nightcap, and it dozes off after twenty quiet seconds.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
   <footer class="contact" id="contact" data-layer="Contact">
     <h2 class="contact__title">If you're into design systems, design tooling, or figuring out where AI fits in a designer's workflow, let's talk.</h2>
     <p class="contact__mail">
@@ -624,11 +669,6 @@
       <li><a class="icon-link" href="https://www.instagram.com/rayanuxvibes/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
       </a></li>
-    </ul>
-    <ul class="contact__pages mono">
-      <li><a href="how-i-use-ai.html">How I use AI</a></li>
-      <li><a href="prompts.html">Prompt library</a></li>
-      <li><a href="how-this-site-was-built.html">How this site was built</a></li>
     </ul>
     <div class="contact__footer">
       <span>Ganeshkumar B · Chennai, India · IST, replies within a day</span>
@@ -704,11 +744,11 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="script.js?v=20261147"></script>
-  <script src="creative.js?v=20261147"></script>
-  <script src="mascots.js?v=20261147"></script>
-  <script src="sunny.js?v=20261147"></script>
-  <script src="sunny-ai.js?v=20261147"></script>
-  <script src="extras.js?v=20261147"></script>
+  <script src="script.js?v=20261148"></script>
+  <script src="creative.js?v=20261148"></script>
+  <script src="mascots.js?v=20261148"></script>
+  <script src="sunny.js?v=20261148"></script>
+  <script src="sunny-ai.js?v=20261148"></script>
+  <script src="extras.js?v=20261148"></script>
 </body>
 </html>

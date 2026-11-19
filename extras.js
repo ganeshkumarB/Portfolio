@@ -142,6 +142,15 @@
     render();
   }
 
+  /* "Ask Sunny" buttons on the page open the chat, with a question if given */
+  $$("[data-ask]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var api = window.SunnyAsk; if (!api) return;
+      var q = btn.getAttribute("data-ask");
+      if (q) api.ask(q); else api.open();
+    });
+  });
+
   /* prompt cards: copy the prompt text */
   $$("[data-copy]").forEach(function (btn) {
     btn.addEventListener("click", function () {
