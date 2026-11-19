@@ -32,11 +32,11 @@
     btn.setAttribute("aria-haspopup", "dialog"); btn.setAttribute("aria-expanded", "false");
     btn.title = "Accessibility and preferences: shortcuts, motion, Sunny, sound, text size"; btn.setAttribute("aria-label", "Accessibility and preferences");
     btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="7.3" r="1.3" fill="currentColor" stroke="none"/><path d="M7 10.2c3.3.9 6.7.9 10 0"/><path d="M12 10.8v3.4l-2.1 4.2M12 14.2l2.1 4.2"/></svg>';
-    if (resume) {
-      /* one pill: preferences segment, divider, résumé */
-      var group = doc.createElement("div"); group.className = "nav__tools";
-      nav.insertBefore(group, resume); group.appendChild(btn); group.appendChild(resume);
-    } else nav.appendChild(btn);
+    var pill = nav.querySelector(".nav__pill"), inspect = nav.querySelector("#inspectToggle");
+    if (inspect && inspect.parentNode) inspect.parentNode.insertBefore(btn, inspect.nextSibling);
+    else if (pill) pill.appendChild(btn);
+    else if (resume) nav.insertBefore(btn, resume);
+    else nav.appendChild(btn);
 
     var panel = doc.createElement("div");
     panel.className = "prefs"; panel.id = "prefs"; panel.hidden = true;
