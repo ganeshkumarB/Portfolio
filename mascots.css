@@ -231,8 +231,6 @@
 .mascot-slot--bridge { left: 50%; margin-left: -60px; top: -110px; }
 .story__portrait { position: relative; }
 .mascot-slot--spark { right: -34px; bottom: -26px; }
-.mascot-slot--swatch { position: static; display: flex; justify-content: center; padding-top: 4px; }
-.gallery__grid.is-desk .mascot-slot--swatch { display: none; }
 .group { position: relative; }
 .mascot-slot--token { right: 16px; top: calc(100% - 14px); }
 .contact__mail { flex-wrap: wrap; }
