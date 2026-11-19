@@ -1632,6 +1632,11 @@ body.inspecting { user-select: none; }
 .pendant { display: block; width: 34px; height: 39px; flex: none; }
 .pendant__ink { fill: var(--ink); }
 .pendant__cord { stroke: var(--ink); }
+.pendant__g.pendant__ink { fill: #15161a; } /* the g sits on the yellow cone, so it stays dark in both themes */
+:root[data-theme="dark"] .pendant__ink { fill: #c3c6cf; }
+:root[data-theme="dark"] .pendant__g.pendant__ink { fill: #15161a; }
+:root[data-theme="dark"] .pendant__cord { stroke: #c3c6cf; }
+:root[data-theme="dark"] .pendant__cone { opacity: 0.92; }
 .pendant__lamp {
   transform-box: fill-box;
   transform-origin: 50% 0;
