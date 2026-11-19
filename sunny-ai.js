@@ -34,7 +34,11 @@
     { k: ["process", "how", "ship", "workflow", "pipeline", "figma to code"], a: "Five steps, one source of truth: tokens, components, Code Connect, Figma MCP, ship. Same component across web, mobile SDK and WhatsApp, zero drift.", link: [home + "#process", "How the system ships"] },
     { k: ["nda", "real", "screenshots", "actual", "confidential", "secret"], a: "Most of the work is under NDA with Zoho, so the case studies recreate every screen with sample data. The full Figma files are shown live on a call or shared with a password on request.", link: ["mailto:" + MAIL + "?subject=Request%20access", "Request access"] },
     { k: ["sunny", "you", "who are you", "mascot", "what are you", "your name"], a: "I'm Sunny. 100% SVG and a little JavaScript, built from a Figma frame. I follow your cursor, nap when it's quiet, and I know this site inside out. Try dragging me." },
-    { k: ["site", "website", "built", "made", "stack", "framework", "claude"], a: "Designed by Ganesh, built with Claude in plain HTML, CSS and a little JavaScript. No framework, no build step. Press ? for the keyboard shortcuts." },
+    { k: ["site", "website", "built", "made", "stack", "framework", "how was this"], a: "Designed by Ganesh, built with Claude in plain HTML, CSS and a little JavaScript. No framework, no build step. There's a page with the timeline and AI's drafts next to the finals.", link: ["how-this-site-was-built.html", "How this site was built"] },
+    { k: ["ai", "use ai", "claude", "artificial", "chatgpt", "honest", "wrong"], a: "AI drafts, he decides. Claude and Figma MCP sit inside the design-system workflow; nothing generated ships unreviewed. There's a page on it, including the times AI got it wrong.", link: ["how-i-use-ai.html", "How I use AI"] },
+    { k: ["prompt", "prompts", "prompt library", "library", "download prompts"], a: "Seven prompts for tokens, components, Code Connect and critique, free to copy or download as Markdown.", link: ["prompts.html", "Prompt library"] },
+    { k: ["palette", "colour", "color", "ramp", "generator", "playground", "token playground"], a: "The token playground: pick a colour, get a ten-step ramp with contrast on every swatch, copy it as CSS or Figma JSON. Algorithmic, no AI.", link: [home + "#tokenlab", "Token playground"] },
+    { k: ["replay", "animation", "step 04", "prompt to component", "demo"], a: "Under the pipeline there's a replay of step 04: a prompt goes in, Figma MCP builds the component, Code Connect returns the code.", link: [home + "#process", "How the system ships"] },
     { k: ["dark", "light", "theme", "night mode", "dark mode"], a: "Flipping the lights.", act: "theme" },
     { k: ["shortcut", "shortcuts", "keyboard", "keys", "hotkey"], a: "Here they are.", act: "keys" },
     { k: ["inspect", "inspector", "layers", "figma counterpart", "component names"], a: "Press I anywhere on the home page, or click the { } button in the nav. Hover a layer to see its tokens, click to pin a component and see its Figma counterpart.", link: [home + "#hey", "Home"] },
@@ -45,6 +49,25 @@
     ? ["What does Ganesh do?", "Is he open to roles?", "Notice period?", "Does he code?", "Show me the gallery"]
     : ["Is he open to roles?", "Notice period?", "Does he code?", "What tools does he use?", "Email him"];
 
+  /* Zobot-style branches: after an answer, offer the next questions that usually follow */
+  var FOLLOW = {
+    "who": ["Is he open to roles?", "Show me the case studies", "Does he code?"],
+    "role": ["Notice period?", "Where is he based?", "Email him"],
+    "notice": ["Where is he based?", "What roles is he after?", "Email him"],
+    "where": ["Notice period?", "Email him", "Show me the résumé"],
+    "code": ["What tools does he use?", "Tell me about the design system", "Has he led a team?"],
+    "team": ["What roles is he after?", "Does he code?", "Email him"],
+    "tools": ["Tell me about the design system", "How does the system ship?", "Show me the résumé"],
+    "case": ["Tell me about Zobot", "Tell me about the design system", "What about Reports?"],
+    "zobot": ["Tell me about the design system", "What about the Operator Console?", "Show me the case studies"],
+    "design system": ["How does Code Connect fit in?", "Does he code?", "Show me the Zobot case"],
+    "sunny": ["How was this site built?", "Show me the gallery", "Keyboard shortcuts?"],
+    "site": ["How does he use AI?", "Does he code?", "Keyboard shortcuts?"],
+    "ai": ["Show me the prompts", "When did AI get it wrong?", "How was this site built?"],
+    "prompt": ["How does he use AI?", "Tell me about the design system", "Email him"],
+    "palette": ["How does the system ship?", "Tell me about the design system", "Show me the prompts"]
+  };
+  var FOLLOW_DEFAULT = ["Is he open to roles?", "Show me the case studies", "Email him"];
   function norm(s) { return s.toLowerCase().replace(/[^a-z0-9+& ]+/g, " ").replace(/\s+/g, " ").trim(); }
   function answerLocal(q) {
     var n = " " + norm(q) + " ";
@@ -99,6 +122,7 @@
     var finish = function (reply, link, act) {
       typing(false); busy = false;
       add("sunny", reply, link);
+      renderChips(local.k ? (FOLLOW[local.k[0]] || FOLLOW_DEFAULT) : FOLLOW_DEFAULT);
       history.push({ role: "assistant", content: reply });
       if (history.length > 16) history = history.slice(-16);
       if (global.Sunny) Sunny.say(reply.length > 90 ? reply.slice(0, 88) + "…" : reply, 3200);
@@ -112,6 +136,13 @@
       .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
       .then(function (data) { clearTimeout(timer); finish(data.reply || local.a, data.link || local.link, local.act); })
       .catch(function () { clearTimeout(timer); finish(local.a, local.link, local.act); });
+  }
+  function renderChips(list) {
+    var box = panel.querySelector(".ask__chips");
+    box.innerHTML = list.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("");
+    Array.prototype.forEach.call(box.querySelectorAll(".ask__chip"), function (c) {
+      c.addEventListener("click", function () { if (busy) return; add("you", c.textContent); respond(c.textContent); });
+    });
   }
   function send() {
     var text = input.value.trim();
@@ -141,9 +172,7 @@
     askBtn.addEventListener("click", function (e) { e.stopPropagation(); setOpen(!open); });
     panel.querySelector(".ask__close").addEventListener("click", function () { setOpen(false); });
     panel.querySelector(".ask__form").addEventListener("submit", function (e) { e.preventDefault(); send(); });
-    Array.prototype.forEach.call(panel.querySelectorAll(".ask__chip"), function (c) {
-      c.addEventListener("click", function () { add("you", c.textContent); respond(c.textContent); });
-    });
+    renderChips(SUGGEST);
     panel.addEventListener("keydown", function (e) { if (e.key === "Escape") { setOpen(false); askBtn.focus(); } e.stopPropagation(); });
     panel.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
     document.addEventListener("keydown", function (e) {

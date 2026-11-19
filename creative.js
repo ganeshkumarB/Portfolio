@@ -107,6 +107,8 @@
   var components = [
     { sel: ".nav__resume", name: "Nav / Résumé button", figma: "Résumé button=Progress fill", node: "856-183" },
     { sel: ".nav__brand", name: "Brand / Pendant lockup", figma: "Spotlight=Pendant", node: "851-4653" },
+    { sel: ".replay", name: "Process / Step 04 replay", figma: "no Figma counterpart, built in code", node: "" },
+    { sel: ".tokenlab", name: "Skills / Token playground", figma: "no Figma counterpart, built in code", node: "" },
     { sel: ".nav__theme", name: "Nav / Theme toggle", figma: "Nav pill / Theme", node: "851-4657" },
     { sel: ".availability", name: "Hero / Availability pill", figma: "Hero / Availability", node: "851-4673" },
     { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Hero / CTA / Primary", node: "851-4678" },

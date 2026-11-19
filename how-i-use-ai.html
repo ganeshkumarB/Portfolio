@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I use AI · Ganeshkumar B</title>
+  <meta name="description" content="Where Claude and Figma MCP sit in a senior product designer's design-system workflow, where they went wrong, and the rules for using them." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ganeshuxcraft.in" />
+  <meta property="og:title" content="How I use AI · Ganeshkumar B" />
+  <meta property="og:description" content="Where Claude and Figma MCP sit in a senior product designer's design-system workflow, where they went wrong, and the rules for using them." />
+  <meta property="og:url" content="https://ganeshuxcraft.in/how-i-use-ai.html" />
+  <meta property="og:image" content="https://ganeshuxcraft.in/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0,1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261146" />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon-96.png" sizes="96x96" type="image/png" />
+  <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="case.css?v=20261146" />
+  <link rel="stylesheet" href="sunny.css?v=20261146" />
+</head>
+<body class="is-ready cs-page ai-page">
+
+  <header class="cs-top" data-layer="Nav">
+    <div class="progress" aria-hidden="true"></div>
+    <div class="nav-slot">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand mono" href="index.html"><svg class="pendant" viewBox="0 0 260 300" width="34" height="39" aria-hidden="true" focusable="false"><defs><linearGradient id="pendantCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#pendantCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg><span class="nav__brand-txt">ganeshuxcraft.in</span></a>
+      <div class="nav__pill nav__pill--case">
+        <span class="nav__indicator" aria-hidden="true"></span>
+        <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
+        <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <span class="nav__sep" aria-hidden="true"></span>
+        <a class="nav__link is-active" href="how-i-use-ai.html">AI</a>
+        <a class="nav__link" href="prompts.html">Prompts</a>
+        <a class="nav__link" href="how-this-site-was-built.html">This site</a>
+      </div>
+      <a class="nav__resume mono" href="assets/Ganeshkumar-B-Resume-1page.pdf" download title="Download résumé (PDF)" aria-label="Download résumé (PDF)"><span class="nav__resume-fill" id="navResumeFill" aria-hidden="true"></span><span class="nav__resume-txt">Résumé.pdf</span><span class="nav__resume-pct" id="navResumePct" aria-hidden="true">0%</span></a>
+    </nav>
+    </div>
+  </header>
+
+  <section class="cs-hero" data-layer="Hero">
+    <a class="cs-back" href="index.html#contact"><span aria-hidden="true">←</span> Back to the site</a>
+    <div class="cs-tags"><span class="tag">&lt;AI /&gt;</span><span class="lbl lbl--12">Honest version</span></div>
+    <h1 class="cs-title">How I use AI</h1>
+    <p class="cs-lede">AI drafts, I decide. Claude and Figma MCP sit inside my design-system workflow, not instead of it. Here is where they help, where they got it wrong, and the rules I hold to.</p>
+    <div class="cs-meta">
+      <hr />
+      <dl>
+        <div><dt class="lbl">Tools</dt><dd>Claude · Figma MCP · Code Connect · ChatGPT</dd></div>
+        <div><dt class="lbl">Where</dt><dd>Zoho SalesIQ design system, and this site</dd></div>
+        <div><dt class="lbl">Rule</dt><dd>Nothing generated ships unreviewed</dd></div>
+        <div><dt class="lbl">Updated</dt><dd>November 2026</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <main class="cs-content" data-layer="Content">
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">01</span>
+        <h2 class="cs-h2">What AI does, what I decide</h2>
+        <p class="cs-sub">The split, as plainly as I can put it.</p>
+      </div>
+      <div class="g g--2">
+        <div class="card card--split">
+          <span class="lbl lbl--12 lbl--blue">AI does</span>
+          <ul class="split__list">
+            <li>Drafts: a first pass at variants, dark-mode values, copy and code.</li>
+            <li>Reads the system through Figma MCP and keeps to the tokens it finds.</li>
+            <li>Maps components to code through Code Connect and writes the usage examples.</li>
+            <li>Critiques a screen in order (goal, flow, hierarchy, component, pixel) when I ask it to.</li>
+            <li>Writes the JavaScript on this site, and most of the CSS, from my brief.</li>
+          </ul>
+        </div>
+        <div class="card card--split card--ink">
+          <span class="lbl lbl--12 lbl--sun">I decide</span>
+          <ul class="split__list">
+            <li>What the problem is, and whether it is worth solving.</li>
+            <li>The palette, the type scale, the spacing rhythm, the names. The system is mine.</li>
+            <li>What ships. Every generated screen is reviewed against the tokens before it goes anywhere.</li>
+            <li>Every number. If AI writes a metric I cannot source, it comes out.</li>
+            <li>When to stop. AI will keep going; the taste call is the job.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02</span>
+        <h2 class="cs-h2">Where it sits in the workflow</h2>
+        <p class="cs-sub">The same five steps as the pipeline on the home page.</p>
+      </div>
+      <div class="nrows">
+        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">01</span><div><h3>Tokens</h3><p>I set the colours, type, space and radius as Figma variables. AI proposes the dark-mode counterparts and checks contrast; I accept or adjust each pair.</p></div></div>
+        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">02</span><div><h3>Components</h3><p>I define the anatomy, states and names. Claude generates the variant matrix through Figma MCP, bound to the variables, and lists every binding for me to check.</p></div></div>
+        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">03</span><div><h3>Code Connect</h3><p>AI drafts the mapping from Figma properties to props. I verify it against the real component and fix what drifted.</p></div></div>
+        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">04</span><div><h3>Figma MCP</h3><p>A prompt goes in, a component comes out in Figma and in code. The replay on the home page shows the loop; the audit prompt in the library is how I check the result.</p></div></div>
+        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">05</span><div><h3>Ship</h3><p>Review, then publish. The library and the code stay in step because the same tokens drive both.</p></div></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="wrong">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03</span>
+        <h2 class="cs-h2">When AI got it wrong</h2>
+        <p class="cs-sub">Real examples from building this site. Each was caught by review, not by the model.</p>
+      </div>
+      <div class="g g--2 g--20">
+        <div class="tile tile--wrong"><p class="t-h t-h--17">The logo's g went white in dark mode</p><p class="t-p">Claude mapped the mark's ink to the theme token, so the g on the lamp cone inverted with the page. It looked broken, not clever. Fixed by pinning the g to ink and leaving the cone light.</p></div><div class="tile"><p class="t-h t-h--17">A metric that did not exist</p><p class="t-p">An early draft of the facts row claimed a 30% improvement. No source, so it was deleted. Everything on the site now is a count I can stand behind.</p></div><div class="tile"><p class="t-h t-h--17">Career years filled in by guesswork</p><p class="t-p">The career map needed one entry per year from 2018 to now. Claude placed the middle years from the résumé's date ranges, which is a guess. Those placements are flagged and I am confirming them one by one.</p></div><div class="tile"><p class="t-h t-h--17">A gallery view that rendered blank</p><p class="t-p">The bento layout came back empty: the grid aligned items to the start and each tile collapsed to zero height. A one-line CSS fix, found by reading the computed styles, not by asking again.</p></div><div class="tile"><p class="t-h t-h--17">A one-page résumé that spilled to two</p><p class="t-p">The print stylesheet let the sheet grow with its content. The page now has a fixed A4 height and hidden overflow, and the PDF is checked for a single page every time it is regenerated.</p></div><div class="tile"><p class="t-h t-h--17">Text a screen reader would read as nonsense</p><p class="t-p">The résumé button exposed its progress counter, so it read as “Résumé.pdf0%”. AI did not catch this; a review pass did. The counter is hidden from assistive tech now.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">04</span>
+        <h2 class="cs-h2">Rules I hold to</h2>
+        <p class="cs-sub">Short, because rules that need explaining get skipped.</p>
+      </div>
+      <div class="g g--4">
+        <div class="tile"><p class="t-h t-h--17">Draft, never decide</p><p class="t-p">AI output is a starting point. It never ships without a human reading it.</p></div><div class="tile"><p class="t-h t-h--17">Tokens or nothing</p><p class="t-p">A generated component binds to the system's variables or it is rejected.</p></div><div class="tile"><p class="t-h t-h--17">No real data in prompts</p><p class="t-p">Case studies use sample data. The product's real content stays inside Zoho.</p></div><div class="tile"><p class="t-h t-h--17">Say when it is AI</p><p class="t-p">This page, the chat and the palette tool all say what is generated and what is not.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05</span>
+        <h2 class="cs-h2">Go deeper</h2>
+        <p class="cs-sub">The prompts, the build log and the playground.</p>
+      </div>
+      <div class="g g--3">
+        <a class="tile tile--link" href="prompts.html"><p class="t-h t-h--17">The prompt library</p><p class="t-p">Seven prompts for tokens, components, Code Connect and critique. Free to copy.</p><span class="tile__go">Open →</span></a><a class="tile tile--link" href="how-this-site-was-built.html"><p class="t-h t-h--17">How this site was built</p><p class="t-p">The setup, the timeline and AI's drafts next to the final pages.</p><span class="tile__go">Open →</span></a><a class="tile tile--link" href="index.html#tokenlab"><p class="t-h t-h--17">Token playground</p><p class="t-p">The palette generator on the home page. Algorithmic, not AI, and it says so.</p><span class="tile__go">Open →</span></a>
+      </div>
+      <div class="cs-cta">
+        <div class="grow"><h3>Working out where AI fits in your design team?</h3><p>I have done it for one product and one system. Happy to compare notes.</p></div>
+        <a class="btn-sun" href="mailto:ganesh.rayanbalu@gmail.com?subject=AI%20in%20the%20design%20workflow">Email me</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="cs-next" data-layer="Next">
+    <div class="cs-next__main">
+      <span class="lbl lbl--soft">Next</span>
+      <a class="cs-next__title" href="prompts.html">Open the prompt library <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    </div>
+    <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
+  </footer>
+
+  <script src="case.js?v=20261146"></script>
+  <script src="extras.js?v=20261146"></script>
+  <script src="sunny.js?v=20261146"></script>
+  <script src="sunny-ai.js?v=20261146"></script>
+</body>
+</html>
