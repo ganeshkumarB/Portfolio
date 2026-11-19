@@ -4,7 +4,7 @@
    with Claude instead, falling back to the local answers if the call fails. */
 (function (global) {
   "use strict";
-  var AI_ENDPOINT = global.SUNNY_AI_ENDPOINT || ""; /* e.g. "https://sunny-ai.yourname.workers.dev" */
+  var AI_ENDPOINT = global.SUNNY_AI_ENDPOINT || ""; /* set in sunny-config.js */
 
   var isHome = /\/(index\.html)?$/.test(location.pathname) || location.pathname === "/";
   var home = isHome ? "" : "index.html";
@@ -78,7 +78,7 @@
       e.k.forEach(function (k) { if (n.indexOf(" " + k + " ") > -1) score += k.indexOf(" ") > -1 ? 3 : 2; else if (k.length > 4 && n.indexOf(k) > -1) score += 1; });
       if (score > bestScore) { bestScore = score; best = e; }
     });
-    if (!best || bestScore < 2) return { a: "I don't have that one. Ganesh does, and here's what is public.", card: true, link: ["mailto:" + MAIL + "?subject=Question%20from%20the%20portfolio", "Email Ganesh"], alt: [home + "#work", "See public work"] };
+    if (!best || bestScore < 2) return { a: "Right now I only answer from a fixed list about Ganesh and this site. For anything else, Ganesh is a quick email away.", card: true, link: ["mailto:" + MAIL + "?subject=Question%20from%20the%20portfolio", "Email Ganesh"], alt: [home + "#work", "See public work"] };
     return best;
   }
 
@@ -183,8 +183,8 @@
     askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
-        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers from this site" : "scripted · from a set list") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
-        '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study.</p></div></div>' +
+        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · ask me anything" : "scripted · from a set list") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>' + (AI_ENDPOINT ? "Hi! I’m Sunny. Ask me anything: Ganesh’s work, design, hiring, or whatever you’re curious about." : "Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study.") + '</p></div></div>' +
         '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh’s work…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
         '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers via Ganesh’s own server · can be wrong · nothing stored" : "Answers from a set list Ganesh wrote · no AI service · nothing stored") + '</p></div>' +
       "</div>");
