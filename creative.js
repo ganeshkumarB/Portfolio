@@ -564,6 +564,16 @@
       var saved = localStorage.getItem("gallery:view");
       if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1) setView(saved, true);
     } catch (e) { /* ignore */ }
+    /* ?view=polaroid opens the gallery in that view (handy for sharing a look) */
+    var qv = new URLSearchParams(location.search).get("view");
+    if (qv && VIEWS.indexOf(qv) > -1) {
+      setView(qv, true);
+      setTimeout(function () {
+        var sec = $("#gallery");
+        $$("[data-reveal]").forEach(function (el) { el.classList.add("is-in"); });
+        if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY - 24, behavior: "instant" });
+      }, 350);
+    }
     /* spotlight: the lamp follows the pointer */
     gallery.addEventListener("pointermove", function (e) {
       if (currentView !== "spotlight") return;
