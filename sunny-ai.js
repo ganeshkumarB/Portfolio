@@ -23,6 +23,7 @@
     { k: ["resume", "résumé", "cv", "pdf", "download"], a: "There's a printable one-page résumé, plus the full two-page PDF.", link: ["resume.html", "Open the résumé"] },
     { k: ["case", "case study", "case studies", "work", "projects", "portfolio", "show me the work"], a: "Seven case studies on Zoho SalesIQ: Zobot, the design system, Operator Console, Reports, Brand configuration, Outbound and Feedback. Every screen is recreated with sample data because the real work is under NDA.", link: [home + "#work", "Selected work"] },
     { k: ["zobot", "chatbot", "bot builder", "no-code", "bot"], a: "Zobot is the no-code chatbot builder: a drag-and-drop canvas so a non-technical admin can publish a working bot. Ganesh was the sole designer. Website at launch, seven channels today.", link: ["case-zobot.html", "Zobot case study"] },
+    { k: ["relevant to ai", "most relevant", "ai project", "ai work"], a: "The design system: it's where Claude and Figma MCP generate production components from the library, and where Code Connect keeps Figma and code in step.", link: ["case-design-system.html", "Design system case study"] },
     { k: ["design system", "components", "tokens", "variables", "code connect", "mcp", "48"], a: "The SalesIQ design system: 48+ components on one set of tokens, light and dark modes, every component mapped to its code with Code Connect, and an AI workflow with Claude and Figma MCP that generates the system twice, as a Figma library and as production components.", link: ["case-design-system.html", "Design system case study"] },
     { k: ["operator", "console", "agents", "queue", "support"], a: "The Operator Console redesign puts the queue, the conversation and everything about the visitor in one calm view for agents handling many chats.", link: ["case-operator-console.html", "Operator Console case study"] },
     { k: ["reports", "analytics", "charts", "dashboard", "metrics"], a: "Reports 2.0: one place to read engagement, support, bots, outbound and live activity. Every chart answers one question.", link: ["case-reports.html", "Reports case study"] },
@@ -46,8 +47,8 @@
     { k: ["thanks", "thank you", "cool", "nice", "great", "awesome"], a: "Anytime. ☀" }
   ];
   var SUGGEST = isHome
-    ? ["What does Ganesh do?", "Is he open to roles?", "Notice period?", "Does he code?", "Show me the gallery"]
-    : ["Is he open to roles?", "Notice period?", "Does he code?", "What tools does he use?", "Email him"];
+    ? ["What does Ganesh do?", "Which project is most relevant to AI?", "Is he open to roles?"]
+    : ["Is he open to roles?", "Which project is most relevant to AI?", "Does he code?"];
 
   /* Zobot-style branches: after an answer, offer the next questions that usually follow */
   var FOLLOW = {
@@ -61,6 +62,7 @@
     "case": ["Tell me about Zobot", "Tell me about the design system", "What about Reports?"],
     "zobot": ["Tell me about the design system", "What about the Operator Console?", "Show me the case studies"],
     "design system": ["How does Code Connect fit in?", "Does he code?", "Show me the Zobot case"],
+    "relevant to ai": ["How does he use AI?", "Tell me about the design system", "Show me the prompts"],
     "sunny": ["How was this site built?", "Show me the gallery", "Keyboard shortcuts?"],
     "site": ["How does he use AI?", "Does he code?", "Keyboard shortcuts?"],
     "ai": ["Show me the prompts", "When did AI get it wrong?", "How was this site built?"],
@@ -77,7 +79,7 @@
       e.k.forEach(function (k) { if (n.indexOf(" " + k + " ") > -1) score += k.indexOf(" ") > -1 ? 3 : 2; else if (k.length > 4 && n.indexOf(k) > -1) score += 1; });
       if (score > bestScore) { bestScore = score; best = e; }
     });
-    if (!best || bestScore < 2) return { a: "I don't know that one yet. Ganesh does, though.", link: ["mailto:" + MAIL + "?subject=Question%20from%20the%20portfolio", "Email Ganesh"] };
+    if (!best || bestScore < 2) return { a: "I don't have that one. Ganesh does, and here's what is public.", card: true, link: ["mailto:" + MAIL + "?subject=Question%20from%20the%20portfolio", "Email Ganesh"], alt: [home + "#work", "See public work"] };
     return best;
   }
 
@@ -85,25 +87,46 @@
   var root, panel, log, input, askBtn, open = false, history = [], busy = false;
   function el(html) { var d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; }
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
-  function linkHtml(l) { if (!l) return ""; var ext = /^(https?:|mailto:)/.test(l[0]); return '<a class="ask__link" href="' + l[0] + '"' + (ext && l[0].indexOf("mailto:") !== 0 ? ' target="_blank" rel="noopener"' : "") + ">" + esc(l[1]) + " →</a>"; }
+  function linkHtml(l) { if (!l) return ""; var ext = /^(https?:|mailto:)/.test(l[0]); return '<a class="ask__link" href="' + l[0] + '"' + (ext && l[0].indexOf("mailto:") !== 0 ? ' target="_blank" rel="noopener"' : "") + ">" + esc(l[1]) + "</a>"; }
   /* a tiny Sunny face for the header and the message avatars */
   var AVA = '<span class="ask__ava" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 10c1-3-1.5-4-.5-7" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16.5" cy="5.5" rx="3" ry="1.6" transform="rotate(-24 16.5 5.5)" fill="#FFC93C" stroke="#111" stroke-width="1.2"/><circle cx="20" cy="23" r="15" fill="#FFC93C" stroke="#111" stroke-width="2"/><ellipse cx="14.5" cy="22" rx="2.3" ry="3" fill="#111"/><ellipse cx="25.5" cy="22" rx="2.3" ry="3" fill="#111"/><circle cx="15.3" cy="20.8" r="0.9" fill="#fff"/><circle cx="26.3" cy="20.8" r="0.9" fill="#fff"/><path d="M16 28q4 3.5 8 0" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="10.5" cy="26" rx="2" ry="1.1" fill="#F6A3A3" opacity=".8"/><ellipse cx="29.5" cy="26" rx="2" ry="1.1" fill="#F6A3A3" opacity=".8"/></svg></span>';
-  function add(role, text, link) {
-    var m = el('<div class="ask__msg ask__msg--' + role + '">' + (role === "sunny" ? AVA : "") + '<div class="ask__body"><p>' + esc(text) + "</p>" + linkHtml(link) + "</div></div>");
+  function add(role, text, link, card, alt) {
+    var m;
+    if (card) {
+      m = el('<div class="ask__card">' +
+        '<div class="ask__card-top">' + AVA + '<p>' + esc(text) + '</p></div>' +
+        '<div class="ask__card-actions"><a class="ask__btn ask__btn--ink" href="' + link[0] + '">' + esc(link[1]) + '</a>' +
+        (alt ? '<a class="ask__btn" href="' + alt[0] + '">' + esc(alt[1]) + '</a>' : '') + '</div></div>');
+    } else {
+      m = el('<div class="ask__msg ask__msg--' + role + '">' + (role === "sunny" ? AVA : "") + '<div class="ask__body"><p>' + esc(text) + "</p>" + (link ? '<div class="ask__sources">' + linkHtml(link) + "</div>" : "") + "</div></div>");
+    }
     log.appendChild(m); log.scrollTop = log.scrollHeight;
     return m;
   }
+  var THINK = ["Looking through the case studies", "Checking the site", "Reading the hiring page", "Looking that up"];
+  function showError(question) {
+    var e = el('<div class="ask__error"><p>Can’t reach Sunny’s AI right now. Answered from the site instead.</p><button type="button" class="ask__retry">Retry</button></div>');
+    e.querySelector(".ask__retry").addEventListener("click", function () { if (busy) return; e.remove(); respond(question); });
+    log.appendChild(e); log.scrollTop = log.scrollHeight;
+  }
   function typing(on) {
     var t = log.querySelector(".ask__typing");
-    if (on && !t) { log.appendChild(el('<div class="ask__typing" aria-label="Sunny is thinking">' + AVA + '<span class="ask__dots"><i></i><i></i><i></i></span></div>')); log.scrollTop = log.scrollHeight; }
+    panel.classList.toggle("is-busy", !!on);
+    if (on && !t) { log.appendChild(el('<div class="ask__typing" aria-label="Sunny is thinking">' + AVA + '<span>' + THINK[Math.floor(Math.random() * THINK.length)] + '</span></div>')); log.scrollTop = log.scrollHeight; }
     else if (!on && t) t.remove();
   }
+  var closeTimer = 0;
   function setOpen(on) {
     open = on;
-    root.classList.toggle("has-ask", on);
-    panel.hidden = !on;
+    clearTimeout(closeTimer);
     askBtn.setAttribute("aria-expanded", String(on));
-    if (on) { askBtn.classList.remove("is-nudge"); setTimeout(function () { input.focus(); }, 50); if (global.Sunny) Sunny.emote("happy"); }
+    if (on) {
+      root.classList.add("has-ask"); panel.classList.remove("is-closing"); panel.hidden = false;
+      askBtn.classList.remove("is-nudge"); setTimeout(function () { input.focus(); }, 50); if (global.Sunny) Sunny.emote("happy");
+    } else {
+      panel.classList.add("is-closing");
+      closeTimer = setTimeout(function () { panel.hidden = true; panel.classList.remove("is-closing"); root.classList.remove("has-ask"); }, 180);
+    }
   }
   function doAction(act) {
     if (act === "theme") { var t = document.getElementById("themeToggle"); if (t) t.click(); }
@@ -119,9 +142,10 @@
     busy = true; typing(true);
     if (global.Sunny) Sunny.emote("curious", 1600);
     var local = answerLocal(text);
-    var finish = function (reply, link, act) {
+    var finish = function (reply, link, act, failed) {
       typing(false); busy = false;
-      add("sunny", reply, link);
+      add("sunny", reply, link, local.card && reply === local.a, local.alt);
+      if (failed) showError(text);
       renderChips(local.k ? (FOLLOW[local.k[0]] || FOLLOW_DEFAULT) : FOLLOW_DEFAULT);
       history.push({ role: "assistant", content: reply });
       if (history.length > 16) history = history.slice(-16);
@@ -135,19 +159,21 @@
     fetch(AI_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: history.slice(-8), page: location.pathname }), signal: ctrl ? ctrl.signal : undefined })
       .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
       .then(function (data) { clearTimeout(timer); finish(data.reply || local.a, data.link || local.link, local.act); })
-      .catch(function () { clearTimeout(timer); finish(local.a, local.link, local.act); });
+      .catch(function () { clearTimeout(timer); finish(local.a, local.link, local.act, true); });
   }
-  function renderChips(list) {
-    var box = panel.querySelector(".ask__chips");
-    box.innerHTML = list.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("");
+  function renderChips(list, stack) {
+    var old = log.querySelector(".ask__chips"); if (old) old.remove();
+    var box = el('<div class="ask__chips' + (stack ? " ask__chips--stack" : "") + '" aria-label="Suggested questions">' + list.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("") + "</div>");
     Array.prototype.forEach.call(box.querySelectorAll(".ask__chip"), function (c) {
-      c.addEventListener("click", function () { if (busy) return; add("you", c.textContent); respond(c.textContent); });
+      c.addEventListener("click", function () { if (busy) return; box.remove(); add("you", c.textContent); respond(c.textContent); });
     });
+    log.appendChild(box); log.scrollTop = log.scrollHeight;
   }
   function send() {
     var text = input.value.trim();
     if (!text || busy) return;
     input.value = "";
+    var pending = log.querySelector(".ask__chips"); if (pending) pending.remove();
     add("you", text);
     respond(text);
   }
@@ -158,21 +184,19 @@
     askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
-        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '">' + (AI_ENDPOINT ? "online · answers with Claude" : "online · knows this site") + '</span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
-        '<div class="ask__log"></div>' +
-        '<div class="ask__chips">' + SUGGEST.map(function (s) { return '<button type="button" class="ask__chip">' + esc(s) + "</button>"; }).join("") + "</div>" +
-        '<form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh, the work, this site…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></button></form>' +
-        (AI_ENDPOINT ? '<p class="ask__note mono">Messages go to Ganesh’s assistant service to be answered by Claude. No account, nothing stored.</p>' : "") +
+        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers from this site" : "answers from this site") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study.</p></div></div>' +
+        '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh’s work…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
+        '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers from ganeshuxcraft.in · can be wrong · not stored" : "Answers from ganeshuxcraft.in · can be wrong · not stored") + '</p></div>' +
       "</div>");
     root.appendChild(panel);
     charEl.appendChild(askBtn);
     log = panel.querySelector(".ask__log");
     input = panel.querySelector(".ask__input");
-    add("sunny", "Hi! I know this site inside out. Ask me about Ganesh, the work, or how it was built.");
     askBtn.addEventListener("click", function (e) { e.stopPropagation(); setOpen(!open); });
     panel.querySelector(".ask__close").addEventListener("click", function () { setOpen(false); });
     panel.querySelector(".ask__form").addEventListener("submit", function (e) { e.preventDefault(); send(); });
-    renderChips(SUGGEST);
+    renderChips(SUGGEST, true);
     panel.addEventListener("keydown", function (e) { if (e.key === "Escape") { setOpen(false); askBtn.focus(); } e.stopPropagation(); });
     panel.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
     document.addEventListener("keydown", function (e) {
