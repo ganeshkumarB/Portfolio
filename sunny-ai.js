@@ -183,8 +183,8 @@
     askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
-        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · ask me anything" : "scripted · from a set list") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
-        '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>' + (AI_ENDPOINT ? "Hi! I’m Sunny. Ask me anything: Ganesh’s work, design, hiring, or whatever you’re curious about." : "Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study.") + '</p></div></div>' +
+        '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers about Ganesh’s work" : "scripted · from a set list") + '</span><span class="ask__status-busy">thinking…</span></span></span><button type="button" class="ask__close" aria-label="Close">×</button></div>' +
+        '<div class="ask__log"><div class="ask__hello">' + AVA + '<p>' + "Hi! I’m Sunny. Ask me anything about Ganesh’s work and I’ll point you to the right case study." + '</p></div></div>' +
         '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about Ganesh’s work…" maxlength="240" autocomplete="off" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
         '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers via Ganesh’s own server · can be wrong · nothing stored" : "Answers from a set list Ganesh wrote · no AI service · nothing stored") + '</p></div>' +
       "</div>");
@@ -205,7 +205,7 @@
     });
     setTimeout(function () { if (!open) askBtn.classList.add("is-nudge"); }, 9000);
     var how = document.getElementById("sunnyHow");
-    if (how && AI_ENDPOINT) how.textContent = "Answers come from Claude through my own server; the key never ships with the site. Nothing is stored.";
+    if (how && AI_ENDPOINT) how.textContent = "Sunny is an AI. It answers about my work from a fixed set of facts, through my own server; the key never ships with the site. Nothing is stored.";
     global.SunnyAsk = {
       open: function () { setOpen(true); },
       ask: function (q) { setOpen(true); if (busy || !q) return; var pending = log.querySelector(".ask__chips"); if (pending) pending.remove(); add("you", q); respond(q); }
