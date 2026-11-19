@@ -481,46 +481,49 @@
   }
 
   /* ============================================================
-     Gallery desk mode (scatter + drag)
+     Gallery views: the grid, or a collage around the section header
      ============================================================ */
   var viewSwitch = $("#deskToggle");
   var viewBtns = $$(".view-switch__btn", viewSwitch);
+  var gallerySection = $("#gallery");
   var gallery = $(".gallery__grid");
+  var galleryHead = gallerySection ? $(".section__head", gallerySection) : null;
+  var shuffleBtn = $("#galleryShuffle");
   var pieces = $$(".piece", gallery);
-  var isDesk = false, dragState = null, suppressClick = false;
-  var VIEWS = ["grid", "desk", "collage"], currentView = "grid";
-  var VIEW_TOASTS = { grid: "grid · four columns", desk: "desk mode · drag the prints around", collage: "collage · move the mouse, shuffle for more" };
-  /* back to a clean slate: no inline positions, no hidden pieces, no collage title */
-  function resetPieces() {
-    isDesk = false;
-    gallery.style.height = "";
-    gallery.classList.remove("is-desk", "is-collage");
-    pieces.forEach(function (p) { p.style.cssText = ""; p.removeAttribute("data-rot"); p.classList.remove("is-hidden"); });
-    var t = $(".collage__title", gallery); if (t) t.remove();
-  }
-  function toGrid() {
-    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
-    flip(before, resetPieces);
-  }
-
-  /* Collage: eight pieces float around a big title, the rest come in on shuffle */
+  var VIEWS = ["grid", "collage"], currentView = "grid";
+  var VIEW_TOASTS = { grid: "grid · four columns", collage: "collage · move the mouse, shuffle for more" };
+  /* eight slots around the centred header, in percent of the stage */
   var SLOTS = [
-    { x: 5, y: 16, w: 17, ar: "1 / 1", d: 0.6 },
-    { x: 26, y: 4, w: 10, ar: "4 / 3", d: 1 },
-    { x: 61, y: 6, w: 11, ar: "3 / 4", d: 0.9 },
-    { x: 78, y: 12, w: 14, ar: "1 / 1", d: 0.5 },
-    { x: 85, y: 44, w: 12, ar: "1 / 1", d: 0.8 },
-    { x: 2, y: 54, w: 22, ar: "1 / 1", d: 0.4 },
-    { x: 42, y: 62, w: 18, ar: "4 / 3", d: 0.7 },
-    { x: 74, y: 70, w: 15, ar: "4 / 3", d: 0.9 }
+    { x: 4, y: 10, w: 16, ar: "1 / 1", d: 0.6 },
+    { x: 24, y: 2, w: 10, ar: "4 / 3", d: 1 },
+    { x: 64, y: 3, w: 10, ar: "3 / 4", d: 0.9 },
+    { x: 80, y: 10, w: 14, ar: "1 / 1", d: 0.5 },
+    { x: 86, y: 46, w: 11, ar: "1 / 1", d: 0.8 },
+    { x: 2, y: 50, w: 20, ar: "1 / 1", d: 0.4 },
+    { x: 36, y: 80, w: 14, ar: "4 / 3", d: 0.7 },
+    { x: 72, y: 72, w: 16, ar: "4 / 3", d: 0.9 }
   ];
   var collagePage = 0, collageRaf = 0, collageMX = 0, collageMY = 0;
-  function collageTitle() {
-    var t = document.createElement("div");
-    t.className = "collage__title";
-    t.innerHTML = '<p class="collage__h">Illustration</p><p class="collage__sub">visual work · <span class="mono">' + pieces.length + ' pieces</span> · <button type="button" class="collage__shuffle mono" title="Show eight more">shuffle ↻</button></p>';
-    $(".collage__shuffle", t).addEventListener("click", function () { collagePage++; layoutCollage(true); });
-    return t;
+
+  function flip(before, apply) {
+    apply();
+    pieces.forEach(function (p, i) {
+      var a = before[i], b = p.getBoundingClientRect();
+      if (reduced || !a.width || !b.width) return; /* hidden before or after: nothing to animate */
+      var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
+      p.animate(
+        [{ transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ")", transformOrigin: "0 0" },
+         { transform: "none", transformOrigin: "0 0" }],
+        { duration: 650 + i * 12, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
+      );
+    });
+  }
+  /* back to a clean slate: header above the grid, every piece in flow */
+  function resetPieces() {
+    gallery.classList.remove("is-collage");
+    gallerySection.classList.remove("gallery--collage");
+    pieces.forEach(function (p) { p.style.cssText = ""; p.classList.remove("is-hidden"); });
+    if (galleryHead && galleryHead.parentElement === gallery) gallerySection.insertBefore(galleryHead, gallery);
   }
   function layoutCollage(animate) {
     var n = pieces.length, start = (collagePage * SLOTS.length) % n;
@@ -530,7 +533,10 @@
       var s = SLOTS[i];
       p.style.left = s.x + "%"; p.style.top = s.y + "%"; p.style.width = s.w + "%";
       p.style.setProperty("--ar", s.ar); p.style.setProperty("--d", s.d); p.style.zIndex = 2 + i;
-      if (animate && !reduced) { p.style.opacity = "0"; p.style.transform = "translateY(14px)"; setTimeout(function () { p.style.opacity = ""; p.style.transform = ""; }, 30 + i * 40); }
+      if (animate && !reduced) {
+        p.style.opacity = "0"; p.style.transform = "translateY(14px)";
+        setTimeout(function () { p.style.opacity = ""; p.style.transform = ""; }, 30 + i * 40);
+      }
     });
   }
   function toCollage() {
@@ -538,9 +544,14 @@
     flip(before, function () {
       resetPieces();
       gallery.classList.add("is-collage");
-      gallery.appendChild(collageTitle());
+      gallerySection.classList.add("gallery--collage");
+      if (galleryHead) gallery.appendChild(galleryHead);
       layoutCollage(false);
     });
+  }
+  function toGrid() {
+    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
+    flip(before, resetPieces);
   }
   function collageTick() {
     collageRaf = 0;
@@ -554,62 +565,28 @@
   }
   function setView(name, quiet) {
     if (VIEWS.indexOf(name) < 0 || name === currentView) return;
-    if (name === "desk") toDesk(); else if (name === "collage") toCollage(); else toGrid();
+    if (name === "collage") toCollage(); else toGrid();
     currentView = name;
     viewBtns.forEach(function (b) { var on = b.getAttribute("data-view") === name; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); });
     try { localStorage.setItem("gallery:view", name); } catch (e) { /* ignore */ }
     if (!quiet) toast(VIEW_TOASTS[name]);
   }
-
-  function flip(before, apply) {
-    apply();
-    pieces.forEach(function (p, i) {
-      var a = before[i], b = p.getBoundingClientRect();
-      if (reduced || !a.width || !b.width) return; /* hidden before or after: nothing to animate */
-      var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
-      p.animate(
-        [{ transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ") " + (isDesk ? "" : "rotate(" + (p.dataset.rot || 0) + "deg)"), transformOrigin: "0 0" },
-         { transform: isDesk ? "rotate(" + p.dataset.rot + "deg)" : "none", transformOrigin: "0 0" }],
-        { duration: 650 + i * 12, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
-      );
-    });
-  }
-  /* Desk: prints sit on a loose grid of cells, each nudged and tilted a little,
-     so every print has air around it instead of piling up. */
-  function toDesk() {
-    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
-    var W = gallery.clientWidth, cardW = 216, cardH = 214;
-    var cols = Math.max(2, Math.min(6, Math.floor(W / 236)));
-    var rows = Math.ceil(pieces.length / cols);
-    var cellW = W / cols, cellH = cardH + 48;
-    var H = rows * cellH + 24;
-    var scrollBefore = window.scrollY;
-    var order = pieces.map(function (_, i) { return i; }).sort(function () { return Math.random() - 0.5; });
-    flip(before, function () {
-      resetPieces();
-      isDesk = true;
-      gallery.classList.add("is-desk");
-      gallery.style.height = H + "px";
-      order.forEach(function (pi, slot) {
-        var p = pieces[pi], c = slot % cols, r = Math.floor(slot / cols);
-        var rot = (Math.random() * 10 - 5).toFixed(1);
-        var jx = (Math.random() - 0.5) * Math.max(0, cellW - cardW - 16);
-        var jy = (Math.random() - 0.5) * 28;
-        var x = c * cellW + (cellW - cardW) / 2 + jx;
-        var y = 12 + r * cellH + (cellH - cardH) / 2 + jy;
-        p.dataset.rot = rot;
-        p.style.left = Math.round(x) + "px"; p.style.top = Math.round(y) + "px"; p.style.zIndex = slot + 1;
-        p.style.transform = "rotate(" + rot + "deg)";
-      });
-    });
-    window.scrollTo(0, scrollBefore);
-  }
-  if (viewSwitch) {
+  if (viewSwitch && gallery) {
     viewBtns.forEach(function (b) { b.addEventListener("click", function () { setView(b.getAttribute("data-view")); }); });
+    if (shuffleBtn) shuffleBtn.addEventListener("click", function () { collagePage++; layoutCollage(true); });
     try {
       var saved = localStorage.getItem("gallery:view");
-      if (saved && saved !== "desk" && VIEWS.indexOf(saved) > -1 && window.innerWidth > 1080) setView(saved, true);
+      if (saved && VIEWS.indexOf(saved) > -1 && window.innerWidth > 1080) setView(saved, true);
     } catch (e) { /* ignore */ }
+    /* ?view=collage opens the gallery in that view and jumps to it */
+    var qv = new URLSearchParams(location.search).get("view");
+    if (qv && VIEWS.indexOf(qv) > -1) {
+      setView(qv, true);
+      setTimeout(function () {
+        $$("[data-reveal]").forEach(function (el) { el.classList.add("is-in"); });
+        window.scrollTo({ top: gallerySection.getBoundingClientRect().top + window.scrollY - 24, behavior: "instant" });
+      }, 350);
+    }
     /* collage parallax: pieces drift against the pointer, deeper ones more */
     if (finePointer) gallery.addEventListener("pointermove", function (e) {
       if (currentView !== "collage") return;
@@ -620,44 +597,7 @@
       if (currentView !== "collage") return;
       pieces.forEach(function (p) { if (!p.classList.contains("is-hidden")) p.style.transform = ""; });
     });
-    /* ?view=desk opens the gallery in that view (handy for sharing a look) */
-    var qv = new URLSearchParams(location.search).get("view");
-    if (qv && VIEWS.indexOf(qv) > -1) {
-      setView(qv, true);
-      setTimeout(function () {
-        var sec = $("#gallery");
-        $$("[data-reveal]").forEach(function (el) { el.classList.add("is-in"); });
-        if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY - 24, behavior: "instant" });
-      }, 350);
-    }
-    var zTop = 100;
-    pieces.forEach(function (p) {
-      p.addEventListener("pointerdown", function (e) {
-        if (!isDesk || e.button !== 0) return;
-        var r = gallery.getBoundingClientRect();
-        dragState = { p: p, ox: e.clientX - p.offsetLeft, oy: e.clientY - p.offsetTop, sx: e.clientX, sy: e.clientY, moved: false, gr: r };
-        p.style.zIndex = ++zTop;
-        p.setPointerCapture(e.pointerId);
-      });
-      p.addEventListener("pointermove", function (e) {
-        if (!dragState || dragState.p !== p) return;
-        if (!dragState.moved && Math.hypot(e.clientX - dragState.sx, e.clientY - dragState.sy) > 4) {
-          dragState.moved = true; p.classList.add("is-dragging");
-        }
-        if (!dragState.moved) return;
-        var x = Math.max(-30, Math.min(gallery.clientWidth - 186, e.clientX - dragState.ox));
-        var y = Math.max(-30, Math.min(gallery.clientHeight - 180, e.clientY - dragState.oy));
-        p.style.left = x + "px"; p.style.top = y + "px";
-      });
-      var end = function (e) {
-        if (!dragState || dragState.p !== p) return;
-        if (dragState.moved) { suppressClick = true; setTimeout(function () { suppressClick = false; }, 0); }
-        p.classList.remove("is-dragging");
-        dragState = null;
-      };
-      p.addEventListener("pointerup", end);
-      p.addEventListener("pointercancel", end);
-      p.addEventListener("click", function (e) { if (suppressClick) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
-    });
+    /* a window resize while in collage: fall back to the grid on small screens */
+    window.addEventListener("resize", function () { if (currentView === "collage" && window.innerWidth <= 1080) setView("grid", true); });
   }
 })();

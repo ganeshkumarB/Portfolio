@@ -1465,7 +1465,7 @@ body.inspecting { user-select: none; }
 }
 .glitch.is-on { opacity: 1; }
 
-/* --- Gallery desk mode --- */
+/* --- Gallery view switch --- */
 .view-toggle {
   align-self: flex-start;
   margin-top: 2px;
@@ -1478,23 +1478,6 @@ body.inspecting { user-select: none; }
 }
 .view-toggle b { font-weight: 500; color: var(--ink); }
 .view-toggle:hover { border-color: var(--ink); color: var(--ink); }
-.gallery__grid.is-desk { position: relative; display: block; }
-.gallery__grid.is-desk .gallery__col { display: contents; }
-.gallery__grid.is-desk .piece {
-  position: absolute;
-  width: 216px;
-  padding: 8px 8px 6px;
-  border-radius: 10px;
-  background: var(--card);
-  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(0, 0, 0, 0.05);
-  cursor: grab;
-  touch-action: none;
-  transition: box-shadow 0.25s ease;
-}
-.gallery__grid.is-desk .piece.is-dragging { cursor: grabbing; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55); transition: none; }
-.gallery__grid.is-desk .piece__image { height: 150px !important; padding: 0; border: 0; border-radius: 6px; }
-.gallery__grid.is-desk .piece__caption { font-size: 12px; }
-.gallery__grid.is-desk .piece:hover .piece__image img { transform: none; }
 
 @media (max-width: 1080px) {
   .nav__inspect, .view-toggle, .ins__panel { display: none; }
@@ -1830,7 +1813,7 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 .view-switch__btn:hover { color: var(--ink); }
 .view-switch__btn.is-on { background: var(--ink); color: var(--bg); }
 .view-switch__key { margin: 0 4px 0 6px; padding: 0 5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; font: inherit; font-size: 10px; color: var(--muted); }
-@media (max-width: 1080px) { .view-switch__btn[data-view="desk"], .view-switch__btn[data-view="collage"], .view-switch__key { display: none; } }
+@media (max-width: 1080px) { .view-switch__btn[data-view="collage"], .view-switch__key, .collage__shuffle { display: none !important; } }
 
 /* collage: eight pieces float around a big title, with room to breathe */
 .gallery__grid.is-collage { display: block; position: relative; height: 820px; }
@@ -1854,12 +1837,35 @@ a.availability:hover { border-color: var(--ink); transform: translateY(-1px); }
 .gallery__grid.is-collage .piece:hover .piece__image img { transform: scale(1.03); }
 .gallery__grid.is-collage .piece__caption { font-size: 12px; color: var(--muted); opacity: 0; transition: opacity 0.3s ease; }
 .gallery__grid.is-collage .piece:hover .piece__caption { opacity: 1; }
-.collage__title { position: absolute; left: 50%; top: 42%; z-index: 1; transform: translate(-50%, -50%); text-align: center; pointer-events: none; white-space: nowrap; }
-.collage__h { font-family: var(--font-serif); font-weight: 400; font-size: clamp(64px, 8.6vw, 124px); line-height: 0.95; letter-spacing: -0.02em; color: var(--ink); font-variation-settings: "SOFT" 0, "WONK" 1; }
-.collage__sub { margin-top: 16px; font-size: 18px; color: var(--muted); pointer-events: auto; }
-.collage__sub .mono { font-size: 13px; }
 .collage__shuffle { padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
 .collage__shuffle:hover { background: var(--ink); color: var(--bg); }
 @media (max-width: 720px) {
   .view-switch { flex-wrap: wrap; }
 }
+
+/* collage: the section header sits in the middle of the stage, pieces float around it */
+.collage__shuffle { display: none; align-self: flex-start; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink); font: inherit; font-size: 12px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.collage__shuffle:hover { background: var(--ink); color: var(--bg); }
+.gallery--collage .collage__shuffle { display: inline-block; align-self: center; }
+.gallery__grid.is-collage .section__head {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 22%;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+}
+.gallery__grid.is-collage .section__head > * { pointer-events: auto; }
+.gallery__grid.is-collage .section__title { flex: 0 0 auto; max-width: 11ch; font-size: clamp(56px, 6.6vw, 92px); line-height: 0.98; letter-spacing: -0.02em; }
+.gallery__grid.is-collage .section__copy { flex: 0 0 auto; }
+.gallery__grid.is-collage .section__copy { width: auto; max-width: 560px; align-items: center; gap: 12px; }
+.gallery__grid.is-collage .section__copy .section__intro { order: 1; font-size: 17px; text-align: center; }
+.gallery__grid.is-collage .section__copy .section__kicker { order: 2; }
+.gallery__grid.is-collage .section__copy .view-switch { order: 3; align-self: center; }
+.gallery__grid.is-collage .section__copy .collage__shuffle { order: 4; }
