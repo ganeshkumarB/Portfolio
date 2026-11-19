@@ -476,8 +476,8 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 /* ---------- Ask Sunny: speech-bubble CTA and the chat window ---------- */
 .sunny__ask {
   position: absolute;
-  left: -52px;
-  top: 2px;
+  left: -58px;
+  top: 64px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -515,7 +515,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .sunny__ask.is-nudge { animation: ask-float 3.2s ease-in-out infinite, ask-nudge 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 2; }
 @keyframes ask-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
 @keyframes ask-nudge { 0%, 100% { scale: 1; } 40% { scale: 1.08; } }
-.sunny.has-ask .sunny__ask, .sunny.is-static .sunny__ask, .sunny.is-gone .sunny__ask { opacity: 0; pointer-events: none; }
+.sunny.has-ask .sunny__ask, .sunny.is-talking .sunny__ask, .sunny.is-carried .sunny__ask, .sunny.is-static .sunny__ask, .sunny.is-gone .sunny__ask { opacity: 0; pointer-events: none; }
 .sunny.has-ask .sunny__bubble { display: none; }
 
 .ask {
@@ -621,7 +621,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .ask__note { margin: 0; padding: 0 14px 10px; font-size: 10px; line-height: 1.4; color: var(--muted, #6b6f78); }
 
 @media (max-width: 720px) {
-  .sunny__ask { left: -46px; top: -6px; padding: 6px 10px; font-size: 11px; }
+  .sunny__ask { left: -50px; top: 44px; padding: 6px 10px; font-size: 11px; }
   .ask { right: 4px; bottom: 134px; border-radius: 18px; }
   .ask::after { right: 36px; }
 }
