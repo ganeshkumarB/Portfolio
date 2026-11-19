@@ -24,6 +24,13 @@
       '<defs>' +
         '<radialGradient id="s-grad" cx="0.36" cy="0.3" r="0.78"><stop offset="0" stop-color="#FFE48A"/><stop offset="1" stop-color="#F2AE2E"/></radialGradient>' +
         '<linearGradient id="s-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6aa3ff"/><stop offset="1" stop-color="#3f7ff0"/></linearGradient>' +
+        /* clay look: matte gradient, a darker rim at the bottom-right, soft blurs, a touch of grain, a warm drop shadow */
+        '<radialGradient id="s-clay" cx="0.36" cy="0.3" r="0.82"><stop offset="0" stop-color="#FFEBA8"/><stop offset="0.5" stop-color="#FFCB45"/><stop offset="1" stop-color="#E69B1E"/></radialGradient>' +
+        '<radialGradient id="s-rim" cx="0.6" cy="0.68" r="0.72"><stop offset="0.68" stop-color="#7a4a00" stop-opacity="0"/><stop offset="1" stop-color="#7a4a00" stop-opacity="0.3"/></radialGradient>' +
+        '<filter id="s-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5"/></filter>' +
+        '<filter id="s-soft2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>' +
+        '<filter id="s-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/></filter>' +
+        '<filter id="s-clayshadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#8a5a00" flood-opacity="0.2"/></filter>' +
       '</defs>' +
       '<ellipse class="s-shadow" cx="110" cy="207" rx="46" ry="6" fill="' + INK + '" fill-opacity="0.09"/>' +
       /* props behind the character */
@@ -52,8 +59,10 @@
           '<ellipse class="s-foot s-foot--r" cx="128" cy="191" rx="12" ry="7" fill="' + DEEP + '" stroke="' + INK + '" stroke-width="2.5"/>' +
         '</g>' +
         '<g class="s-body">' +
-          '<circle class="s-ball" cx="110" cy="125" r="66" fill="url(#s-grad)" stroke="' + INK + '" stroke-width="3"/>' +
-          '<ellipse class="s-highlight" cx="80" cy="90" rx="14" ry="8" transform="rotate(-35 80 90)" fill="#fff" opacity="0.85"/>' +
+          '<circle class="s-ball" cx="110" cy="125" r="66" fill="url(#s-clay)" stroke="' + INK + '" stroke-width="3"/>' +
+          '<circle class="s-rim" cx="110" cy="125" r="66" fill="url(#s-rim)"/>' +
+          '<circle class="s-grain" cx="110" cy="125" r="66" fill="#fff" filter="url(#s-grain)" opacity="0.22"/>' +
+          '<ellipse class="s-highlight" cx="80" cy="90" rx="16" ry="9" transform="rotate(-35 80 90)" fill="#fff" opacity="0.85"/>' +
           '<g class="s-face">' +
             '<g class="s-look"><g class="s-eyes">' +
               '<g class="s-eye s-eye--l"><ellipse cx="93" cy="120" rx="8.5" ry="10.5" fill="' + INK + '"/><circle cx="96" cy="115" r="3.2" fill="#fff"/><circle cx="90" cy="124" r="1.6" fill="#fff"/></g>' +

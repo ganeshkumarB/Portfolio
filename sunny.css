@@ -629,3 +629,21 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
   .ask__foot { padding-bottom: max(4px, env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) { .ask, .sunny__ask, .ask__typing span::after, .ask.is-busy .ask__status::before { animation: none; } }
+
+/* ---------- clay finish: soft matte body, no hard outlines, warm dark features ---------- */
+.s-char { filter: url(#s-clayshadow); }
+.s-ball { stroke: #d8961a; stroke-width: 1.2; }
+.s-highlight { filter: url(#s-soft); opacity: 0.75; }
+.s-shadow { filter: url(#s-soft2); fill-opacity: 0.16; }
+.s-foot, .s-arm ellipse { fill: url(#s-clay); stroke: #d8961a; stroke-width: 1.2; }
+.s-foot { fill: #E69B1E; }
+.s-sprout path { stroke: #d8961a; stroke-width: 2; }
+.s-sprout ellipse { fill: url(#s-clay); stroke: #d8961a; stroke-width: 1.2; }
+.s-eye ellipse, .s-m--o, .s-m--grin path { fill: #2b2118; }
+.s-eye-happy, .s-eye-x, .s-mouth { stroke: #2b2118; }
+.s-blush ellipse { opacity: 0.6; filter: url(#s-soft2); rx: 10; ry: 6; }
+.s-glasses rect, .s-glasses path { fill: #2b2118; stroke: #2b2118; }
+.s-glasses path { fill: none; }
+.s-hat path, .s-cap path { stroke: rgba(43, 33, 24, 0.55); stroke-width: 1.6; }
+.s-cup rect, .s-mug rect, .s-book path, .s-balls circle, .s-hat circle, .s-cap circle { stroke: rgba(43, 33, 24, 0.55); }
+@media (prefers-reduced-motion: reduce) { .s-char { filter: none; } }
