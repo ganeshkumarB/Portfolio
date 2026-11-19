@@ -74,7 +74,7 @@
     var $ = function (s, c) { return (c || document).querySelector(s); };
     var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
     var hero = $(".cs-hero"), content = $(".cs-content");
-    if (!hero || !content) return;
+    if (!hero || !content || !/^case-/.test(location.pathname.split("/").pop())) return; /* case studies only */
     var lede = $(".cs-lede", hero);
     var role = null; $$(".cs-meta dl div", hero).forEach(function (d) { var dt = $("dt", d); if (dt && /role/i.test(dt.textContent)) role = $("dd", d).textContent.trim(); });
     var sections = $$(".cs-section", content).map(function (sec) {
