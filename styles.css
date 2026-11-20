@@ -2733,3 +2733,36 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .post { padding: 24px 0; }
   .post__title { font-size: 21px; }
 }
+
+/* ============================================================
+   Section labels shared by Skills and AI; quieter skill groups and AI cards
+   ============================================================ */
+.sec__label { margin: 0 0 -38px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.skills .section__head, .ai .section__head { align-items: flex-start; }
+.skills .section__intro, .ai .section__intro { padding-top: 10px; }
+.group { gap: 16px; }
+.group__title { font-size: 22px; white-space: normal; }
+.chips li { font-size: 12.5px; letter-spacing: 0; text-transform: none; }
+.ai__card { gap: 14px; padding: 28px 26px 24px; }
+.ai__title { flex: 1; font-size: 24px; line-height: 1.15; }
+.ai__go { margin-top: 4px; }
+.sunny-can { grid-template-columns: 1fr; }
+.sunny-can__head { max-width: 560px; }
+.sunny-can__head .btn span { display: inline-block; margin-left: 6px; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.sunny-can__head .btn:hover span { transform: translateX(4px); }
+@media (max-width: 1080px) {
+  .sec__label { margin-bottom: -16px; }
+  .skills .section__head, .ai .section__head { flex-direction: column; gap: 10px; }
+  .skills .section__intro, .ai .section__intro { padding-top: 0; }
+}
+/* skills cards share a bottom edge; AI heading balances; Sunny card is text left, button right */
+.skills__groups { align-items: stretch; }
+.ai .section__title { max-width: 560px; text-wrap: balance; }
+.ai .sunny-can__head { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto auto; column-gap: 48px; row-gap: 10px; align-items: center; max-width: none; }
+.ai .sunny-can__kicker, .ai .sunny-can__title, .ai .sunny-can__intro, .ai .sunny-can__how { grid-column: 1; }
+.ai .sunny-can__intro { max-width: 520px; }
+.ai .sunny-can__head .btn { grid-column: 2; grid-row: 1 / span 4; justify-self: end; margin: 0; }
+@media (max-width: 720px) {
+  .ai .sunny-can__head { grid-template-columns: 1fr; }
+  .ai .sunny-can__head .btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 6px; }
+}
