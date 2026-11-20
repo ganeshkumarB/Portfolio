@@ -118,7 +118,21 @@
     var pill = nav.querySelector(".nav__pill"), utils = nav.querySelector(".nav__utils");
     if (!pill) return;
     var box = doc.createElement("div"); box.className = "nav__drawer"; box.id = "navDrawer";
-    nav.insertBefore(box, pill); box.appendChild(pill); if (utils) box.appendChild(utils);
+    nav.insertBefore(box, pill); box.appendChild(pill);
+    var resume = nav.querySelector(".nav__resume");
+    var right = doc.createElement("div"); right.className = "nav__right";
+    if (resume) { nav.insertBefore(right, resume); right.appendChild(resume); } else nav.appendChild(right);
+    function place() {
+      if (!utils) return;
+      if (global.innerWidth > 1080) { if (utils.parentNode !== right) right.insertBefore(utils, right.firstChild); }
+      else if (utils.parentNode !== box) box.appendChild(utils);
+    }
+    place(); global.addEventListener("resize", place);
+    /* reserve the bold width of each label so the row never shifts when the active link changes */
+    Array.prototype.forEach.call(nav.querySelectorAll(".nav__link"), function (a) {
+      var span = a.querySelector("span"); if (!span) { span = doc.createElement("span"); span.textContent = a.textContent.trim(); a.textContent = ""; a.appendChild(span); }
+      span.setAttribute("data-label", span.textContent.trim());
+    });
     var menu = doc.createElement("button");
     menu.type = "button"; menu.className = "nav__menu"; menu.setAttribute("aria-expanded", "false"); menu.setAttribute("aria-controls", "navDrawer"); menu.setAttribute("aria-label", "Menu");
     menu.innerHTML = '<span></span><span></span><span></span>';
