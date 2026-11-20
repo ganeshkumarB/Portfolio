@@ -305,3 +305,71 @@
   document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(timer); else schedule(); });
   show(0);
 })();
+
+
+/* Hero 18: Sunny peeks from behind the bridge card, ducks when you hover it, and glides to its corner once you scroll. */
+(function () {
+  "use strict";
+  var card = document.getElementById("heroCard"), bridge = document.getElementById("bridge");
+  if (!card || !bridge) return;
+  var wide = window.matchMedia("(min-width: 1081px)");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
+  if (reduced) return;
+  var root = null, chr = null, mode = "dock", raf = 0, greeted = false;
+
+  function place() {
+    if (!root || mode !== "hero") return;
+    var r = bridge.getBoundingClientRect();
+    var size = chr.offsetWidth || 150;
+    var cx = r.right - size - 36;            /* character box left */
+    var cy = r.top - size * 0.54;            /* the card's top edge cuts Sunny at the waist */
+    root.style.left = Math.round(cx + size - root.offsetWidth) + "px";
+    root.style.top = Math.round(cy + size - root.offsetHeight) + "px";
+    root.style.right = "auto"; root.style.bottom = "auto";
+  }
+  function setMode(next) {
+    if (!root || next === mode) return;
+    var from = chr.getBoundingClientRect();
+    mode = next;
+    root.classList.add("sunny--landing");
+    if (next === "hero") { root.classList.add("sunny--perch"); place(); }
+    else { root.classList.remove("sunny--perch", "is-duck"); root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
+    var to = chr.getBoundingClientRect();
+    var dx = from.left - to.left, dy = from.top - to.top;
+    try {
+      chr.animate([{ transform: "translate(" + dx + "px," + dy + "px)" }, { transform: "translate(" + (dx * 0.4) + "px," + (dy * 0.4 - 60) + "px)", offset: 0.5 }, { transform: "none" }],
+        { duration: 1100, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }).onfinish = function () { root.classList.remove("sunny--landing"); };
+    } catch (e) { root.classList.remove("sunny--landing"); }
+    if (window.Sunny) {
+      if (next === "dock") { window.Sunny.emote("happy"); window.Sunny.say("Ducked behind, then down here.", 2600); }
+      else { window.Sunny.emote("curious"); }
+    }
+  }
+  function tick() {
+    raf = 0;
+    if (!root) return;
+    if (!wide.matches) { setMode("dock"); return; }
+    var top = bridge.getBoundingClientRect().top;
+    if (mode === "hero" && top < 120) setMode("dock");
+    else if (mode === "dock" && top > 180) setMode("hero");
+    place();
+  }
+  function schedule() { if (!raf) raf = setTimeout(tick, 16); }
+
+  function hook() {
+    root = document.querySelector(".sunny"); if (!root) return false;
+    chr = root.querySelector(".sunny__char"); if (!chr) return false;
+    mode = "dock";
+    if (wide.matches && bridge.getBoundingClientRect().top > 180) {
+      root.classList.add("sunny--perch"); mode = "hero"; place();
+      setTimeout(function () { if (mode === "hero" && window.Sunny && !greeted) { greeted = true; window.Sunny.emote("curious"); window.Sunny.say("Boo. Hover the card, it tilts.", 3000); } }, 1400);
+    }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    bridge.addEventListener("mouseenter", function () { if (mode === "hero") { root.classList.add("is-duck"); if (window.Sunny) window.Sunny.emote("shy", 1600); } });
+    bridge.addEventListener("mouseleave", function () { root.classList.remove("is-duck"); });
+    return true;
+  }
+  var tries = 0;
+  (function wait() { if (hook()) return; if (++tries < 80) setTimeout(wait, 150); })();
+})();

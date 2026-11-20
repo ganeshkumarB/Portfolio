@@ -135,17 +135,21 @@
      Hero intro: headline words, sync sequence, status
      ============================================================ */
   var title = $("#heroTitle");
-  var accentWords = ["code"];
+  var accentWords = ["code"], boldWords = ["system", "Figma"], breakAfter = ["system,", "between"];
   (function splitTitle() {
     var words = title.textContent.trim().split(/\s+/);
     title.textContent = "";
     words.forEach(function (w, i) {
       var span = document.createElement("span");
-      span.className = "w" + (accentWords.indexOf(w.replace(/[^\w]/g, "")) > -1 ? " w--accent" : "");
+      var bare = w.replace(/[^\w]/g, "");
+      span.className = "w" + (accentWords.indexOf(bare) > -1 ? " w--accent" : "") + (boldWords.indexOf(bare) > -1 ? " w--bold" : "");
       span.style.setProperty("--w", i);
       span.textContent = w;
       title.appendChild(span);
-      if (i < words.length - 1) title.appendChild(document.createTextNode(" "));
+      if (i < words.length - 1) {
+        if (breakAfter.indexOf(w) > -1) { var br = document.createElement("br"); br.className = "hero__br"; title.appendChild(br); }
+        title.appendChild(document.createTextNode(" "));
+      }
     });
   })();
 

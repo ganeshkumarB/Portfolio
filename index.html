@@ -17,15 +17,15 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261223" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261223" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261223" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261225" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261225" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261225" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261223" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261223" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261225" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261225" /></noscript>
 </head>
 <body>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
@@ -57,7 +57,7 @@
     </nav>
     </div>
 
-    <div class="hero__grid">
+    <div class="hero__grid hero__grid--wrapped">
       <div class="hero__copy">
         <p class="hero__kicker mono" data-intro style="--i:0"><span class="hero__kicker-dot" aria-hidden="true"></span>Ganeshkumar <span aria-hidden="true">·</span> Product Designer</p>
         <h1 class="hero__title" id="heroTitle">I design the system, and the bridge between Figma and code.</h1>
@@ -68,7 +68,8 @@
         </div>
       </div>
 
-      <aside class="bridge" id="bridge" aria-label="Figma and Code Connect example" data-intro style="--i:2">
+      <div class="hero__card" id="heroCard">
+      <aside class="bridge" id="bridge" aria-label="Figma and Code Connect example" data-intro data-tilt style="--i:2">
         <div class="bridge__header">
           <span class="bridge__pane-title"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 2h4v6H8a3 3 0 0 1 0-6Z" fill="#f24e1e"/><path d="M12 2h4a3 3 0 0 1 0 6h-4V2Z" fill="#ff7262"/><path d="M8 8h4v6H8a3 3 0 0 1 0-6Z" fill="#a259ff"/><path d="M8 14h4v3a3 3 0 1 1-4-3Z" fill="#0acf83"/><circle cx="15" cy="11" r="3" fill="#1abcfe"/></svg>Figma</span>
           <span class="bridge__pane-title bridge__pane-title--code"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code Connect</span>
@@ -107,7 +108,9 @@
           </div>
         </div>
         <div class="bridge__footer">One component, both sides of the bridge. The same tokens drive each. Code is illustrative.</div>
+        <span class="glare bridge__glare" aria-hidden="true"></span>
       </aside>
+      </div>
     </div>
   </header>
 
@@ -749,12 +752,12 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261223"></script>
-  <script src="script.js?v=20261223"></script>
-  <script src="creative.js?v=20261223"></script>
-  <script src="sunny.js?v=20261223"></script>
-  <script src="sunny-config.js?v=20261223"></script>
-  <script src="sunny-ai.js?v=20261223"></script>
-  <script src="extras.js?v=20261223"></script>
+  <script src="prefs.js?v=20261225"></script>
+  <script src="script.js?v=20261225"></script>
+  <script src="creative.js?v=20261225"></script>
+  <script src="sunny.js?v=20261225"></script>
+  <script src="sunny-config.js?v=20261225"></script>
+  <script src="sunny-ai.js?v=20261225"></script>
+  <script src="extras.js?v=20261225"></script>
 </body>
 </html>
