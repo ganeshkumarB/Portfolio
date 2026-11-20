@@ -137,11 +137,11 @@
   /* ============================================================
      Recruiter view: a condensed home page, remembered per browser
      ============================================================ */
-  var modeBtn = $("#modeToggle");
-  if (modeBtn) {
+  var modeBtn = $("#modeToggle"), modeExit = $("#modeExit");
+  if ($("#recruiter")) {
     function setMode(on, quiet) {
       document.body.classList.toggle("recruiter", on);
-      modeBtn.setAttribute("aria-pressed", String(on));
+      if (modeBtn) modeBtn.setAttribute("aria-pressed", String(on));
       try { localStorage.setItem("site:mode", on ? "recruiter" : "full"); } catch (e) { /* ignore */ }
       try {
         var u = new URL(location.href);
@@ -156,9 +156,10 @@
       window.dispatchEvent(new Event("resize"));
     }
     var wantsMode = false;
-    try { wantsMode = new URL(location.href).searchParams.get("mode") === "recruiter" || localStorage.getItem("site:mode") === "recruiter"; } catch (e) { /* ignore */ }
+    try { wantsMode = new URL(location.href).searchParams.get("mode") === "recruiter"; } catch (e) { /* ignore */ }
     if (wantsMode) setMode(true, true);
-    modeBtn.addEventListener("click", function () { setMode(!document.body.classList.contains("recruiter")); });
+    if (modeBtn) modeBtn.addEventListener("click", function () { setMode(!document.body.classList.contains("recruiter")); });
+    if (modeExit) modeExit.addEventListener("click", function () { setMode(false); });
   }
 
   /* ============================================================
