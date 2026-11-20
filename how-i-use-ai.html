@@ -17,16 +17,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261232" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261232" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261232" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261233" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261233" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261233" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261232" />
-  <link rel="stylesheet" href="sunny.css?v=20261232" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261232" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261233" />
+  <link rel="stylesheet" href="sunny.css?v=20261233" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261233" /></noscript>
 </head>
 <body class="is-ready cs-page ai-page">
 
@@ -44,7 +44,7 @@
         <a class="nav__link" href="how-this-site-was-built.html">This site</a>
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
-      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page résumé (PDF)" aria-label="Open the one-page résumé (PDF)"><span class="nav__resume-txt">Résumé</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
+      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
     </nav>
     </div>
   </header>
@@ -119,7 +119,7 @@
         <p class="cs-sub">Real examples from this site. Each caught by review, not by the model.</p>
       </div>
       <div class="g g--2 g--20">
-        <div class="tile tile--wrong"><p class="t-h t-h--17">The logo's g went white in dark mode</p><p class="t-p">Claude mapped the mark's ink to the theme token, so the g on the lamp cone inverted with the page. It looked broken, not clever. Fixed by pinning the g to ink and leaving the cone light.</p></div><div class="tile"><p class="t-h t-h--17">A metric that did not exist</p><p class="t-p">An early draft of the facts row claimed a 30% improvement. No source, so it was deleted. Everything on the site now is a count I can stand behind.</p></div><div class="tile"><p class="t-h t-h--17">Career years filled in by guesswork</p><p class="t-p">The career map needed one entry per year from 2018 to now. Claude placed the middle years from the résumé's date ranges, which is a guess. Those placements are flagged and I am confirming them one by one.</p></div><div class="tile"><p class="t-h t-h--17">A gallery view that rendered blank</p><p class="t-p">The bento layout came back empty: the grid aligned items to the start and each tile collapsed to zero height. A one-line CSS fix, found by reading the computed styles, not by asking again.</p></div><div class="tile"><p class="t-h t-h--17">A one-page résumé that spilled to two</p><p class="t-p">The print stylesheet let the sheet grow with its content. The page now has a fixed A4 height and hidden overflow, and the PDF is checked for a single page every time it is regenerated.</p></div><div class="tile"><p class="t-h t-h--17">Text a screen reader would read as nonsense</p><p class="t-p">The résumé button exposed its progress counter, so it read as “Résumé.pdf0%”. AI did not catch this; a review pass did. The counter is hidden from assistive tech now.</p></div>
+        <div class="tile tile--wrong"><p class="t-h t-h--17">The logo's g went white in dark mode</p><p class="t-p">Claude mapped the mark's ink to the theme token, so the g on the lamp cone inverted with the page. It looked broken, not clever. Fixed by pinning the g to ink and leaving the cone light.</p></div><div class="tile"><p class="t-h t-h--17">A metric that did not exist</p><p class="t-p">An early draft of the facts row claimed a 30% improvement. No source, so it was deleted. Everything on the site now is a count I can stand behind.</p></div><div class="tile"><p class="t-h t-h--17">Career years filled in by guesswork</p><p class="t-p">The career map needed one entry per year from 2018 to now. Claude placed the middle years from the resume's date ranges, which is a guess. Those placements are flagged and I am confirming them one by one.</p></div><div class="tile"><p class="t-h t-h--17">A gallery view that rendered blank</p><p class="t-p">The bento layout came back empty: the grid aligned items to the start and each tile collapsed to zero height. A one-line CSS fix, found by reading the computed styles, not by asking again.</p></div><div class="tile"><p class="t-h t-h--17">A one-page resume that spilled to two</p><p class="t-p">The print stylesheet let the sheet grow with its content. The page now has a fixed A4 height and hidden overflow, and the PDF is checked for a single page every time it is regenerated.</p></div><div class="tile"><p class="t-h t-h--17">Text a screen reader would read as nonsense</p><p class="t-p">The resume button exposed its progress counter, so it read as “Resume.pdf0%”. AI did not catch this; a review pass did. The counter is hidden from assistive tech now.</p></div>
       </div>
     </section>
 
@@ -159,11 +159,11 @@
     <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
   </footer>
 
-  <script src="prefs.js?v=20261232"></script>
-  <script src="case.js?v=20261232"></script>
-  <script src="extras.js?v=20261232"></script>
-  <script src="sunny.js?v=20261232"></script>
-  <script src="sunny-config.js?v=20261232"></script>
-  <script src="sunny-ai.js?v=20261232"></script>
+  <script src="prefs.js?v=20261233"></script>
+  <script src="case.js?v=20261233"></script>
+  <script src="extras.js?v=20261233"></script>
+  <script src="sunny.js?v=20261233"></script>
+  <script src="sunny-config.js?v=20261233"></script>
+  <script src="sunny-ai.js?v=20261233"></script>
 </body>
 </html>

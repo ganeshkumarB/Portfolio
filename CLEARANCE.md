@@ -16,7 +16,7 @@ All seven recreate screens with sample data and avoid internal metrics. Confirm:
 
 ## Names and references
 - [ ] Package name in code samples is illustrative: `@ganesh/ui` (not a Zoho package)
-- [ ] Résumé PDFs · product and team descriptions
+- [ ] Resume PDFs · product and team descriptions
 - [ ] Testimonials (when added) · written permission from each person
 
 ## Not on the site

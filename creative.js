@@ -107,7 +107,7 @@
   /* Figma counterparts live in "ganeshuxcraft · Design system & screens":
      02 · Components & states for components, 03 · Screens for page-only layers, 05 · Sunny for the mascot. */
   var components = [
-    { sel: ".nav__resume", name: "Nav / Résumé button", figma: "Résumé button · State=Rest", node: "2-81" },
+    { sel: ".nav__resume", name: "Nav / Resume button", figma: "Resume button · State=Rest", node: "2-81" },
     { sel: ".nav__brand", name: "Brand / Pendant lockup", figma: "Brand mark · Mark=Lockup", node: "2-17" },
     { sel: ".nav__theme", name: "Nav / Theme toggle", figma: "Theme toggle · Mode=Light / Dark", node: "2-168" },
     { sel: ".nav__inspect", name: "Nav / Inspect button", figma: "no Figma counterpart, built in code", node: "" },

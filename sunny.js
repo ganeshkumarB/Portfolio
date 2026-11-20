@@ -689,7 +689,7 @@
       }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
     }
 
-    /* résumé download */
+    /* resume download */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__resume"), function (a) {
       a.addEventListener("click", function () { stopAct(); emote("proud", 1800); say("📄 Carrying your PDF… there, it's yours.", 2600); });
     });
