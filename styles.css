@@ -2737,7 +2737,7 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
 /* ============================================================
    Section labels shared by Skills and AI; quieter skill groups and AI cards
    ============================================================ */
-.sec__label { margin: 0 0 -38px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.sec__label { margin: 0 0 -46px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .skills .section__head, .ai .section__head { align-items: flex-start; }
 .skills .section__intro, .ai .section__intro { padding-top: 10px; }
 .group { gap: 16px; }
@@ -2800,3 +2800,20 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .contact__footer { padding-top: 64px; padding-bottom: 96px; flex-direction: column; gap: 8px; }
 }
 @media (min-width: 1081px) { .contact__footer { padding-right: 180px; } }
+
+/* ============================================================
+   Rhythm pass: one heading size, one intro column, one head-to-body gap, even section gaps
+   ============================================================ */
+@media (min-width: 1081px) {
+  .section__title, .playground .section__title, .story .section__title, .how .section__title { font-size: 42px; line-height: 1.1; letter-spacing: -0.02em; }
+  .section__intro { width: 480px; }
+  .how .section__head { gap: 80px; }
+  .how .section__title { flex: 0 0 640px; max-width: 640px; }
+  .how .section__intro { flex: 0 0 480px; max-width: none; }
+  .ai .section__title { max-width: none; }
+  .hero { padding-bottom: 80px; }
+  .work { padding-top: 104px; }
+  .contact { padding-top: 56px; }
+}
+.work, .how, .skills, .ai, .playground, .writing { gap: 64px; }
+.story__label { margin-bottom: 18px; }
