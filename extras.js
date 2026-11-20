@@ -322,7 +322,7 @@
     var r = bridge.getBoundingClientRect();
     var size = chr.offsetWidth || 150;
     var cx = r.right - size - 36;            /* character box left */
-    var cy = r.top - size * 0.54;            /* the card's top edge cuts Sunny at the waist */
+    var cy = r.top - size * 0.78;            /* chin on the card's top edge, eyes clear above it */
     root.style.left = Math.round(cx + size - root.offsetWidth) + "px";
     root.style.top = Math.round(cy + size - root.offsetHeight) + "px";
     root.style.right = "auto"; root.style.bottom = "auto";
@@ -336,14 +336,26 @@
     else { root.classList.remove("sunny--perch", "is-duck"); root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
     var to = chr.getBoundingClientRect();
     var dx = from.left - to.left, dy = from.top - to.top;
+    /* Superman: shades on, cape out, a swoop up and over, then touch down */
+    root.classList.add("is-flying");
+    if (window.Sunny) window.Sunny.emote("cool", 1500);
+    var land = function () {
+      root.classList.remove("sunny--landing", "is-flying");
+      if (window.Sunny) {
+        if (next === "dock") { window.Sunny.emote("proud", 1800); window.Sunny.say("Landed. Right where I belong.", 2600); }
+        else { window.Sunny.emote("curious", 1500); window.Sunny.say("Back on my perch.", 2000); }
+      }
+    };
     try {
-      chr.animate([{ transform: "translate(" + dx + "px," + dy + "px)" }, { transform: "translate(" + (dx * 0.4) + "px," + (dy * 0.4 - 60) + "px)", offset: 0.5 }, { transform: "none" }],
-        { duration: 1100, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }).onfinish = function () { root.classList.remove("sunny--landing"); };
-    } catch (e) { root.classList.remove("sunny--landing"); }
-    if (window.Sunny) {
-      if (next === "dock") { window.Sunny.emote("happy"); window.Sunny.say("Ducked behind, then down here.", 2600); }
-      else { window.Sunny.emote("curious"); }
-    }
+      var lift = next === "dock" ? -140 : -90;
+      chr.animate([
+        { transform: "translate(" + dx + "px," + dy + "px) scale(1)" },
+        { transform: "translate(" + (dx * 0.55) + "px," + (dy * 0.2 + lift) + "px) scale(1.06)", offset: 0.45 },
+        { transform: "translate(" + (dx * 0.12) + "px," + (dy * 0.08 - 10) + "px) scale(1)", offset: 0.85 },
+        { transform: "translateY(6px) scale(1.04, 0.94)", offset: 0.94 },
+        { transform: "none" }
+      ], { duration: 1400, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = land;
+    } catch (e) { land(); }
   }
   function tick() {
     raf = 0;
