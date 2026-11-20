@@ -258,6 +258,7 @@
     tabs.forEach(function (t, n) {
       var on = n === idx;
       t.classList.toggle("is-active", on);
+      var card = t.closest(".how__card"); if (card) card.classList.toggle("is-active", on);
       t.setAttribute("aria-selected", on ? "true" : "false");
       t.tabIndex = on ? 0 : -1;
       var bar = t.querySelector(".how__bar i");
