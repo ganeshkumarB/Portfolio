@@ -248,7 +248,6 @@
     [".gallery__more", 0],
     [".featured", 0],
     [".post", 70],
-    [".posts__more", 0],
     [".group", 90],
     [".contact__title", 0],
     [".contact__mail", 120],

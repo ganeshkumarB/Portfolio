@@ -125,7 +125,7 @@
     { sel: ".journey__item", name: "Story / Career journey / Milestone", figma: "Screens · Home · Story", node: "5-248" },
     { sel: ".piece", name: "Playground / Piece", figma: "Gallery tile · Default / Hover / Loading", node: "3-144" },
     { sel: ".view-switch", name: "Gallery / View switch", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".featured", name: "Writing / Featured post", figma: "Screens · Home · Writing", node: "5-323" },
+    { sel: ".featured", name: "Writing / Featured piece", figma: "Screens · Home · Writing", node: "5-323" },
     { sel: ".post", name: "Writing / Post row", figma: "Post row · State=Default / Hover", node: "3-114" },
     { sel: ".chips li", name: "Skills / Skill token", figma: "Tags & chips · Type=Skill token", node: "2-183" },
     { sel: ".group", name: "Skills / Token group", figma: "Screens · Home · Skills", node: "5-365" },
