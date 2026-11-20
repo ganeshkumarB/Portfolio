@@ -2487,3 +2487,24 @@ html.reduce-motion .how__hint { display: none; }
   .how__panel { padding: 14px; }
   .how__chip { padding: 10px 14px; font-size: 14px; }
 }
+
+/* How I work, laid out in rows: four cards across, the stage full width beneath */
+.how__grid { display: flex; flex-direction: column; gap: 20px; }
+.how__left { gap: 12px; }
+.how__steps { flex: none; grid-template-columns: repeat(4, 1fr); grid-auto-rows: auto; gap: 14px; }
+.how__step { min-height: 0; padding: 20px 20px 24px; gap: 8px; }
+.how__name { font-size: 22px; }
+.how__desc { font-size: 14px; }
+.how__stage { min-height: 0; }
+.how__panel { padding: 28px 28px 24px; }
+.how__scene { max-height: 420px; }
+.how__hint { order: 2; }
+@media (max-width: 1080px) {
+  .how__steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .how__step { padding: 14px 14px 18px; }
+  .how__name { font-size: 17px; }
+  .how__desc { font-size: 13px; }
+  .how__panel { padding: 14px; }
+}
