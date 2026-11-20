@@ -2247,3 +2247,21 @@ html.text-lg body { zoom: 1.125; }
 .nav.is-floating .nav__resume { padding: 10px 16px; font-size: 14px; }
 @media (max-width: 1080px) { .nav__link { padding: 8px 10px 12px; font-size: 14px; } .nav__utils { padding-left: 14px; } }
 @media (max-width: 720px) { .nav { justify-content: center; } .nav__brand { margin-right: 0; } .nav__pill { flex-wrap: wrap; justify-content: center; } .nav__link { padding: 6px 8px 10px; font-size: 13px; } .nav__utils { border-left: 0; padding-left: 0; } }
+
+/* nav on narrow screens: rows stack and push the page down, nothing floats or overlaps */
+@media (max-width: 1080px) {
+  .js .nav-slot { height: auto; }
+  .nav { flex-wrap: wrap; justify-content: center; row-gap: 10px; padding-bottom: 6px; }
+  .nav__brand { margin-right: 0; flex-basis: 100%; justify-content: center; }
+  .nav__brand-txt { display: inline; }
+  .nav__pill { flex-basis: 100%; justify-content: center; flex-wrap: wrap; }
+  .nav__utils { border-left: 0; padding-left: 0; }
+  .nav.is-floating { position: static !important; background: none; border: 0; backdrop-filter: none; padding: 0; }
+  .nav.is-floating .nav__brand, .nav.is-floating .nav__utils, .nav.is-floating .nav__resume { opacity: 1; transform: none; pointer-events: auto; }
+  .nav.is-floating .nav__link { padding: 8px 10px 12px; }
+  .hero__grid { padding-top: 0; margin-top: 40px; }
+}
+@media (max-width: 720px) {
+  .nav__resume { display: inline-flex; padding: 10px 16px; font-size: 14px; }
+  .nav__resume-txt { display: inline; }
+}
