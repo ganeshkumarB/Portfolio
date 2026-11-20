@@ -2978,3 +2978,6 @@ html.reduce-motion .u2-halo { animation: none; opacity: 0.18; }
   .wrow__arr { grid-row: 1; grid-column: 3; opacity: 1; transform: none; }
   .wrow__peek { display: none; }
 }
+
+/* Anchor targets stop 100px short of the top so the label never touches the bar */
+.section[id], .hero[id], .contact[id] { scroll-margin-top: 100px; }
