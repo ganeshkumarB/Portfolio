@@ -2221,3 +2221,28 @@ html.text-lg body { zoom: 1.125; }
 .nav.is-floating .nav__utils { opacity: 0; pointer-events: none; }
 @media (max-width: 1080px) { .nav__link { padding: 8px 12px 12px; font-size: 13px; } .nav__ico { width: 20px; height: 20px; } }
 @media (max-width: 720px) { .nav__utils { border-left: 0; padding-left: 0; } .nav__link { padding: 8px 10px 12px; font-size: 12px; } .nav__brand-txt { display: inline; font-size: 15px; } }
+
+/* ============================================================
+   Nav, asymmetric editorial: brand left, everything else right, no pill
+   ============================================================ */
+.nav { justify-content: flex-start; gap: 24px; }
+.nav__brand { margin-right: auto; }
+.nav__pill, :root[data-theme="dark"] .nav__pill { padding: 0; gap: 4px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.nav__link { flex-direction: row; gap: 0; padding: 10px 14px 14px; border-radius: 0; font-size: 16px; font-weight: 500; color: var(--body); }
+.nav__link:hover { background: none; color: var(--ink); }
+.nav__link.is-active { color: var(--ink); font-weight: 700; }
+.nav__ico { display: none; }
+.nav__indicator { bottom: 4px; height: 3px; transform: scaleX(0.7); }
+.nav__pill--case .nav__link { padding: 10px 12px 14px; font-size: 15px; }
+.nav__pill--case .nav__sep { background: var(--line); }
+.nav__utils { gap: 10px; padding-left: 26px; border-left: 1px solid var(--line); }
+.nav__utils .nav__theme, .nav__utils .nav__inspect, .nav__utils .nav__prefs { width: 34px; height: 34px; font-size: 16px; }
+.nav__resume { margin-left: 4px; padding: 14px 22px; font-size: 16px; }
+.nav.is-floating { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+:root[data-theme="dark"] .nav.is-floating { background: rgba(15, 16, 19, 0.85); }
+.nav.is-floating .nav__pill { transform: none; }
+.nav.is-floating .nav__brand, .nav.is-floating .nav__utils, .nav.is-floating .nav__resume { opacity: 1; transform: none; pointer-events: auto; }
+.nav.is-floating .nav__link { padding-top: 8px; padding-bottom: 12px; }
+.nav.is-floating .nav__resume { padding: 10px 16px; font-size: 14px; }
+@media (max-width: 1080px) { .nav__link { padding: 8px 10px 12px; font-size: 14px; } .nav__utils { padding-left: 14px; } }
+@media (max-width: 720px) { .nav { justify-content: center; } .nav__brand { margin-right: 0; } .nav__pill { flex-wrap: wrap; justify-content: center; } .nav__link { padding: 6px 8px 10px; font-size: 13px; } .nav__utils { border-left: 0; padding-left: 0; } }
