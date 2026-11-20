@@ -336,25 +336,43 @@
     else { root.classList.remove("sunny--perch", "is-duck"); root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
     var to = chr.getBoundingClientRect();
     var dx = from.left - to.left, dy = from.top - to.top;
-    /* Superman: shades on, cape out, a swoop up and over, then touch down */
-    root.classList.add("is-flying");
-    if (window.Sunny) window.Sunny.emote("cool", 1500);
+    /* Superman: crouch, launch, a curved flight facing the direction of travel, level off, touch down, dust */
+    var S = window.Sunny, going = next === "dock";
+    root.classList.add("is-flying"); root.classList.toggle("is-flip", dx > 0); /* dx is old minus new: positive means we travel left */
+    if (S) { S.emote("cool", 2200); if (S.sounds && S.sounds.indexOf("swoosh") > -1) S.sfx("swoosh"); }
     var land = function () {
-      root.classList.remove("sunny--landing", "is-flying");
-      if (window.Sunny) {
-        if (next === "dock") { window.Sunny.emote("proud", 1800); window.Sunny.say("Landed. Right where I belong.", 2600); }
-        else { window.Sunny.emote("curious", 1500); window.Sunny.say("Back on my perch.", 2000); }
+      root.classList.remove("sunny--landing", "is-flying", "is-flip");
+      dust();
+      if (S) {
+        if (S.sounds && S.sounds.indexOf("land") > -1) S.sfx("land");
+        if (going) { S.emote("proud", 1800); S.say("Up, up and… down here.", 2600); }
+        else { S.emote("curious", 1500); S.say("Back on my perch.", 2000); }
       }
     };
+    function dust() {
+      var d = document.createElement("span"); d.className = "sunny__dust"; d.innerHTML = "<i></i><i></i><i></i><i></i>";
+      chr.appendChild(d); setTimeout(function () { if (d.parentNode) d.parentNode.removeChild(d); }, 700);
+    }
+    /* the path: start at the old spot (dx, dy away from the new one), rise, cruise, settle at 0,0 */
+    var sx = dx, sy = dy, lift = going ? 260 : 200;
+    var p0 = [sx, sy], p1 = [sx + (0 - sx) * 0.12, sy - lift], p2 = [(0 - sx) * -0.3, -lift * 0.75], p3 = [0, 0];
+    function bez(t, a, b2, c, d) { var m = 1 - t; return m * m * m * a + 3 * m * m * t * b2 + 3 * m * t * t * c + t * t * t * d; }
+    function lerp(a, b2, t) { return a + (b2 - a) * t; }
+    function pose(t) { /* lean back on take-off, tip into a horizontal cruise, level off for landing */
+      var dir = dx > 0 ? -1 : 1; /* face the way we go (the svg is mirrored when flying left) */
+      var r = t < 0.14 ? lerp(0, -22, t / 0.14) : t < 0.55 ? lerp(-22, 78, (t - 0.14) / 0.41) : t < 0.88 ? lerp(78, 14, (t - 0.55) / 0.33) : lerp(14, 0, (t - 0.88) / 0.12);
+      return r * dir;
+    }
+    var frames = [{ transform: "translate(" + sx + "px," + sy + "px) scale(1.06, 0.92)", offset: 0 }];
+    var N = 36;
+    for (var i = 1; i <= N; i++) {
+      var t = i / N, x = bez(t, p0[0], p1[0], p2[0], p3[0]), y = bez(t, p0[1], p1[1], p2[1], p3[1]);
+      var sc = 1 + Math.sin(t * Math.PI) * 0.1;
+      frames.push({ transform: "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px) rotate(" + pose(t).toFixed(1) + "deg) scale(" + sc.toFixed(3) + ")", offset: 0.06 + t * 0.86 });
+    }
+    frames.push({ transform: "translateY(7px) scale(1.1, 0.88)", offset: 0.95 }, { transform: "translateY(-3px) scale(0.98, 1.03)", offset: 0.985 }, { transform: "none", offset: 1 });
     try {
-      var lift = next === "dock" ? -140 : -90;
-      chr.animate([
-        { transform: "translate(" + dx + "px," + dy + "px) scale(1)" },
-        { transform: "translate(" + (dx * 0.55) + "px," + (dy * 0.2 + lift) + "px) scale(1.06)", offset: 0.45 },
-        { transform: "translate(" + (dx * 0.12) + "px," + (dy * 0.08 - 10) + "px) scale(1)", offset: 0.85 },
-        { transform: "translateY(6px) scale(1.04, 0.94)", offset: 0.94 },
-        { transform: "none" }
-      ], { duration: 1400, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = land;
+      chr.animate(frames, { duration: going ? 1700 : 1500, easing: "cubic-bezier(0.42, 0.02, 0.2, 1)" }).onfinish = land;
     } catch (e) { land(); }
   }
   function tick() {

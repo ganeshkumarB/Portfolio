@@ -2890,13 +2890,24 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
 .sunny.sunny--perch.is-in.is-duck .sunny__char { transform: translateY(90px); }
 /* the flight to the corner: cape, shades, horizontal pose */
 .sunny__char { position: absolute; isolation: isolate; }
-.sunny.is-flying .sunny__char { rotate: -72deg; transition: rotate 0.35s ease; }
-.sunny.is-flying .sunny__char::before { content: ""; position: absolute; left: 18%; top: 42%; width: 72%; height: 50%; background: linear-gradient(180deg, #e8425a, #c62b44); clip-path: polygon(0 8%, 100% 0, 92% 100%, 12% 86%); transform-origin: 100% 0; z-index: -1; animation: sunny-cape 0.32s ease-in-out infinite alternate; }
-.sunny.is-flying .sunny__char::after { content: ""; position: absolute; left: -46%; top: 48%; width: 46%; height: 8px; border-radius: 4px; background: repeating-linear-gradient(90deg, rgba(21, 22, 26, 0.35) 0 16px, transparent 16px 26px); opacity: 0.7; animation: sunny-lines 0.25s linear infinite; }
-@keyframes sunny-cape { from { transform: skewY(-10deg) scaleX(0.92); } to { transform: skewY(8deg) scaleX(1.06); } }
-@keyframes sunny-lines { from { transform: translateX(0); opacity: 0.7; } to { transform: translateX(-14px); opacity: 0.3; } }
-html.reduce-motion .sunny.is-flying .sunny__char { rotate: 0deg; }
-html.reduce-motion .sunny.is-flying .sunny__char::before, html.reduce-motion .sunny.is-flying .sunny__char::after { display: none; }
+.sunny.is-flying .sunny__char { transform-origin: 50% 55%; }
+.sunny.is-flying .sunny__svg { transition: none; }
+/* cape: pinned at the shoulders, streaming behind (below the feet once Sunny is horizontal) */
+.sunny.is-flying .sunny__char::before { content: ""; position: absolute; left: 22%; top: 46%; width: 56%; height: 62%; background: linear-gradient(180deg, #ef4a62 0%, #c62b44 100%); clip-path: polygon(8% 0, 92% 0, 100% 100%, 50% 86%, 0 100%); transform-origin: 50% 0; z-index: -1; animation: sunny-cape-in 0.25s ease-out both, sunny-cape 0.28s ease-in-out 0.25s infinite alternate; }
+/* speed streak behind the feet */
+.sunny.is-flying .sunny__char::after { content: ""; position: absolute; left: 34%; top: 96%; width: 32%; height: 150px; border-radius: 40% 40% 50% 50% / 10% 10% 50% 50%; background: linear-gradient(180deg, rgba(255, 213, 74, 0.75), rgba(255, 213, 74, 0.25) 50%, transparent); filter: blur(1px); opacity: 0.9; z-index: -2; animation: sunny-streak 0.22s ease-in-out infinite alternate; }
+@keyframes sunny-cape-in { from { transform: scaleY(0.2); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+@keyframes sunny-cape { from { transform: skewX(-10deg) scaleY(0.94); } to { transform: skewX(10deg) scaleY(1.08); } }
+@keyframes sunny-streak { from { transform: scaleY(0.85); opacity: 0.6; } to { transform: scaleY(1.15); opacity: 0.95; } }
+/* touch-down dust */
+.sunny__dust { position: absolute; left: 50%; bottom: 10px; width: 0; height: 0; pointer-events: none; }
+.sunny__dust i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: rgba(154, 158, 168, 0.55); animation: sunny-dust 0.6s ease-out forwards; }
+.sunny__dust i:nth-child(1) { --dx: -46px; --dy: -8px; }
+.sunny__dust i:nth-child(2) { --dx: -22px; --dy: -22px; animation-delay: 0.04s; }
+.sunny__dust i:nth-child(3) { --dx: 24px; --dy: -20px; animation-delay: 0.02s; }
+.sunny__dust i:nth-child(4) { --dx: 48px; --dy: -6px; animation-delay: 0.06s; }
+@keyframes sunny-dust { from { transform: translate(0, 0) scale(0.6); opacity: 0.9; } to { transform: translate(var(--dx), var(--dy)) scale(1.6); opacity: 0; } }
+html.reduce-motion .sunny.is-flying .sunny__char::before, html.reduce-motion .sunny.is-flying .sunny__char::after, html.reduce-motion .sunny__dust { display: none; }
 .sunny.sunny--perch .sunny__ask { opacity: 0; pointer-events: none; }
 .sunny--perch .sunny__bubble { right: auto; left: 50%; transform: translate(-50%, 0) scale(1); }
 .sunny--perch .sunny__bubble::after { right: auto; left: 50%; margin-left: -6px; }
