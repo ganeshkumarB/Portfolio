@@ -168,8 +168,8 @@
   var jdForm = $("#jdForm");
   if (jdForm) {
     var CASES = {
-      zobot: ["case-zobot.html", "Zobot, the no-code chatbot builder"],
-      system: ["case-design-system.html", "SalesIQ design system"],
+      zobot: ["case-zobot.html", "Zobot — No-code Bot Builder"],
+      system: ["case-design-system.html", "SalesIQ Design System"],
       console: ["case-operator-console.html", "Operator Console"],
       reports: ["case-reports.html", "Reports and analytics"],
       brand: ["case-brand-configuration.html", "Brand configuration"],

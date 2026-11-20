@@ -2365,3 +2365,7 @@ html.text-lg body { zoom: 1.125; }
 @media (max-width: 1080px) {
   .nav__drawer { order: 1; margin-top: 14px; }
 }
+
+/* Work list: numbered titles, category tags */
+.case__num { display: inline-block; min-width: 2.2em; margin-right: 6px; color: var(--muted); font-weight: 500; font-size: 0.72em; letter-spacing: 0.02em; vertical-align: 0.12em; }
+.case__tags { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
