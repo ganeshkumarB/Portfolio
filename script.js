@@ -222,8 +222,9 @@
     [".section__head", 0],
     [".fact", 80],
     [".work__list", 0],
-    [".pipeline", 0],
-    [".step", 120],
+    [".how__step", 90],
+    [".how__stage", 0],
+    [".how__principles", 0],
     [".story__portrait", 0],
     [".story__copy > *", 90],
     [".piece", 60],
@@ -322,7 +323,7 @@
   /* ============================================================
      Process pipeline: a token travels from Tokens to Ship
      ============================================================ */
-  var pipeline = $("#pipeline");
+  var pipeline = $("#pipeline") || document.createElement("ol"); /* the pipeline left with the How I work redesign; kept inert for older pages */
   var dot = $(".pipeline__dot", pipeline);
   var steps = $$(".step", pipeline);
   var arrows = $$(".pipeline__arrow", pipeline);

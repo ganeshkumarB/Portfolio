@@ -241,3 +241,66 @@
     if (jdClear) jdClear.addEventListener("click", function () { jdText.value = ""; jdResult.hidden = true; jdResult.innerHTML = ""; jdNote.textContent = ""; jdText.focus(); });
   }
 })();
+
+
+/* How I work: four steps, one stage. Auto-plays, pauses on hover or focus, arrow keys move between steps. */
+(function () {
+  "use strict";
+  var how = document.getElementById("how"); if (!how) return;
+  var tabs = Array.prototype.slice.call(how.querySelectorAll(".how__step"));
+  var panels = Array.prototype.slice.call(how.querySelectorAll(".how__panel"));
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
+  var idx = 0, timer = 0, paused = false, inView = false;
+  tabs.forEach(function (t) { t.style.setProperty("--dur", (parseInt(t.getAttribute("data-dur"), 10) || 5200) + "ms"); });
+
+  function show(i, user) {
+    idx = (i + tabs.length) % tabs.length;
+    tabs.forEach(function (t, n) {
+      var on = n === idx;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      var bar = t.querySelector(".how__bar i");
+      if (bar) { bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = ""; }
+    });
+    panels.forEach(function (p, n) { if (n === idx) p.removeAttribute("hidden"); else p.setAttribute("hidden", ""); });
+    how.setAttribute("data-step", String(idx));
+    /* the Build step hosts the replay; start it directly rather than waiting on its own visibility check */
+    var restart = panels[idx] && panels[idx].querySelector("#replayRestart");
+    if (restart) setTimeout(function () { restart.click(); }, 60);
+    if (user) document.dispatchEvent(new CustomEvent("how:step", { detail: idx }));
+    schedule();
+  }
+  function schedule() {
+    clearTimeout(timer);
+    if (reduced || paused || !inView) return;
+    var dur = parseInt(tabs[idx].getAttribute("data-dur"), 10) || 5200;
+    timer = setTimeout(function () { show(idx + 1); }, dur);
+  }
+  function pause() { paused = true; how.classList.add("is-paused"); clearTimeout(timer); }
+  function resume() { paused = false; how.classList.remove("is-paused"); schedule(); }
+
+  tabs.forEach(function (t, n) {
+    t.addEventListener("click", function () { show(n, true); });
+    t.addEventListener("keydown", function (e) {
+      var k = e.key, go = null;
+      if (k === "ArrowRight" || k === "ArrowDown") go = idx + 1;
+      else if (k === "ArrowLeft" || k === "ArrowUp") go = idx - 1;
+      else if (k === "Home") go = 0;
+      else if (k === "End") go = tabs.length - 1;
+      if (go === null) return;
+      e.preventDefault(); show(go, true); tabs[idx].focus();
+    });
+  });
+  how.addEventListener("mouseenter", pause);
+  how.addEventListener("mouseleave", resume);
+  how.addEventListener("focusin", pause);
+  how.addEventListener("focusout", function (e) { if (!how.contains(e.relatedTarget)) resume(); });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { inView = en.isIntersecting; if (inView) schedule(); else clearTimeout(timer); });
+    }, { threshold: 0.3 }).observe(how);
+  } else { inView = true; schedule(); }
+  document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(timer); else schedule(); });
+  show(0);
+})();

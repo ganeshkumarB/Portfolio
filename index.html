@@ -17,15 +17,15 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261200" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261200" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261200" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261203" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261203" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261203" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261200" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261200" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261203" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261203" /></noscript>
 </head>
 <body>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
@@ -283,76 +283,111 @@
     </div>
   </section>
 
-  <!-- ===== Process ===== -->
-  <section class="section section--tight process" id="process" data-layer="Process">
-    <div class="section__head section__head--center">
-      <h2 class="section__title">How the system ships</h2>
-      <p class="section__intro">Five steps, one source of truth.</p>
-    </div>
-    <ol class="pipeline" id="pipeline">
-      <li class="pipeline__dot" aria-hidden="true"></li>
-      <li class="step">
-        <span class="mono step__num">01</span>
-        <h3 class="step__title">Tokens</h3>
-        <p class="step__desc">Colour, type, space and radius as Figma variables, light and dark.</p>
-      </li>
-      <li class="pipeline__arrow" aria-hidden="true">→</li>
-      <li class="step">
-        <span class="mono step__num">02</span>
-        <h3 class="step__title">Components</h3>
-        <p class="step__desc">Every component built on the tokens, documented and governed.</p>
-      </li>
-      <li class="pipeline__arrow" aria-hidden="true">→</li>
-      <li class="step">
-        <span class="mono step__num">03</span>
-        <h3 class="step__title">Code Connect</h3>
-        <p class="step__desc">Every component mapped to its real code.</p>
-      </li>
-      <li class="pipeline__arrow" aria-hidden="true">→</li>
-      <li class="step">
-        <span class="mono step__num">04</span>
-        <h3 class="step__title">Figma MCP</h3>
-        <p class="step__desc">Claude reads the mappings and generates production components.</p>
-      </li>
-      <li class="pipeline__arrow" aria-hidden="true">→</li>
-      <li class="step step--ship">
-        <span class="mono step__num">05</span>
-        <h3 class="step__title">Ship</h3>
-        <p class="step__desc">One component, every platform. Zero drift.</p>
-      </li>
-    </ol>
-
-    <div class="replay-wrap" data-reveal="step" data-layer="Replay">
-      <div class="replay-wrap__head">
-        <div>
-          <h3>Step 04, replayed</h3>
-          <p>Prompt in, Figma MCP reads the tokens, Code Connect returns the code. A re-enactment, not a recording.</p>
-        </div>
-        <button type="button" class="replay__restart" id="replayRestart">↻ replay</button>
+  <!-- ===== Process: How I work ===== -->
+  <section class="section section--tight process how" id="process" data-layer="Process">
+    <div class="how__head">
+      <p class="how__kicker mono">How I work</p>
+      <div class="section__head">
+        <h2 class="section__title">Clarity through systems. Better through collaboration.</h2>
+        <p class="section__intro">I simplify complex product problems, build reusable systems, and explore how AI can bring design closer to code.</p>
       </div>
-      <div class="replay" id="replay" aria-label="Prompt to component replay">
-        <div class="replay__pane">
-          <span class="mono replay__lbl">Prompt · Claude</span>
-          <p class="replay__prompt"><span class="mono replay__who">you ›</span> <span id="replayTyped"></span><span class="replay__caret" aria-hidden="true"></span></p>
-          <span class="mono replay__status" id="replayStatus" aria-live="polite">waiting for a prompt</span>
+    </div>
+
+    <div class="how__grid" id="how" data-step="0">
+      <div class="how__left">
+        <h3 class="how__sub">One section. Four steps.</h3>
+        <div class="how__steps" role="tablist" aria-label="Four steps">
+          <button type="button" role="tab" class="how__step is-active" id="howTab0" aria-selected="true" aria-controls="howPanel0" data-dur="5200"><span class="mono how__num">01</span><span class="how__name">Understand</span><span class="how__desc">Find the real problem.</span><span class="how__bar" aria-hidden="true"><i></i></span></button>
+          <button type="button" role="tab" class="how__step" id="howTab1" aria-selected="false" aria-controls="howPanel1" tabindex="-1" data-dur="5200"><span class="mono how__num">02</span><span class="how__name">Design</span><span class="how__desc">Explore flows &amp; patterns.</span><span class="how__bar" aria-hidden="true"><i></i></span></button>
+          <button type="button" role="tab" class="how__step" id="howTab2" aria-selected="false" aria-controls="howPanel2" tabindex="-1" data-dur="5200"><span class="mono how__num">03</span><span class="how__name">Connect</span><span class="how__desc">Design systems · MCP</span><span class="how__bar" aria-hidden="true"><i></i></span></button>
+          <button type="button" role="tab" class="how__step" id="howTab3" aria-selected="false" aria-controls="howPanel3" tabindex="-1" data-dur="12000"><span class="mono how__num">04</span><span class="how__name">Build</span><span class="how__desc">Code Connect · AI</span><span class="how__bar" aria-hidden="true"><i></i></span></button>
         </div>
-        <span class="replay__arrow" aria-hidden="true">→</span>
-        <div class="replay__pane">
-          <span class="mono replay__lbl">Figma · via MCP</span>
-          <div class="replay__frame" id="replayFrame">
-            <div class="rf rf--title"></div>
-            <div class="rf rf--body"></div>
-            <div class="rf rf--body2"></div>
-            <div class="rf rf--actions"><span class="rf--ghost">Cancel</span><span class="rf--primary">Delete</span></div>
-            <div class="rf rf--tokens"><span>radius/md</span><span>space/4</span><span>color/ink</span></div>
+        <p class="how__hint mono">Click a step, or let it play. Arrow keys move between steps.</p>
+      </div>
+
+      <div class="how__stage" data-layer="How I work stage">
+        <div class="how__panel" id="howPanel0" role="tabpanel" aria-labelledby="howTab0">
+          <figure class="how__fig">
+            <svg class="how__scene how__scene--understand" viewBox="0 0 560 320" aria-hidden="true" focusable="false">
+              <g class="u-note" style="--i:0" transform="translate(40 40)"><rect width="96" height="62" rx="9"/><rect class="u-ln" x="14" y="16" width="56" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="40" height="6" rx="3"/></g>
+              <g class="u-note" style="--i:1" transform="translate(186 22)"><rect width="96" height="62" rx="9"/><rect class="u-ln" x="14" y="16" width="62" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="34" height="6" rx="3"/></g>
+              <g class="u-note" style="--i:2" transform="translate(336 48)"><rect width="96" height="62" rx="9"/><rect class="u-ln" x="14" y="16" width="48" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="60" height="6" rx="3"/></g>
+              <g class="u-note" style="--i:3" transform="translate(60 182)"><rect width="96" height="62" rx="9"/><rect class="u-ln" x="14" y="16" width="52" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="30" height="6" rx="3"/></g>
+              <g class="u-note" style="--i:4" transform="translate(400 196)"><rect width="96" height="62" rx="9"/><rect class="u-ln" x="14" y="16" width="44" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="58" height="6" rx="3"/></g>
+              <g class="u-note u-note--root" style="--i:5" transform="translate(222 152)"><rect width="104" height="66" rx="9"/><rect class="u-ln" x="14" y="16" width="66" height="6" rx="3"/><rect class="u-ln" x="14" y="30" width="44" height="6" rx="3"/><text class="u-tag mono" x="52" y="54" text-anchor="middle">the real problem</text></g>
+              <g class="u-links"><path d="M136 70 C 180 110, 200 150, 236 160"/><path d="M234 84 C 240 110, 250 130, 262 152"/><path d="M336 90 C 320 110, 300 140, 300 152"/><path d="M156 206 C 180 200, 200 196, 222 190"/><path d="M400 222 C 370 218, 350 212, 326 196"/></g>
+              <g class="u-lens"><circle r="46"/><path d="M33 33 l26 26" stroke-linecap="round"/></g>
+            </svg>
+            <figcaption class="how__cap mono">Six symptoms, one cause. Find it before drawing anything.</figcaption>
+          </figure>
+        </div>
+        <div class="how__panel" id="howPanel1" role="tabpanel" aria-labelledby="howTab1" hidden>
+          <figure class="how__fig">
+            <svg class="how__scene how__scene--design" viewBox="0 0 560 320" aria-hidden="true" focusable="false">
+              <g class="d-frame" style="--i:0" transform="translate(40 50)"><rect class="d-box" width="130" height="210" rx="14"/><rect class="d-blk" style="--j:0" x="16" y="18" width="70" height="10" rx="4"/><rect class="d-blk" style="--j:1" x="16" y="40" width="98" height="52" rx="8"/><rect class="d-blk" style="--j:2" x="16" y="102" width="98" height="8" rx="4"/><rect class="d-blk" style="--j:3" x="16" y="118" width="70" height="8" rx="4"/><g transform="translate(16 162)"><g class="d-btn"><rect width="98" height="30" rx="15"/><text class="mono" x="49" y="19" text-anchor="middle">Button</text></g></g></g>
+              <g class="d-frame" style="--i:1" transform="translate(215 50)"><rect class="d-box" width="130" height="210" rx="14"/><rect class="d-blk" style="--j:0" x="16" y="18" width="54" height="10" rx="4"/><rect class="d-blk" style="--j:1" x="16" y="40" width="44" height="44" rx="8"/><rect class="d-blk" style="--j:1" x="70" y="40" width="44" height="44" rx="8"/><rect class="d-blk" style="--j:2" x="16" y="96" width="98" height="8" rx="4"/><rect class="d-blk" style="--j:3" x="16" y="112" width="60" height="8" rx="4"/><g transform="translate(16 162)"><g class="d-btn"><rect width="98" height="30" rx="15"/><text class="mono" x="49" y="19" text-anchor="middle">Button</text></g></g></g>
+              <g class="d-frame" style="--i:2" transform="translate(390 50)"><rect class="d-box" width="130" height="210" rx="14"/><rect class="d-blk" style="--j:0" x="16" y="18" width="80" height="10" rx="4"/><rect class="d-blk" style="--j:1" x="16" y="40" width="98" height="8" rx="4"/><rect class="d-blk" style="--j:1" x="16" y="56" width="98" height="8" rx="4"/><rect class="d-blk" style="--j:2" x="16" y="72" width="64" height="8" rx="4"/><rect class="d-blk" style="--j:3" x="16" y="96" width="98" height="40" rx="8"/><g transform="translate(16 162)"><g class="d-btn"><rect width="98" height="30" rx="15"/><text class="mono" x="49" y="19" text-anchor="middle">Button</text></g></g></g>
+              <g class="d-arrows"><path style="--i:0" d="M176 120 L 208 120"/><path style="--i:1" d="M351 120 L 383 120"/><path class="d-head" style="--i:0" d="M202 114 l7 6 -7 6"/><path class="d-head" style="--i:1" d="M377 114 l7 6 -7 6"/></g>
+              <path class="d-pattern" d="M105 227 C 105 292, 280 292, 280 227 C 280 292, 455 292, 455 227"/>
+              <text class="d-label mono" x="280" y="306" text-anchor="middle">one pattern, every flow</text>
+            </svg>
+            <figcaption class="how__cap mono">Flows first, then the patterns that repeat across them.</figcaption>
+          </figure>
+        </div>
+        <div class="how__panel" id="howPanel2" role="tabpanel" aria-labelledby="howTab2" hidden>
+          <figure class="how__fig">
+            <svg class="how__scene how__scene--connect" viewBox="0 0 560 320" aria-hidden="true" focusable="false">
+              <g class="c-figma" transform="translate(30 60)"><rect class="c-box" width="150" height="200" rx="14"/><text class="c-title mono" x="16" y="26">Figma</text><g class="c-chip" transform="translate(16 46)"><rect width="118" height="28" rx="6"/><text class="mono" x="12" y="18">color/ink</text></g><g class="c-chip" transform="translate(16 86)"><rect width="118" height="28" rx="6"/><text class="mono" x="12" y="18">radius/md</text></g><g class="c-chip" transform="translate(16 126)"><rect width="118" height="28" rx="6"/><text class="mono" x="12" y="18">space/4</text></g></g>
+              <g class="c-code" transform="translate(380 60)"><rect class="c-box c-box--dark" width="150" height="200" rx="14"/><text class="c-title mono c-title--light" x="16" y="26">Code</text><text class="c-line mono" style="--i:0" x="16" y="66">color: ink</text><text class="c-line mono" style="--i:1" x="16" y="106">radius: md</text><text class="c-line mono" style="--i:2" x="16" y="146">gap: space-4</text></g>
+              <g class="c-paths"><path id="cp0" d="M180 120 C 230 120, 236 160, 280 160 C 324 160, 330 122, 380 122"/><path id="cp1" d="M180 160 C 230 160, 236 160, 280 160 C 324 160, 330 162, 380 162"/><path id="cp2" d="M180 200 C 230 200, 236 160, 280 160 C 324 160, 330 202, 380 202"/></g>
+              <g class="c-hub" transform="translate(280 160)"><circle class="c-ring" r="44"/><circle class="c-core" r="30"/><text class="mono" y="4" text-anchor="middle">MCP</text></g>
+              <circle class="c-dot" r="5"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite"><mpath href="#cp0"/></animateMotion></circle>
+              <circle class="c-dot" r="5"><animateMotion dur="2.4s" begin="0.8s" repeatCount="indefinite"><mpath href="#cp1"/></animateMotion></circle>
+              <circle class="c-dot" r="5"><animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite"><mpath href="#cp2"/></animateMotion></circle>
+              <text class="c-label mono" x="280" y="300" text-anchor="middle">one token, both sides</text>
+            </svg>
+            <figcaption class="how__cap mono">Tokens travel from Figma through MCP into code, unchanged.</figcaption>
+          </figure>
+        </div>
+        <div class="how__panel how__panel--build" id="howPanel3" role="tabpanel" aria-labelledby="howTab3" hidden data-layer="Replay">
+          <div class="replay" id="replay" aria-label="Prompt to component replay">
+            <div class="replay__pane">
+              <span class="mono replay__lbl">Prompt · Claude</span>
+              <p class="replay__prompt"><span class="mono replay__who">you ›</span> <span id="replayTyped"></span><span class="replay__caret" aria-hidden="true"></span></p>
+              <span class="mono replay__status" id="replayStatus" aria-live="polite">waiting for a prompt</span>
+            </div>
+            <span class="replay__arrow" aria-hidden="true">→</span>
+            <div class="replay__pane">
+              <span class="mono replay__lbl">Figma · via MCP</span>
+              <div class="replay__frame" id="replayFrame">
+                <div class="rf rf--title"></div>
+                <div class="rf rf--body"></div>
+                <div class="rf rf--body2"></div>
+                <div class="rf rf--actions"><span class="rf--ghost">Cancel</span><span class="rf--primary">Delete</span></div>
+                <div class="rf rf--tokens"><span>radius/md</span><span>space/4</span><span>color/ink</span></div>
+              </div>
+            </div>
+            <span class="replay__arrow" aria-hidden="true">→</span>
+            <div class="replay__pane">
+              <span class="mono replay__lbl">Code · Code Connect</span>
+              <pre class="replay__code" id="replayCode"></pre>
+            </div>
+          </div>
+          <div class="how__build-foot">
+            <p class="how__cap mono">Prompt in, Figma MCP reads the tokens, Code Connect returns the code. A re-enactment, not a recording.</p>
+            <button type="button" class="replay__restart" id="replayRestart">↻ replay</button>
           </div>
         </div>
-        <span class="replay__arrow" aria-hidden="true">→</span>
-        <div class="replay__pane">
-          <span class="mono replay__lbl">Code · Code Connect</span>
-          <pre class="replay__code" id="replayCode"></pre>
-        </div>
       </div>
+    </div>
+
+    <div class="how__principles" data-layer="Principles">
+      <h3 class="how__sub">My principles</h3>
+      <ul class="how__chips">
+        <li class="how__chip">Clarity over complexity</li>
+        <li class="how__chip">Systems over screens</li>
+        <li class="how__chip">Design with engineering</li>
+      </ul>
     </div>
   </section>
 
@@ -779,12 +814,12 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261200"></script>
-  <script src="script.js?v=20261200"></script>
-  <script src="creative.js?v=20261200"></script>
-  <script src="sunny.js?v=20261200"></script>
-  <script src="sunny-config.js?v=20261200"></script>
-  <script src="sunny-ai.js?v=20261200"></script>
-  <script src="extras.js?v=20261200"></script>
+  <script src="prefs.js?v=20261203"></script>
+  <script src="script.js?v=20261203"></script>
+  <script src="creative.js?v=20261203"></script>
+  <script src="sunny.js?v=20261203"></script>
+  <script src="sunny-config.js?v=20261203"></script>
+  <script src="sunny-ai.js?v=20261203"></script>
+  <script src="extras.js?v=20261203"></script>
 </body>
 </html>

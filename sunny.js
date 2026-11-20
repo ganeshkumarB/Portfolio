@@ -632,24 +632,18 @@
         });
       }, { threshold: [0.35] });
       Object.keys(SECTIONS).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
-      /* the five pipeline steps: Sunny works through the workflow as each one scrolls in */
+      /* the four steps of How I work: Sunny reacts when a visitor picks one */
       var STEPS = [
-        { emotion: "cool", line: "Scanning tokens… colour, type, space, radius." },
-        { act: "read", line: "Forty-eight components, one set of tokens." },
-        { emotion: "curious", line: "Code Connect: every component points at its own code." },
-        { emotion: "excited", line: "Prompting… MCP reads the mappings. Generating!" },
-        { emotion: "proud", line: "Shipped. Zero drift. ☀" }
+        { emotion: "curious", line: "Step one: find the real problem before drawing anything." },
+        { act: "read", line: "Flows first, then the patterns that repeat." },
+        { emotion: "cool", line: "Tokens travel from Figma through MCP into code. Unchanged." },
+        { emotion: "excited", line: "Prompting… MCP reads the mappings. Generating!" }
       ];
       var stepsSeen = {};
-      var stepIo = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting || en.intersectionRatio < 0.6) return;
-          var i = Array.prototype.indexOf.call(document.querySelectorAll(".pipeline .step"), en.target);
-          if (i < 0 || stepsSeen[i]) return;
-          stepsSeen[i] = true; react(STEPS[i]);
-        });
-      }, { threshold: [0.6] });
-      Array.prototype.forEach.call(document.querySelectorAll(".pipeline .step"), function (s) { stepIo.observe(s); });
+      document.addEventListener("how:step", function (e) {
+        var i = e.detail; if (stepsSeen[i] || !STEPS[i]) return;
+        stepsSeen[i] = true; react(STEPS[i]);
+      });
       /* opening a case card */
       Array.prototype.forEach.call(document.querySelectorAll("details.case"), function (d) {
         d.addEventListener("toggle", function () {
