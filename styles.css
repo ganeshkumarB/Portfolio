@@ -2265,3 +2265,33 @@ html.text-lg body { zoom: 1.125; }
   .nav__resume { display: inline-flex; padding: 10px 16px; font-size: 14px; }
   .nav__resume-txt { display: inline; }
 }
+
+/* résumé button in ink */
+.nav__resume { background: var(--pill); color: var(--pill-fg); }
+.nav__resume:hover { background: var(--pill-active); filter: none; }
+:root[data-theme="dark"] .nav__resume { background: #f3f4f6; color: #15161a; }
+:root[data-theme="dark"] .nav__resume:hover { background: #ffffff; }
+
+/* drawer: transparent on desktop, a menu on narrow screens */
+.nav__drawer { display: contents; }
+.nav__menu { display: none; }
+@media (max-width: 1080px) {
+  .nav { display: grid; grid-template-columns: 1fr auto auto; align-items: center; column-gap: 12px; row-gap: 0; justify-content: stretch; padding-bottom: 0; }
+  .nav__brand { flex-basis: auto; justify-content: flex-start; margin: 0; }
+  .nav__brand-txt { display: inline; font-size: 16px; }
+  .nav__resume { display: inline-flex; padding: 10px 16px; font-size: 14px; margin: 0; }
+  .nav__menu { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; width: 42px; height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); cursor: pointer; }
+  .nav__menu span { display: block; height: 2px; border-radius: 2px; background: var(--ink); transition: transform 0.25s ease, opacity 0.2s ease; }
+  .nav.is-open .nav__menu span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav.is-open .nav__menu span:nth-child(2) { opacity: 0; }
+  .nav.is-open .nav__menu span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav__drawer { display: none; grid-column: 1 / -1; flex-direction: column; align-items: stretch; gap: 8px; margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.35); }
+  .nav.is-open .nav__drawer { display: flex; }
+  .nav__pill, .nav__pill--case { display: flex; flex-direction: column; align-items: stretch; flex-basis: auto; justify-content: flex-start; gap: 0; }
+  .nav__link, .nav__pill--case .nav__link { flex-direction: row; justify-content: space-between; padding: 12px 14px; border-radius: 12px; font-size: 16px; }
+  .nav__link.is-active { background: var(--surface); }
+  .nav__indicator { display: none; }
+  .nav__sep, .nav__count { display: none; }
+  .nav__utils { justify-content: flex-start; gap: 6px; padding: 8px 6px 0; border-top: 1px solid var(--line); }
+  .nav.is-floating .nav__link { padding: 12px 14px; }
+}

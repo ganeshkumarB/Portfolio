@@ -112,6 +112,24 @@
     global.addEventListener("prefs:open", function () { setOpen(true); });
     render();
   }
-  if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", build); else build();
+  /* narrow screens: links and utilities fold into a drawer behind a menu button */
+  function drawer() {
+    var nav = doc.querySelector(".nav"); if (!nav || nav.querySelector(".nav__drawer")) return;
+    var pill = nav.querySelector(".nav__pill"), utils = nav.querySelector(".nav__utils");
+    if (!pill) return;
+    var box = doc.createElement("div"); box.className = "nav__drawer"; box.id = "navDrawer";
+    nav.insertBefore(box, pill); box.appendChild(pill); if (utils) box.appendChild(utils);
+    var menu = doc.createElement("button");
+    menu.type = "button"; menu.className = "nav__menu"; menu.setAttribute("aria-expanded", "false"); menu.setAttribute("aria-controls", "navDrawer"); menu.setAttribute("aria-label", "Menu");
+    menu.innerHTML = '<span></span><span></span><span></span>';
+    nav.appendChild(menu);
+    function setOpen(on) { nav.classList.toggle("is-open", on); menu.setAttribute("aria-expanded", String(on)); doc.body.classList.toggle("nav-open", on); }
+    menu.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
+    box.addEventListener("click", function (e) { if (e.target.closest("a.nav__link")) setOpen(false); });
+    doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("is-open")) setOpen(false); });
+    global.addEventListener("resize", function () { if (global.innerWidth > 1080 && nav.classList.contains("is-open")) setOpen(false); });
+  }
+  function boot() { build(); drawer(); }
+  if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", boot); else boot();
   global.Prefs = { get: P, apply: apply, changed: changed, open: function () { global.dispatchEvent(new Event("prefs:open")); } };
 })(window);
