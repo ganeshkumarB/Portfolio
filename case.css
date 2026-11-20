@@ -1062,3 +1062,11 @@ body.is-quick .cs-content, body.is-quick .cs-cover, body.is-quick .cs-visual, bo
 .nrows--questions .nrow p { margin-top: 6px; }
 .ask-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--cs-line); white-space: nowrap; }
 .ask-link:hover { border-bottom-color: var(--ink); }
+
+/* case pill on the light dock nav */
+.nav__pill--case .nav__sep { background: rgba(21, 22, 26, 0.12); }
+.nav__pill--case .nav__count { color: var(--muted); }
+.nav__dir--prev { color: var(--muted); }
+.nav__dir--prev:hover { color: var(--ink); }
+.nav__dir--next, .nav__dir--next.is-active { color: var(--ink); font-weight: 600; }
+:root[data-theme="dark"] .nav__pill--case .nav__sep { background: var(--line); }
