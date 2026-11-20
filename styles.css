@@ -2381,9 +2381,10 @@ html.text-lg body { zoom: 1.125; }
    ============================================================ */
 .how__head { display: flex; flex-direction: column; gap: 18px; }
 .how__kicker { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.how .section__head { flex-direction: column; align-items: flex-start; gap: 12px; }
-.how .section__title { max-width: 900px; font-size: 38px; line-height: 1.15; }
-.how .section__intro { width: auto; max-width: 760px; }
+.how .section__head { align-items: flex-start; gap: 64px; }
+.how .section__title { flex: 0 1 640px; max-width: 640px; font-size: 36px; line-height: 1.15; text-wrap: balance; }
+.how .section__intro { flex: 1 1 0; width: auto; max-width: 520px; padding-top: 8px; }
+@media (max-width: 1080px) { .how .section__head { flex-direction: column; gap: 12px; } .how .section__title { flex: 0 0 auto; max-width: none; } .how .section__intro { flex: 0 0 auto; max-width: 720px; padding-top: 0; } }
 .how__sub { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.01em; color: var(--ink); }
 .how__body { display: flex; flex-direction: column; gap: 18px; }
 .how__grid { display: grid; grid-template-columns: minmax(300px, 400px) 1fr; gap: 40px; align-items: stretch; }
