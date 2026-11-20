@@ -8,6 +8,9 @@ Items on the public site that show or describe Zoho SalesIQ work. Confirm each w
 - [ ] gallery/10-channels-email-chat-call.webp · "Channels: email, chat, call"
 - [ ] gallery/08-visitor-tracking.webp · "Visitor tracking" (product visual)
 
+## Numbers on the home page
+- [ ] "30% faster bot setup" in the facts row (Zobot). Confirm the measurement and its source before this goes public.
+
 ## Case studies
 All seven recreate screens with sample data and avoid internal metrics. Confirm:
 - [ ] Zobot · "website at launch, seven channels today"

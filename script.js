@@ -117,7 +117,7 @@
      Hero intro: headline words, sync sequence, status
      ============================================================ */
   var title = $("#heroTitle");
-  var accentWords = ["Ganeshkumar", "8", "years"];
+  var accentWords = ["code"];
   (function splitTitle() {
     var words = title.textContent.trim().split(/\s+/);
     title.textContent = "";
