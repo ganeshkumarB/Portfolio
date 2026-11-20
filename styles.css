@@ -2385,8 +2385,10 @@ html.text-lg body { zoom: 1.125; }
 .how .section__title { max-width: 900px; font-size: 38px; line-height: 1.15; }
 .how .section__intro { width: auto; max-width: 760px; }
 .how__sub { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.01em; color: var(--ink); }
-.how__grid { display: grid; grid-template-columns: minmax(300px, 400px) 1fr; gap: 40px; align-items: start; }
+.how__body { display: flex; flex-direction: column; gap: 18px; }
+.how__grid { display: grid; grid-template-columns: minmax(300px, 400px) 1fr; gap: 40px; align-items: stretch; }
 .how__left { display: flex; flex-direction: column; gap: 16px; }
+.how__steps { flex: 1; grid-auto-rows: 1fr; }
 .how__steps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .how__step { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-height: 120px; padding: 18px 18px 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; overflow: hidden; transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; }
 .how__step:hover { border-color: var(--ink); transform: translateY(-2px); }
@@ -2401,8 +2403,8 @@ html.text-lg body { zoom: 1.125; }
 .how__step.is-active .how__bar i { animation: how-bar var(--dur, 5.2s) linear forwards; }
 .how__grid.is-paused .how__bar i { animation-play-state: paused; }
 .how__hint { font-size: 11.5px; color: var(--muted); }
-.how__stage { position: relative; min-height: 400px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); overflow: hidden; }
-.how__panel { padding: 22px; animation: how-fade 0.4s ease both; }
+.how__stage { position: relative; display: flex; flex-direction: column; min-height: 420px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); overflow: hidden; }
+.how__panel { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 22px; animation: how-fade 0.4s ease both; }
 .how__panel[hidden] { display: none; }
 .how__fig { display: flex; flex-direction: column; gap: 14px; margin: 0; }
 .how__scene { display: block; width: 100%; height: auto; max-height: 340px; }
@@ -2410,7 +2412,7 @@ html.text-lg body { zoom: 1.125; }
 .how__panel--build { display: flex; flex-direction: column; gap: 14px; }
 .how__panel--build .replay { padding: 0; border: 0; background: none; }
 .how__build-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-.how__principles { display: flex; flex-direction: column; gap: 16px; }
+.how__principles { display: flex; flex-direction: column; gap: 18px; }
 .how__chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .how__chip { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 16px; color: var(--ink); }
 .how__chip::before { content: "✦"; font-size: 13px; color: #c98f00; }
