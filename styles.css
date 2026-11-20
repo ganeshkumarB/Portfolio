@@ -2310,9 +2310,9 @@ html.text-lg body { zoom: 1.125; }
   .nav__indicator { display: none; }
   .nav__utils { padding-left: 26px; gap: 14px; }
   .nav__utils .nav__theme, .nav__utils .nav__inspect, .nav__utils .nav__prefs { width: 36px; height: 36px; font-size: 17px; }
-  .nav__resume { padding: 13px 22px; border-radius: 999px; background: var(--sun); color: #15161a; font-size: 16px; gap: 6px; }
-  .nav__resume:hover { background: var(--sun); filter: brightness(1.04); }
-  :root[data-theme="dark"] .nav__resume { background: var(--sun); color: #15161a; }
+  .nav__resume { padding: 13px 22px; border-radius: 999px; background: var(--pill); color: var(--pill-fg); font-size: 16px; gap: 6px; }
+  .nav__resume:hover { background: var(--pill-active); filter: none; }
+  :root[data-theme="dark"] .nav__resume { background: #f3f4f6; color: #15161a; }
   .nav.is-floating { display: grid; }
   .nav__pill--case .nav__link.is-active::before { display: none; }
 }
@@ -2343,7 +2343,7 @@ html.text-lg body { zoom: 1.125; }
   .nav__utils .nav__theme, .nav__utils .nav__inspect, .nav__utils .nav__prefs { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); }
   .nav__utils .nav__theme:hover, .nav__utils .nav__inspect:hover, .nav__utils .nav__prefs:hover { background: var(--surface); }
   .nav__resume { height: 42px; padding: 0 20px; border-radius: 999px; font-size: 15px; gap: 6px; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08); transition: transform 0.2s ease, filter 0.2s ease; }
-  .nav__resume:hover { transform: translateY(-1px); filter: brightness(1.04); }
+  .nav__resume:hover { transform: translateY(-1px); filter: none; }
   .nav__resume-arrow { font-size: 14px; transition: transform 0.2s ease; }
   .nav__resume:hover .nav__resume-arrow { transform: translate(1px, -1px); }
   .nav.is-floating { padding: 10px var(--gutter); background: rgba(255, 255, 255, 0.82); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); box-shadow: 0 10px 30px -24px rgba(0, 0, 0, 0.3); }
