@@ -2827,3 +2827,32 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .journey__title { max-width: 320px; }
   .journey__item p, .journey__when { max-width: 320px; }
 }
+
+/* ============================================================
+   Home nav between 1081 and 1399px: nine links no longer fit the bar, so the drawer takes over
+   ============================================================ */
+@media (min-width: 1081px) and (max-width: 1399px) {
+  .js .nav-slot:has(.nav--rail) { height: auto; }
+  .nav--rail { display: grid; grid-template-columns: 1fr auto auto; align-items: center; column-gap: 12px; row-gap: 0; padding-bottom: 0; }
+  .nav--rail.is-floating { position: static !important; background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; padding: 12px var(--gutter) 0; }
+  .nav--rail .nav__right { gap: 12px; }
+  .nav--rail .nav__menu { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; width: 42px; height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); cursor: pointer; }
+  .nav--rail .nav__menu span { display: block; height: 2px; border-radius: 2px; background: var(--ink); transition: transform 0.25s ease, opacity 0.2s ease; }
+  .nav--rail.is-open .nav__menu span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav--rail.is-open .nav__menu span:nth-child(2) { opacity: 0; }
+  .nav--rail.is-open .nav__menu span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav--rail .nav__drawer { display: none; grid-column: 1 / -1; flex-direction: column; align-items: stretch; gap: 8px; margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.35); }
+  .nav--rail.is-open .nav__drawer { display: flex; }
+  .nav--rail .nav__pill { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+  .nav--rail .nav__link, .nav--rail.is-floating .nav__link { display: flex; justify-content: space-between; padding: 12px 14px; border-radius: 12px; font-size: 16px; color: var(--body); }
+  .nav--rail .nav__link.is-active { background: var(--surface); color: var(--ink); }
+  .nav--rail .nav__link.is-active::before { display: none; }
+  .nav--rail .nav__indicator { display: none; }
+  .nav--rail .nav__utils { justify-content: flex-start; gap: 6px; height: auto; padding: 8px 6px 0; border-left: 0; border-right: 0; border-top: 1px solid var(--line); }
+}
+
+/* Contact footer: right edge like every other section, room underneath so Sunny never covers it */
+@media (min-width: 1081px) {
+  .contact__footer { padding-right: 0; }
+  .contact { padding-bottom: 200px; }
+}

@@ -122,9 +122,10 @@
     var resume = nav.querySelector(".nav__resume");
     var right = doc.createElement("div"); right.className = "nav__right";
     if (resume) { nav.insertBefore(right, resume); right.appendChild(resume); } else nav.appendChild(right);
+    var wide = function () { return global.innerWidth > (nav.classList.contains("nav--rail") ? 1399 : 1080); };
     function place() {
       if (!utils) return;
-      if (global.innerWidth > 1080) { if (utils.parentNode !== right) right.insertBefore(utils, right.firstChild); }
+      if (wide()) { if (utils.parentNode !== right) right.insertBefore(utils, right.firstChild); }
       else if (utils.parentNode !== box) box.appendChild(utils);
     }
     place(); global.addEventListener("resize", place);
@@ -141,7 +142,7 @@
     menu.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
     box.addEventListener("click", function (e) { if (e.target.closest("a.nav__link")) setOpen(false); });
     doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("is-open")) setOpen(false); });
-    global.addEventListener("resize", function () { if (global.innerWidth > 1080 && nav.classList.contains("is-open")) setOpen(false); });
+    global.addEventListener("resize", function () { if (wide() && nav.classList.contains("is-open")) setOpen(false); });
   }
   function boot() { build(); drawer(); }
   if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", boot); else boot();
