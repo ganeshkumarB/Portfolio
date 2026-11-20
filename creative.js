@@ -1,5 +1,5 @@
 /* Creative layer: inspect mode, layout grid, ghost cursor,
-   token diff console, glitch portrait, gallery desk mode. */
+   token diff console, glitch portrait. */
 (function () {
   "use strict";
 
@@ -123,8 +123,7 @@
     { sel: ".how__step", name: "How I work / Step", figma: "Process step · Type=Default / Final", node: "3-133" },
     { sel: ".story__portrait", name: "Story / Portrait", figma: "Screens · Home · Story", node: "5-248" },
     { sel: ".journey__item", name: "Story / Career journey / Milestone", figma: "Screens · Home · Story", node: "5-248" },
-    { sel: ".piece", name: "Gallery / Tile", figma: "Gallery tile · Default / Hover / Loading", node: "3-144" },
-    { sel: ".gallery__more .btn", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" },
+    { sel: ".piece", name: "Playground / Piece", figma: "Gallery tile · Default / Hover / Loading", node: "3-144" },
     { sel: ".view-switch", name: "Gallery / View switch", figma: "no Figma counterpart, built in code", node: "" },
     { sel: ".featured", name: "Writing / Featured post", figma: "Screens · Home · Writing", node: "5-323" },
     { sel: ".post", name: "Writing / Post row", figma: "Post row · State=Default / Hover", node: "3-114" },
@@ -324,7 +323,6 @@
     if (k === "i") setInspect(!inspecting);
     else if (k === "g") grid.hidden = !grid.hidden;
     else if (k === "t") { var tb = $("#themeToggle"); if (tb) tb.click(); }
-    else if (k === "v" && viewSwitch) { setView(VIEWS[(VIEWS.indexOf(currentView) + 1) % VIEWS.length]); }
     else if (k === "c" && inspecting) copyCss();
   });
 
@@ -510,124 +508,4 @@
     }
   }
 
-  /* ============================================================
-     Gallery views: the grid, or a collage around the section header
-     ============================================================ */
-  var viewSwitch = $("#deskToggle");
-  var viewBtns = $$(".view-switch__btn", viewSwitch);
-  var gallerySection = $("#gallery");
-  var gallery = $(".gallery__grid");
-  var galleryHead = gallerySection ? $(".section__head", gallerySection) : null;
-  var shuffleBtn = $("#galleryShuffle");
-  var pieces = $$(".piece", gallery);
-  var VIEWS = ["grid", "collage"], currentView = "grid";
-  var VIEW_TOASTS = { grid: "grid · four columns", collage: "collage · move the mouse, shuffle for more" };
-  /* eight slots around the centred header, in percent of the stage */
-  var SLOTS = [
-    { x: 4, y: 10, w: 16, ar: "1 / 1", d: 0.6 },
-    { x: 24, y: 2, w: 10, ar: "4 / 3", d: 1 },
-    { x: 64, y: 3, w: 10, ar: "3 / 4", d: 0.9 },
-    { x: 80, y: 10, w: 14, ar: "1 / 1", d: 0.5 },
-    { x: 86, y: 46, w: 11, ar: "1 / 1", d: 0.8 },
-    { x: 2, y: 50, w: 20, ar: "1 / 1", d: 0.4 },
-    { x: 36, y: 80, w: 14, ar: "4 / 3", d: 0.7 },
-    { x: 72, y: 72, w: 16, ar: "4 / 3", d: 0.9 }
-  ];
-  var collagePage = 0, collageRaf = 0, collageMX = 0, collageMY = 0;
-
-  function flip(before, apply) {
-    apply();
-    pieces.forEach(function (p, i) {
-      var a = before[i], b = p.getBoundingClientRect();
-      if (reduced || !a.width || !b.width) return; /* hidden before or after: nothing to animate */
-      var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width, sy = a.height / b.height;
-      p.animate(
-        [{ transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ")", transformOrigin: "0 0" },
-         { transform: "none", transformOrigin: "0 0" }],
-        { duration: 650 + i * 12, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
-      );
-    });
-  }
-  /* back to a clean slate: header above the grid, every piece in flow */
-  function resetPieces() {
-    gallery.classList.remove("is-collage");
-    gallerySection.classList.remove("gallery--collage");
-    pieces.forEach(function (p) { p.style.cssText = ""; p.classList.remove("is-hidden"); });
-    if (galleryHead && galleryHead.parentElement === gallery) gallerySection.insertBefore(galleryHead, gallery);
-  }
-  function layoutCollage(animate) {
-    var n = pieces.length, start = (collagePage * SLOTS.length) % n;
-    var shown = SLOTS.map(function (_, i) { return pieces[(start + i) % n]; });
-    pieces.forEach(function (p) { p.classList.toggle("is-hidden", shown.indexOf(p) < 0); });
-    shown.forEach(function (p, i) {
-      var s = SLOTS[i];
-      p.style.left = s.x + "%"; p.style.top = s.y + "%"; p.style.width = s.w + "%";
-      p.style.setProperty("--ar", s.ar); p.style.setProperty("--d", s.d); p.style.zIndex = 2 + i;
-      if (animate && !reduced) {
-        p.style.opacity = "0"; p.style.transform = "translateY(14px)";
-        setTimeout(function () { p.style.opacity = ""; p.style.transform = ""; }, 30 + i * 40);
-      }
-    });
-  }
-  function toCollage() {
-    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
-    flip(before, function () {
-      resetPieces();
-      gallery.classList.add("is-collage");
-      gallerySection.classList.add("gallery--collage");
-      if (galleryHead) gallery.appendChild(galleryHead);
-      layoutCollage(false);
-    });
-  }
-  function toGrid() {
-    var before = pieces.map(function (p) { return p.getBoundingClientRect(); });
-    flip(before, resetPieces);
-  }
-  function collageTick() {
-    collageRaf = 0;
-    var r = gallery.getBoundingClientRect();
-    var dx = (collageMX - (r.left + r.width / 2)) / r.width, dy = (collageMY - (r.top + r.height / 2)) / r.height;
-    pieces.forEach(function (p) {
-      if (p.classList.contains("is-hidden")) return;
-      var d = parseFloat(p.style.getPropertyValue("--d")) || 0.6;
-      p.style.transform = "translate(" + (-dx * 26 * d).toFixed(1) + "px," + (-dy * 18 * d).toFixed(1) + "px)";
-    });
-  }
-  function setView(name, quiet) {
-    if (VIEWS.indexOf(name) < 0 || name === currentView) return;
-    if (name === "collage") toCollage(); else toGrid();
-    currentView = name;
-    viewBtns.forEach(function (b) { var on = b.getAttribute("data-view") === name; b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); });
-    try { localStorage.setItem("gallery:view", name); } catch (e) { /* ignore */ }
-    if (!quiet) toast(VIEW_TOASTS[name]);
-  }
-  if (viewSwitch && gallery) {
-    viewBtns.forEach(function (b) { b.addEventListener("click", function () { setView(b.getAttribute("data-view")); }); });
-    if (shuffleBtn) shuffleBtn.addEventListener("click", function () { collagePage++; layoutCollage(true); });
-    try {
-      var saved = localStorage.getItem("gallery:view");
-      if (saved && VIEWS.indexOf(saved) > -1 && window.innerWidth > 1080) setView(saved, true);
-    } catch (e) { /* ignore */ }
-    /* ?view=collage opens the gallery in that view and jumps to it */
-    var qv = new URLSearchParams(location.search).get("view");
-    if (qv && VIEWS.indexOf(qv) > -1) {
-      setView(qv, true);
-      setTimeout(function () {
-        $$("[data-reveal]").forEach(function (el) { el.classList.add("is-in"); });
-        window.scrollTo({ top: gallerySection.getBoundingClientRect().top + window.scrollY - 24, behavior: "instant" });
-      }, 350);
-    }
-    /* collage parallax: pieces drift against the pointer, deeper ones more */
-    if (finePointer) gallery.addEventListener("pointermove", function (e) {
-      if (currentView !== "collage") return;
-      collageMX = e.clientX; collageMY = e.clientY;
-      if (!collageRaf) collageRaf = requestAnimationFrame(collageTick);
-    });
-    gallery.addEventListener("pointerleave", function () {
-      if (currentView !== "collage") return;
-      pieces.forEach(function (p) { if (!p.classList.contains("is-hidden")) p.style.transform = ""; });
-    });
-    /* a window resize while in collage: fall back to the grid on small screens */
-    window.addEventListener("resize", function () { if (currentView === "collage" && window.innerWidth <= 1080) setView("grid", true); });
-  }
 })();

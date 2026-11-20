@@ -107,12 +107,20 @@
     tick(); setInterval(tick, 30000);
   }
 
+  /* back to top: appears once the page has scrolled a screen or so */
+  var toTop = document.createElement("button");
+  toTop.type = "button"; toTop.className = "to-top"; toTop.setAttribute("aria-label", "Back to top");
+  toTop.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(toTop);
+  toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }); var first = $(".nav__brand"); if (first) first.focus({ preventScroll: true }); });
+
   var floating = false;
   function onScroll() {
     var y = window.scrollY;
     var max = root.scrollHeight - innerHeight;
     progress.style.transform = "scaleX(" + (max > 0 ? y / max : 0) + ")";
     if (resumeFill) { var pct = max > 0 ? Math.round(Math.min(1, y / max) * 100) : 0; if (resumePct) resumePct.textContent = pct + "%"; resumeFill.style.width = pct + "%"; }
+    toTop.classList.toggle("is-on", y > 600);
     var shouldFloat = y > 140;
     if (shouldFloat !== floating) {
       floating = shouldFloat;
@@ -417,13 +425,14 @@
 
   function pieceData(p) {
     var img = $("img", p);
-    var tile = $(".piece__image", p);
+    var titleEl = $(".piece__title", p) || $(".piece__caption span", p);
+    var tagEl = $(".piece__tag", p);
     return {
       src: p.getAttribute("href"),
       alt: img.getAttribute("alt"),
-      title: $(".piece__caption span", p).textContent,
-      tag: $(".piece__tag", p).textContent,
-      bg: tile.style.getPropertyValue("--piece-bg") || "",
+      title: titleEl ? titleEl.textContent : img.getAttribute("alt"),
+      tag: tagEl ? tagEl.textContent : "",
+      bg: p.style.getPropertyValue("--piece-bg") || "",
       img: img
     };
   }
@@ -435,7 +444,7 @@
     lbImg.src = d.src;
     lbImg.alt = d.alt;
     lbTitle.textContent = d.title;
-    lbMeta.textContent = d.tag + "  ·  " + (lbIndex + 1) + " / " + pieces.length;
+    lbMeta.textContent = (d.tag ? d.tag + "  ·  " : "") + (lbIndex + 1) + " / " + pieces.length;
 
     var go = function () {
       if (reduced) return;

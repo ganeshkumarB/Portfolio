@@ -17,15 +17,15 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261212" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261212" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261212" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261213" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261213" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261213" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261212" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261212" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261213" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261213" /></noscript>
 </head>
 <body>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
@@ -420,113 +420,92 @@
     </div>
   </section>
 
-  <!-- ===== Gallery ===== -->
-  <section class="section section--tight gallery" id="gallery" data-layer="Illustration gallery">
-    <div class="section__head">
-      <h2 class="section__title">Illustration &amp; visual work</h2>
-      <div class="section__copy">
-        <span class="mono section__kicker">gallery/&nbsp;&nbsp;· 18 pieces&nbsp;&nbsp;· illustration, 3D &amp; app concepts</span>
-        <div class="view-switch mono" id="deskToggle" role="group" aria-label="Gallery view">
-          <span class="view-switch__lbl">view:</span>
-          <button type="button" class="view-switch__btn is-on" data-view="grid" aria-pressed="true" title="Masonry grid">grid</button>
-          <button type="button" class="view-switch__btn" data-view="collage" aria-pressed="false" title="Pieces floating around the title, shuffle for more">collage</button>
-          <kbd class="view-switch__key" title="Press V to switch">V</kbd>
-        </div>
-        <button type="button" class="collage__shuffle mono" id="galleryShuffle" title="Show eight more pieces">shuffle ↻</button>
-        <p class="section__intro">App concepts, 3D renders and motion pieces, plus launch visuals for SalesIQ.</p>
-      </div>
+  <!-- ===== Playground ===== -->
+  <section class="section section--tight gallery playground" id="gallery" data-layer="Playground">
+    <div class="pg__head">
+      <p class="pg__label mono">06 / Playground</p>
+      <h2 class="section__title">Outside the product.</h2>
+      <p class="pg__intro">Visual experiments, illustrations, ideas, and things I make simply because I’m curious.</p>
     </div>
 
-    <div class="gallery__grid">
-      <div class="gallery__col">
-        <a class="piece" href="gallery/01-low-poly-riverside.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1504" height="1128" src="gallery/01-low-poly-riverside.webp" alt="Low-poly riverside" loading="lazy" decoding="async" /><span class="piece__tag mono">3D</span></span>
-          <span class="piece__caption"><span>Low-poly riverside</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/03-why-live-chat-salesiq.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/03-why-live-chat-salesiq.webp" alt="Why live chat? SalesIQ product visual" loading="lazy" decoding="async" /><span class="piece__tag mono">Product visuals</span></span>
-          <span class="piece__caption"><span>Why live chat? — SalesIQ</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/05-chasing-the-clock.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/05-chasing-the-clock.webp" alt="Chasing the clock" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Chasing the clock</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/07-convert-visitors-to-customers.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1504" height="1128" src="gallery/07-convert-visitors-to-customers.webp" alt="Convert visitors to customers" loading="lazy" decoding="async" /><span class="piece__tag mono">Product visuals</span></span>
-          <span class="piece__caption"><span>Convert — visitors to customers</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/11-golden-egg.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/11-golden-egg.webp" alt="Golden egg" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Golden egg</span><span aria-hidden="true">↗</span></span>
-        </a>
-      </div>
-
-      <div class="gallery__col">
-        <a class="piece" href="gallery/02-isometric-sushi.webp" target="_blank" rel="noopener">
-          <span class="piece__image piece__image--short"><img width="1504" height="846" src="gallery/02-isometric-sushi.webp" alt="Isometric sushi" loading="lazy" decoding="async" /><span class="piece__tag mono">3D</span></span>
-          <span class="piece__caption"><span>Isometric sushi</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/04-the-archer.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/04-the-archer.webp" alt="The archer" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>The archer</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/06-one-world-every-language.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/06-one-world-every-language.webp" alt="One world, every language" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>One world, every language</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/08-visitor-tracking.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/08-visitor-tracking.webp" alt="Visitor tracking" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Visitor tracking</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/12-jukebox-dj-in-the-rain.webp" target="_blank" rel="noopener">
-          <span class="piece__image piece__image--contain" style="--piece-bg:#523caa"><img width="1504" height="1128" src="gallery/12-jukebox-dj-in-the-rain.webp" alt="Jukebox, DJ in the rain" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Jukebox — DJ in the rain</span><span aria-hidden="true">↗</span></span>
-        </a>
-      </div>
-
-      <div class="gallery__col">
-        <a class="piece" href="gallery/09-tiger-eye.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/09-tiger-eye.webp" alt="Tiger eye" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Tiger eye</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/10-channels-email-chat-call.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1600" height="1200" src="gallery/10-channels-email-chat-call.webp" alt="Channels: email, chat, call" loading="lazy" decoding="async" /><span class="piece__tag mono">Product visuals</span></span>
-          <span class="piece__caption"><span>Channels: email, chat, call</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/13-music-in-a-cup.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1504" height="1128" src="gallery/13-music-in-a-cup.webp" alt="Music in a cup" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Music in a cup</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/14-vote-up-or-down.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1504" height="1128" src="gallery/14-vote-up-or-down.webp" alt="Vote up or down" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Vote up or down</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/15-jukebox-landing-page.webp" target="_blank" rel="noopener">
-          <span class="piece__image"><img width="1504" height="1128" src="gallery/15-jukebox-landing-page.webp" alt="Jukebox landing page" loading="lazy" decoding="async" /><span class="piece__tag mono">App concepts</span></span>
-          <span class="piece__caption"><span>Jukebox landing page</span><span aria-hidden="true">↗</span></span>
-        </a>
-      </div>
-
-      <div class="gallery__col">
-        <a class="piece" href="gallery/16-jukebox-music-party.webp" target="_blank" rel="noopener">
-          <span class="piece__image piece__image--contain piece__image--party" style="--piece-bg:#de364d"><img width="1504" height="940" src="gallery/16-jukebox-music-party.webp" alt="Jukebox, music party" loading="lazy" decoding="async" /><span class="piece__tag mono">Illustration</span></span>
-          <span class="piece__caption"><span>Jukebox — music party</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/18-pet-care-app.webp" target="_blank" rel="noopener">
-          <span class="piece__image piece__image--tall"><img width="1280" height="1600" src="gallery/18-pet-care-app.webp" alt="Pet care app concept" loading="lazy" decoding="async" /><span class="piece__tag mono">App concepts</span></span>
-          <span class="piece__caption"><span>Pet Care App</span><span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="piece" href="gallery/19-chat-app-light-dark.webp" target="_blank" rel="noopener">
-          <span class="piece__image piece__image--xtall"><img width="1002" height="2800" src="gallery/19-chat-app-light-dark.webp" alt="Chat app concept in light and dark" loading="lazy" decoding="async" /><span class="piece__tag mono">App concepts</span></span>
-          <span class="piece__caption"><span>Chat App — light &amp; dark</span><span aria-hidden="true">↗</span></span>
-        </a>
-      </div>
+    <div class="pg__grid">
+      <a class="piece" href="gallery/01-low-poly-riverside.webp" target="_blank" rel="noopener" style="--col:1 / 7;--ar:4 / 3;">
+        <img width="1504" height="1128" src="gallery/01-low-poly-riverside.webp" alt="Low-poly riverside" loading="lazy" decoding="async" />
+        <span class="piece__title">Low-poly riverside</span>
+      </a>
+      <a class="piece pg-off-2" href="gallery/02-isometric-sushi.webp" target="_blank" rel="noopener" style="--col:8 / 13;--ar:16 / 9;">
+        <img width="1504" height="846" src="gallery/02-isometric-sushi.webp" alt="Isometric sushi" loading="lazy" decoding="async" />
+        <span class="piece__title">Isometric sushi</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/09-tiger-eye.webp" target="_blank" rel="noopener" style="--col:2 / 6;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/09-tiger-eye.webp" alt="Tiger eye" loading="lazy" decoding="async" />
+        <span class="piece__title">Tiger eye</span>
+      </a>
+      <a class="piece" href="gallery/04-the-archer.webp" target="_blank" rel="noopener" style="--col:7 / 13;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/04-the-archer.webp" alt="The archer" loading="lazy" decoding="async" />
+        <span class="piece__title">The archer</span>
+      </a>
+      <a class="piece" href="gallery/11-golden-egg.webp" target="_blank" rel="noopener" style="--col:1 / 5;--ar:1 / 1;">
+        <img width="1600" height="1200" src="gallery/11-golden-egg.webp" alt="Golden egg" loading="lazy" decoding="async" />
+        <span class="piece__title">Golden egg</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/18-pet-care-app.webp" target="_blank" rel="noopener" style="--col:6 / 9;--ar:4 / 5;">
+        <img width="1280" height="1600" src="gallery/18-pet-care-app.webp" alt="Pet care app concept" loading="lazy" decoding="async" />
+        <span class="piece__title">Pet care app</span>
+      </a>
+      <a class="piece pg-off-3" href="gallery/05-chasing-the-clock.webp" target="_blank" rel="noopener" style="--col:9 / 13;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/05-chasing-the-clock.webp" alt="Chasing the clock" loading="lazy" decoding="async" />
+        <span class="piece__title">Chasing the clock</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/06-one-world-every-language.webp" target="_blank" rel="noopener" style="--col:1 / 6;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/06-one-world-every-language.webp" alt="One world, every language" loading="lazy" decoding="async" />
+        <span class="piece__title">One world, every language</span>
+      </a>
+      <a class="piece" href="gallery/13-music-in-a-cup.webp" target="_blank" rel="noopener" style="--col:7 / 10;--ar:1 / 1;">
+        <img width="1504" height="1128" src="gallery/13-music-in-a-cup.webp" alt="Music in a cup" loading="lazy" decoding="async" />
+        <span class="piece__title">Music in a cup</span>
+      </a>
+      <a class="piece pg-top" href="gallery/19-chat-app-light-dark.webp" target="_blank" rel="noopener" style="--col:10 / 13;--ar:3 / 4;">
+        <img width="1002" height="2800" src="gallery/19-chat-app-light-dark.webp" alt="Chat app concept in light and dark" loading="lazy" decoding="async" />
+        <span class="piece__title">Chat app, light and dark</span>
+      </a>
+      <a class="piece" href="gallery/03-why-live-chat-salesiq.webp" target="_blank" rel="noopener" style="--col:1 / 7;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/03-why-live-chat-salesiq.webp" alt="Why live chat? SalesIQ product visual" loading="lazy" decoding="async" />
+        <span class="piece__title">Why live chat?</span>
+      </a>
+      <a class="piece pg-contain pg-off-2" href="gallery/12-jukebox-dj-in-the-rain.webp" target="_blank" rel="noopener" style="--col:8 / 13;--ar:4 / 3;--piece-bg:#523caa;">
+        <img width="1504" height="1128" src="gallery/12-jukebox-dj-in-the-rain.webp" alt="Jukebox, DJ in the rain" loading="lazy" decoding="async" />
+        <span class="piece__title">Jukebox, DJ in the rain</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/08-visitor-tracking.webp" target="_blank" rel="noopener" style="--col:2 / 6;--ar:1 / 1;">
+        <img width="1600" height="1200" src="gallery/08-visitor-tracking.webp" alt="Visitor tracking" loading="lazy" decoding="async" />
+        <span class="piece__title">Visitor tracking</span>
+      </a>
+      <a class="piece" href="gallery/14-vote-up-or-down.webp" target="_blank" rel="noopener" style="--col:7 / 11;--ar:4 / 3;">
+        <img width="1504" height="1128" src="gallery/14-vote-up-or-down.webp" alt="Vote up or down" loading="lazy" decoding="async" />
+        <span class="piece__title">Vote up or down</span>
+      </a>
+      <a class="piece" href="gallery/10-channels-email-chat-call.webp" target="_blank" rel="noopener" style="--col:1 / 5;--ar:4 / 3;">
+        <img width="1600" height="1200" src="gallery/10-channels-email-chat-call.webp" alt="Channels: email, chat, call" loading="lazy" decoding="async" />
+        <span class="piece__title">Channels: email, chat, call</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/15-jukebox-landing-page.webp" target="_blank" rel="noopener" style="--col:6 / 13;--ar:16 / 9;">
+        <img width="1504" height="1128" src="gallery/15-jukebox-landing-page.webp" alt="Jukebox landing page" loading="lazy" decoding="async" />
+        <span class="piece__title">Jukebox landing page</span>
+      </a>
+      <a class="piece pg-off-1" href="gallery/07-convert-visitors-to-customers.webp" target="_blank" rel="noopener" style="--col:1 / 6;--ar:4 / 3;">
+        <img width="1504" height="1128" src="gallery/07-convert-visitors-to-customers.webp" alt="Convert visitors to customers" loading="lazy" decoding="async" />
+        <span class="piece__title">Convert visitors to customers</span>
+      </a>
+      <a class="piece pg-contain" href="gallery/16-jukebox-music-party.webp" target="_blank" rel="noopener" style="--col:7 / 13;--ar:16 / 9;--piece-bg:#de364d;">
+        <img width="1504" height="940" src="gallery/16-jukebox-music-party.webp" alt="Jukebox, music party" loading="lazy" decoding="async" />
+        <span class="piece__title">Jukebox, music party</span>
+      </a>
     </div>
 
-    <div class="gallery__more">
-      <button type="button" class="btn btn--primary" id="galleryAll" aria-expanded="false">Show all 18 pieces</button>
-      <a class="btn btn--ghost" href="https://www.behance.net/ganeshrayanbalu" target="_blank" rel="noopener">Full gallery on Behance&nbsp;&nbsp;↗</a>
-      <a class="btn btn--ghost" href="https://dribbble.com/GaneshRayanbalu" target="_blank" rel="noopener">Shots on Dribbble&nbsp;&nbsp;↗</a>
+    <div class="pg__foot">
+      <button type="button" class="pg__more mono" id="galleryAll" aria-expanded="false">View all 18 pieces <span aria-hidden="true">↓</span></button>
+      <span class="pg__links mono"><a href="https://www.behance.net/ganeshrayanbalu" target="_blank" rel="noopener">Behance ↗</a><a href="https://dribbble.com/GaneshRayanbalu" target="_blank" rel="noopener">Dribbble ↗</a></span>
     </div>
   </section>
 
@@ -767,7 +746,6 @@
         <div class="keys__label">Gallery and career map</div>
         <div class="keys__row"><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Previous or next piece, previous or next year</dd></div>
         <div class="keys__row"><dt><kbd>Home</kbd><kbd>End</kbd></dt><dd>First or last year on the career map</dd></div>
-        <div class="keys__row"><dt><kbd>V</kbd></dt><dd>Switch the gallery between grid and collage</dd></div>
       </dl>
       <div class="keys__toggle">
         <p class="keys__foot" style="margin:0 0 6px;padding:0;border:0">Motion, Sunny, sound and text size live in <button type="button" class="keys__link" onclick="window.Prefs &amp;&amp; window.Prefs.open()">Preferences</button>.</p>
@@ -801,12 +779,12 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261212"></script>
-  <script src="script.js?v=20261212"></script>
-  <script src="creative.js?v=20261212"></script>
-  <script src="sunny.js?v=20261212"></script>
-  <script src="sunny-config.js?v=20261212"></script>
-  <script src="sunny-ai.js?v=20261212"></script>
-  <script src="extras.js?v=20261212"></script>
+  <script src="prefs.js?v=20261213"></script>
+  <script src="script.js?v=20261213"></script>
+  <script src="creative.js?v=20261213"></script>
+  <script src="sunny.js?v=20261213"></script>
+  <script src="sunny-config.js?v=20261213"></script>
+  <script src="sunny-ai.js?v=20261213"></script>
+  <script src="extras.js?v=20261213"></script>
 </body>
 </html>

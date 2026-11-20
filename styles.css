@@ -2622,3 +2622,76 @@ html.reduce-motion .how__hint { display: none; }
   .journey__dot { left: -28px; }
   .journey__pt { padding-top: 0; }
 }
+
+/* ============================================================
+   Rail nav while scrolling: the bar steps out of the way, a back-to-top button steps in
+   ============================================================ */
+@media (min-width: 1400px) {
+  .nav--rail .nav__brand, .nav--rail .nav__right { transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s; }
+  .nav--rail.is-floating { background: none; border-bottom: 0; box-shadow: none; pointer-events: none; }
+  .nav--rail.is-floating .nav__brand, .nav--rail.is-floating .nav__right { opacity: 0; transform: translateY(-10px); visibility: hidden; pointer-events: none; transition: opacity 0.25s ease, transform 0.3s ease, visibility 0s linear 0.3s; }
+  .nav--rail.is-floating .nav__drawer { pointer-events: auto; }
+}
+.to-top { position: fixed; left: 20px; bottom: 24px; z-index: 45; width: 42px; height: 42px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: var(--ink); color: var(--bg); cursor: pointer; opacity: 0; transform: translateY(12px); visibility: hidden; transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s, background-color 0.2s ease; box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.45); }
+.to-top.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s, background-color 0.2s ease; }
+.to-top:hover { background: var(--sun); color: #15161a; }
+.to-top:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
+.to-top svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
+@media (max-width: 720px) { .to-top { left: 14px; bottom: 16px; width: 38px; height: 38px; } }
+
+/* ============================================================
+   Playground: an art-directed, asymmetric gallery. Titles on hover, nothing else.
+   ============================================================ */
+.playground { gap: 72px; }
+.pg__head { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; max-width: 760px; }
+.pg__label { margin: 0; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.playground .section__title { flex: none; margin: 0; font-size: 44px; line-height: 1.1; letter-spacing: -0.025em; }
+.pg__intro { margin: 0; max-width: 560px; font-size: 18px; line-height: 1.6; color: var(--body); }
+.pg__grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 32px; row-gap: 56px; align-items: start; }
+.playground .piece { position: relative; display: block; grid-column: var(--col); aspect-ratio: var(--ar); border-radius: 16px; overflow: hidden; background: var(--piece-bg, var(--surface)); transform: translateZ(0); }
+.playground .piece img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.playground .piece.pg-top img { object-position: top; }
+.playground .piece.pg-contain img { object-fit: contain; padding: 6%; }
+.playground .piece:hover img { transform: scale(1.025); }
+.playground .piece.pg-contain:hover img { transform: scale(1.015); }
+.playground .piece::after { content: ""; position: absolute; inset: auto 0 0 0; height: 46%; background: linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.playground .piece__title { position: absolute; left: 16px; right: 16px; bottom: 14px; font-size: 13.5px; font-weight: 500; letter-spacing: -0.005em; color: #fff; opacity: 0; transform: translateY(6px); transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.playground .piece:hover::after, .playground .piece:focus-visible::after { opacity: 1; }
+.playground .piece:hover .piece__title, .playground .piece:focus-visible .piece__title { opacity: 1; transform: none; }
+.playground .piece:focus-visible { outline: 2px solid var(--sun); outline-offset: 4px; }
+.playground .piece.pg-off-1 { margin-top: 40px; }
+.playground .piece.pg-off-2 { margin-top: 80px; }
+.playground .piece.pg-off-3 { margin-top: 120px; }
+.playground .piece.is-more { display: none; }
+.playground.show-all .piece.is-more { display: block; }
+.pg__foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 8px; }
+.pg__more { padding: 0 0 4px; border: 0; border-bottom: 1px solid var(--ink); background: none; color: var(--ink); font-size: 13px; letter-spacing: 0.02em; cursor: pointer; }
+.pg__more:hover { border-bottom-color: var(--sun); }
+.playground.show-all .pg__more { display: none; }
+.pg__links { display: inline-flex; gap: 22px; font-size: 13px; letter-spacing: 0.02em; }
+.pg__links a { color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
+.pg__links a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+@media (hover: none) {
+  .playground .piece::after { opacity: 1; }
+  .playground .piece__title { opacity: 1; transform: none; }
+}
+@media (max-width: 1080px) {
+  .playground { gap: 48px; }
+  .playground .section__title { font-size: 36px; }
+  .pg__grid { grid-template-columns: repeat(6, 1fr); column-gap: 20px; row-gap: 32px; }
+  .playground .piece { grid-column: auto / span 3; aspect-ratio: 4 / 3; }
+  .playground .piece:nth-child(5n + 1) { grid-column: auto / span 6; aspect-ratio: 16 / 9; }
+  .playground .piece.pg-off-1, .playground .piece.pg-off-2, .playground .piece.pg-off-3 { margin-top: 0; }
+  .playground .piece:nth-child(5n + 3) { margin-top: 28px; }
+}
+@media (max-width: 720px) {
+  .playground .section__title { font-size: 30px; }
+  .pg__intro { font-size: 16px; }
+  .pg__grid { display: flex; flex-direction: column; gap: 28px; }
+  .playground .piece, .playground .piece:nth-child(5n + 1) { width: 86%; aspect-ratio: 4 / 3; margin: 0; }
+  .playground .piece:nth-child(even) { margin-left: auto; }
+  .playground .piece:nth-child(3n) { width: 100%; }
+  .playground .piece:nth-child(5n + 3) { margin-top: 0; }
+  .pg__foot { flex-direction: column; align-items: flex-start; gap: 16px; }
+}

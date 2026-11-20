@@ -93,7 +93,7 @@
 
   /* gallery: nine pieces first */
   var galleryAll = $("#galleryAll");
-  if (galleryAll) $$("#gallery .piece").forEach(function (el, i) { if (i >= 9) el.classList.add("is-more"); });
+  if (galleryAll) $$("#gallery .piece").forEach(function (el, i) { if (i >= 10) el.classList.add("is-more"); });
   if (galleryAll) galleryAll.addEventListener("click", function () {
     var g = $("#gallery"); g.classList.add("show-all"); galleryAll.setAttribute("aria-expanded", "true");
     $$(".piece", g).forEach(function (el) { el.classList.add("is-in"); });

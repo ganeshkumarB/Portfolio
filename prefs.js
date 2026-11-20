@@ -46,7 +46,7 @@
       '<div class="prefs__card">' +
         '<div class="prefs__head"><span class="prefs__title" id="prefsTitle">Accessibility &amp; preferences</span><button type="button" class="prefs__close" aria-label="Close preferences">×</button></div>' +
         '<p class="prefs__intro">Saved in this browser only. Nothing is sent anywhere.</p>' +
-        row("shortcuts", "Single-key shortcuts", "I, G, T, V, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Off is safer with screen readers and voice control.") +
+        row("shortcuts", "Single-key shortcuts", "I, G, T, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Off is safer with screen readers and voice control.") +
         row("motion", "Reduce motion", "Stops the intro, reveals, Sunny’s acts and the replay. Follows your system setting unless you choose here.") +
         row("sunny", "Show Sunny", "The mascot in the corner, its speech bubbles and the Ask me button.") +
         row("text", "Larger text", "Scales the whole page up by about an eighth.") +
