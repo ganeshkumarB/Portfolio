@@ -91,6 +91,15 @@
     window.addEventListener("prefs:change", markVoice);
   }
 
+  /* gallery: nine pieces first */
+  var galleryAll = $("#galleryAll");
+  if (galleryAll) $$("#gallery .piece").forEach(function (el, i) { if (i >= 9) el.classList.add("is-more"); });
+  if (galleryAll) galleryAll.addEventListener("click", function () {
+    var g = $("#gallery"); g.classList.add("show-all"); galleryAll.setAttribute("aria-expanded", "true");
+    $$(".piece", g).forEach(function (el) { el.classList.add("is-in"); });
+    window.dispatchEvent(new Event("resize"));
+  });
+
   /* "Ask Sunny" buttons on the page open the chat, with a question if given */
   $$("[data-ask]").forEach(function (btn) {
     btn.addEventListener("click", function () {

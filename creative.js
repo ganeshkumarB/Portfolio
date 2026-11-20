@@ -117,7 +117,6 @@
     { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Button · Type=Primary, State=Default", node: "2-45" },
     { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" },
     { sel: ".bridge", name: "Hero / Figma ⇄ Code card", figma: "Screens · Home · Hero", node: "5-59" },
-    { sel: "#inspectHint", name: "Hero / Discover hint", figma: "Feedback · Type=Hint", node: "3-179" },
     { sel: ".fact", name: "Facts / Stat", figma: "Stat · Metric=years / channels", node: "3-68" },
     { sel: ".case__cta", name: "Button / Primary · small", figma: "Button · Type=Primary, State=Default", node: "2-45" },
     { sel: ".case", name: "Work / Work row", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },

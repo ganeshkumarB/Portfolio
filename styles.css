@@ -2113,3 +2113,19 @@ html.text-lg body { zoom: 1.125; }
 .nav__resume-fill { background: rgba(21, 22, 26, 0.1); }
 :root[data-theme="dark"] .nav__resume { background: var(--sun); color: #15161a; }
 .nav__resume:hover { transform: translateY(-1px); filter: brightness(1.04); }
+
+/* ============================================================
+   Minimal pass
+   ============================================================ */
+.sunny-can { grid-template-columns: 1fr; gap: 0; padding: 28px 32px; }
+.sunny-can__head { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.sunny-can__head .sunny-can__kicker { flex-basis: 100%; margin: 0; }
+.sunny-can__title { font-size: 28px; }
+.sunny-can__intro { flex: 1 1 320px; }
+.sunny-can__head .btn { margin: 0; }
+.sunny-can__how { flex-basis: 100%; }
+.sunny-can__voice { margin-top: 0; }
+.gallery:not(.show-all) .gallery__grid:not(.is-collage) .piece.is-more { display: none; }
+.gallery.show-all #galleryAll { display: none; }
+.gallery__grid.is-collage ~ .gallery__more #galleryAll { display: none; }
+.posts .post:nth-child(n+5) { display: none; }
