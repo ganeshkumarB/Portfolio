@@ -2179,8 +2179,8 @@ html.text-lg body { zoom: 1.125; }
    Breathing room: hero and facts
    ============================================================ */
 @media (min-width: 1081px) {
-  .hero { padding-top: 72px; padding-bottom: 128px; }
-  .hero__grid { gap: 80px; align-items: center; }
+  .hero { padding-top: 20px; padding-bottom: 128px; }
+  .hero__grid { gap: 80px; align-items: center; margin-top: 64px; }
   .hero__copy { gap: 36px; }
   .hero__kicker { margin-bottom: 4px; }
   .hero__title { max-width: 560px; font-size: 60px; line-height: 1.06; text-wrap: balance; }
