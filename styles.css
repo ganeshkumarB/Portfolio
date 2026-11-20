@@ -2173,6 +2173,4 @@ html.text-lg body { zoom: 1.125; }
 .facts__row--3 .fact:first-child { padding-left: 0; }
 .facts__row--3 .fact + .fact { border-left: 1px solid var(--line); }
 .facts__row--3 .fact__desc { font-size: 16px; color: var(--muted); }
-.fact__value--sun { position: relative; display: inline-block; }
-.fact__value--sun::after { content: ""; position: absolute; right: -0.35em; top: 0.1em; bottom: 0.1em; width: 55%; border-radius: 999px; background: rgba(255, 213, 74, 0.45); z-index: -1; }
 @media (max-width: 720px) { .facts__row--3 { grid-template-columns: 1fr; gap: 20px; } .facts__row--3 .fact { padding: 0; border-left: 0; } }
