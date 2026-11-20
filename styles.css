@@ -2295,3 +2295,24 @@ html.text-lg body { zoom: 1.125; }
   .nav__utils { justify-content: flex-start; gap: 6px; padding: 8px 6px 0; border-top: 1px solid var(--line); }
   .nav.is-floating .nav__link { padding: 12px 14px; }
 }
+
+/* ============================================================
+   Nav 07 · split cluster: brand | centred links | utilities + résumé
+   ============================================================ */
+@media (min-width: 1081px) {
+  .nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 24px; }
+  .nav__brand { margin: 0; }
+  .nav__drawer { display: flex; align-items: center; justify-content: space-between; min-width: 0; }
+  .nav__pill { margin: 0 auto; }
+  .nav__link { padding: 10px 16px 10px 16px; font-size: 16px; color: var(--body); }
+  .nav__link.is-active { font-weight: 700; color: var(--ink); }
+  .nav__link.is-active::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 9px; border-radius: 50%; background: var(--sun); }
+  .nav__indicator { display: none; }
+  .nav__utils { padding-left: 26px; gap: 14px; }
+  .nav__utils .nav__theme, .nav__utils .nav__inspect, .nav__utils .nav__prefs { width: 36px; height: 36px; font-size: 17px; }
+  .nav__resume { padding: 13px 22px; border-radius: 999px; background: var(--sun); color: #15161a; font-size: 16px; gap: 6px; }
+  .nav__resume:hover { background: var(--sun); filter: brightness(1.04); }
+  :root[data-theme="dark"] .nav__resume { background: var(--sun); color: #15161a; }
+  .nav.is-floating { display: grid; }
+  .nav__pill--case .nav__link.is-active::before { display: none; }
+}
