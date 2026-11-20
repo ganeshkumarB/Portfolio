@@ -169,7 +169,7 @@
   if (jdForm) {
     var CASES = {
       zobot: ["case-zobot.html", "Zobot — No-code Bot Builder"],
-      system: ["case-design-system.html", "SalesIQ Design System"],
+      system: ["case-design-system.html", "Design System"],
       console: ["case-operator-console.html", "Operator Console"],
       reports: ["case-reports.html", "Reports and analytics"],
       brand: ["case-brand-configuration.html", "Brand configuration"],
