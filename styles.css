@@ -2766,3 +2766,37 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .ai .sunny-can__head { grid-template-columns: 1fr; }
   .ai .sunny-can__head .btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 6px; }
 }
+
+/* ============================================================
+   Story: portrait shares the copy block's top and bottom edges
+   ============================================================ */
+@media (min-width: 1081px) {
+  .story { align-items: stretch; }
+  .story__portrait { height: auto; min-height: 480px; }
+  .story__frame { height: 100%; }
+}
+
+/* ============================================================
+   Contact: a confident, quiet ending
+   ============================================================ */
+.contact { gap: 24px; padding-top: 200px; padding-bottom: 40px; }
+.contact__title { max-width: 980px; font-size: 64px; line-height: 1.04; letter-spacing: -0.025em; text-wrap: balance; }
+.contact__lede { max-width: 620px; margin: 4px 0 8px; font-size: 19px; line-height: 1.6; color: var(--body); }
+.contact__mail { gap: 14px; margin-top: 8px; }
+.contact__link { font-size: 36px; line-height: 1.2; }
+.contact__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+.contact__ctas .btn__ico { display: inline-block; margin-left: 8px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.contact__ctas .btn:hover .btn__ico { transform: translateX(4px); }
+.contact__avail { margin-top: 6px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.contact__links--icons { margin-top: 12px; gap: 10px; }
+.contact__links a.icon-link { width: 40px; height: 40px; background: none; }
+.contact__footer { padding-top: 88px; font-size: 13px; color: var(--muted); }
+.contact__footer span:last-child { font-family: var(--font-sans); font-size: 13px; }
+@media (max-width: 1080px) {
+  .contact { padding-top: 128px; }
+  .contact__title { font-size: 44px; }
+  .contact__lede { font-size: 17px; }
+  .contact__link { font-size: 26px; white-space: normal; overflow-wrap: anywhere; }
+  .contact__footer { padding-top: 64px; padding-bottom: 96px; flex-direction: column; gap: 8px; }
+}
+@media (min-width: 1081px) { .contact__footer { padding-right: 180px; } }

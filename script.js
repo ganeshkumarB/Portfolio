@@ -250,9 +250,12 @@
     [".post", 70],
     [".group", 90],
     [".contact__title", 0],
-    [".contact__mail", 120],
-    [".contact__links", 200],
-    [".contact__footer", 300]
+    [".contact__lede", 80],
+    [".contact__mail", 140],
+    [".contact__ctas", 200],
+    [".contact__avail", 240],
+    [".contact__links", 280],
+    [".contact__footer", 340]
   ];
   revealTargets.forEach(function (t) {
     $$(t[0]).forEach(function (el, i) {
