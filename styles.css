@@ -2817,3 +2817,13 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
 }
 .work, .how, .skills, .ai, .playground, .writing { gap: 64px; }
 .story__label { margin-bottom: 18px; }
+
+/* Story on wide screens: the copy column fills the row, paragraphs keep their measure, the timeline runs to the right edge */
+@media (min-width: 1081px) {
+  .story__portrait { width: clamp(400px, 27vw, 520px); }
+  .story__copy { flex: 1 1 0; max-width: none; }
+  .story .section__title { max-width: 560px; }
+  .story__text { max-width: 680px; }
+  .journey__title { max-width: 320px; }
+  .journey__item p, .journey__when { max-width: 320px; }
+}
