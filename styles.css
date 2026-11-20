@@ -2184,7 +2184,7 @@ html.text-lg body { zoom: 1.125; }
   .bridge { margin-top: 6px; }
   .hero__copy { gap: 28px; }
   .hero__kicker { margin-bottom: 4px; }
-  .hero__title { max-width: 560px; font-size: 60px; line-height: 1.06; text-wrap: balance; }
+  .hero__title { max-width: 800px; font-size: 60px; line-height: 1.2; text-wrap: balance; }
   .hero__lede { max-width: 500px; font-size: 19px; line-height: 1.6; }
   .hero__cta { padding-top: 8px; gap: 14px; }
   .facts__row--3 { padding: 48px 0; }
