@@ -52,7 +52,7 @@
   function typeToken(cs) {
     var fam = cs.fontFamily.split(",")[0].replace(/["']/g, "");
     var size = parseFloat(cs.fontSize);
-    var name = /Fraunces/i.test(fam) ? (size >= 60 ? "type/display" : size >= 40 ? "type/h1" : size >= 24 ? "type/h2" : "type/serif")
+    var name = /Space Grotesk/i.test(fam) ? (size >= 60 ? "type/display" : size >= 40 ? "type/h1" : size >= 24 ? "type/h2" : "type/serif")
       : /JetBrains/i.test(fam) ? "type/mono" : size >= 17 ? "type/lead" : size <= 12 ? "type/caption" : "type/body";
     var lh = cs.lineHeight === "normal" ? "" : " / " + (Math.round(parseFloat(cs.lineHeight) / size * 100) / 100);
     return { name: name, value: fam + " " + Math.round(size) + lh };

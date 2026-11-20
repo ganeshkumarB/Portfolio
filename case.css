@@ -74,7 +74,6 @@ a.lbl:hover { color: var(--ink); }
 .cs-title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-size: 68px;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -128,7 +127,6 @@ a.lbl:hover { color: var(--ink); }
 .cs-h2 {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-size: 44px;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -184,7 +182,6 @@ a.lbl:hover { color: var(--ink); }
 .t-serif {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-size: 28px;
   line-height: 1.15;
   color: var(--ink);
@@ -364,7 +361,6 @@ a.lbl:hover { color: var(--ink); }
 .cs-quote .q {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-size: 52px;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -401,7 +397,6 @@ a.lbl:hover { color: var(--ink); }
 .cs-next__title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-size: 48px;
   line-height: 1.1;
   color: #fff;
@@ -970,7 +965,7 @@ a.lbl:hover { color: var(--ink); }
 :root[data-theme="dark"] .sheet { border-color: #2a2d36; box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.8); }
 .sheet a { color: inherit; }
 .sheet__head { display: flex; justify-content: space-between; gap: 10mm; align-items: flex-start; padding-bottom: 5mm; border-bottom: 1.5px solid #15161a; }
-.sheet__name { font-family: var(--font-serif); font-weight: 400; font-size: 30px; line-height: 1; letter-spacing: -0.01em; font-variation-settings: "SOFT" 0, "WONK" 1; }
+.sheet__name { font-family: var(--font-serif); font-weight: 400; font-size: 30px; line-height: 1; letter-spacing: -0.01em; }
 .sheet__title { margin-top: 6px; font-size: 11px; color: #4a4d55; }
 .sheet__contact { list-style: none; margin: 0; padding: 0; text-align: right; font-size: 9.5px; line-height: 1.7; color: #4a4d55; white-space: nowrap; }
 .sheet__grid { display: grid; grid-template-columns: 1fr 58mm; gap: 9mm; }
@@ -985,7 +980,7 @@ a.lbl:hover { color: var(--ink); }
 .job li { padding-left: 0.5mm; color: #2f3136; }
 .sheet__small { font-size: 10px; color: #4a4d55; }
 .sheet__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 4mm; margin: 0; }
-.sheet__facts dt { font-family: var(--font-serif); font-size: 22px; line-height: 1; font-variation-settings: "SOFT" 0, "WONK" 1; }
+.sheet__facts dt { font-family: var(--font-serif); font-size: 22px; line-height: 1; }
 .sheet__facts dd { margin: 1mm 0 0; font-size: 9.5px; line-height: 1.35; color: #4a4d55; }
 .sheet__skill { font-size: 9.8px; line-height: 1.45; color: #2f3136; }
 .sheet__skill + .sheet__skill { margin-top: 1.6mm; }
@@ -1063,7 +1058,7 @@ body.is-quick .cs-content, body.is-quick .cs-cover, body.is-quick .cs-visual, bo
 @media (max-width: 720px) { .quick__grid { grid-template-columns: 1fr; } .quick__cell { padding: 18px; } .quick { padding-bottom: 48px; } }
 
 /* questions I'd love to be asked */
-.nrows--questions .nrow h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; line-height: 1.25; font-variation-settings: "SOFT" 0, "WONK" 1; }
+.nrows--questions .nrow h3 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; line-height: 1.25; }
 .nrows--questions .nrow p { margin-top: 6px; }
 .ask-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--cs-line); white-space: nowrap; }
 .ask-link:hover { border-bottom-color: var(--ink); }

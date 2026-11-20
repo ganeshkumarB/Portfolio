@@ -556,7 +556,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .ask.is-busy .ask__status-txt { display: none; }
 .ask.is-busy .ask__status-busy { display: inline; }
 @keyframes ask-blink { 50% { opacity: 0.3; } }
-.ask__close { margin-left: auto; width: 32px; height: 32px; border: 0; border-radius: 50%; background: none; color: var(--muted, #6b6f78); font: 400 24px/1 "Fraunces", Georgia, serif; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.ask__close { margin-left: auto; width: 32px; height: 32px; border: 0; border-radius: 50%; background: none; color: var(--muted, #6b6f78); font: 400 24px/1 "Space Grotesk", "Inter", system-ui, sans-serif; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
 .ask__close:hover { background: var(--surface, #f5f5f3); color: var(--ink, #15161a); }
 
 /* conversation */

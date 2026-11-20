@@ -102,7 +102,7 @@
       '<g class="s-fx s-fx--hearts" fill="#de364d"><g transform="translate(158 74)"><path class="s-heart s-heart1" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/></g><g transform="translate(178 96) scale(0.7)"><path class="s-heart s-heart2" d="M0 4 C0 -2 8 -2 8 4 C8 9 0 14 0 14 C0 14 -8 9 -8 4 C-8 -2 0 -2 0 4Z"/></g></g>' +
       '<g class="s-fx s-fx--puffs" fill="#c9ced8" stroke="' + INK + '" stroke-width="1.2" stroke-opacity="0.35"><circle class="s-puff s-puff1" cx="150" cy="130" r="4"/><circle class="s-puff s-puff2" cx="160" cy="116" r="6"/><circle class="s-puff s-puff3" cx="172" cy="100" r="8"/></g>' +
       '<g class="s-fx s-fx--flash"><circle class="s-flash" cx="159" cy="90" r="26" fill="#fff"/></g>' +
-      '<g class="s-fx s-fx--notes" fill="' + INK + '" font-family="Fraunces, Georgia, serif"><text class="s-note s-note1" x="160" y="70" font-size="20">♪</text><text class="s-note s-note2" x="180" y="52" font-size="16">♫</text></g>' +
+      '<g class="s-fx s-fx--notes" fill="' + INK + '" font-family="Space Grotesk, Inter, sans-serif"><text class="s-note s-note1" x="160" y="70" font-size="20">♪</text><text class="s-note s-note2" x="180" y="52" font-size="16">♫</text></g>' +
       '<g class="s-fx s-fx--stars" fill="' + SUN + '" stroke="' + INK + '" stroke-width="1.5"><g transform="translate(50 60)"><path class="s-star s-star1" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g><g transform="translate(172 52) scale(0.7)"><path class="s-star s-star2" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g><g transform="translate(60 150) scale(0.6)"><path class="s-star s-star3" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z"/></g></g>' +
     '</svg>';
   }
