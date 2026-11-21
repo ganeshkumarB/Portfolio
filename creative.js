@@ -118,7 +118,7 @@
     { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" },
     { sel: ".bridge", name: "Hero / Figma ⇄ Code card", figma: "Screens · Home · Hero", node: "5-59" },
     { sel: ".fact", name: "Facts / Stat", figma: "Stat · Metric=years / channels", node: "3-68" },
-    { sel: ".feat", name: "Work / Featured case", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },
+    { sel: ".mz", name: "Work / Cover tile", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },
     { sel: ".wrow", name: "Work / Index row", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },
     { sel: ".how__step", name: "How I work / Step", figma: "Process step · Type=Default / Final", node: "3-133" },
     { sel: ".story__portrait", name: "Story / Portrait", figma: "Screens · Home · Story", node: "5-248" },

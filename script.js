@@ -243,7 +243,7 @@
   var revealTargets = [
     [".section__head", 0],
     [".fact", 80],
-    [".feat", 0],
+    [".mz", 80],
     [".wrow", 60],
     [".how__card", 90],
     [".how__tile", 90],
