@@ -1950,3 +1950,7 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 .zb-annot__side .zb-legend p { font-size: 14.5px; line-height: 1.55; }
 .zb-annot__side .zb-callout { margin-top: 4px; }
 .zb-annot--anat figcaption .zb-legend--col { gap: 26px; }
+/* Side notes top-aligned with the canvas again; only the spacing between points stays larger */
+.zb-annot--side { align-items: start; }
+.zb-annot__side { padding-top: 6px; }
+.zb-annot--anat { align-items: start; }
