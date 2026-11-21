@@ -1974,3 +1974,27 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 .dsy-radii { gap: 12px; }
 .dsy-radius { width: 46px; height: 46px; }
 .dsy-space { gap: 10px; height: 72px; }
+
+/* ============================================================
+   Case pages: a looser vertical rhythm across all seven studies
+   ============================================================ */
+.cs-hero--tight.cs-hero { padding-top: 64px; padding-bottom: 40px; }
+.cs-visual { padding-bottom: 36px; }
+.cs-note { padding-top: 12px; }
+.cs-content { padding-top: 112px; padding-bottom: 152px; gap: 152px; }
+.cs-section { gap: 44px; }
+.cs-head { row-gap: 0; }
+.cs-head .cs-sub { padding-top: 12px; }
+.cs-section .zb-text, .cs-section .zb-text--small { margin-top: 8px; }
+.zb-figure, .zb-annot, .zb-compare, .zb-models, .zb-areas, .zb-sys, .zb-decs, .zb-steps, .zb-zooms, .zb-timeline, .zb-outcomes,
+.oc-approach, .oc-path, .oc-decgrid, .oc-compare, .dsy-found, .dsy-dims, .dsy-arch, .dsy-resp, .dsy-prodfig, .dsy-lanes, .dsy-chain, .dsy-scale, .dsy-checks, .dsy-steps4, .dsy-chain3, .dsy-drift, .dsy-states, .dsy-anat { margin-top: 4px; }
+.cs-next { padding-top: 72px; padding-bottom: 72px; }
+@media (max-width: 1080px) {
+  .cs-content { padding-top: 80px; padding-bottom: 112px; gap: 112px; }
+  .cs-section { gap: 32px; }
+}
+@media (max-width: 720px) {
+  .cs-content { padding-top: 56px; padding-bottom: 88px; gap: 88px; }
+  .cs-section { gap: 26px; }
+  .cs-next { padding-top: 56px; padding-bottom: 56px; }
+}
