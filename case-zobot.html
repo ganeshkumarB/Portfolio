@@ -19,16 +19,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261250" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261251" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261250" />
-  <link rel="stylesheet" href="sunny.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261250" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261251" />
+  <link rel="stylesheet" href="sunny.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261251" /></noscript>
 </head>
 <body class="is-ready cs-page">
 
@@ -125,13 +125,28 @@
 
   <main class="cs-content" data-layer="Content">
 
-    <section class="cs-section">
+    <nav class="cs-formula mono" aria-label="Case study outline"><a href="#part-01"><b>01</b>Context</a><a href="#part-02"><b>02</b>The problem</a><a href="#part-03"><b>03</b>Discovery</a><a href="#part-04"><b>04</b>Your thinking</a><a href="#part-05"><b>05</b>The solution</a><a href="#part-06"><b>06</b>Impact</a><a href="#part-07"><b>07</b>Reflection</a></nav>
+
+    <section class="cs-section" id="part-01">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
+        <span class="lbl lbl--12 lbl--blue">01 — Context</span>
+        <h2 class="cs-h2">A chat platform without a bot builder</h2>
+        <p class="cs-sub">SalesIQ had no way to build a bot without writing code. This is where the builder started.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Product</span><p class="t-h">Zoho SalesIQ</p><p class="t-p">Live chat and visitor engagement for websites and apps, used by sales and support teams.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Users</span><p class="t-h">Admins, not developers</p><p class="t-p">The people who set up the chat for their business. Building a bot should not need code.</p></div>
+        <div class="tile tile--g10 tile--ink" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--sun">My part</span><p class="t-h">Sole designer, end to end</p><p class="t-p">From the first canvas sketch to launch in SalesIQ 2.0, then seven channels after it.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-02">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02 — The problem</span>
         <h2 class="cs-h2">From code to canvas</h2>
         <p class="cs-sub">Before, a bot was a developer’s job. The goal was to hand it to the admin.</p>
       </div>
-      <div class="g g--2 g--20">
+<div class="g g--2 g--20">
         <div class="tile tile--p28 tile--g16">
           <span class="lbl">Before</span>
           <p class="t-h">No builder. Bots meant writing code.</p>
@@ -159,13 +174,13 @@
       </div>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-03">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
+        <span class="lbl lbl--12 lbl--blue">03 — Discovery</span>
         <h2 class="cs-h2">Three ways to draw a conversation</h2>
         <p class="cs-sub">We studied the no-code builders of the time. Each picked a different shape.</p>
       </div>
-      <div class="g g--3 g--20">
+<div class="g g--3 g--20">
         <div class="tile">
           <div class="diagram" aria-hidden="true">
             <i style="left:40px;top:24px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:27px;width:16px;height:16px;background:var(--cs-line)"></i>
@@ -218,13 +233,25 @@
       <span class="lbl lbl--9">Sources: Intercom product blog (2018) · Landbot Product Hunt launch (2018)</span>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-04">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03</span>
+        <span class="lbl lbl--12 lbl--blue">04 — Your thinking</span>
+        <h2 class="cs-h2">Three decisions that shaped it</h2>
+      </div>
+<div class="nrows">
+        <div class="nrow"><span class="n t-serif t-serif--44">01</span><div><h3>A flowchart, not a script</h3><p>Admins draw the conversation and SalesIQ builds the bot from it.</p></div></div>
+        <div class="nrow"><span class="n t-serif t-serif--44">02</span><div><h3>Defaults on every block</h3><p>A bot works before it is fully customised, so the first one goes live in one sitting.</p></div></div>
+        <div class="nrow"><span class="n t-serif t-serif--44">03</span><div><h3>Website first</h3><p>We launched on website chat and brought other channels in later.</p></div></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-05">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05 — The solution</span>
         <h2 class="cs-h2">Four kinds of blocks</h2>
         <p class="cs-sub">Everything a bot can do, sorted into four families you drag from a side panel.</p>
       </div>
-      <div class="g g--4">
+<div class="g g--4">
         <div class="tile tile--blue tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--blue">Response</span><p class="t-serif t-serif--40">Says</p><p class="t-p">Messages, buttons and carousels the visitor sees.</p></div>
         <div class="tile tile--cream tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--amber">Action</span><p class="t-serif t-serif--40">Does</p><p class="t-p">Steps the bot takes, like handing over to an operator.</p></div>
         <div class="tile tile--green tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--green">Data</span><p class="t-serif t-serif--40">Collects</p><p class="t-p">Details the bot asks for, like name, email or phone.</p></div>
@@ -232,25 +259,13 @@
       </div>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-06">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04</span>
-        <h2 class="cs-h2">Three decisions that shaped it</h2>
-      </div>
-      <div class="nrows">
-        <div class="nrow"><span class="n t-serif t-serif--44">01</span><div><h3>A flowchart, not a script</h3><p>Admins draw the conversation and SalesIQ builds the bot from it.</p></div></div>
-        <div class="nrow"><span class="n t-serif t-serif--44">02</span><div><h3>Defaults on every block</h3><p>A bot works before it is fully customised, so the first one goes live in one sitting.</p></div></div>
-        <div class="nrow"><span class="n t-serif t-serif--44">03</span><div><h3>Website first</h3><p>We launched on website chat and brought other channels in later.</p></div></div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05</span>
+        <span class="lbl lbl--12 lbl--blue">06 — Impact</span>
         <h2 class="cs-h2">Shipped, then it grew</h2>
         <p class="cs-sub">No formal testing before launch. It was shaped by feedback once it was live.</p>
       </div>
-      <div class="g g--3">
+<div class="g g--3">
         <div class="tile tile--g10"><span class="lbl lbl--10">Before</span><p class="t-serif">No builder</p><p class="t-p">Bots needed a developer.</p></div>
         <div class="tile tile--blue tile--g10"><span class="lbl lbl--10">Launch</span><p class="t-serif">SalesIQ 2.0</p><p class="t-p">The codeless bot builder ships on website chat.</p></div>
         <div class="tile tile--ink tile--g10">
@@ -263,12 +278,12 @@
       <span class="lbl lbl--9">Sources: help.zoho.com · blog.zoho.com/salesiq</span>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-07">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">06</span>
+        <span class="lbl lbl--12 lbl--blue">07 — Reflection</span>
         <h2 class="cs-h2">What I learned</h2>
       </div>
-      <div class="cs-quote">
+<div class="cs-quote">
         <p class="q">“Defaults matter more than features.”</p>
         <p>A bot that works before it is customised does more for a new admin than one more block type.</p>
       </div>
@@ -284,10 +299,10 @@
     <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261250"></script>
-  <script src="case.js?v=20261250"></script>
-  <script src="sunny.js?v=20261250"></script>
-  <script src="sunny-config.js?v=20261250"></script>
-  <script src="sunny-ai.js?v=20261250"></script>
+  <script src="prefs.js?v=20261251"></script>
+  <script src="case.js?v=20261251"></script>
+  <script src="sunny.js?v=20261251"></script>
+  <script src="sunny-config.js?v=20261251"></script>
+  <script src="sunny-ai.js?v=20261251"></script>
 </body>
 </html>

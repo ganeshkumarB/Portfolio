@@ -19,16 +19,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261250" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261251" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261250" />
-  <link rel="stylesheet" href="sunny.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261250" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261251" />
+  <link rel="stylesheet" href="sunny.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261251" /></noscript>
 </head>
 <body class="is-ready cs-page">
 
@@ -155,13 +155,63 @@
 
   <main class="cs-content" data-layer="Content">
 
-    <section class="cs-section">
+    <nav class="cs-formula mono" aria-label="Case study outline"><a href="#part-01"><b>01</b>Context</a><a href="#part-02"><b>02</b>The problem</a><a href="#part-03"><b>03</b>Discovery</a><a href="#part-04"><b>04</b>Your thinking</a><a href="#part-05"><b>05</b>The solution</a><a href="#part-06"><b>06</b>Impact</a><a href="#part-07"><b>07</b>Reflection</a></nav>
+
+    <section class="cs-section" id="part-01">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
+        <span class="lbl lbl--12 lbl--blue">01 — Context</span>
+        <h2 class="cs-h2">Where agents spend their day</h2>
+        <p class="cs-sub">The operator console is the one screen an agent keeps open from the first chat to the last.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Product</span><p class="t-h">The operator console</p><p class="t-p">The SalesIQ screen agents live in: every chat, every visitor, all day.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Users</span><p class="t-h">Agents and their leads</p><p class="t-p">Support and sales agents handling many chats at once, and the leads who assign them.</p></div>
+        <div class="tile tile--g10 tile--ink" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--sun">My part</span><p class="t-h">Redesigned end to end</p><p class="t-p">Folders, queue, conversation and visitor panel, as one view.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-02">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">02 — The problem</span>
+        <h2 class="cs-h2">Too many places to look</h2>
+        <p class="cs-sub">The queue, the conversation and the visitor’s details lived apart. Agents switched tabs and opened profiles while visitors waited.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Switching tabs</span><p class="t-h">The visitor lived elsewhere</p><p class="t-p">Who you were talking to sat in another view, away from the chat.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Opening profiles</span><p class="t-h">Load was hidden</p><p class="t-p">Knowing who had room for the next chat meant checking each operator.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Searching</span><p class="t-h">Every second costs</p><p class="t-p">Every second an agent spends searching is a second a visitor waits.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-03">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03 — Discovery</span>
+        <h2 class="cs-h2">Four questions an agent asks</h2>
+        <p class="cs-sub">Every chat starts with the same four questions. Each one became a zone of the console.</p>
+      </div>
+      <div class="g g--4">
+        <div class="tile tile--blue tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--blue">Where should I look?</span><p class="t-serif t-serif--40">Folders</p><p class="t-p">Chats grouped with live counts.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--ink">What should I pick up?</span><p class="t-serif t-serif--40">Queue</p><p class="t-p">Who is waiting, and for how long.</p></div>
+        <div class="tile tile--cream tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--amber">What is being said?</span><p class="t-serif t-serif--40">The chat</p><p class="t-p">Messages, tags and the composer.</p></div>
+        <div class="tile tile--green tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--green">Who am I talking to?</span><p class="t-serif t-serif--40">The visitor</p><p class="t-p">Contact, lead details and history.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-04">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">04 — Your thinking</span>
+        <h2 class="cs-h2">Three decisions that shaped it</h2>
+      </div>
+      <div class="nrows"><div class="nrow"><span class="n t-serif t-serif--44">01</span><div><h3>Read left to right</h3><p>The four zones sit in the order an agent uses them: where to look, what to pick up, the chat, and who is on the other side.</p></div></div><div class="nrow"><span class="n t-serif t-serif--44">02</span><div><h3>Count everything</h3><p>Every folder shows how many are waiting, so the queue is read, not opened.</p></div></div><div class="nrow"><span class="n t-serif t-serif--44">03</span><div><h3>One number per person</h3><p>Operator load shows as 7 / 10 instead of a profile to open, so handing over the next chat takes a glance.</p></div></div></div>
+    </section>
+
+    <section class="cs-section" id="part-05">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05 — The solution</span>
         <h2 class="cs-h2">Four zones, read left to right</h2>
         <p class="cs-sub">Where to look, what to pick up, the chat itself, and who you are talking to.</p>
       </div>
-      <div class="anatomy">
+<div class="anatomy">
         <div class="anat" style="width:230px;flex:none">
           <div class="anat__stage">
             <div class="anat__row anat__row--on"><i class="skel skel--7 skel--blue" style="width:72px"></i><i class="skel skel--7 skel--blue" style="width:18px"></i></div>
@@ -200,30 +250,26 @@
           <span class="lbl lbl--10 lbl--blue">04 Context</span><p class="t-h t-h--16">The visitor</p><p class="t-p t-p--13">Contact, lead details, history and connected apps.</p>
         </div>
       </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
-        <h2 class="cs-h2">Every queue, counted</h2>
-        <p class="cs-sub">Mine, the team’s, the bots’, and the ones that need a second look. Each folder shows how many are waiting.</p>
-      </div>
-      <div class="g g--4">
+      <div class="cs-block">
+        <div class="cs-part">
+          <h3 class="cs-part__h">Every queue, counted</h3>
+          <p class="cs-part__sub">Mine, the team’s, the bots’, and the ones that need a second look. Each folder shows how many are waiting.</p>
+        </div>
+<div class="g g--4">
         <div class="tile tile--blue tile--p22 tile--g10"><span class="lbl lbl--10 lbl--blue">Mine</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Active</span><span class="v" style="color:var(--blue)">24</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Missed</span><span class="v" style="color:var(--blue)">3</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Closed</span><span class="v" style="color:var(--blue)">118</span></div></div>
         <div class="tile tile--p22 tile--g10"><span class="lbl lbl--10 lbl--ink">Team</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Active</span><span class="v">62</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Missed</span><span class="v">7</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Unassigned missed</span><span class="v">4</span></div></div>
         <div class="tile tile--green tile--p22 tile--g10"><span class="lbl lbl--10 lbl--green">Bots</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Bot active</span><span class="v" style="color:var(--cs-green)">15</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Bot closed</span><span class="v" style="color:var(--cs-green)">340</span></div></div>
         <div class="tile tile--red tile--p22 tile--g10"><span class="lbl lbl--10 lbl--red">Review</span><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Re-opened</span><span class="v" style="color:var(--cs-red)">2</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Monitoring</span><span class="v" style="color:var(--cs-red)">6</span></div><div class="kv kv--14" style="padding:10px 12px;border-radius:10px;background:var(--cs-card)"><span style="color:var(--ink)">Spammers</span><span class="v" style="color:var(--cs-red)">9</span></div></div>
       </div>
       <span class="lbl lbl--9">Sample counts</span>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03</span>
-        <h2 class="cs-h2">Who has room?</h2>
-        <p class="cs-sub">Each operator shows their load, like 7 / 10, so it is easy to see who can take the next chat.</p>
       </div>
-      <div class="row row--center row--20 row--wrap">
+
+      <div class="cs-block">
+        <div class="cs-part">
+          <h3 class="cs-part__h">Who has room?</h3>
+          <p class="cs-part__sub">Each operator shows their load, like 7 / 10, so it is easy to see who can take the next chat.</p>
+        </div>
+<div class="row row--center row--20 row--wrap">
         <div class="tile tile--white grow" style="padding:20px 22px">
           <span class="lbl">Operators</span>
           <div class="op"><span class="avatar avatar--blue">AR</span><span class="name">Arun</span><div class="bar"><i style="width:70%;background:#dca000"></i></div><span class="val">07 / 10</span></div>
@@ -238,15 +284,14 @@
         </div>
       </div>
       <span class="lbl lbl--9">Sample operators</span>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04</span>
-        <h2 class="cs-h2">Reply, note, close</h2>
-        <p class="cs-sub">The composer keeps the next action in reach: a reply, a private note, or a canned answer with a single slash.</p>
       </div>
-      <div class="row row--wrap">
+
+      <div class="cs-block">
+        <div class="cs-part">
+          <h3 class="cs-part__h">Reply, note, close</h3>
+          <p class="cs-part__sub">The composer keeps the next action in reach: a reply, a private note, or a canned answer with a single slash.</p>
+        </div>
+<div class="row row--wrap">
         <div class="tile tile--white grow" style="padding:18px 20px">
           <div class="tools" style="display:flex;gap:14px;font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--muted)"><span>B</span><span>I</span><span>U</span><span>S</span><span>“”</span><span>⌘</span></div>
           <div class="slash"><span class="blue">/</span><span>refund</span></div>
@@ -263,15 +308,14 @@
         </div>
       </div>
       <span class="lbl lbl--9">Sample content</span>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05</span>
-        <h2 class="cs-h2">The visitor, without switching tabs</h2>
-        <p class="cs-sub">Who they are, how warm the lead is, and their CRM and Desk records, right next to the chat.</p>
       </div>
-      <div class="row row--wrap">
+
+      <div class="cs-block">
+        <div class="cs-part">
+          <h3 class="cs-part__h">The visitor, without switching tabs</h3>
+          <p class="cs-part__sub">Who they are, how warm the lead is, and their CRM and Desk records, right next to the chat.</p>
+        </div>
+<div class="row row--wrap">
         <div class="tile tile--white fixed" style="width:400px;flex:none;padding:20px 22px">
           <div style="display:flex;align-items:center;gap:12px"><span class="avatar avatar--44 avatar--blue">PS</span><div><b style="display:block;font-weight:600;font-size:16px;color:var(--ink)">Priya Sharma</b><span style="font-size:13px;color:var(--muted)">Bengaluru, India</span></div></div>
           <div class="pills"><span class="pill pill--green" style="color:var(--cs-green);font-weight:500">Support</span><span class="pill pill--blue" style="font-weight:500">Enterprise</span><span class="pill pill--red" style="font-weight:500">VIP</span></div>
@@ -290,10 +334,29 @@
         </div>
       </div>
       <span class="lbl lbl--9">Sample visitor</span>
+      </div>
+
     </section>
 
-    <section class="cs-section" style="gap:20px">
-      <div class="cs-quote">
+    <section class="cs-section" id="part-06">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">06 — Impact</span>
+        <h2 class="cs-h2">Shipped as one calm view</h2>
+        <p class="cs-sub">Agents work from one screen: folders with live counts, who has room, replies and notes in one composer, and the visitor beside the chat.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Before</span><p class="t-h">Separate views</p><p class="t-p">The queue, the chat and the visitor lived in different places.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Shipped</span><p class="t-h">One console</p><p class="t-p">Four zones, read left to right, with the next action always in reach.</p></div>
+        <div class="tile tile--g10 tile--ink" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--sun">Today</span><p class="t-h">Everything beside the chat</p><p class="t-p">Zoho CRM, Zoho Desk, history and notes fold into the visitor panel and open only when needed.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-07">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">07 — Reflection</span>
+        <h2 class="cs-h2">What I learned</h2>
+      </div>
+<div class="cs-quote">
         <p class="q q--48">Every second spent searching is a second a visitor waits.</p>
         <p>So the console puts the next thing an agent needs exactly where they will look for it.</p>
       </div>
@@ -313,10 +376,10 @@
     <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261250"></script>
-  <script src="case.js?v=20261250"></script>
-  <script src="sunny.js?v=20261250"></script>
-  <script src="sunny-config.js?v=20261250"></script>
-  <script src="sunny-ai.js?v=20261250"></script>
+  <script src="prefs.js?v=20261251"></script>
+  <script src="case.js?v=20261251"></script>
+  <script src="sunny.js?v=20261251"></script>
+  <script src="sunny-config.js?v=20261251"></script>
+  <script src="sunny-ai.js?v=20261251"></script>
 </body>
 </html>

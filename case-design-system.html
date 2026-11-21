@@ -19,16 +19,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261250" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261250" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261251" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261251" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261250" />
-  <link rel="stylesheet" href="sunny.css?v=20261250" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261250" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261251" />
+  <link rel="stylesheet" href="sunny.css?v=20261251" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261251" /></noscript>
 </head>
 <body class="is-ready cs-page">
 
@@ -120,13 +120,15 @@
 
   <main class="cs-content" data-layer="Content">
 
-    <section class="cs-section">
+    <nav class="cs-formula mono" aria-label="Case study outline"><a href="#part-01"><b>01</b>Context</a><a href="#part-02"><b>02</b>The problem</a><a href="#part-03"><b>03</b>Discovery</a><a href="#part-04"><b>04</b>Your thinking</a><a href="#part-05"><b>05</b>The solution</a><a href="#part-06"><b>06</b>Impact</a><a href="#part-07"><b>07</b>Reflection</a></nav>
+
+    <section class="cs-section" id="part-01">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
+        <span class="lbl lbl--12 lbl--blue">01 — Context</span>
         <h2 class="cs-h2">One button, every surface</h2>
         <p class="cs-sub">Every product module ships from the same components. Change one, and it updates everywhere.</p>
       </div>
-      <div class="g g--3 g--20">
+<div class="g g--3 g--20">
         <div class="tile tile--center tile--g16" style="padding:24px 24px 28px;min-height:280px">
           <span class="lbl">Web · Chat widget</span>
           <div class="widget">
@@ -151,13 +153,26 @@
       <span class="lbl lbl--9">Sample content · One button component, three surfaces</span>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-02">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
+        <span class="lbl lbl--12 lbl--blue">02 — The problem</span>
+        <h2 class="cs-h2">The gap between Figma and code</h2>
+        <p class="cs-sub">The same component was drawn in Figma and built again in code, on three surfaces. Every redraw was a chance to drift.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Drawn twice</span><p class="t-h">Figma and code, apart</p><p class="t-p">A component lived in Figma and again in code, with nothing tying the two together.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Three surfaces</span><p class="t-h">Web, mobile SDK, WhatsApp</p><p class="t-p">Each needed the same parts, built and kept in step by hand.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Drift</span><p class="t-h">Changes did not travel</p><p class="t-p">A fix in one place did not reach the others, and the versions slowly pulled apart.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-03">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">03 — Discovery</span>
         <h2 class="cs-h2">Tokens first</h2>
         <p class="cs-sub">Colour, type, space and radius live as Figma variables, with light and dark modes.</p>
       </div>
-      <div class="g g--4">
+<div class="g g--4">
         <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Colour</span><img loading="lazy" decoding="async" src="assets/case/colour-swatches.svg" width="154" height="26" alt="Five colour swatches" /></div>
         <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Type</span><span class="t-serif t-serif--40">Ag</span></div>
         <div class="tile tile--p22"><span class="lbl lbl--10 lbl--blue">Space</span><div style="display:flex;gap:8px;align-items:flex-end"><i style="width:8px;height:8px;border-radius:3px;background:var(--blue)"></i><i style="width:16px;height:16px;border-radius:3px;background:var(--blue)"></i><i style="width:24px;height:24px;border-radius:3px;background:var(--blue)"></i><i style="width:32px;height:32px;border-radius:3px;background:var(--blue)"></i></div></div>
@@ -186,13 +201,32 @@
       <span class="lbl lbl--9">Illustrative token names</span>
     </section>
 
-    <section class="cs-section">
+    <section class="cs-section" id="part-04">
       <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03</span>
+        <span class="lbl lbl--12 lbl--blue">04 — Your thinking</span>
+        <h2 class="cs-h2">Figma to code without the gap</h2>
+        <p class="cs-sub">Five steps, one source of truth.</p>
+      </div>
+<div class="cs-steps">
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">01</span><p class="t-h t-h--17">Tokens</p><p class="t-p t-p--13">Variables with light and dark modes.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">02</span><p class="t-h t-h--17">Components</p><p class="t-p t-p--13">48+ built on the tokens.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">03</span><p class="t-h t-h--17">Code Connect</p><p class="t-p t-p--13">Each component mapped to its real code.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">04</span><p class="t-h t-h--17">Figma MCP</p><p class="t-p t-p--13">Agents generate production components with Claude.</p></div>
+        <span class="arrow">→</span>
+        <div class="cs-step cs-step--ink"><span class="lbl lbl--10 lbl--sun">05</span><p class="t-h t-h--17">Ship</p><p class="t-p t-p--13">Same component on web, mobile SDK and WhatsApp.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-05">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">05 — The solution</span>
         <h2 class="cs-h2">48+ components on top</h2>
         <p class="cs-sub">Built on the tokens, documented and governed, so a new screen starts from parts that already work.</p>
       </div>
-      <div class="col">
+<div class="col">
         <div class="g g--4">
           <div class="sample"><div class="sample__stage"><span class="btn-mini btn-mini--primary">Primary</span><span class="btn-mini btn-mini--secondary">Secondary</span></div><span class="lbl lbl--10">Button</span></div>
           <div class="sample"><div class="sample__stage"><span class="field field--muted" style="width:170px;font-size:12px">priya@example.com</span></div><span class="lbl lbl--10">Input</span></div>
@@ -207,34 +241,12 @@
         </div>
       </div>
       <span class="lbl lbl--9">A sample of the library, redrawn</span>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04</span>
-        <h2 class="cs-h2">Figma to code without the gap</h2>
-        <p class="cs-sub">Five steps, one source of truth.</p>
-      </div>
-      <div class="cs-steps">
-        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">01</span><p class="t-h t-h--17">Tokens</p><p class="t-p t-p--13">Variables with light and dark modes.</p></div>
-        <span class="arrow">→</span>
-        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">02</span><p class="t-h t-h--17">Components</p><p class="t-p t-p--13">48+ built on the tokens.</p></div>
-        <span class="arrow">→</span>
-        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">03</span><p class="t-h t-h--17">Code Connect</p><p class="t-p t-p--13">Each component mapped to its real code.</p></div>
-        <span class="arrow">→</span>
-        <div class="cs-step"><span class="lbl lbl--10 lbl--blue">04</span><p class="t-h t-h--17">Figma MCP</p><p class="t-p t-p--13">Agents generate production components with Claude.</p></div>
-        <span class="arrow">→</span>
-        <div class="cs-step cs-step--ink"><span class="lbl lbl--10 lbl--sun">05</span><p class="t-h t-h--17">Ship</p><p class="t-p t-p--13">Same component on web, mobile SDK and WhatsApp.</p></div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05</span>
-        <h2 class="cs-h2">Designed once, generated twice</h2>
-        <p class="cs-sub">With Claude and Figma MCP, one definition becomes both a Figma library and production components.</p>
-      </div>
-      <div class="row row--center row--wrap">
+      <div class="cs-block">
+        <div class="cs-part">
+          <h3 class="cs-part__h">Designed once, generated twice</h3>
+          <p class="cs-part__sub">With Claude and Figma MCP, one definition becomes both a Figma library and production components.</p>
+        </div>
+<div class="row row--center row--wrap">
         <div class="tile grow">
           <span class="lbl">Output 1 · Figma library</span>
           <div style="display:flex;gap:10px"><span class="btn-mini btn-mini--primary">Start chat</span><span class="btn-mini btn-mini--secondary">Cancel</span></div>
@@ -252,10 +264,29 @@
         </div>
       </div>
       <span class="lbl lbl--9">Illustrative code</span>
+      </div>
+
     </section>
 
-    <section class="cs-section" style="gap:20px">
-      <div class="cs-quote">
+    <section class="cs-section" id="part-06">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">06 — Impact</span>
+        <h2 class="cs-h2">Shipped on three surfaces, from one source</h2>
+        <p class="cs-sub">The same component ships on web, mobile SDK and WhatsApp, generated from one definition.</p>
+      </div>
+      <div class="g g--3 g--20">
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Before</span><p class="t-h">Drawn twice</p><p class="t-p">Figma and code kept separately, surface by surface.</p></div>
+        <div class="tile tile--g10" style="padding:24px 24px 28px"><span class="lbl lbl--10">Now</span><p class="t-h">One set of tokens</p><p class="t-p">48+ components built on the tokens, each mapped to its real code.</p></div>
+        <div class="tile tile--g10 tile--ink" style="padding:24px 24px 28px"><span class="lbl lbl--10 lbl--sun">Today</span><p class="t-h">Generated from one definition</p><p class="t-p">With Claude and Figma MCP, one definition becomes both the Figma library and the production component.</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section" id="part-07">
+      <div class="cs-head">
+        <span class="lbl lbl--12 lbl--blue">07 — Reflection</span>
+        <h2 class="cs-h2">What I learned</h2>
+      </div>
+<div class="cs-quote">
         <p class="q">One source of truth. Zero drift.</p>
         <p>The system is only as good as the gap between Figma and code. My job is to keep that gap at zero.</p>
       </div>
@@ -275,10 +306,10 @@
     <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261250"></script>
-  <script src="case.js?v=20261250"></script>
-  <script src="sunny.js?v=20261250"></script>
-  <script src="sunny-config.js?v=20261250"></script>
-  <script src="sunny-ai.js?v=20261250"></script>
+  <script src="prefs.js?v=20261251"></script>
+  <script src="case.js?v=20261251"></script>
+  <script src="sunny.js?v=20261251"></script>
+  <script src="sunny-config.js?v=20261251"></script>
+  <script src="sunny-ai.js?v=20261251"></script>
 </body>
 </html>

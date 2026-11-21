@@ -1070,3 +1070,20 @@ body.is-quick .cs-content, body.is-quick .cs-cover, body.is-quick .cs-visual, bo
 .nav__dir--prev:hover { color: var(--ink); }
 .nav__dir--next, .nav__dir--next.is-active { color: var(--ink); font-weight: 600; }
 :root[data-theme="dark"] .nav__pill--case .nav__sep { background: var(--line); }
+
+/* --- Case study formula: seven parts, an outline strip, and sub-parts inside a merged section --- */
+.cs-formula { display: flex; flex-wrap: wrap; gap: 10px 22px; width: 100%; margin-bottom: -56px; padding-bottom: 18px; border-bottom: 1px solid var(--cs-line); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.cs-formula a { color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
+.cs-formula a:hover, .cs-formula a:focus-visible { color: var(--ink); outline: none; }
+.cs-formula a b { font-weight: 500; color: var(--blue); margin-right: 6px; }
+.cs-section[id^="part-"] { scroll-margin-top: 100px; }
+.cs-block { display: flex; flex-direction: column; gap: 20px; width: 100%; min-width: 0; }
+.cs-block + .cs-block { margin-top: 28px; }
+.cs-part { display: flex; flex-direction: column; gap: 8px; }
+.cs-part__h { font-family: var(--font-serif); font-weight: 400; font-size: 30px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); max-width: 820px; }
+.cs-part__sub { font-size: 17px; line-height: 1.55; color: var(--muted); max-width: 680px; }
+@media (max-width: 1080px) {
+  .cs-formula { margin-bottom: -32px; gap: 8px 16px; }
+  .cs-part__h { font-size: 24px; }
+  .cs-part__sub { font-size: 16px; }
+}
