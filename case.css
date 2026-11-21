@@ -1595,3 +1595,25 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 .dsy-grid--field .ds-field { min-width: 0; }
 .dsy-grid--field .ds-field__control { min-width: 0; padding-inline: 8px; }
 .dsy-grid--field .ds-field__control input { font-size: 12px; }
+
+/* ============================================================
+   Case outline as a side rail on wide screens, like the home page:
+   marks down the left edge, the label shows on hover and for the current part
+   ============================================================ */
+@media (min-width: 1400px) {
+  .cs-formula { position: fixed; left: 20px; top: 50%; z-index: 40; display: flex; flex-direction: column; gap: 14px; width: auto; margin: 0; padding: 0; border: 0; transform: translateY(-50%); font-size: 11px; letter-spacing: 0.08em; }
+  .cs-formula a { display: flex; align-items: center; gap: 10px; padding: 4px 0; color: var(--muted); }
+  .cs-formula a::before { content: ""; display: block; flex: none; width: 14px; height: 2px; border-radius: 2px; background: var(--cs-line); transition: width 0.25s ease, background-color 0.25s ease; }
+  .cs-formula a:hover::before { width: 22px; background: var(--muted); }
+  .cs-formula a.is-active::before { width: 28px; background: var(--sun); }
+  .cs-formula a.is-active, .cs-formula a:hover { color: var(--ink); }
+  .cs-formula a b { display: none; }
+  .cs-formula a > span { display: inline-block; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.25s ease; white-space: nowrap; }
+  .cs-formula a.is-active > span, .cs-formula a:hover > span, .cs-formula a:focus-visible > span, .cs-formula:hover a > span { opacity: 1; transform: none; }
+  .cs-formula a:focus-visible { outline: none; }
+  .cs-formula a:focus-visible::before { background: var(--sun); box-shadow: 0 0 0 3px rgba(255, 213, 74, 0.35); }
+}
+@media (max-width: 1399px) {
+  .cs-formula a.is-active { color: var(--ink); }
+  .cs-formula a.is-active b { color: #c98f00; }
+}

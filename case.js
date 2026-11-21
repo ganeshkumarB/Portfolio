@@ -100,3 +100,29 @@
     });
   });
 })();
+
+/* Case outline: wrap each label so the rail can reveal it, and mark the part currently in view */
+(function () {
+  "use strict";
+  var nav = document.querySelector(".cs-formula"); if (!nav) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll("a[href^='#part-']"));
+  links.forEach(function (a) {
+    var b = a.querySelector("b"); if (!b || a.querySelector("span")) return;
+    var span = document.createElement("span"), node = b.nextSibling;
+    while (node) { var next = node.nextSibling; span.appendChild(node); node = next; }
+    a.appendChild(span);
+  });
+  var parts = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var line = window.innerHeight * 0.4, current = -1;
+    parts.forEach(function (p, i) { if (p && p.getBoundingClientRect().top <= line) current = i; });
+    if (current < 0 && parts[0] && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) current = parts.length - 1;
+    links.forEach(function (a, i) { a.classList.toggle("is-active", i === current); });
+  }
+  function onScroll() { if (!ticking) { ticking = true; setTimeout(update, 16); } }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+})();
