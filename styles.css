@@ -3030,3 +3030,19 @@ html.reduce-motion .u2-halo { animation: none; opacity: 0.18; }
 :root[data-theme="dark"] .btn, :root[data-theme="dark"] .nav__resume, :root[data-theme="dark"] .btn--ghost { box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7), 0 2px 6px -3px rgba(0, 0, 0, 0.5); }
 :root[data-theme="dark"] .btn:hover, :root[data-theme="dark"] .nav__resume:hover { box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.8), 0 3px 8px -3px rgba(0, 0, 0, 0.5); }
 html.reduce-motion .btn:hover, html.reduce-motion .nav__resume:hover { transform: none; }
+
+/* ============================================================
+   CTA consistency: every button and text link ends in one arrow.
+   → stays on this site, ↗ opens mail or another site, ↓ downloads. One space, same motion.
+   ============================================================ */
+.btn__ico, .feat__arr, .featured__arr, .featured__cta span, .feat__cta .feat__arr { display: inline-block; margin-left: 8px; font-weight: 400; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.btn:hover .btn__ico, .feat:hover .feat__arr, .featured__cta:hover span, .pg__more:hover .btn__ico, .btn-sun:hover .btn__ico { transform: translateX(4px); }
+.btn:hover .btn__ico--ext, .featured__cta:hover .btn__ico--ext, .btn-sun:hover .btn__ico--ext { transform: translate(3px, -3px); }
+.btn:hover .btn__ico--down { transform: translateY(3px); }
+.btn--primary:hover .btn__ico { transform: translateX(4px); }
+.btn--primary:hover .btn__ico--ext { transform: translate(3px, -3px); }
+.btn--primary:hover .btn__ico--down { transform: translateY(3px); }
+.btn-sun { box-shadow: 0 10px 24px -12px rgba(21, 22, 26, 0.35), 0 2px 6px -3px rgba(21, 22, 26, 0.2); transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, background-color 0.15s ease, color 0.15s ease; }
+.btn-sun:hover { transform: translateY(-1px); box-shadow: 0 16px 32px -14px rgba(21, 22, 26, 0.4), 0 3px 8px -3px rgba(21, 22, 26, 0.22); }
+.featured__cta .btn__ico--ext { margin-left: 8px; }
+html.reduce-motion .btn:hover .btn__ico, html.reduce-motion .btn-sun:hover { transform: none; }
