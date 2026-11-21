@@ -3321,3 +3321,10 @@ html.reduce-motion .scf-hi { opacity: 1; }
   .pg__head .section__title { grid-column: 1; }
   .pg__head .pg__intro { grid-column: 2; max-width: none; padding-top: 10px; }
 }
+/* Story on wide screens: a larger portrait and copy that runs to the right edge */
+@media (min-width: 1441px) {
+  .story__portrait { width: clamp(400px, 29vw, 600px); }
+  .story__text { max-width: 780px; }
+  .story__aside { max-width: 700px; }
+  .story__path { max-width: none; }
+}
