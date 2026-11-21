@@ -3386,3 +3386,8 @@ html.reduce-motion .scf-hi { opacity: 1; }
   .contact__row { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
   .contact__side .contact__link { font-size: 20px; }
 }
+.contact__footer { grid-template-columns: auto 1fr auto; }
+.contact__foot-nav { justify-self: center; }
+.contact__foot-credit { white-space: nowrap; }
+.contact__top { display: inline-block; white-space: nowrap; }
+@media (max-width: 1080px) { .contact__footer { grid-template-columns: 1fr; } .contact__foot-nav { justify-self: start; } .contact__foot-credit { white-space: normal; } }
