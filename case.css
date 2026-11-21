@@ -1296,3 +1296,81 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .zb-take .zb-take__q { font-size: 24px; }
   .zb-dec__lead { font-size: 16px; }
 }
+
+/* ============================================================
+   Operator Console case study: from a crowded console to a focused workspace.
+   Schematics for the earlier layout and the zone map; the recreated console
+   carries the hero and the annotated experience.
+   ============================================================ */
+.oc-frame { background: var(--cs-card); }
+.oc-frame .console { border: 0; border-radius: 0; box-shadow: none; min-width: 1100px; }
+.oc-frame .cs-scroll { border-radius: inherit; }
+.oc-stage { position: relative; min-width: 1100px; }
+.oc-before { position: relative; display: grid; grid-template-columns: 220px 260px 1fr 300px; grid-template-rows: 56px 1fr; width: 100%; aspect-ratio: 16 / 8.5; border: 1.5px solid #c4c8d0; border-radius: 14px; overflow: hidden; background: #eef0f4; }
+.oc-before__top { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1.5px solid #c4c8d0; background: #e3e6ec; }
+.oc-before__top i { display: block; flex: none; border-radius: 3px; background: #b7bac2; }
+.oc-before__sp { flex: 1; }
+.oc-before__col { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding: 14px 12px; border-right: 1.5px solid #c4c8d0; background: #e9ebf0; overflow: hidden; }
+.oc-before__col--ctx { border-right: 0; border-left: 1.5px solid #c4c8d0; }
+.oc-ln { display: block; height: 10px; border-radius: 3px; background: #b7bac2; }
+.oc-before .box { display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1.5px solid #c4c8d0; border-radius: 6px; background: #f4f5f8; }
+.oc-before .box .oc-ln { height: 7px; }
+.oc-before__chat { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding: 14px; background: #f1f2f5; overflow: hidden; }
+.oc-before__chat .box--tall { margin-top: auto; align-self: stretch; height: 54px; }
+.oc-before--mini { aspect-ratio: 16 / 9; grid-template-columns: 70px 80px 1fr 90px; grid-template-rows: 24px 1fr; border-radius: 10px; }
+.oc-before--mini .oc-before__top { padding: 0 8px; gap: 6px; }
+.oc-before--mini .oc-before__col, .oc-before--mini .oc-before__chat { padding: 8px 6px; gap: 6px; }
+.oc-before--mini .oc-ln { height: 5px; }
+.oc-before--mini .box { padding: 5px; gap: 4px; border-radius: 4px; }
+.oc-before--mini .box .oc-ln { height: 4px; }
+
+.oc-map { display: grid; grid-template-columns: 64fr 200fr 270fr 386fr 280fr; gap: 8px; width: 100%; height: 220px; }
+.oc-zone { position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; min-width: 0; padding: 14px; border: 1px solid var(--cs-line); border-radius: 10px; background: var(--cs-surface); overflow: hidden; }
+.oc-zone__n { font-size: 15px; font-weight: 600; color: var(--ink); }
+.oc-zone__r { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.oc-zone--rail { padding: 10px 6px; }
+.oc-zone--rail .oc-zone__n { font-size: 11px; writing-mode: vertical-rl; transform: rotate(180deg); align-self: center; }
+.oc-zone--chat { background: var(--cs-card); border-color: var(--ink); }
+.oc-zone--focus { background: var(--sun); border-color: #e4b72c; }
+.oc-zone--focus .oc-zone__n { color: #15161a; }
+.zb-dec__fig .oc-map { height: 170px; }
+.oc-balance .zb-model { gap: 8px; }
+.zb-legend--4 { grid-template-columns: repeat(4, 1fr); }
+
+.oc-table { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 900px; border-top: 1px solid var(--cs-line); }
+.oc-table__h { padding: 14px 0 10px; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--cs-line); }
+.oc-table__h--after { color: #c98f00; }
+.oc-table__b, .oc-table__a { padding: 14px 24px 14px 0; border-bottom: 1px solid var(--cs-line); font-size: 16px; line-height: 1.45; }
+.oc-table__b { color: var(--muted); }
+.oc-table__a { color: var(--ink); font-weight: 500; }
+.oc-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+.oc-pair figure { display: flex; flex-direction: column; gap: 8px; margin: 0; min-width: 0; }
+.oc-pair .oc-map { height: auto; aspect-ratio: 16 / 9; }
+.oc-visitor { display: flex; }
+.oc-visitor .tile { width: 100% !important; }
+.oc-flow { display: flex; gap: 16px; align-items: stretch; width: 100%; }
+.oc-flow > .tile { flex: 1 1 0; }
+
+@media (max-width: 1080px) {
+  .zb-legend--4 { grid-template-columns: 1fr 1fr; }
+  .oc-flow { flex-wrap: wrap; }
+  .oc-flow > .col { width: 100% !important; flex-direction: row; }
+  .oc-flow > .col > .tile { flex: 1 1 0; }
+  .oc-before { grid-template-columns: 160px 200px 1fr 220px; }
+}
+@media (max-width: 720px) {
+  .oc-before { grid-template-columns: 80px 1fr 110px; grid-template-rows: 36px 1fr; aspect-ratio: 4 / 3; }
+  .oc-before__col--q { display: none; }
+  .oc-before--mini { grid-template-columns: 40px 1fr 50px; grid-template-rows: 18px 1fr; }
+  .oc-before--mini .oc-before__col--q { display: none; }
+  .oc-map { height: 150px; gap: 5px; }
+  .oc-zone { padding: 8px; border-radius: 7px; }
+  .oc-zone__n { font-size: 11px; }
+  .oc-zone__r { display: none; }
+  .oc-table { grid-template-columns: 1fr 1fr; }
+  .oc-table__b, .oc-table__a { font-size: 14px; padding-right: 12px; }
+  .oc-pair { grid-template-columns: 1fr; }
+  .oc-flow > .col { flex-direction: column; }
+  .oc-flow > .col > .tile { flex: none; }
+}
+.oc-frame img { display: inline-block; width: auto; height: auto; }
