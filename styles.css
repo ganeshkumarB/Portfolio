@@ -3304,3 +3304,20 @@ html.reduce-motion .scf-doodle, html.reduce-motion .scf-hi, html.reduce-motion .
 html.reduce-motion .scf-hi { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .scf-doodle, .scf-hi, .scf-hi-in { animation: none !important; } .scf-hi { opacity: 1; } }
 @media (max-width: 720px) { .scf-doodles { display: none; } }
+
+/* ============================================================
+   Home, wide screens: content in a centred 1320px column; one two-column
+   head for every section, title left and intro right, so intros line up
+   ============================================================ */
+@media (min-width: 1441px) {
+  .hero, .facts, .section, .contact { padding-inline: max(var(--gutter), calc((100% - 1320px) / 2)); }
+}
+@media (min-width: 1081px) {
+  .section .section__head, .how .section__head, .skills .section__head, .ai .section__head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 64px; row-gap: 0; align-items: start; }
+  .section .section__head .section__title { grid-column: 1; flex: none; max-width: none; }
+  .section .section__head .section__intro { grid-column: 2; flex: none; width: auto; max-width: none; padding-top: 10px; }
+  .pg__head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 64px; row-gap: 0; align-items: start; max-width: none; width: 100%; }
+  .pg__head .pg__label { grid-column: 1 / -1; margin-bottom: 18px; }
+  .pg__head .section__title { grid-column: 1; }
+  .pg__head .pg__intro { grid-column: 2; max-width: none; padding-top: 10px; }
+}
