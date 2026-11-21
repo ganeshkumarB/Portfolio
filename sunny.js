@@ -453,7 +453,7 @@
   }
 
   /* ---------- Director ---------- */
-  var WEIGHTS = [["wave", 6], ["hop", 7], ["walk", 14], ["peek", 4], ["dance", 6], ["cycle", 7], ["swim", 5], ["drink", 6], ["beer", 5], ["smoke", 4], ["joker", 6], ["sing", 5], ["read", 5], ["yoga", 5], ["skate", 6], ["fish", 5], ["selfie", 5], ["skip", 5], ["stretch", 4], ["quip", 13], ["glance", 8]];
+  var WEIGHTS = [["wave", 6], ["hop", 7], ["peek", 4], ["dance", 6], ["cycle", 7], ["swim", 5], ["drink", 6], ["beer", 5], ["smoke", 4], ["joker", 6], ["sing", 5], ["read", 5], ["yoga", 5], ["skate", 6], ["fish", 5], ["selfie", 5], ["skip", 5], ["stretch", 4], ["quip", 13], ["glance", 8]];
   function weighted() {
     var total = WEIGHTS.reduce(function (s, w) { return s + w[1]; }, 0), r = Math.random() * total;
     for (var i = 0; i < WEIGHTS.length; i++) { r -= WEIGHTS[i][1]; if (r <= 0) return WEIGHTS[i][0]; }

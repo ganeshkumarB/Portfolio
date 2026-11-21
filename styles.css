@@ -3310,7 +3310,7 @@ html.reduce-motion .scf-hi { opacity: 1; }
    head for every section, title left and intro right, so intros line up
    ============================================================ */
 @media (min-width: 1441px) {
-  .hero, .facts, .section, .contact { padding-inline: max(var(--gutter), calc((100% - 1320px) / 2)); }
+  .hero, .facts, .section, .contact { padding-inline: max(var(--gutter), calc((100% - 1520px) / 2)); }
 }
 @media (min-width: 1081px) {
   .section .section__head, .how .section__head, .skills .section__head, .ai .section__head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 64px; row-gap: 0; align-items: start; }

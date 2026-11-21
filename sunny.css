@@ -629,3 +629,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
   .ask__foot { padding-bottom: max(4px, env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) { .ask, .sunny__ask, .ask__typing span::after, .ask.is-busy .ask__status::before { animation: none; } }
+
+/* Sunny stays in the bottom-right corner: the stage is exactly as wide as the character, so there is no room to walk */
+.sunny { width: 150px; right: 16px; }
+@media (max-width: 720px) { .sunny { width: 150px; right: 8px; } }

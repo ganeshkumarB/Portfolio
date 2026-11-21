@@ -1957,11 +1957,11 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 
 /* Case pages, wide screens: content lives in a centred 1200px column; backgrounds stay full-bleed */
 @media (min-width: 1441px) {
-  .cs-hero, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-content, .cs-next { padding-inline: max(var(--gutter), calc((100% - 1320px) / 2)); }
+  .cs-hero, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-content, .cs-next { padding-inline: max(var(--gutter), calc((100% - 1520px) / 2)); }
 }
-@media (min-width: 1441px) { .zb-shot--hero, .zb-hero > .lbl { max-width: 1320px; } }
+@media (min-width: 1441px) { .zb-shot--hero, .zb-hero > .lbl { max-width: 1520px; } }
 .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { width: 100%; max-width: 1280px; }
-@media (min-width: 1441px) { .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { max-width: 1320px; } }
+@media (min-width: 1441px) { .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { max-width: 1520px; } }
 /* Design system foundations: air between the ramps, the semantic table and the three dimension tiles */
 .dsy-found { gap: 56px; }
 .dsy-found__ramps, .dsy-found__sem { gap: 18px; }
