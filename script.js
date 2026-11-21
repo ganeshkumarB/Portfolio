@@ -135,7 +135,7 @@
      Hero intro: headline words, sync sequence, status
      ============================================================ */
   var title = $("#heroTitle");
-  var accentWords = ["code"], boldWords = ["systems", "code"], breakAfter = ["products,", "between"];
+  var accentWords = ["experiences"], boldWords = ["problems", "experiences"], breakAfter = ["product", "simple,"];
   (function splitTitle() {
     var words = title.textContent.trim().split(/\s+/);
     title.textContent = "";
