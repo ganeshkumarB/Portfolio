@@ -1960,3 +1960,5 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .cs-hero, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-content, .cs-next { padding-inline: max(var(--gutter), calc((100% - 1320px) / 2)); }
 }
 @media (min-width: 1441px) { .zb-shot--hero, .zb-hero > .lbl { max-width: 1320px; } }
+.zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { width: 100%; max-width: 1280px; }
+@media (min-width: 1441px) { .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { max-width: 1320px; } }
