@@ -3328,3 +3328,7 @@ html.reduce-motion .scf-hi { opacity: 1; }
   .story__aside { max-width: 700px; }
   .story__path { max-width: none; }
 }
+/* Process cards: descriptions run the full width of their box */
+.how__card .how__desc, .how__card.is-active .how__desc { max-width: none; }
+.how__guide { max-width: none; }
+.how__card .how__step { padding-right: 24px; }
