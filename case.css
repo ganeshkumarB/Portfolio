@@ -1617,3 +1617,10 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .cs-formula a.is-active { color: var(--ink); }
   .cs-formula a.is-active b { color: #c98f00; }
 }
+
+/* Large screenshots stop growing on very wide screens: annotated canvases at 1040px, hero shots at 1280px */
+.zb-annot { max-width: 1040px; }
+.zb-annot--anat { max-width: none; }
+.zb-shot--hero { max-width: 1280px; }
+.zb-hero .lbl { max-width: 1280px; }
+.oc-frame.zb-shot--hero { max-width: none; }
