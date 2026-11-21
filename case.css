@@ -1943,3 +1943,10 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .zb-fam, .zb-fam + .zb-fam { padding-left: 0; border-left: 0; border-top: 1px solid var(--cs-line); }
   .zb-fam:first-child { border-top: 0; }
 }
+/* Side notes beside a canvas: more air between the points so the column reads at the canvas's scale */
+.zb-annot__side { gap: 30px; }
+.zb-annot__side .zb-legend { gap: 30px; }
+.zb-annot__side .zb-legend b { margin-bottom: 6px; font-size: 16px; }
+.zb-annot__side .zb-legend p { font-size: 14.5px; line-height: 1.55; }
+.zb-annot__side .zb-callout { margin-top: 4px; }
+.zb-annot--anat figcaption .zb-legend--col { gap: 26px; }
