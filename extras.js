@@ -135,34 +135,6 @@
   });
 
   /* ============================================================
-     Recruiter view: a condensed home page, remembered per browser
-     ============================================================ */
-  var modeBtn = $("#modeToggle"), modeExit = $("#modeExit");
-  if ($("#recruiter")) {
-    function setMode(on, quiet) {
-      document.body.classList.toggle("recruiter", on);
-      if (modeBtn) modeBtn.setAttribute("aria-pressed", String(on));
-      try { localStorage.setItem("site:mode", on ? "recruiter" : "full"); } catch (e) { /* ignore */ }
-      try {
-        var u = new URL(location.href);
-        if (on) u.searchParams.set("mode", "recruiter"); else u.searchParams.delete("mode");
-        history.replaceState(null, "", u.pathname + (u.search || "") + u.hash);
-      } catch (e) { /* ignore */ }
-      if (!quiet) {
-        var target = on ? $("#recruiter") : $("#hey");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (window.Sunny && !on) Sunny.say("Full site again. Welcome back!", 2400);
-      }
-      window.dispatchEvent(new Event("resize"));
-    }
-    var wantsMode = false;
-    try { wantsMode = new URL(location.href).searchParams.get("mode") === "recruiter"; } catch (e) { /* ignore */ }
-    if (wantsMode) setMode(true, true);
-    if (modeBtn) modeBtn.addEventListener("click", function () { setMode(!document.body.classList.contains("recruiter")); });
-    if (modeExit) modeExit.addEventListener("click", function () { setMode(false); });
-  }
-
-  /* ============================================================
      Match me to your job description: keyword matching, in the browser
      ============================================================ */
   var jdForm = $("#jdForm");
