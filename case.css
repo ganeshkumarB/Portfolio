@@ -1915,3 +1915,31 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .cs-section:has(> .cs-head + .zb-take) > .zb-take { grid-column: 2; max-width: none; padding-top: 34px; }
   .zb-text, .zb-principle { max-width: 820px; }
 }
+
+/* Case pages: no back pill; hero shot centred; annotated canvases smaller with notes centred beside them;
+   System section as anatomy left with its legend right, then the four families in a row */
+.zb-hero { align-items: center; }
+.zb-shot--hero { margin: 0 auto; }
+.zb-hero > .lbl { width: 100%; max-width: 1280px; }
+.zb-annot--side { grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr); gap: 40px; align-items: center; }
+.zb-annot__side { padding-top: 0; }
+.zb-sys { grid-template-columns: 1fr; gap: 32px; }
+.zb-annot--anat { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, 1fr); gap: 40px; align-items: center; }
+.zb-annot--anat .zb-shot--annot { min-width: 0; }
+.zb-annot--anat figcaption { padding: 0; }
+.zb-fams { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--cs-line); border-bottom: 1px solid var(--cs-line); }
+.zb-fam { display: flex; flex-direction: column; gap: 6px; padding: 22px 22px 24px 0; border-bottom: 0; }
+.zb-fam + .zb-fam { padding-left: 22px; border-left: 1px solid var(--cs-line); }
+.zb-fam__n { padding-top: 0; margin-bottom: 6px; }
+.zb-fam__eg { max-width: none; padding-top: 8px; text-align: left; color: #c98f00; }
+@media (max-width: 1080px) {
+  .zb-annot--anat { grid-template-columns: 1fr; gap: 20px; }
+  .zb-fams { grid-template-columns: 1fr 1fr; }
+  .zb-fam:nth-child(3) { padding-left: 0; border-left: 0; }
+  .zb-fam:nth-child(n + 3) { border-top: 1px solid var(--cs-line); }
+}
+@media (max-width: 720px) {
+  .zb-fams { grid-template-columns: 1fr; }
+  .zb-fam, .zb-fam + .zb-fam { padding-left: 0; border-left: 0; border-top: 1px solid var(--cs-line); }
+  .zb-fam:first-child { border-top: 0; }
+}
