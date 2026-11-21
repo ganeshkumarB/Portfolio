@@ -66,3 +66,22 @@
     targets.forEach(function (el) { el.classList.add("is-in"); });
   }
 })();
+
+/* Before / after compare slider: drag the stage or move the range. Same behaviour as the one on the build notes page. */
+(function () {
+  "use strict";
+  var figs = Array.prototype.slice.call(document.querySelectorAll("[data-compare]"));
+  figs.forEach(function (fig) {
+    var stage = fig.querySelector(".compare__stage"), range = fig.querySelector(".compare__range");
+    if (!stage || !range) return;
+    function set(v) { v = Math.max(0, Math.min(100, v)); fig.style.setProperty("--pos", v + "%"); range.value = v; }
+    range.addEventListener("input", function () { set(+range.value); });
+    var dragging = false;
+    function fromEvent(e) { var r = stage.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); }
+    stage.addEventListener("pointerdown", function (e) { dragging = true; stage.setPointerCapture(e.pointerId); fromEvent(e); });
+    stage.addEventListener("pointermove", function (e) { if (dragging) fromEvent(e); });
+    stage.addEventListener("pointerup", function () { dragging = false; });
+    stage.addEventListener("pointercancel", function () { dragging = false; });
+    set(+range.value || 50);
+  });
+})();

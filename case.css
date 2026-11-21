@@ -1374,3 +1374,6 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .oc-flow > .col > .tile { flex: none; }
 }
 .oc-frame img { display: inline-block; width: auto; height: auto; }
+.oc-compare { margin-top: 8px; }
+.oc-compare .compare__stage { border-color: var(--cs-line); }
+.oc-compare figcaption { max-width: 760px; }
