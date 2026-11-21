@@ -379,7 +379,7 @@
         i++;
       }
     });
-    rows.push('<div class="ok" style="--d:' + (i * 90 + 150) + 'ms">✓ 48 components re-themed · 0 drift</div>');
+    rows.push('<div class="ok" style="--d:' + (i * 90 + 150) + 'ms">✓ 26 components re-themed · 0 drift</div>');
     diffEl.innerHTML = rows.join("");
     diffEl.hidden = false;
     requestAnimationFrame(function () { diffEl.classList.add("is-show"); });

@@ -590,7 +590,7 @@
   ];
   var CASE_LINES = {
     "zobot": "💬 Bots! My people. Scroll in.",
-    "design-system": "🧩 48 components and me. I'm the 49th.",
+    "design-system": "🧩 26 components and me. I’m the 27th.",
     "operator-console": "🎧 Agent mode. Queue's calm today.",
     "reports": "📋 Charts. Each one answers one question.",
     "brand-configuration": "🎨 Brand day. Pick a colour, I'll wear it.",

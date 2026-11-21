@@ -85,3 +85,18 @@
     set(+range.value || 50);
   });
 })();
+
+/* Design system case: theme and platform switches for the live demos (data-theme / data-platform on a .dsx root) */
+(function () {
+  "use strict";
+  var segs = document.querySelectorAll(".dsy-seg[data-dsx-for]");
+  Array.prototype.forEach.call(segs, function (seg) {
+    var target = document.getElementById(seg.getAttribute("data-dsx-for")), kind = seg.getAttribute("data-kind");
+    if (!target || !kind) return;
+    seg.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-v]"); if (!b) return;
+      target.setAttribute("data-" + kind, b.getAttribute("data-v"));
+      Array.prototype.forEach.call(seg.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    });
+  });
+})();

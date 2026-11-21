@@ -11,7 +11,7 @@ Items on the public site that show or describe Zoho SalesIQ work. Confirm each w
 ## Case studies
 All seven recreate screens with sample data and avoid internal metrics. Confirm:
 - [ ] Zobot · "website at launch, seven channels today"
-- [ ] Design system · "48+ components" (confirm the current count)
+- [x] Design system · "26+ components" (confirmed 2026-11-21: 26 components, 359 variants, 147 variables)
 - [ ] Operator Console, Reports 2.0, Brand configuration, Outbound, Rating & Feedback · feature descriptions only
 
 ## Names and references
