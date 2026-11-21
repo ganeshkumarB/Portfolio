@@ -1962,3 +1962,15 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 @media (min-width: 1441px) { .zb-shot--hero, .zb-hero > .lbl { max-width: 1320px; } }
 .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { width: 100%; max-width: 1280px; }
 @media (min-width: 1441px) { .zb-hero > .dsy-stage, .zb-hero > .dsy-metrics { max-width: 1320px; } }
+/* Design system foundations: air between the ramps, the semantic table and the three dimension tiles */
+.dsy-found { gap: 56px; }
+.dsy-found__ramps, .dsy-found__sem { gap: 18px; }
+.dsy-ramp__cells { gap: 6px; height: 30px; }
+.dsy-sem li { padding: 12px 0; }
+.dsy-dims { gap: 40px; margin-top: 24px; }
+.dsy-dims__col { gap: 14px; }
+.dsy-dimstage { min-height: 160px; padding: 24px 26px; }
+.dsy-type.dsy-dimstage { gap: 28px; }
+.dsy-radii { gap: 12px; }
+.dsy-radius { width: 46px; height: 46px; }
+.dsy-space { gap: 10px; height: 72px; }
