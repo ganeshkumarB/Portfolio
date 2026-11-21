@@ -78,7 +78,7 @@
     var lede = $(".cs-lede", hero);
     var role = null; $$(".cs-meta dl div", hero).forEach(function (d) { var dt = $("dt", d); if (dt && /role/i.test(dt.textContent)) role = $("dd", d).textContent.trim(); });
     var sections = $$(".cs-section", content).map(function (sec) {
-      return { el: sec, title: ($(".cs-h2", sec) || {}).textContent || "", sub: ($(".cs-sub", sec) || {}).textContent || "" };
+      return { el: sec, title: ($(".cs-h2", sec) || {}).textContent || "", sub: ($(".cs-sub", sec) || {}).textContent || "", lbl: ($(".cs-head .lbl", sec) || {}).textContent || "" };
     });
     function clean(t) { return (t || "").replace(/\s+/g, " ").trim(); }
     /* two decisions: the "decisions" section if there is one, otherwise the first two sections after the opener */
@@ -94,15 +94,15 @@
       sections.slice(1, 3).forEach(function (s) { if (decisions.length < 2) decisions.push({ h: clean(s.title), p: clean(s.sub) }); });
     }
     /* outcome: the "shipped" section, else the last section that is not "what I learned" */
-    var outSec = sections.filter(function (s) { return /^shipped/i.test(s.title); })[0] ||
-      sections.filter(function (s) { return !/learned/i.test(s.title); }).slice(-1)[0];
+    var outSec = sections.filter(function (s) { return /^shipped/i.test(s.title) || /outcome|impact/i.test(s.lbl); })[0] ||
+      sections.filter(function (s) { return !/learned/i.test(s.title) && !/takeaway|reflection/i.test(s.lbl); }).slice(-1)[0];
     var outcome = "";
     if (outSec) {
       var today = $(".tile--ink .t-serif, .card--ink .t-h, .tile--ink .t-h", outSec.el);
       var todayP = today && $(".t-p", today.parentElement);
       outcome = clean(today ? today.textContent + (todayP ? ". " + todayP.textContent : "") : (outSec.sub || outSec.title));
     }
-    var learned = sections.filter(function (s) { return /learned/i.test(s.title); })[0];
+    var learned = sections.filter(function (s) { return /learned/i.test(s.title) || /takeaway|reflection/i.test(s.lbl); })[0];
     var lesson = learned ? clean(($(".t-h, h3, .t-serif, p", learned.el) || {}).textContent) : "";
 
     var toggle = document.createElement("div");
