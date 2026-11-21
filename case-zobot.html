@@ -19,16 +19,16 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261275" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261275" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261275" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261276" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261276" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261276" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261275" />
-  <link rel="stylesheet" href="sunny.css?v=20261275" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261275" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261276" />
+  <link rel="stylesheet" href="sunny.css?v=20261276" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261276" /></noscript>
 </head>
 <body class="is-ready cs-page">
 
@@ -142,14 +142,13 @@
         <h2 class="cs-h2">From individual steps to a connected conversation.</h2>
         <p class="cs-sub">The builder brings three areas together: a canvas to see the conversation, blocks to build it, and a panel to shape the block you are on.</p>
       </div>
-      <figure class="zb-annot">
+      <figure class="zb-annot zb-annot--side">
         <div class="zb-shot zb-shot--annot">
           <img loading="lazy" decoding="async" src="assets/case/zobot-canvas.webp" srcset="assets/case/zobot-canvas-1000.webp 1000w, assets/case/zobot-canvas.webp 1800w" sizes="(max-width: 1240px) calc(100vw - 40px), 1200px" width="1800" height="1387" alt="The builder canvas with six numbered annotations" />
           <ol class="zb-marks" aria-hidden="true"><li class="zb-mark" style="--x:22%;--y:58%"><span>1</span></li><li class="zb-mark" style="--x:31%;--y:19.5%"><span>2</span></li><li class="zb-mark" style="--x:28.4%;--y:11.5%"><span>3</span></li></ol>
         </div>
-        <ol class="zb-legend"><li><span class="zb-legend__n mono">01</span><div><b>See the whole conversation</b><p>Every block of the bot sits on one canvas, read left to right.</p></div></li><li><span class="zb-legend__n mono">02</span><div><b>Build through blocks</b><p>Each output is a place to continue; the next block attaches to its path.</p></div></li><li><span class="zb-legend__n mono">03</span><div><b>Configure in context</b><p>Selecting a block opens its settings beside the canvas, never on another screen.</p></div></li></ol>
+        <div class="zb-annot__side"><ol class="zb-legend"><li><span class="zb-legend__n mono">01</span><div><b>See the whole conversation</b><p>Every block of the bot sits on one canvas, read left to right.</p></div></li><li><span class="zb-legend__n mono">02</span><div><b>Build through blocks</b><p>Each output is a place to continue; the next block attaches to its path.</p></div></li><li><span class="zb-legend__n mono">03</span><div><b>Configure in context</b><p>Selecting a block opens its settings beside the canvas, never on another screen.</p></div></li></ol><p class="zb-callout">The conversation stays visible.</p></div>
       </figure>
-      <p class="zb-callout">The conversation stays visible.</p>
     </section>
 
     <section class="cs-section cs-section--wide" id="part-05">
@@ -185,14 +184,13 @@
         <h2 class="cs-h2">A conversation, built visually.</h2>
         <p class="cs-sub">One sample bot from the canvas above: a visitor is asked whether they want a callback, and the conversation branches from the answer.</p>
       </div>
-      <figure class="zb-annot zb-annot--path">
+      <figure class="zb-annot zb-annot--path zb-annot--side">
         <div class="zb-shot zb-shot--annot"><img loading="lazy" decoding="async" src="assets/case/zobot-router.webp" width="1400" height="919" alt="The callback flow: the router sends Callback to a company-details card and Not Matched to an end-chat card" /><svg class="zb-path" viewBox="0 0 1952 1281" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path class="zb-path__grey" d="M626 343 H 760 C 800 343, 800 1036, 840 1036 H 1148"/>
             <path class="zb-path__sun" d="M626 213 H 760 C 800 213, 800 325, 840 325 H 1192"/>
           </svg></div>
-        <figcaption class="lbl lbl--9">The Callback path, highlighted. The other branch closes the chat.</figcaption>
+        <div class="zb-annot__side"><ol class="zb-chips zb-chips--v mono"><li><b>Ask</b><span>a single-choice question</span></li><li aria-hidden="true">→</li><li><b>Decide</b><span>a router reads the answer</span></li><li aria-hidden="true">→</li><li><b>Branch</b><span>callback or not matched</span></li><li aria-hidden="true">→</li><li><b>Resolve</b><span>collect details or end warmly</span></li></ol><span class="lbl lbl--9">The Callback path, highlighted. The other branch closes the chat.</span></div>
       </figure>
-      <ol class="zb-chips mono"><li><b>Ask</b><span>a single-choice question</span></li><li aria-hidden="true">→</li><li><b>Decide</b><span>a router reads the answer</span></li><li aria-hidden="true">→</li><li><b>Branch</b><span>callback or not matched</span></li><li aria-hidden="true">→</li><li><b>Resolve</b><span>collect details or end warmly</span></li></ol>
 
     </section>
 
@@ -245,10 +243,10 @@
     <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261275"></script>
-  <script src="case.js?v=20261275"></script>
-  <script src="sunny.js?v=20261275"></script>
-  <script src="sunny-config.js?v=20261275"></script>
-  <script src="sunny-ai.js?v=20261275"></script>
+  <script src="prefs.js?v=20261276"></script>
+  <script src="case.js?v=20261276"></script>
+  <script src="sunny.js?v=20261276"></script>
+  <script src="sunny-config.js?v=20261276"></script>
+  <script src="sunny-ai.js?v=20261276"></script>
 </body>
 </html>

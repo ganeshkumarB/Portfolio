@@ -1876,3 +1876,23 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 }
 .dsy-radius { width: 42px; height: 42px; }
 .dsy-radii { gap: 8px; }
+
+/* Annotated figures with their notes beside them: canvas left, callouts right, full content width */
+.zb-annot--side { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(280px, 1fr); gap: 36px; align-items: start; max-width: none; }
+.zb-annot--side .zb-shot--annot { min-width: 0; }
+.zb-annot__side { display: flex; flex-direction: column; gap: 22px; padding-top: 6px; }
+.zb-annot__side .zb-legend { grid-template-columns: 1fr; gap: 18px; padding: 0; }
+.zb-annot__side .zb-callout { align-self: flex-start; }
+.zb-chips--v { flex-direction: column; align-items: stretch; gap: 0; border-top: 1px solid var(--cs-line); }
+.zb-chips--v li { flex-direction: row; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--cs-line); }
+.zb-chips--v li b { min-width: 86px; text-align: center; }
+.zb-chips--v li span { font-size: 13px; }
+.zb-chips--v li[aria-hidden] { display: none; }
+.oc-problem__stage .oc-before { aspect-ratio: 16 / 10; }
+@media (max-width: 1080px) {
+  .zb-annot--side { grid-template-columns: 1fr; gap: 20px; }
+  .zb-annot__side .zb-legend { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) { .zb-annot__side .zb-legend { grid-template-columns: 1fr; } }
+.oc-problem__stage .oc-before { grid-template-columns: 1.1fr 1.3fr 1.7fr 1.4fr; }
+.oc-problem__stage .oc-before--mini { grid-template-columns: 70px 80px 1fr 90px; }
