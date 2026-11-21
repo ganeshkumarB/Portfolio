@@ -3391,3 +3391,18 @@ html.reduce-motion .scf-hi { opacity: 1; }
 .contact__foot-credit { white-space: nowrap; }
 .contact__top { display: inline-block; white-space: nowrap; }
 @media (max-width: 1080px) { .contact__footer { grid-template-columns: 1fr; } .contact__foot-nav { justify-self: start; } .contact__foot-credit { white-space: normal; } }
+
+/* Footer signature: the site name set large as a closing mark */
+.contact__mark-row { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-top: 40px; overflow: hidden; }
+.contact__mark { margin: 0 0 -0.12em; font: 500 clamp(64px, 8.6vw, 148px)/0.95 var(--font-sans); letter-spacing: -0.045em; color: var(--ink); white-space: nowrap; }
+.contact__mark-b { font-weight: 700; }
+.contact__mark-tld { color: #c98f00; font-weight: 500; }
+.contact__copy { flex: none; padding-bottom: 0.35em; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+:root[data-theme="dark"] .contact__mark { color: var(--ink); }
+@media (max-width: 1080px) { .contact__mark-row { margin-top: 28px; } .contact__mark { font-size: clamp(48px, 10vw, 96px); } }
+@media (max-width: 720px) { .contact__mark-row { flex-direction: column; align-items: flex-start; gap: 10px; } .contact__mark { font-size: clamp(40px, 12.5vw, 64px); white-space: normal; overflow-wrap: anywhere; } }
+.contact__mark-row { overflow: visible; align-items: baseline; }
+.contact__mark { margin: 0; font-size: clamp(64px, 10.2vw, 168px); line-height: 1; }
+.contact__copy { padding-bottom: 0; }
+@media (max-width: 1080px) { .contact__mark { font-size: clamp(48px, 10vw, 96px); } }
+@media (max-width: 720px) { .contact__mark { font-size: clamp(40px, 12.5vw, 64px); } }
