@@ -1954,3 +1954,8 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 .zb-annot--side { align-items: start; }
 .zb-annot__side { padding-top: 6px; }
 .zb-annot--anat { align-items: start; }
+
+/* Case pages, wide screens: content lives in a centred 1200px column; backgrounds stay full-bleed */
+@media (min-width: 1441px) {
+  .cs-hero, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-content, .cs-next { padding-inline: max(var(--gutter), calc((100% - 1200px) / 2)); }
+}
