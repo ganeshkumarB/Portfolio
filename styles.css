@@ -3046,3 +3046,6 @@ html.reduce-motion .btn:hover, html.reduce-motion .nav__resume:hover { transform
 .btn-sun:hover { transform: translateY(-1px); box-shadow: 0 16px 32px -14px rgba(21, 22, 26, 0.4), 0 3px 8px -3px rgba(21, 22, 26, 0.22); }
 .featured__cta .btn__ico--ext { margin-left: 8px; }
 html.reduce-motion .btn:hover .btn__ico, html.reduce-motion .btn-sun:hover { transform: none; }
+
+/* Resume pill matches the menu button height on narrow screens */
+@media (max-width: 1399px) { .nav__resume { display: inline-flex; align-items: center; height: 42px; padding: 0 18px; font-size: 14px; line-height: 1; } }
