@@ -143,7 +143,7 @@
   var tabs = Array.prototype.slice.call(how.querySelectorAll(".how__step"));
   var panels = Array.prototype.slice.call(how.querySelectorAll(".how__panel"));
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
-  var idx = 0, timer = 0, paused = false, inView = false;
+  var idx = 0, timer = 0, paused = false, inView = false, manual = false;
   tabs.forEach(function (t) { t.style.setProperty("--dur", (parseInt(t.getAttribute("data-dur"), 10) || 5200) + "ms"); });
 
   function show(i, user) {
@@ -162,12 +162,12 @@
     /* the Build step hosts the replay; start it directly rather than waiting on its own visibility check */
     var restart = panels[idx] && panels[idx].querySelector("#replayRestart");
     if (restart) setTimeout(function () { restart.click(); }, 60);
-    if (user) document.dispatchEvent(new CustomEvent("how:step", { detail: idx }));
+    if (user) { manual = true; how.classList.add("is-manual"); document.dispatchEvent(new CustomEvent("how:step", { detail: idx })); }
     schedule();
   }
   function schedule() {
     clearTimeout(timer);
-    if (reduced || paused || !inView) return;
+    if (reduced || paused || manual || !inView) return;
     var dur = parseInt(tabs[idx].getAttribute("data-dur"), 10) || 5200;
     timer = setTimeout(function () { show(idx + 1); }, dur);
   }
@@ -185,6 +185,16 @@
       if (go === null) return;
       e.preventDefault(); show(go, true); tabs[idx].focus();
     });
+  });
+  /* the whole card is the target, not just its heading; the Build panel keeps its own replay button */
+  Array.prototype.forEach.call(how.querySelectorAll(".how__card"), function (card, n) {
+    card.addEventListener("click", function (e) {
+      if (e.target.closest(".how__step, a, button")) return;
+      show(n, true); tabs[n].focus({ preventScroll: true });
+    });
+  });
+  Array.prototype.forEach.call(how.querySelectorAll("[data-go]"), function (b) {
+    b.addEventListener("click", function () { show(parseInt(b.getAttribute("data-go"), 10) || 0, true); });
   });
   how.addEventListener("mouseenter", pause);
   how.addEventListener("mouseleave", resume);

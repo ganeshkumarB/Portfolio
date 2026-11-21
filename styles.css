@@ -2428,52 +2428,7 @@ html.text-lg body { zoom: 1.125; }
 @keyframes how-pop { 0% { opacity: 0; transform: scale(0.92); } 60% { opacity: 1; transform: scale(1.04); } 100% { opacity: 1; transform: scale(1); } }
 @keyframes how-spin { to { transform: rotate(360deg); } }
 
-/* scene 1: understand */
-.u-note rect:first-child { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
-.u-ln { fill: var(--line); }
-.u-note { opacity: 0; animation: how-fade-o 0.5s ease calc(var(--i) * 0.14s) forwards; }
-.u-note--root rect:first-child { animation: u-root 0.6s ease 3.3s forwards; }
-.u-note--root .u-ln { animation: u-root-ln 0.6s ease 3.3s forwards; }
-.u-tag { opacity: 0; fill: #15161a; font-size: 10px; animation: how-fade-o 0.4s ease 3.6s forwards; }
-.u-links path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 5; stroke-dashoffset: 180; opacity: 0; animation: u-link 0.9s ease 3.8s forwards; }
-.u-lens circle { fill: rgba(255, 213, 74, 0.12); stroke: var(--ink); stroke-width: 2; stroke-dasharray: 6 6; }
-.u-lens path { stroke: var(--ink); stroke-width: 3; }
-.u-lens { animation: u-lens 3.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both; }
-@keyframes u-lens { 0% { transform: translate(88px, 71px); } 26%, 32% { transform: translate(234px, 53px); } 58%, 64% { transform: translate(384px, 79px); } 90%, 100% { transform: translate(274px, 185px); } }
-@keyframes u-root { to { fill: var(--sun); stroke: #c98f00; } }
-@keyframes u-root-ln { to { fill: rgba(21, 22, 26, 0.35); } }
-@keyframes u-link { to { stroke-dashoffset: 0; opacity: 1; } }
-
-/* scene 2: design */
-.d-box { fill: var(--surface); stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 700; stroke-dashoffset: 700; animation: how-draw 0.9s ease calc(var(--i) * 0.45s) forwards; }
-.d-blk { fill: var(--line); opacity: 0; animation: how-fade-o 0.4s ease calc(0.6s + var(--i) * 0.45s + var(--j) * 0.12s) forwards; }
-.d-btn { opacity: 0; transform-box: fill-box; transform-origin: center; animation: how-pop 0.5s ease calc(1.2s + var(--i) * 0.45s) forwards; }
-.d-btn rect { fill: var(--blue); }
-.d-btn text { fill: #fff; font-size: 11px; }
-.d-arrows path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: how-draw 0.4s ease calc(1.1s + var(--i) * 0.45s) forwards; }
-.d-pattern { fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-dasharray: 5 5; stroke-dashoffset: 800; opacity: 0; animation: d-pattern 1.2s ease 2.5s forwards; }
-.d-label { opacity: 0; fill: var(--blue); font-size: 10.5px; animation: how-fade-o 0.4s ease 3.2s forwards; }
-@keyframes d-pattern { to { stroke-dashoffset: 0; opacity: 1; } }
-
-/* scene 3: connect */
-.c-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
-.c-box--dark { fill: var(--code-bg); stroke: var(--code-bg); }
-.c-title { font-size: 11px; font-weight: 600; fill: var(--ink); }
-.c-title--light { fill: #9aa0ab; }
-.c-chip rect { fill: var(--card); stroke: var(--line); }
-.c-chip text { fill: var(--ink); font-size: 10.5px; }
-.c-line { font-size: 10.5px; fill: #c8ced8; opacity: 0.35; animation: c-line 2.4s ease calc(var(--i) * 0.8s) infinite; }
-.c-paths path { fill: none; stroke: var(--line); stroke-width: 1.5; }
-.c-ring { fill: none; stroke: var(--sun); stroke-width: 1.5; stroke-dasharray: 5 7; transform-box: fill-box; transform-origin: center; animation: how-spin 9s linear infinite; }
-.c-core { fill: var(--ink); }
-.c-hub text { fill: var(--bg); font-size: 11px; font-weight: 600; }
-.c-dot { fill: var(--sun); stroke: #c98f00; stroke-width: 1; }
-.c-label { fill: var(--muted); font-size: 10.5px; }
-@keyframes c-line { 0%, 72% { opacity: 0.35; fill: #c8ced8; } 84% { opacity: 1; fill: #ffd54a; } 100% { opacity: 1; fill: #e8ebf0; } }
-html.reduce-motion .c-dot { display: none; }
-html.reduce-motion .c-line { opacity: 1; fill: #e8ebf0; }
 html.reduce-motion .how__bar { display: none; }
-html.reduce-motion .how__hint { display: none; }
 
 @media (max-width: 1080px) {
   .how__grid { grid-template-columns: 1fr; gap: 24px; }
@@ -2914,29 +2869,6 @@ html.reduce-motion .sunny.is-flying .sunny__char::before, html.reduce-motion .su
 .sunny--landing .sunny__char { transition: none; }
 
 /* ============================================================
-   Understand, redrawn: symptoms light up one by one, lines gather, the cause pops
-   ============================================================ */
-.u2-box { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
-.u2-ln { fill: var(--line); }
-.u2-glyph { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.u2-card { opacity: 0; animation: how-fade-o 0.45s ease calc(var(--i) * 0.12s) forwards, u2-dim 0.6s ease 3.5s forwards; }
-.u2-ping { fill: none; stroke: var(--sun); stroke-width: 2.5; opacity: 0; animation: u2-ping 0.55s ease calc(0.9s + var(--i) * 0.28s) both; }
-.u2-link { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 5; stroke-dashoffset: 240; opacity: 0; animation: u2-link 0.7s ease calc(2.6s + var(--i) * 0.08s) forwards; }
-.u2-halo { fill: var(--sun); opacity: 0; transform-box: fill-box; transform-origin: center; animation: u2-halo 2.4s ease-in-out 3.3s infinite; }
-.u2-root { opacity: 0; transform-box: fill-box; transform-origin: center; animation: u2-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 3.1s forwards; }
-.u2-root rect { fill: var(--sun); stroke: #c98f00; stroke-width: 1.5; }
-.u2-check circle { fill: #15161a; }
-.u2-check path { fill: none; stroke: var(--sun); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 16; stroke-dashoffset: 16; animation: how-draw 0.35s ease 3.55s forwards; }
-.u2-label { font-size: 11.5px; font-weight: 500; fill: #15161a; }
-@keyframes u2-ping { 0% { opacity: 0; transform: scale(1); } 35% { opacity: 1; } 100% { opacity: 0; transform: scale(1.06); } }
-.u2-ping { transform-box: fill-box; transform-origin: center; }
-@keyframes u2-link { to { stroke-dashoffset: 0; opacity: 1; } }
-@keyframes u2-pop { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes u2-halo { 0%, 100% { opacity: 0.12; transform: scale(0.9); } 50% { opacity: 0.28; transform: scale(1.12); } }
-@keyframes u2-dim { to { opacity: 0.55; } }
-html.reduce-motion .u2-halo { animation: none; opacity: 0.18; }
-
-/* ============================================================
    Work: Zobot featured, then six hairline rows whose covers peek on hover
    ============================================================ */
 .work__list { display: flex; flex-direction: column; gap: 56px; border-top: 0; }
@@ -3080,4 +3012,115 @@ html.reduce-motion .btn:hover .btn__ico, html.reduce-motion .btn-sun:hover { tra
   .work__mosaic { grid-template-columns: 1fr; grid-template-rows: none; height: auto; gap: 12px; }
   .mz { aspect-ratio: 16 / 10; }
   .mz--a { grid-row: auto; aspect-ratio: 16 / 10; }
+}
+
+/* ============================================================
+   Process, refined: one scene per step drawn for that step, minis on the
+   waiting cards, editorial principles, a guide with the step progress
+   ============================================================ */
+.how__card { cursor: pointer; background: var(--surface); }
+.how__card.is-active { cursor: default; background: var(--card); }
+.how__card:not(.is-active) .how__num { color: var(--muted); }
+.how__card:not(.is-active):hover .how__num { color: var(--ink); }
+.how__card .how__step { gap: 6px; padding: 20px 20px 0; }
+.how__card .how__desc { max-width: 30ch; }
+.how__card.is-active .how__step { padding: 24px 24px 8px; }
+.how__card.is-active .how__desc { max-width: 52ch; }
+.how__card .how__panel { grid-template-columns: 1fr; gap: 0; padding: 8px 24px 20px; }
+.how__card .how__scene { width: 100%; max-height: 284px; }
+.how__card--build .how__panel { gap: 14px; padding-top: 12px; }
+.how__mini { display: block; width: calc(100% - 40px); height: auto; max-height: 56px; margin: auto 20px 18px; padding-top: 18px; opacity: 0.85; transition: opacity 0.25s ease; }
+.how__card:not(.is-active):hover .how__mini { opacity: 1; }
+.how__card.is-active .how__mini { display: none; }
+.how__mini--code { max-height: none; padding: 10px 12px 0 0; font: 500 11.5px/1.6 var(--font-mono); color: var(--muted); white-space: pre; overflow: hidden; }
+.how__mini--code .k { color: var(--ink); }
+.how__mini--code .v { color: #c98f00; }
+.how__mini--code .c { color: var(--line); }
+.how__grid.is-manual .how__bar { display: none; }
+
+.how__tile { gap: 14px; }
+.how__beliefs { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.how__beliefs li { display: flex; align-items: baseline; gap: 14px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 15.5px; font-weight: 500; letter-spacing: -0.005em; line-height: 1.3; color: var(--ink); }
+.how__beliefs li:first-child { padding-top: 2px; border-top: 0; }
+.how__beliefs li .mono { flex: none; min-width: 22px; font-size: 11px; font-weight: 500; color: var(--muted); }
+.how__guide { margin: 0; max-width: 32ch; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+.how__prog { display: flex; align-items: center; gap: 8px; margin: auto 0 0; padding: 0; list-style: none; }
+.how__prog button { min-width: 32px; height: 28px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--muted); font: 500 11.5px/1 var(--font-mono); cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease; }
+.how__prog button:hover { border-color: var(--ink); color: var(--ink); }
+.how__prog button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+.how__prog-arrow { font-size: 11px; color: var(--muted); opacity: 0.6; }
+.how__grid[data-step="0"] [data-go="0"], .how__grid[data-step="1"] [data-go="1"], .how__grid[data-step="2"] [data-go="2"], .how__grid[data-step="3"] [data-go="3"] { background: var(--sun); border-color: var(--sun); color: #15161a; }
+
+/* scene vocabulary */
+.p-card { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.p-note { fill: var(--sun); stroke: #e4b72c; stroke-width: 1.5; }
+.p-noteln { fill: rgba(21, 22, 26, 0.3); }
+.p-ln { fill: var(--line); }
+.p-ink { fill: var(--ink); }
+.p-sun { fill: var(--sun); }
+.p-mark { fill: rgba(255, 213, 74, 0.55); }
+.p-outline { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.p-chip { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.p-dot { fill: var(--sun); stroke: #c98f00; stroke-width: 1; }
+.p-prob { fill: var(--card); stroke: var(--ink); stroke-width: 1.5; }
+.p-hair { stroke: var(--line); stroke-width: 1; }
+.p-node { fill: var(--card); stroke: var(--ink); stroke-width: 1.5; }
+.p-node--q { fill: var(--surface); }
+.p-node--alt { fill: none; stroke: var(--muted); stroke-dasharray: 4 4; }
+.p-frame { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.p-frame--alt { stroke: var(--muted); stroke-dasharray: 4 4; }
+.p-frame--on { stroke: var(--ink); }
+.p-alt { opacity: 0; }
+.p-sheetbox { fill: var(--surface); stroke: var(--line); stroke-width: 1; }
+.p-tick { fill: var(--sun); stroke: var(--card); stroke-width: 2.5; }
+.p-tickmark { fill: none; stroke: #15161a; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.p-field { fill: var(--card); stroke: var(--ink); stroke-width: 1.5; }
+.p-caret { fill: var(--ink); }
+.p-knob { fill: var(--card); stroke: rgba(0, 0, 0, 0.08); stroke-width: 1; }
+.p-ghost { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.p-port { fill: var(--card); stroke: var(--muted); stroke-width: 1.5; }
+.p-wire { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.p-wire--dash { stroke-dasharray: 4 5; }
+.p-dotrun { fill: var(--sun); stroke: #c98f00; stroke-width: 1; }
+.how__scene .p-t { font-size: 11px; fill: var(--muted); }
+.how__scene .p-t--ink { fill: var(--ink); font-weight: 500; }
+.how__scene .p-t--bg { fill: var(--bg); font-weight: 500; }
+.how__scene .p-eyebrow { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; fill: #c98f00; }
+.how__scene .p-quote { font-size: 12px; font-weight: 500; fill: #15161a; }
+.how__scene .p-big { font-size: 13px; font-weight: 500; fill: var(--ink); }
+.how__scene .p-cap { font-size: 10.5px; fill: var(--muted); }
+.how__scene .p-ag { font-family: var(--font-serif); font-size: 18px; fill: var(--ink); }
+
+/* reveal choreography: --t is the delay in seconds */
+.p-in { opacity: 0; animation: how-fade-o 0.5s ease calc(var(--t, 0) * 1s) forwards; }
+.p-alt.p-in { animation-name: p-alt-in; }
+.p-draw { stroke-dasharray: 100; stroke-dashoffset: 100; animation: how-draw 0.8s ease calc(var(--t, 0) * 1s) forwards; }
+.p-wire--dash.p-draw { stroke-dasharray: 100; animation-name: p-draw-dash; }
+.p-pop { opacity: 0; transform-box: fill-box; transform-origin: center; animation: how-pop 0.5s ease calc(var(--t, 0) * 1s) forwards; }
+.p-sheet { transform: translateY(14px); opacity: 0; animation: p-sheet 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 2s forwards; }
+.p-caret { animation: replay-caret 1s steps(2) infinite; }
+@keyframes p-alt-in { to { opacity: 0.7; } }
+@keyframes p-draw-dash { to { stroke-dashoffset: 0; stroke-dasharray: 4 5; } }
+@keyframes p-sheet { to { transform: none; opacity: 1; } }
+html.reduce-motion .p-in, html.reduce-motion .p-pop, html.reduce-motion .p-sheet { animation: none; opacity: 1; transform: none; }
+html.reduce-motion .p-alt { opacity: 0.7; }
+html.reduce-motion .p-draw { animation: none; stroke-dashoffset: 0; }
+html.reduce-motion .p-wire--dash.p-draw { stroke-dasharray: 4 5; }
+html.reduce-motion .p-dotrun, html.reduce-motion .p-caret { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .p-in, .p-pop, .p-sheet { animation: none; opacity: 1; transform: none; }
+  .p-alt { opacity: 0.7; }
+  .p-draw { animation: none; stroke-dashoffset: 0; }
+  .p-wire--dash.p-draw { stroke-dasharray: 4 5; }
+  .p-dotrun, .p-caret { display: none; }
+}
+@media (max-width: 1080px) {
+  .how__card .how__scene { max-height: 240px; }
+}
+@media (max-width: 720px) {
+  .how__card .how__step { padding: 16px 16px 0; }
+  .how__card.is-active .how__step { padding: 18px 16px 6px; }
+  .how__card .how__panel { padding: 6px 16px 16px; }
+  .how__mini { width: calc(100% - 32px); margin: auto 16px 16px; padding-top: 14px; }
+  .how__beliefs li { font-size: 14.5px; padding: 9px 0; }
 }
