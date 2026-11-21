@@ -1755,3 +1755,4 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .dsy-steps4 li::before { display: none !important; }
   .dsy-steps4 li:first-child { border-top: 0; }
 }
+.dsy-insight--wide { max-width: none; }
