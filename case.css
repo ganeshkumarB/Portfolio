@@ -1756,3 +1756,13 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
   .dsy-steps4 li:first-child { border-top: 0; }
 }
 .dsy-insight--wide { max-width: none; }
+.dsy-chain3 { align-items: start; }
+.dsy-chain3__step { gap: 8px; }
+.dsy-token2 { display: flex; flex-direction: column; margin: 10px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--cs-line); }
+.dsy-token2 li { display: grid; grid-template-columns: 28px 52px 1fr; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cs-line); font-size: 12.5px; color: var(--muted); }
+.dsy-token2 i { width: 28px; height: 28px; border-radius: 8px; }
+.dsy-token2 b { font-weight: 500; font-size: 11.5px; color: var(--ink); }
+.dsy-chain3__stage--sizes { display: flex; flex-direction: column; align-items: stretch; gap: 14px; margin-top: 12px; }
+.dsy-chain3__stage--sizes > div { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.dsy-chain3__stage--sizes .mono { font-size: 11px; color: var(--muted); }
+.dsy-chain3__stage--wide { margin-top: 12px; }
