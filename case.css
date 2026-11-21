@@ -1896,3 +1896,22 @@ html.reduce-motion .zb-mark span, html.reduce-motion .zb-path__sun { animation: 
 @media (max-width: 720px) { .zb-annot__side .zb-legend { grid-template-columns: 1fr; } }
 .oc-problem__stage .oc-before { grid-template-columns: 1.1fr 1.3fr 1.7fr 1.4fr; }
 .oc-problem__stage .oc-before--mini { grid-template-columns: 70px 80px 1fr 90px; }
+
+/* ============================================================
+   Case pages, wide screens: heads run two columns like the home page.
+   Title left, intro right; the hero and the takeaway do the same.
+   ============================================================ */
+@media (min-width: 1081px) {
+  .cs-head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 64px; row-gap: 0; align-items: start; }
+  .cs-head > .lbl { grid-column: 1 / -1; margin-bottom: 12px; }
+  .cs-head .cs-h2 { grid-column: 1; max-width: none; }
+  .cs-head .cs-sub { grid-column: 2; max-width: none; padding-top: 10px; }
+  .cs-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 24px 64px; align-items: start; }
+  .cs-hero > .cs-back, .cs-hero > .cs-tags, .cs-hero > .cs-meta { grid-column: 1 / -1; }
+  .cs-hero > .cs-title { grid-column: 1; }
+  .cs-hero > .cs-lede { grid-column: 2; max-width: none; padding-top: 14px; }
+  .cs-section:has(> .cs-head + .zb-take) { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 64px; align-items: start; }
+  .cs-section:has(> .cs-head + .zb-take) > .cs-head { grid-column: 1; display: flex; flex-direction: column; }
+  .cs-section:has(> .cs-head + .zb-take) > .zb-take { grid-column: 2; max-width: none; padding-top: 34px; }
+  .zb-text, .zb-principle { max-width: 820px; }
+}
