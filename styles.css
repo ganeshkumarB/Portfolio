@@ -3049,3 +3049,7 @@ html.reduce-motion .btn:hover .btn__ico, html.reduce-motion .btn-sun:hover { tra
 
 /* Resume pill matches the menu button height on narrow screens */
 @media (max-width: 1399px) { .nav__resume { display: inline-flex; align-items: center; height: 42px; padding: 0 18px; font-size: 14px; line-height: 1; } }
+
+/* Resume pill fully rounded at every width; the menu button becomes a matching circle */
+.nav__resume { border-radius: 999px; }
+@media (max-width: 1399px) { .nav__menu, .nav--rail .nav__menu { border-radius: 999px; } }
