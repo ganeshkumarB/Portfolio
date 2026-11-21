@@ -3226,7 +3226,7 @@ html.reduce-motion .p-dotrun, html.reduce-motion .p-caret { display: none; }
 .ai .sunny-can { position: relative; overflow: visible; }
 .ai .sunny-can__head { grid-template-columns: 1fr auto auto; column-gap: 40px; }
 .ai .sunny-can__head .btn { grid-column: 3; }
-.sunny-can__fig { grid-column: 2; grid-row: 1 / span 4; align-self: end; width: 156px; height: 156px; margin: -34px 0 -24px; pointer-events: none; }
+.sunny-can__fig { grid-column: 2; grid-row: 1 / span 4; align-self: end; width: 112px; height: 112px; margin: -14px 0 -14px; pointer-events: none; }
 .scf { display: block; width: 100%; height: 100%; overflow: visible; }
 .scf * { transform-box: view-box; }
 .scf-char { transform-origin: 110px 191px; animation: scf-bob 3.6s ease-in-out infinite; }
@@ -3263,12 +3263,12 @@ html.reduce-motion .scf-char, html.reduce-motion .scf-body, html.reduce-motion .
 @media (prefers-reduced-motion: reduce) { .scf-char, .scf-body, .scf-sprout, .scf-eyes, .scf-arm--r, .scf-shadow, .scf-spark circle { animation: none !important; } }
 @media (max-width: 1080px) {
   .ai .sunny-can__head { column-gap: 24px; }
-  .sunny-can__fig { width: 124px; height: 124px; margin: -26px 0 -20px; }
+  .sunny-can__fig { width: 96px; height: 96px; margin: -12px 0 -12px; }
 }
 @media (max-width: 720px) {
   .ai .sunny-can__head { grid-template-columns: 1fr; column-gap: 0; }
   .ai .sunny-can__head .btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 6px; }
-  .sunny-can__fig { position: absolute; right: 14px; top: -22px; grid-column: auto; grid-row: auto; width: 92px; height: 92px; margin: 0; }
+  .sunny-can__fig { position: absolute; right: 16px; top: -16px; grid-column: auto; grid-row: auto; width: 72px; height: 72px; margin: 0; }
   .ai .sunny-can__title { max-width: calc(100% - 84px); }
   .ai .sunny-can__kicker { max-width: calc(100% - 84px); }
 }
