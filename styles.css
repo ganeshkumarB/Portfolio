@@ -3332,3 +3332,57 @@ html.reduce-motion .scf-hi { opacity: 1; }
 .how__card .how__desc, .how__card.is-active .how__desc { max-width: none; }
 .how__guide { max-width: none; }
 .how__card .how__step { padding-right: 24px; }
+
+/* ============================================================
+   Playground kinds as a numbered, ruled strip; Contact in two columns with a
+   detail list on the right and a three-part footer
+   ============================================================ */
+.pg__kinds { gap: 0; margin: -8px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pg__kinds li { position: relative; gap: 6px; padding: 20px 20px 22px 0; box-shadow: inset 0 0 0 0 var(--sun); transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pg__kinds li + li { padding-left: 20px; border-left: 1px solid var(--line); }
+.pg__kinds li:hover { box-shadow: inset 0 2px 0 0 var(--sun); }
+.pg__kind-n { font-size: 11px; letter-spacing: 0.08em; color: var(--muted); opacity: 0.6; margin-bottom: 4px; transition: color 0.25s ease, opacity 0.25s ease; }
+.pg__kinds li:hover .pg__kind-n { color: #c98f00; opacity: 1; }
+.pg__kinds b { font-size: 17px; }
+.pg__kinds span:not(.pg__kind-n) { font-size: 14px; }
+
+.contact { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 80px; row-gap: 0; align-items: start; padding-top: 160px; padding-bottom: 36px; }
+.contact__main { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; grid-column: 1; }
+.contact__main .contact__label { margin: 0; }
+.contact__main .contact__title { margin: 0; }
+.contact__main .contact__lede { margin: 0; }
+.contact__main .contact__ctas { margin-top: 8px; }
+.contact__side { grid-column: 2; display: flex; flex-direction: column; margin-top: 46px; border-top: 1px solid var(--line); }
+.contact__row { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.contact__k { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.contact__v { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink); }
+.contact__dot { color: var(--muted); margin: 0 6px; }
+.contact__side .contact__mail { margin: 0; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.contact__side .contact__link { font-size: 24px; line-height: 1.3; border-bottom-width: 1.5px; white-space: normal; overflow-wrap: anywhere; }
+.contact__side .contact__mail-arr { font-size: 16px; }
+.contact__side .contact__links--icons { margin: 0; align-self: center; }
+.contact__footer { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px 32px; margin-top: 96px; padding-top: 28px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.contact__foot-name { color: var(--ink); }
+.contact__foot-nav { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.contact__foot-nav a { color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
+.contact__foot-nav a:hover { color: var(--ink); }
+.contact__foot-credit { text-align: right; }
+.contact__top { margin-left: 14px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); transition: border-color 0.2s ease; }
+.contact__top:hover { border-color: var(--ink); }
+@media (max-width: 1080px) {
+  .pg__kinds { grid-template-columns: 1fr 1fr; }
+  .pg__kinds li:nth-child(3) { padding-left: 0; border-left: 0; }
+  .pg__kinds li:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .contact { grid-template-columns: 1fr; row-gap: 40px; padding-top: 120px; }
+  .contact__side { grid-column: 1; margin-top: 0; }
+  .contact__footer { grid-template-columns: 1fr; margin-top: 64px; text-align: left; }
+  .contact__foot-nav { justify-content: flex-start; }
+  .contact__foot-credit { text-align: left; }
+}
+@media (max-width: 720px) {
+  .pg__kinds { grid-template-columns: 1fr; }
+  .pg__kinds li, .pg__kinds li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .pg__kinds li:first-child { border-top: 0; }
+  .contact__row { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
+  .contact__side .contact__link { font-size: 20px; }
+}
