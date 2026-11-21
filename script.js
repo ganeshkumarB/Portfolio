@@ -247,6 +247,7 @@
     [".wrow", 60],
     [".how__card", 90],
     [".how__tile", 90],
+    [".ai__row", 80],
     [".story__portrait", 0],
     [".story__copy > *", 90],
     [".piece", 60],

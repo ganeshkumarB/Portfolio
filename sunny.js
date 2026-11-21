@@ -634,10 +634,10 @@
       Object.keys(SECTIONS).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
       /* the four steps of How I work: Sunny reacts when a visitor picks one */
       var STEPS = [
-        { emotion: "curious", line: "Step one: find the real problem before drawing anything." },
-        { act: "read", line: "Flows first, then the patterns that repeat." },
-        { emotion: "cool", line: "Tokens travel from Figma through MCP into code. Unchanged." },
-        { emotion: "excited", line: "Prompting… MCP reads the mappings. Generating!" }
+        { emotion: "curious", line: "Step one: understand the real problem first." },
+        { act: "read", line: "Exploring ideas, workflows and what could be." },
+        { emotion: "cool", line: "Systemize: patterns, components and tokens, kept consistent." },
+        { emotion: "excited", line: "Build: design meets code and ships!" }
       ];
       var stepsSeen = {};
       document.addEventListener("how:step", function (e) {

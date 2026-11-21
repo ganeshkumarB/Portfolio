@@ -2981,3 +2981,40 @@ html.reduce-motion .u2-halo { animation: none; opacity: 0.18; }
 
 /* Anchor targets stop 100px short of the top so the label never touches the bar */
 .section[id], .hero[id], .contact[id] { scroll-margin-top: 100px; }
+
+/* ============================================================
+   Content pass: labels on every section, Story path, Playground kinds, AI rows, Contact label
+   ============================================================ */
+.work .sec__label { margin-bottom: -46px; }
+.writing .sec__label { margin-bottom: -46px; }
+.how__card .how__panel { grid-template-columns: 1fr; padding-top: 4px; }
+.how__card .how__scene { max-height: 320px; }
+.story__path { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.story__years { margin: 0; font: 600 24px/1.2 var(--font-sans); letter-spacing: -0.02em; color: var(--ink); }
+.story__years span, .story__chain span { color: #c98f00; font-weight: 400; margin: 0 6px; }
+.story__chain { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink); }
+.pg__kinds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 32px; margin: -24px 0 0; padding: 0; list-style: none; }
+.pg__kinds li { display: flex; flex-direction: column; gap: 4px; }
+.pg__kinds b { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.pg__kinds span { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.ai__list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.ai__row { display: grid; grid-template-columns: 56px 1fr 40px; align-items: center; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
+.ai__row .ai__num { color: var(--muted); }
+.ai__rowbody { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ai__row .ai__title { font: 600 24px/1.15 var(--font-sans); letter-spacing: -0.02em; color: var(--ink); }
+.ai__row .ai__desc { font-size: 15px; line-height: 1.55; color: var(--muted); }
+.ai__row .ai__go { justify-self: end; margin: 0; font-size: 20px; font-family: var(--font-sans); color: var(--muted); opacity: 0; transform: translateX(-8px); transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s ease; }
+.ai__row:hover .ai__go, .ai__row:focus-visible .ai__go { opacity: 1; transform: none; color: var(--ink); }
+.ai__row:hover .ai__title { text-decoration: underline; text-decoration-color: var(--sun); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.ai__row:focus-visible { outline: 2px solid var(--sun); outline-offset: 4px; }
+.contact__label { margin: 0 0 -4px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.contact__mail-arr { font-size: 22px; color: var(--muted); align-self: center; }
+@media (hover: none) { .ai__row .ai__go { opacity: 1; transform: none; } }
+@media (max-width: 1080px) {
+  .work .sec__label, .writing .sec__label { margin-bottom: -16px; }
+  .pg__kinds { grid-template-columns: 1fr 1fr; margin-top: -8px; }
+  .ai__row { grid-template-columns: 44px 1fr 32px; gap: 16px; padding: 20px 0; }
+  .ai__row .ai__title { font-size: 20px; }
+  .story__path { margin-top: 40px; }
+}
+@media (max-width: 720px) { .pg__kinds { grid-template-columns: 1fr; } }
