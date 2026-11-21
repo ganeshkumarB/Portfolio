@@ -3160,3 +3160,60 @@ html.reduce-motion .p-dotrun, html.reduce-motion .p-caret { display: none; }
   .story__stage.is-now .story__stage-num { color: #c98f00; }
   .story__stage.is-now .story__stage-name::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--sun); vertical-align: middle; }
 }
+
+/* ============================================================
+   Capabilities and AI, refined: one ruled system for the four skill
+   groups, skills as a quiet list, AI rows with a steadier rhythm, and a
+   tighter hand-off from Capabilities to AI to Sunny
+   ============================================================ */
+.skills { padding-bottom: 120px; }
+.skills__groups { gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.skills .group { gap: 0; padding: 26px 28px 28px 0; border: 0; border-radius: 0; }
+.skills .group + .group { padding-left: 28px; border-left: 1px solid var(--line); }
+.skills .group__ns { margin-bottom: 14px; font-size: 11px; letter-spacing: 0.08em; color: var(--muted); transition: color 0.25s ease; }
+.skills .group:hover .group__ns { color: #c98f00; }
+.skills .group__title { margin-bottom: 18px; font-size: 22px; line-height: 1.15; letter-spacing: -0.015em; }
+.skills .chips { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 0; list-style: none; }
+.skills .chips li { padding: 9px 0; border-radius: 0; border-top: 1px solid var(--line); background: none; font: 400 15px/1.4 var(--font-sans); letter-spacing: -0.005em; color: var(--body); white-space: normal; cursor: default; transition: color 0.2s ease, padding-left 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.skills .chips li:first-child { border-top: 0; padding-top: 0; }
+.skills .chips li:last-child { padding-bottom: 0; }
+.skills .chips li:hover { background: none; color: var(--ink); transform: none; padding-left: 6px; }
+
+.ai__row { grid-template-columns: 56px 1fr 40px; gap: 24px; padding: 28px 0; align-items: start; }
+.ai__row .ai__num { padding-top: 7px; letter-spacing: 0.08em; transition: color 0.25s ease; }
+.ai__row .ai__rowbody { gap: 8px; }
+.ai__row .ai__title { font-size: 24px; transition: color 0.2s ease; }
+.ai__row .ai__desc { max-width: 560px; }
+.ai__row .ai__go { padding-top: 4px; opacity: 1; transform: none; color: var(--muted); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s ease; }
+.ai__row:hover .ai__go, .ai__row:focus-visible .ai__go { transform: translateX(6px); color: var(--ink); }
+.ai__row:hover .ai__num, .ai__row:focus-visible .ai__num { color: #c98f00; }
+.ai__row:hover .ai__title, .ai__row:focus-visible .ai__title { text-decoration: underline; text-decoration-color: var(--sun); text-decoration-thickness: 1.5px; text-underline-offset: 7px; }
+.ai .sunny-can { margin-top: 32px; }
+
+@media (max-width: 1080px) {
+  .skills { padding-bottom: 96px; }
+  .skills__groups { grid-template-columns: 1fr 1fr; }
+  .skills .group { padding: 24px 24px 26px 0; }
+  .skills .group + .group { padding-left: 0; border-left: 0; }
+  .skills .group:nth-child(2n) { padding-left: 24px; border-left: 1px solid var(--line); }
+  .skills .group:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .ai__row { grid-template-columns: 44px 1fr 32px; gap: 16px; padding: 22px 0; }
+  .ai__row .ai__title { font-size: 21px; }
+  .ai .sunny-can { margin-top: 16px; }
+}
+@media (max-width: 720px) {
+  .skills { padding-bottom: 80px; }
+  .skills__groups { grid-template-columns: 1fr; }
+  .skills .group, .skills .group:nth-child(2n) { padding: 20px 0 22px; border-left: 0; }
+  .skills .group + .group { border-top: 1px solid var(--line); }
+  .skills .group__ns { margin-bottom: 10px; }
+  .skills .group__title { margin-bottom: 12px; font-size: 20px; }
+  .skills .chips { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  .skills .chips li, .skills .chips li:first-child, .skills .chips li:last-child { padding: 7px 0; border-top: 0; font-size: 14.5px; }
+  .skills .chips li:hover { padding-left: 0; }
+  .ai__row { grid-template-columns: 36px 1fr 24px; gap: 12px; padding: 20px 0; }
+  .ai__row .ai__num { padding-top: 5px; }
+  .ai__row .ai__title { font-size: 19px; }
+  .ai__row .ai__desc { font-size: 14.5px; }
+  .ai__row .ai__go { padding-top: 2px; font-size: 18px; }
+}
