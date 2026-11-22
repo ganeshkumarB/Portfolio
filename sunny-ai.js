@@ -325,6 +325,7 @@
       history.push({ role: "assistant", content: r.text });
       if (history.length > 16) history = history.slice(-16);
       if (global.Sunny) Sunny.emote(isUnknown && r === local ? "confused" : "happy", 1400);
+      if (global.Sunny && Sunny.emit) Sunny.emit("answer", { unknown: isUnknown && r === local });
       if (r.do) setTimeout(function () { doAction(r.do); }, 400);
       scrollIfSameSection(r.actions);
     };

@@ -659,3 +659,219 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .ask__clear:hover { background: var(--surface, #f5f5f3); color: var(--ink, #15161a); }
 .ask__close { margin-left: 0; }
 .ask__sys { margin: 0; font: 500 10px/1.4 "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted, #6b6f78); }
+
+/* ======================================================================
+   Companions: Sunny alone, Puppy alone, or together (preferences panel)
+   ====================================================================== */
+/* puppy mode: Sunny steps off stage, the Ask button and panel stay */
+.sunny.is-silent .sunny__svg, .sunny.is-silent .sunny__bubble, .sunny.is-silent .sunny__nap { display: none; }
+.sunny.is-silent .sunny__char { pointer-events: none; cursor: default; }
+.sunny.is-silent .sunny__ask { pointer-events: auto; }
+/* together: the Ask button rises above the sidekick's head */
+.sunny.is-duo .sunny__ask { top: 14px; }
+html.no-sunny .puppy { display: none !important; }
+
+/* ---------- the puppy: same footprint as Sunny alone, 60% beside Sunny ---------- */
+.puppy {
+  --pp: 150px;
+  position: fixed;
+  right: 16px;
+  bottom: 0;
+  width: var(--pp);
+  height: var(--pp);
+  z-index: 69;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.45s ease, bottom 0.45s ease;
+}
+.puppy.is-off { display: none; }
+.puppy.is-duo { --pp: 90px; right: 172px; bottom: 4px; }
+@media (max-width: 720px) {
+  .puppy { --pp: 104px; right: 8px; }
+  .puppy.is-duo { --pp: 62px; right: 116px; bottom: 3px; }
+}
+.puppy__char { position: absolute; inset: 0; pointer-events: auto; cursor: pointer; opacity: 0; transform: translateY(60px); transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.puppy.is-in .puppy__char { opacity: 1; transform: none; }
+.puppy__svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.puppy__svg * { transform-box: view-box; }
+[data-theme="dark"] .puppy__svg { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.4)); }
+
+/* speech bubble: smaller than Sunny's, never shown over Sunny's */
+.puppy__bubble {
+  position: absolute;
+  right: 6px;
+  bottom: calc(100% - 6px);
+  transform: translateY(8px) scale(0.9);
+  transform-origin: 85% 100%;
+  max-width: 190px;
+  width: max-content;
+  padding: 7px 11px;
+  border-radius: 14px 14px 4px 14px;
+  background: #15161a;
+  color: #fff;
+  font: 500 12px/1.35 "Inter", system-ui, sans-serif;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+.puppy__bubble::after { content: ""; position: absolute; right: 22px; bottom: -5px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
+.puppy.is-talking .puppy__bubble { opacity: 1; transform: translateY(0) scale(1); }
+[data-theme="dark"] .puppy__bubble { background: #f3f4f6; color: #15161a; }
+
+/* hidden by default: effects, alternate faces */
+.p-fx, .p-eye-happy, .p-eye-x, .p-lids, .p-brows, .p-blush, .p-tongue, .p-tear, .p-m { opacity: 0; transition: opacity 0.2s ease; }
+.p-m--rest { opacity: 1; }
+/* origins and eased transforms */
+.p-char { transform-origin: 110px 200px; }
+.p-body { transform-origin: 110px 152px; }
+.p-head { transform-origin: 110px 118px; }
+.p-ear--l { transform-origin: 74px 86px; }
+.p-ear--r { transform-origin: 146px 86px; }
+.p-tail { transform-origin: 150px 158px; }
+.p-eyes { transform-origin: 110px 100px; }
+.p-eye--l { transform-origin: 92px 100px; }
+.p-eye--r { transform-origin: 128px 100px; }
+.p-legs-back, .p-legs-front { transform-origin: 110px 198px; }
+.p-leg--br { transform-origin: 139px 160px; }
+.p-leg--fl { transform-origin: 94px 170px; }
+.p-nose { transform-origin: 110px 122px; }
+.p-look { transition: transform 0.25s ease-out; }
+.p-ear, .p-head, .p-body, .p-leg, .p-legs-back, .p-legs-front, .p-tail, .p-eye, .p-m--o { transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
+
+/* idle life: breathe, blink, a slow tail, a small bob */
+.puppy.is-in .p-body { animation: pp-breathe 3.4s ease-in-out infinite; }
+.puppy.is-in .p-eyes { animation: pp-blink 5.2s ease-in-out infinite; }
+.puppy.is-in .p-tail { animation: pp-sway 3.8s ease-in-out infinite; }
+.puppy.is-in .p-head { animation: pp-bob 4.4s ease-in-out infinite; }
+.puppy.is-near .p-tail { animation-duration: 1.1s; }
+.puppy[data-emotion] .p-eyes, .puppy[data-act="sleep"] .p-eyes, .puppy[data-act="yawn"] .p-eyes { animation-play-state: paused; }
+.puppy[data-act] .p-head, .puppy[data-emotion] .p-head { animation: none; }
+@keyframes pp-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025, 1.035); } }
+@keyframes pp-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.08); } }
+@keyframes pp-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+@keyframes pp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+/* acts */
+.puppy[data-act="wag"] .p-tail, .puppy[data-act="bounce"] .p-tail, .puppy[data-act="spin"] .p-tail { animation: pp-wag 0.3s ease-in-out infinite alternate; }
+@keyframes pp-wag { from { transform: rotate(-14deg); } to { transform: rotate(24deg); } }
+.puppy[data-act="tilt"] .p-head { transform: rotate(-14deg) translateX(-4px); }
+.puppy[data-act="tilt"] .p-ear--r { transform: rotate(10deg); }
+.puppy[data-act="twitch"] .p-ear--l { animation: pp-twitch 0.9s ease-in-out 1; }
+@keyframes pp-twitch { 0%, 100% { transform: none; } 30% { transform: rotate(-18deg); } 60% { transform: rotate(6deg); } }
+.puppy[data-act="hop"] .p-char { animation: pp-hop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
+@keyframes pp-hop { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-22px); } }
+.puppy[data-act="sniff"] .p-head { transform: translate(6px, 14px) rotate(8deg); }
+.puppy[data-act="sniff"] .p-nose { animation: pp-nose 0.5s ease-in-out infinite alternate; }
+.puppy[data-act="sniff"] .p-char { animation: pp-shuffle 2.6s ease-in-out 1; }
+@keyframes pp-nose { from { transform: scale(1); } to { transform: scale(1.18, 0.9); } }
+@keyframes pp-shuffle { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+.puppy[data-act="scratch"] .p-leg--br { animation: pp-scratch 0.22s ease-in-out infinite alternate; }
+.puppy[data-act="scratch"] .p-head { transform: rotate(10deg) translateX(6px); }
+.puppy[data-act="scratch"] .p-body { animation: pp-jiggle 0.22s ease-in-out infinite alternate; }
+.puppy[data-act="scratch"] .p-eye { opacity: 0; } .puppy[data-act="scratch"] .p-eye-happy { opacity: 1; }
+@keyframes pp-scratch { from { transform: rotate(-30deg) translate(4px, -6px); } to { transform: rotate(-44deg) translate(8px, -12px); } }
+@keyframes pp-jiggle { from { transform: translateX(-1.5px); } to { transform: translateX(1.5px); } }
+.puppy[data-act="shake"] .p-char { animation: pp-shake 0.14s ease-in-out infinite alternate; }
+.puppy[data-act="shake"] .p-ear { animation: pp-flap 0.14s ease-in-out infinite alternate; }
+.puppy[data-act="shake"] .p-fx--lines { opacity: 1; }
+@keyframes pp-shake { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+@keyframes pp-flap { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
+.puppy[data-act="peek"] .p-head { animation: pp-peek 2.8s ease-in-out 1; }
+@keyframes pp-peek { 0%, 100% { transform: none; } 25% { transform: rotate(-8deg) translateX(-10px); } 70% { transform: rotate(8deg) translateX(10px); } }
+.puppy[data-act="bounce"] .p-char { animation: pp-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3; }
+.puppy[data-act="bounce"] .p-eye { opacity: 0; } .puppy[data-act="bounce"] .p-eye-happy, .puppy[data-act="bounce"] .p-tongue { opacity: 1; }
+.puppy[data-act="sit"] .p-body, .puppy[data-act="listen"] .p-body { transform: translateY(10px) scaleY(0.92); animation: none; }
+.puppy[data-act="sit"] .p-legs-back, .puppy[data-act="listen"] .p-legs-back { transform: translateY(8px) scaleY(0.5); }
+.puppy[data-act="sit"] .p-head { transform: translateY(8px); }
+.puppy[data-act="sit"] .p-tail, .puppy[data-act="listen"] .p-tail { transform: translateY(10px) rotate(-20deg); animation: none; }
+.puppy[data-act="listen"] .p-head { transform: translate(6px, 6px) rotate(6deg); }
+.puppy[data-act="listen"] .p-ear { transform: scaleY(1.1); }
+.puppy[data-act="lie"] .p-body, .puppy[data-act="sleep"] .p-body { transform: translateY(28px) scale(1.08, 0.72); animation: none; }
+.puppy[data-act="lie"] .p-legs-back, .puppy[data-act="sleep"] .p-legs-back { transform: translateY(26px) scaleY(0.35); }
+.puppy[data-act="lie"] .p-legs-front, .puppy[data-act="sleep"] .p-legs-front { transform: translateY(20px) scaleY(0.55); }
+.puppy[data-act="lie"] .p-head, .puppy[data-act="sleep"] .p-head { transform: translateY(32px); }
+.puppy[data-act="lie"] .p-tail, .puppy[data-act="sleep"] .p-tail { transform: translateY(34px) rotate(-30deg); animation: none; }
+.puppy[data-act="sleep"] .p-lids, .puppy[data-act="sleep"] .p-fx--zzz { opacity: 1; }
+.puppy[data-act="sleep"] .p-z { animation: pp-z 2.4s ease-in-out infinite; }
+.puppy[data-act="sleep"] .p-z2 { animation-delay: 0.8s; } .puppy[data-act="sleep"] .p-z3 { animation-delay: 1.6s; }
+@keyframes pp-z { 0% { opacity: 0; transform: translate(0, 6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(6px, -14px); } }
+.puppy[data-act="stretch"] .p-body { transform: scaleX(1.12) translateY(4px); animation: none; }
+.puppy[data-act="stretch"] .p-legs-front { transform: translate(-8px, 2px) rotate(-10deg); }
+.puppy[data-act="stretch"] .p-head { transform: translate(-6px, 8px) rotate(-6deg); }
+.puppy[data-act="stretch"] .p-tail { transform: rotate(20deg); animation: none; }
+.puppy[data-act="spin"] .p-char { animation: pp-spin 1.6s cubic-bezier(0.4, 0, 0.2, 1) 1; }
+@keyframes pp-spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+.puppy[data-act="howl"] .p-head { transform: rotate(-18deg) translate(4px, -6px); }
+.puppy[data-act="howl"] .p-m--rest { opacity: 0; } .puppy[data-act="howl"] .p-m--o, .puppy[data-act="howl"] .p-fx--notes { opacity: 1; }
+.puppy[data-act="howl"] .p-note { animation: pp-z 1.6s ease-in-out infinite; } .puppy[data-act="howl"] .p-note2 { animation-delay: 0.6s; }
+.puppy[data-act="nudge"] .p-char { animation: pp-nudge 1.8s ease-in-out 1; }
+@keyframes pp-nudge { 0%, 100% { transform: translateX(0); } 45%, 60% { transform: translateX(30px) rotate(4deg); } }
+.puppy[data-act="paw"] .p-leg--fl { animation: pp-paw 1.8s ease-in-out 1; }
+.puppy[data-act="paw"] .p-body { transform: rotate(-3deg); }
+@keyframes pp-paw { 0%, 100% { transform: none; } 35%, 75% { transform: rotate(-55deg) translate(-6px, -14px); } 55% { transform: rotate(-45deg) translate(-4px, -12px); } }
+.puppy[data-act="yawn"] .p-m--rest { opacity: 0; } .puppy[data-act="yawn"] .p-m--o { opacity: 1; transform: scale(1.5); }
+.puppy[data-act="yawn"] .p-lids { opacity: 1; } .puppy[data-act="yawn"] .p-head { transform: rotate(-6deg) translateY(-2px); }
+
+/* emotions */
+.puppy[data-emotion="happy"] .p-eye, .puppy[data-emotion="love"] .p-eye, .puppy[data-emotion="proud"] .p-eye { opacity: 0; }
+.puppy[data-emotion="happy"] .p-eye-happy, .puppy[data-emotion="love"] .p-eye-happy, .puppy[data-emotion="proud"] .p-eye-happy { opacity: 1; }
+.puppy[data-emotion="happy"] .p-m--rest, .puppy[data-emotion="excited"] .p-m--rest, .puppy[data-emotion="proud"] .p-m--rest, .puppy[data-emotion="surprised"] .p-m--rest, .puppy[data-emotion="sad"] .p-m--rest, .puppy[data-emotion="dizzy"] .p-m--rest, .puppy[data-emotion="scared"] .p-m--rest { opacity: 0; }
+.puppy[data-emotion="happy"] .p-m--smile, .puppy[data-emotion="happy"] .p-tongue, .puppy[data-emotion="excited"] .p-m--smile, .puppy[data-emotion="excited"] .p-tongue, .puppy[data-emotion="proud"] .p-m--smile { opacity: 1; }
+.puppy[data-emotion="happy"] .p-tail, .puppy[data-emotion="love"] .p-tail { animation: pp-wag 0.3s ease-in-out infinite alternate; }
+.puppy[data-emotion="curious"] .p-head { transform: rotate(-12deg) translateX(-3px); }
+.puppy[data-emotion="curious"] .p-ear--l { transform: rotate(-10deg) scaleY(1.1); }
+.puppy[data-emotion="curious"] .p-fx--q { opacity: 1; }
+.puppy[data-emotion="surprised"] .p-eye { transform: scale(1.25, 1.3); }
+.puppy[data-emotion="surprised"] .p-ear--l, .puppy[data-emotion="scared"] .p-ear--l { transform: rotate(-24deg); }
+.puppy[data-emotion="surprised"] .p-ear--r, .puppy[data-emotion="scared"] .p-ear--r { transform: rotate(24deg); }
+.puppy[data-emotion="surprised"] .p-m--o, .puppy[data-emotion="scared"] .p-m--o { opacity: 1; }
+.puppy[data-emotion="surprised"] .p-char { animation: pp-startle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
+@keyframes pp-startle { 0%, 100% { transform: none; } 30% { transform: translateY(-10px) scale(1.04, 0.96); } }
+.puppy[data-emotion="sleepy"] .p-lids { opacity: 1; }
+.puppy[data-emotion="sleepy"] .p-head { transform: translateY(6px) rotate(4deg); }
+.puppy[data-emotion="sleepy"] .p-ear--l { transform: rotate(-14deg); } .puppy[data-emotion="sleepy"] .p-ear--r { transform: rotate(14deg); }
+.puppy[data-emotion="excited"] .p-eye { transform: scale(1.12); }
+.puppy[data-emotion="excited"] .p-tail { animation: pp-wag 0.22s ease-in-out infinite alternate; }
+.puppy[data-emotion="excited"] .p-fx--stars { opacity: 1; }
+.puppy[data-emotion="excited"] .p-star { animation: pp-twinkle 0.6s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes pp-twinkle { from { transform: scale(0.7) rotate(0); } to { transform: scale(1.15) rotate(25deg); } }
+.puppy[data-emotion="excited"] .p-char { animation: pp-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3; }
+.puppy[data-emotion="sad"] .p-brows, .puppy[data-emotion="sad"] .p-m--frown, .puppy[data-emotion="sad"] .p-tear { opacity: 1; }
+.puppy[data-emotion="sad"] .p-ear--l { transform: rotate(-32deg) translateY(6px); } .puppy[data-emotion="sad"] .p-ear--r { transform: rotate(32deg) translateY(6px); }
+.puppy[data-emotion="sad"] .p-head { transform: translateY(6px); }
+.puppy[data-emotion="shy"] .p-blush { opacity: 1; }
+.puppy[data-emotion="shy"] .p-head { transform: rotate(8deg) translateX(6px); }
+.puppy[data-emotion="shy"] .p-eye { transform: translate(3px, 2px) scaleY(0.85); }
+.puppy[data-emotion="shy"] .p-ear--l { transform: rotate(-10deg); } .puppy[data-emotion="shy"] .p-ear--r { transform: rotate(10deg); }
+.puppy[data-emotion="love"] .p-fx--hearts, .puppy[data-emotion="love"] .p-blush { opacity: 1; }
+.puppy[data-emotion="love"] .p-heart { animation: pp-float 1.6s ease-in-out infinite; } .puppy[data-emotion="love"] .p-heart2 { animation-delay: 0.5s; }
+@keyframes pp-float { 0% { opacity: 0; transform: translateY(6px) scale(0.8); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-16px) scale(1.1); } }
+.puppy[data-emotion="proud"] .p-body { transform: scale(1.04, 1.06) translateY(-3px); animation: none; }
+.puppy[data-emotion="proud"] .p-head { transform: rotate(-4deg) translateY(-4px); }
+.puppy[data-emotion="dizzy"] .p-eye { opacity: 0; } .puppy[data-emotion="dizzy"] .p-eye-x, .puppy[data-emotion="dizzy"] .p-m--wavy { opacity: 1; }
+.puppy[data-emotion="dizzy"] .p-char { animation: pp-wobble 0.5s ease-in-out infinite; }
+@keyframes pp-wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.puppy[data-emotion="scared"] .p-eye { transform: scale(1.2); }
+.puppy[data-emotion="scared"] .p-body { transform: scale(0.94) translateY(4px); animation: none; }
+.puppy[data-emotion="scared"] .p-fx--sweat { opacity: 1; }
+
+/* still when asked to be */
+.puppy.is-static .puppy__svg *, .puppy.is-static .p-char, .puppy.is-static .puppy__char, .puppy.is-static { animation: none !important; transition: none !important; }
+.puppy.is-static .puppy__char { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .puppy__svg *, .puppy .p-char, .puppy__char, .puppy { animation: none !important; transition: none !important; } .puppy__char { opacity: 1; transform: none; } }
+.puppy.is-paused .puppy__svg *, .puppy.is-paused .p-char { animation-play-state: paused !important; }
+
+/* ---------- preferences: the companion choice ---------- */
+.prefs__comp { display: flex; gap: 4px; flex-wrap: wrap; padding: 4px; border: 1px solid var(--line, #d7dae0); border-radius: 999px; }
+.prefs__comp button { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 7px; border: 0; border-radius: 999px; background: none; color: var(--muted, #6b6f78); font: 500 12px/1.3 "Inter", system-ui, sans-serif; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.prefs__comp button:hover { color: var(--ink, #15161a); }
+.prefs__comp button.is-on { background: var(--ink, #15161a); color: var(--bg, #fff); font-weight: 600; }
+.prefs__comp button:focus-visible { outline: 2px solid #4d8dff; outline-offset: 2px; }
+.prefs__comp-art { display: inline-flex; align-items: center; }
+.prefs__comp-art svg { width: 22px; height: 22px; display: block; }
+.prefs__comp-art svg + svg { margin-left: -8px; width: 18px; height: 18px; }
+.prefs__row--comp { flex-direction: column; align-items: flex-start; gap: 12px; }
+.prefs__row--comp .prefs__text { width: 100%; }

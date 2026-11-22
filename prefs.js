@@ -11,6 +11,7 @@
     shortcuts: function () { return get("keys:shortcuts", "on") !== "off"; },
     motion: function () { return get("pref:motion", "auto"); },           /* auto | reduce */
     sunny: function () { return get("pref:sunny", "on") !== "off"; },
+    companion: function () { var v = get("pref:companion", "sunny"); return ["sunny", "puppy", "together"].indexOf(v) > -1 ? v : "sunny"; }, /* sunny | puppy | together */
     text: function () { return get("pref:text", "normal"); },             /* normal | large */
     sound: function () { return get("sunny:sound", "off") === "on" ? get("sunny:voice", "soft") : "off"; }
   };
@@ -30,7 +31,7 @@
     var btn = doc.createElement("button");
     btn.type = "button"; btn.className = "nav__prefs"; btn.id = "prefsToggle";
     btn.setAttribute("aria-haspopup", "dialog"); btn.setAttribute("aria-expanded", "false");
-    btn.title = "Accessibility and preferences: shortcuts, motion, Sunny, sound, text size"; btn.setAttribute("aria-label", "Accessibility and preferences");
+    btn.title = "Accessibility and preferences: shortcuts, motion, companions, sound, text size"; btn.setAttribute("aria-label", "Accessibility and preferences");
     btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="7.3" r="1.3" fill="currentColor" stroke="none"/><path d="M7 10.2c3.3.9 6.7.9 10 0"/><path d="M12 10.8v3.4l-2.1 4.2M12 14.2l2.1 4.2"/></svg>';
     var utils = nav.querySelector(".nav__utils"), pill = nav.querySelector(".nav__pill"), inspect = nav.querySelector("#inspectToggle");
     if (utils) utils.appendChild(btn);
@@ -39,6 +40,9 @@
     else if (resume) nav.insertBefore(btn, resume);
     else nav.appendChild(btn);
 
+    /* tiny faces for the companion choice */
+    var ART_SUN = '<svg viewBox="0 0 40 40" width="22" height="22"><path d="M20 10c1-3-1.5-4-.5-7" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16.5" cy="5.5" rx="3" ry="1.6" transform="rotate(-24 16.5 5.5)" fill="#FFC93C" stroke="#111" stroke-width="1.2"/><circle cx="20" cy="23" r="15" fill="#FFC93C" stroke="#111" stroke-width="2"/><ellipse cx="14.5" cy="22" rx="2.3" ry="3" fill="#111"/><ellipse cx="25.5" cy="22" rx="2.3" ry="3" fill="#111"/><circle cx="15.3" cy="20.8" r="0.9" fill="#fff"/><circle cx="26.3" cy="20.8" r="0.9" fill="#fff"/><path d="M16 28q4 3.5 8 0" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    var ART_PUP = '<svg viewBox="0 0 40 40" width="22" height="22"><path d="M8 22 L5 5 L18 14 Z M32 22 L35 5 L22 14 Z" fill="#2b2d33" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><circle cx="20" cy="23" r="14" fill="#2b2d33" stroke="#111" stroke-width="2"/><path d="M20.5 11 l2.6 -4 l-.8 2.8 h2.2 l-3.6 4.8 l1 -3.1 h-2.2 z" fill="#8cc0ff" stroke="#4d8dff" stroke-width=".6"/><ellipse cx="14.8" cy="23" rx="3.2" ry="3.8" fill="#e8a03a" stroke="#111" stroke-width="1.2"/><ellipse cx="25.2" cy="23" rx="3.2" ry="3.8" fill="#e8a03a" stroke="#111" stroke-width="1.2"/><ellipse cx="15.2" cy="23.3" rx="1.9" ry="2.5" fill="#111"/><ellipse cx="25.6" cy="23.3" rx="1.9" ry="2.5" fill="#111"/><circle cx="16" cy="21.8" r=".8" fill="#fff"/><circle cx="26.4" cy="21.8" r=".8" fill="#fff"/><path d="M18 28.5 q2 -1.5 4 0 q-.6 2.2 -2 2.4 q-1.4 -.2 -2 -2.4z" fill="#111"/></svg>';
     var panel = doc.createElement("div");
     panel.className = "prefs"; panel.id = "prefs"; panel.hidden = true;
     panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); panel.setAttribute("aria-labelledby", "prefsTitle");
@@ -48,7 +52,9 @@
         '<p class="prefs__intro">Saved in this browser only. Nothing is sent anywhere.</p>' +
         row("shortcuts", "Single-key shortcuts", "I, G, T, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Off is safer with screen readers and voice control.") +
         row("motion", "Reduce motion", "Stops the intro, reveals, Sunny’s acts and the replay. Follows your system setting unless you choose here.") +
-        row("sunny", "Show Sunny", "The mascot in the corner, its speech bubbles and the Ask me button.") +
+        row("sunny", "Show companions", "Sunny and Puppy in the corner, their speech bubbles and the Ask me button.") +
+        '<div class="prefs__row prefs__row--voice prefs__row--comp"><div class="prefs__text"><span class="prefs__label">Companion</span><span class="prefs__hint">Sunny answers questions. Puppy is the playful one. Together, Puppy tags along as Sunny’s sidekick.</span></div>' +
+          '<div class="prefs__comp" role="radiogroup" aria-label="Companion">' + [["sunny", "Sunny", ART_SUN], ["puppy", "Puppy", ART_PUP], ["together", "Together", ART_SUN + ART_PUP]].map(function (c) { return '<button type="button" role="radio" aria-checked="false" tabindex="-1" data-comp="' + c[0] + '"><span class="prefs__comp-art" aria-hidden="true">' + c[2] + '</span>' + c[1] + "</button>"; }).join("") + "</div></div>" +
         row("text", "Larger text", "Scales the whole page up by about an eighth.") +
         '<div class="prefs__row prefs__row--voice"><div class="prefs__text"><span class="prefs__label">Sound</span><span class="prefs__hint">Off until you choose. Short synthesized cues when Sunny reacts.</span></div>' +
           '<div class="prefs__voice" role="group" aria-label="Sunny’s sound">' + ["off", "soft", "bubbly", "retro", "bell"].map(function (v) { return '<button type="button" data-voice="' + v + '">' + v + "</button>"; }).join("") + "</div></div>" +
@@ -65,6 +71,8 @@
       panel.querySelector('[data-pref="motion"]').checked = P.motion() === "reduce";
       panel.querySelector('[data-pref="sunny"]').checked = P.sunny();
       panel.querySelector('[data-pref="text"]').checked = P.text() === "large";
+      var comp = P.companion();
+      Array.prototype.forEach.call(panel.querySelectorAll("[data-comp]"), function (b) { var on = b.getAttribute("data-comp") === comp; b.classList.toggle("is-on", on); b.setAttribute("aria-checked", String(on)); b.setAttribute("tabindex", on ? "0" : "-1"); });
       var cur = P.sound();
       Array.prototype.forEach.call(panel.querySelectorAll("[data-voice]"), function (b) { b.classList.toggle("is-on", b.getAttribute("data-voice") === cur); b.setAttribute("aria-pressed", String(b.getAttribute("data-voice") === cur)); });
     }
@@ -85,12 +93,28 @@
         else if (S) S.setVoice(v, true); else { set("sunny:sound", "on"); set("sunny:voice", v); }
         changed(); render();
       }
+      var comp = e.target.closest && e.target.closest("[data-comp]");
+      if (comp) { chooseCompanion(comp.getAttribute("data-comp")); }
       if (e.target.classList.contains("prefs__reset")) {
-        ["keys:shortcuts", "pref:motion", "pref:sunny", "pref:text", "sunny:sound", "sunny:voice"].forEach(function (k) { try { localStorage.removeItem(k); } catch (err) { /* ignore */ } });
-        if (global.Sunny) global.Sunny.setSound(false);
+        ["keys:shortcuts", "pref:motion", "pref:sunny", "pref:text", "pref:companion", "sunny:sound", "sunny:voice"].forEach(function (k) { try { localStorage.removeItem(k); } catch (err) { /* ignore */ } });
+        if (global.Sunny) { global.Sunny.setSound(false); if (global.Sunny.setMode) global.Sunny.setMode("sunny"); }
         changed(); render();
       }
       if (e.target.classList.contains("prefs__close") || e.target === panel) setOpen(false);
+    });
+    function chooseCompanion(v) {
+      if (["sunny", "puppy", "together"].indexOf(v) < 0) return;
+      set("pref:companion", v);
+      if (global.Sunny && global.Sunny.setMode) global.Sunny.setMode(v);
+      changed(); render();
+      var b = panel.querySelector('[data-comp="' + v + '"]'); if (b) b.focus();
+    }
+    /* arrow keys move the companion choice, like a radio group */
+    panel.addEventListener("keydown", function (e) {
+      var b = e.target.closest && e.target.closest("[data-comp]"); if (!b) return;
+      var order = ["sunny", "puppy", "together"], i = order.indexOf(b.getAttribute("data-comp"));
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); chooseCompanion(order[(i + 1) % 3]); }
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); chooseCompanion(order[(i + 2) % 3]); }
     });
     var open = false, lastFocus = null;
     function setOpen(on) {

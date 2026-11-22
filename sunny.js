@@ -25,6 +25,7 @@
   var reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
   var finePointer = global.matchMedia && global.matchMedia("(pointer: fine)").matches;
   var INK = "#111111", SUN = "#FFC93C", DEEP = "#F2AE2E";
+  var SELF = (document.currentScript && document.currentScript.src) || "sunny.js"; /* to find puppy.js next to this file */
 
   /* ---------- Art ---------- */
   function art() {
@@ -188,6 +189,33 @@
   /* what Sunny knows about the page and the visitor */
   var ctx = { page: "home", project: null, section: null, sectionLabel: null, sectionTitle: null, reading: false, idle: true, atTop: true, atBottom: false, askOpen: false, seen: {} };
 
+  /* ---------- Companion mode: sunny | puppy | together ----------
+     Chosen in the preferences panel (pref:companion). Sunny stays the same
+     size in every mode. In puppy mode Sunny's figure is hidden and its engine
+     muted, but the Ask panel stays. puppy.js is loaded only when needed. */
+  var MODES = ["sunny", "puppy", "together"], mode = "sunny";
+  try { var pm = localStorage.getItem("pref:companion"); if (MODES.indexOf(pm) > -1) mode = pm; } catch (e) { /* ignore */ }
+  /* a small event hub so the sidekick can follow along: Sunny.on(name, fn) */
+  var listeners = {};
+  function emit(name, detail) { var l = listeners[name]; if (!l) return; for (var i = 0; i < l.length; i++) { try { l[i](detail); } catch (e) { /* a listener must never break Sunny */ } } }
+  function ensurePuppy(cb) {
+    if (global.Puppy) { cb(); return; }
+    var wait = function () { var w = setInterval(function () { if (global.Puppy) { clearInterval(w); cb(); } }, 100); };
+    if (document.querySelector("script[data-puppy]")) { wait(); return; }
+    var sc = document.createElement("script");
+    sc.src = /sunny\.js/.test(SELF) ? SELF.replace(/sunny\.js/, "puppy.js") : "puppy.js";
+    sc.setAttribute("data-puppy", ""); sc.async = true; sc.onload = wait;
+    document.head.appendChild(sc);
+  }
+  function applyMode() {
+    if (!root) return;
+    root.classList.toggle("is-silent", mode === "puppy");
+    root.classList.toggle("is-duo", mode === "together");
+    if (mode === "puppy") { stopAct(); root.classList.remove("is-talking"); root.removeAttribute("data-emotion"); }
+    if (mode !== "sunny") ensurePuppy(function () { global.Puppy.setMode(mode); });
+    else if (global.Puppy) global.Puppy.setMode("sunny");
+  }
+
   function build() {
     root = document.createElement("div");
     root.className = "sunny";
@@ -221,11 +249,13 @@
   /* ---------- Speech ---------- */
   /* say: show a bubble now. Used for replies to something the visitor did. */
   function say(text, ms) {
+    if (mode === "puppy") return; /* Sunny is off stage; the panel still answers */
     /* lines inside an ambient act stay silent while the visitor reads */
     if (state.quietAct && ctx.reading && !state.sayForce) return;
     clearTimeout(sayTimer);
     bubble.textContent = text;
     root.classList.add("is-talking");
+    emit("say", text);
     sayTimer = setTimeout(function () { root.classList.remove("is-talking"); }, ms || Math.max(1800, 900 + text.length * 55));
   }
   /* speak: Sunny's own initiative. Rationed: not while reading or chatting,
@@ -369,7 +399,8 @@
   /* ---------- Emotions (faces) and mood (the longer-lived state behind them) ---------- */
   var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700, focused: 2600, relaxed: 3000, confused: 1800 };
   function emote(name, ms, silent) {
-    if (!EMOTIONS[name]) return;
+    if (!EMOTIONS[name] || mode === "puppy") return;
+    emit("emote", name);
     if (!silent) { if (name === "blush") smileSound(); else if (EMOTION_SFX[name]) cue(EMOTION_SFX[name]); }
     clearTimeout(emoteTimer);
     root.removeAttribute("data-emotion");
@@ -383,6 +414,7 @@
   function setMood(name, ms) {
     if (MOODS.indexOf(name) < 0) return;
     state.mood = name; state.moodUntil = Date.now() + (ms || 20000);
+    emit("mood", name);
     if (root) { if (name === "neutral") root.removeAttribute("data-mood"); else root.setAttribute("data-mood", name); }
   }
   function moodTick(now) { if (state.mood !== "neutral" && now > state.moodUntil) setMood("neutral"); }
@@ -484,7 +516,7 @@
      Lines belonging to an ambient act go through speak() and are rationed. */
   function act(name, pri) {
     var a = ACTS[name];
-    if (!a || reduced) return false;
+    if (!a || reduced || mode === "puppy") return false;
     if (pri == null) pri = PRI.event;
     var now = Date.now();
     if (state.cur && now < state.cur.until && pri < state.cur.pri) return false;
@@ -503,9 +535,11 @@
     if (name === "sleep") {
       asleep = true; state.cur = { name: name, pri: PRI.sleep, until: Infinity };
       var sn = setInterval(function () { if (!asleep) { clearInterval(sn); return; } cue("snore"); }, 3400);
+      emit("act", { name: name, pri: pri, ms: 0 });
       return true;
     }
     state.cur = { name: name, pri: pri, until: now + ms };
+    emit("act", { name: name, pri: pri, ms: ms });
     /* quietAct stays on past the end so an act's closing line (a beat after it) is gated too; the next act or stopAct() resets it */
     actTimer = setTimeout(function () { root.removeAttribute("data-act"); busy = false; state.cur = null; }, ms);
     return true;
@@ -513,7 +547,7 @@
   function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; state.cur = null; state.quietAct = false; }
   function wake() {
     if (!asleep) return;
-    asleep = false; stopAct(); cue("pop");
+    asleep = false; stopAct(); cue("pop"); emit("wake");
     setMood("happy", 12000);
     emote("surprised"); say(pick(["Huh? I'm awake!", "Was I snoring?", "Oh! Hi."]));
   }
@@ -678,6 +712,7 @@
   function direct() {
     var now = Date.now();
     moodTick(now); senseTick(now);
+    if (mode === "puppy") return; /* sensing continues for the sidekick; Sunny itself rests */
     if (reduced || document.hidden || drag || root.classList.contains("is-carried")) return;
     var idleFor = now - lastInput;
     if (asleep) return;
@@ -727,7 +762,7 @@
       if (drag && drag.moved) return;
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
-      noticed(); stopAct();
+      noticed(); stopAct(); emit("click", taps.length);
       if (taps.length >= 3) { smileSound(); setMood("dizzy", 8000); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
       else if (taps.length === 2) { smileSound(); setMood("excited", 15000); emote("dizzy", 0, true); act("hop", PRI.direct); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
       else if ((tipTurn = !tipTurn)) { setMood("happy", 20000); emote("wink"); say("Tip: " + pick(TIPS), 4200); }
@@ -745,14 +780,14 @@
     svg.addEventListener("pointermove", function (e) {
       if (!drag) return;
       var dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; noticed(); stopAct(); state.cur = { name: "drag", pri: PRI.drag, until: Infinity }; sfx("pickup"); root.classList.add("is-carried"); setMood("dizzy", 10000); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
+      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; noticed(); stopAct(); state.cur = { name: "drag", pri: PRI.drag, until: Infinity }; sfx("pickup"); root.classList.add("is-carried"); setMood("dizzy", 10000); emit("drag", true); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
       if (drag.moved) setX(drag.startSx + dx, 0);
     });
     function endDrag() {
       if (!drag) return;
       var moved = drag.moved; drag = null;
       if (moved) {
-        state.cur = null;
+        state.cur = null; emit("drag", false);
         root.classList.remove("is-carried");
         root.removeAttribute("data-emotion");
         root.classList.add("is-landing"); sfx("land"); setTimeout(function () { root.classList.remove("is-landing"); }, 500);
@@ -789,7 +824,7 @@
       ctx.atTop = y < 200;
       ctx.atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
       if (ctx.atBottom && !bottomSaid) {
-        bottomSaid = true; setMood("proud", 20000);
+        bottomSaid = true; setMood("proud", 20000); emit("end");
         if (act("dance", PRI.event)) { cue("ding"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
       }
       if (!ctx.atBottom && ctx.atTop) bottomSaid = false;
@@ -808,7 +843,7 @@
     document.addEventListener("visibilitychange", function () {
       root.classList.toggle("is-paused", document.hidden);
       if (document.hidden || asleep) return;
-      setMood("excited", 10000);
+      setMood("excited", 10000); emit("visible");
       if (act("wave", PRI.event)) { speak(pick(["Welcome back!", "Oh hey, you're back."]), 2200, true); cue("pop"); }
     });
     if (global.MutationObserver) new MutationObserver(function () {
@@ -867,6 +902,7 @@
     if (ok && r.then) setTimeout(function () { if (!asleep && !ctx.askOpen) { emote(r.then.emotion); speak(r.then.line, 2600); } }, 3600);
   }
   function enterSection(id) {
+    emit("section", { id: id, label: ctx.sectionLabel, title: ctx.sectionTitle, first: !ctx.seen[id] });
     if (!CONFIG.sectionLines || ctx.seen[id]) return;
     ctx.seen[id] = true;
     var r = ctx.page === "case" ? CASE_SECTIONS[ctx.sectionLabel] : SECTIONS[id];
@@ -951,6 +987,7 @@
     try { if (sessionStorage.getItem("sunny:nap")) return; } catch (e) { /* ignore */ }
     pageInfo();
     build();
+    applyMode();
     document.documentElement.classList.add("has-sunny");
     state.lastScroll = Date.now(); /* the page opens on its first section: reading until proven idle */
     watchSections(enterSection);
@@ -981,7 +1018,7 @@
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
     /* the Ask panel tells Sunny when it is open: no ambient acts, no bubbles, a focused face */
     setAskOpen: function (on) {
-      ctx.askOpen = !!on;
+      ctx.askOpen = !!on; emit("ask", !!on);
       if (!root) return;
       if (on) { noticed(); if (state.cur && state.cur.pri <= PRI.ambient) stopAct(); setMood("focused", 120000); if (!reduced) emote("focused", 2000, true); }
       else setMood("happy", 10000);
@@ -990,6 +1027,21 @@
     context: function () { return { page: ctx.page, project: ctx.project, section: ctx.section, sectionLabel: ctx.sectionLabel, sectionTitle: ctx.sectionTitle }; },
     mood: function () { return state.mood; },
     setMood: function (n, ms) { setMood(n, ms); },
+    /* companions */
+    mode: function () { return mode; },
+    setMode: function (m) {
+      if (MODES.indexOf(m) < 0) m = "sunny";
+      mode = m;
+      try { localStorage.setItem("pref:companion", m); } catch (e) { /* ignore */ }
+      applyMode(); emit("mode", m);
+    },
+    on: function (name, fn) { (listeners[name] = listeners[name] || []).push(fn); },
+    off: function (name, fn) { var l = listeners[name]; if (l) listeners[name] = l.filter(function (f) { return f !== fn; }); },
+    emit: emit,
+    /* what Sunny senses right now, for the sidekick */
+    sense: function () { return { reading: ctx.reading, idle: ctx.idle, askOpen: ctx.askOpen, atBottom: ctx.atBottom, talking: !!root && root.classList.contains("is-talking"), asleep: asleep, busy: busy, mood: state.mood, lastInput: lastInput, section: ctx.section }; },
+    /* turn the eyes: dx, dy in -1..1, back to the pointer after ms */
+    look: function (dx, dy, ms) { if (!look) return; look.style.transform = "translate(" + (dx * 5).toFixed(1) + "px," + (dy * 4).toFixed(1) + "px)"; setTimeout(function () { look.style.transform = ""; }, ms || 1500); },
     config: CONFIG,
     debug: function () { return { state: state, ctx: ctx }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), moods: MOODS, sounds: Object.keys(SFX), el: null
