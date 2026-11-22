@@ -942,9 +942,6 @@ a.lbl:hover { color: var(--ink); }
    Résumé page: an A4 sheet that prints to one page
    ============================================================ */
 .cs-hero--tight { padding-bottom: 32px; }
-.resume-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.resume-actions .btn { display: inline-flex; align-items: center; cursor: pointer; font-family: var(--font-sans); }
-.resume-wrap { padding: 0 var(--gutter) 72px; display: flex; justify-content: center; }
 .sheet {
   width: 210mm;
   max-width: 100%;

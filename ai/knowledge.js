@@ -242,7 +242,7 @@
     pages: [
       { path: "index.html", name: "Home", what: "Hero, selected work, process, story, playground, writing, skills, AI and contact." },
       { path: "hire.html", name: "Hiring me? Quick answers", what: "Roles that fit, where he works, the FAQ, questions he would love to be asked." },
-      { path: "resume.html", name: "Resume", what: "Printable one-page resume, plus one-page and full two-page PDFs." },
+      { path: "assets/Ganeshkumar-B-Resume.pdf", name: "Resume (PDF)", what: "The resume as a PDF download, from the Resume button in the header of every page." },
       { path: "how-i-use-ai.html", name: "How I use AI", what: "What AI does, what he decides, where it sits in the workflow, and six times it got it wrong." },
       { path: "prompts.html", name: "Prompt library", what: "Seven prompts for tokens, components, Code Connect and critique, free to copy or download as Markdown." },
       { path: "how-this-site-was-built.html", name: "How this site was built", what: "The setup, the timeline, and AI drafts beside the finals." }
@@ -278,7 +278,7 @@
   };
 
   /* every path Sunny may link to; anything else is dropped */
-  var routes = ["index.html", "hire.html", "resume.html", "how-i-use-ai.html", "prompts.html", "how-this-site-was-built.html"].concat(projects.map(function (p) { return p.path; }));
+  var routes = ["index.html", "hire.html", "assets/Ganeshkumar-B-Resume.pdf", "how-i-use-ai.html", "prompts.html", "how-this-site-was-built.html"].concat(projects.map(function (p) { return p.path; }));
 
   g.SUNNY_KNOWLEDGE = { mail: MAIL, profile: profile, projects: projects, practice: practice, portfolio: portfolio, sunny: sunny, recruiter: recruiter, routes: routes };
 })(typeof globalThis !== "undefined" ? globalThis : window);

@@ -5,8 +5,8 @@ from build import _brand
 
 MAIL = "ganesh.rayanbalu@gmail.com"
 
-def nav(active=None):
-    """Home · Work · Hiring me? pill, with the current page marked. Brand and utilities as on every page."""
+def nav(active=None, parts=False):
+    """Home · Work · Hiring me? pill with the current page marked, or (parts=True) Home plus the page's own sections, as on the home page."""
     brand = _brand()
     home_on = "" if active in ("index.html#work", "hire.html") else " is-active"  # the AI pages are not in the pill: Home stays the marked link, as in the Figma
     def link(href, label, extra=""):
@@ -18,15 +18,14 @@ def nav(active=None):
     <div class="nav-slot">
     <nav class="nav" aria-label="Primary">
       {brand}
-      <div class="nav__pill nav__pill--case">
+      <div class="nav__pill nav__pill--case{" nav__pill--parts" if parts else ""}">
         <span class="nav__indicator" aria-hidden="true"></span>
-        <a class="nav__link nav__home{home_on}" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <a class="nav__link nav__home{"" if parts else home_on}" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
         <span class="nav__sep" aria-hidden="true"></span>
-        {link("index.html#work", "Work")}
-        {link("hire.html", "Hiring me?")}
+        {"<!--sections-->" if parts else link("index.html#work", "Work") + chr(10) + "        " + link("hire.html", "Hiring me?")}
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
-      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
+      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume.pdf" download="Ganeshkumar-B-Resume.pdf" title="Download the resume (PDF)" aria-label="Download the resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↓</span></a>
     </nav>
     </div>
   </header>
@@ -55,6 +54,6 @@ def isec(num, title, sub, body):
     """Info-page section: '01', title left, short line right-aligned."""
     return sec(num, title, sub, body, head_mod="c2-sec__head--right")
 
-def link_arrow(label, href, ext=False):
-    target = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
-    return f'<a class="c2-link" href="{href}"{target}>{esc(label)} <span aria-hidden="true">{"↗" if ext else "→"}</span></a>'
+def link_arrow(label, href, ext=False, down=False):
+    target = ' target="_blank" rel="noopener"' if href.startswith("http") else (" download" if down else "")
+    return f'<a class="c2-link" href="{href}"{target}>{esc(label)} <span aria-hidden="true">{"↓" if down else "↗" if ext else "→"}</span></a>'

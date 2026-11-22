@@ -27,9 +27,29 @@
   });
 
   /* Nav indicator + floating + progress */
-  var nav = $(".nav"), indicator = $(".nav__indicator"), active = $(".nav__link.is-active");
-  function moveIndicator(el) { indicator.style.left = el.offsetLeft + "px"; indicator.style.top = el.offsetTop + "px"; indicator.style.width = el.offsetWidth + "px"; }
+  var nav = $(".nav"), indicator = $(".nav__indicator"), parts = $$(".nav__part"), active = $(".nav__link.is-active") || parts[0] || $(".nav__link");
+  function moveIndicator(el) { if (!el) return; indicator.style.left = el.offsetLeft + "px"; indicator.style.top = el.offsetTop + "px"; indicator.style.width = el.offsetWidth + "px"; }
+  if (active) active.classList.add("is-active");
   moveIndicator(active);
+  /* section links in the pill (case studies and the AI pages): the one in view is marked, as on the home page */
+  if (parts.length && "IntersectionObserver" in window) {
+    var targets = parts.map(function (a) { return $(a.getAttribute("href")); }).filter(Boolean), seen = {};
+    var setPart = function (id) {
+      parts.forEach(function (a) { var on = a.getAttribute("href") === "#" + id; a.classList.toggle("is-active", on); if (on) active = a; });
+      moveIndicator(active);
+      var pill = active && active.parentElement; /* a pill wider than its box scrolls to keep the marked link in view */
+      if (pill && pill.scrollWidth > pill.clientWidth + 2) pill.scrollTo({ left: active.offsetLeft - pill.clientWidth / 2 + active.offsetWidth / 2, behavior: reduced ? "auto" : "smooth" });
+    };
+    var partObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { seen[en.target.id] = en.isIntersecting ? en.intersectionRatio : 0; });
+      var best = null; targets.forEach(function (t) { if (seen[t.id] && (!best || seen[t.id] > seen[best])) best = t.id; });
+      if (best) setPart(best);
+    }, { rootMargin: "-30% 0px -50% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
+    targets.forEach(function (t) { partObserver.observe(t); });
+    var pillEl = parts[0].parentElement;
+    var pillState = function () { pillEl.classList.toggle("is-scroll", pillEl.scrollWidth > pillEl.clientWidth + 2); pillEl.classList.toggle("is-end", pillEl.scrollLeft + pillEl.clientWidth >= pillEl.scrollWidth - 2); };
+    pillEl.addEventListener("scroll", pillState, { passive: true }); window.addEventListener("resize", pillState); pillState(); setTimeout(pillState, 400);
+  }
   requestAnimationFrame(function () { nav.classList.add("is-ready"); });
   $$(".nav__link").forEach(function (a) { a.addEventListener("mouseenter", function () { moveIndicator(a); }); });
   $(".nav__pill").addEventListener("mouseleave", function () { moveIndicator(active); });
@@ -45,6 +65,14 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  /* Back to top, as on the home page: appears once the page has scrolled a screen or so */
+  var toTop = document.createElement("button");
+  toTop.type = "button"; toTop.className = "to-top"; toTop.setAttribute("aria-label", "Back to top");
+  toTop.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(toTop);
+  toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }); var first = $(".nav__brand"); if (first) first.focus({ preventScroll: true }); });
+  window.addEventListener("scroll", function () { toTop.classList.toggle("is-on", window.scrollY > 600); }, { passive: true });
 
   /* Reveal */
   var targets = $$(".cs-hero > *, .cs-cover, .cs-visual, .cs-note, .cs-public, .cs-section, .cs-next");

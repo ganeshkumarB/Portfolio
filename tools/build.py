@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261304"
+VER = "20261305"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -134,22 +134,24 @@ def _brand():
 def nav_case(num, total, prev_href, prev_label, next_href, next_label):
     prev = (f'<a class="nav__link nav__dir nav__dir--prev" href="{prev_href}" title="Previous: {esc(prev_label)}" aria-label="Previous: {esc(prev_label)}"><span class="nav__arrow" aria-hidden="true">←</span><span class="nav__txt">{esc(prev_label)}</span></a>'
             if prev_href != "index.html#work" else '<a class="nav__link nav__dir nav__dir--prev" href="index.html#work" title="Back to all work" aria-label="Back to all work"><span class="nav__arrow" aria-hidden="true">←</span><span class="nav__txt">All work</span></a>')
-    nxt = f'<a class="nav__link nav__dir nav__dir--next is-active" href="{next_href}" title="Next: {esc(next_label)}" aria-label="Next: {esc(next_label)}"><span class="nav__txt">{esc(next_label)}</span><span class="nav__arrow" aria-hidden="true">→</span></a>'
+    nxt = f'<a class="nav__link nav__dir nav__dir--next" href="{next_href}" title="Next: {esc(next_label)}" aria-label="Next: {esc(next_label)}"><span class="nav__txt">{esc(next_label)}</span><span class="nav__arrow" aria-hidden="true">→</span></a>'
     return f'''  <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
     <nav class="nav" aria-label="Primary">
       {_brand()}
-      <div class="nav__pill nav__pill--case">
+      <div class="nav__pill nav__pill--case nav__pill--parts">
         <span class="nav__indicator" aria-hidden="true"></span>
         <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <span class="nav__sep" aria-hidden="true"></span>
+        <!--sections-->
         <span class="nav__sep" aria-hidden="true"></span>
         {prev}
         <a class="nav__case mono" href="index.html#work" title="All work">{num:02d} / {total:02d}</a>
         {nxt}
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
-      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
+      <a class="nav__resume" href="assets/Ganeshkumar-B-Resume.pdf" download="Ganeshkumar-B-Resume.pdf" title="Download the resume (PDF)" aria-label="Download the resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↓</span></a>
     </nav>
     </div>
   </header>
@@ -202,6 +204,7 @@ def head(p):
   <link rel="stylesheet" href="sunny.css?v={VER}" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v={VER}" /></noscript>
 </head>
 <body class="is-ready cs-page c2-page">
+  <script src="sunny-loader.js?v={VER}"></script>
 '''
 
 def footer(nxt, back_label="All work", back_href="index.html#work"):
@@ -240,13 +243,47 @@ def number_sections(html_):
         return tag[:-1] + f' id="part-{n[0]:02d}">'
     return re.sub(r'<section class="c2-sec[^"]*"(?: id="[^"]*")?>', fix, html_)
 
+# short names for the header pill, where the section's own label is too long for a row of eight
+NAV_SHORT = {
+    "The problem": "Problem", "The design challenge": "Challenge", "The approach": "Approach", "The experience": "Experience",
+    "Key design decisions": "Decisions", "Design principles": "Principles", "The outcome": "Outcome", "The transformation": "Transformation",
+    "Chat window customisation": "Customisation", "The decisions": "Decisions", "The takeaway": "Takeaway", "The solution": "Solution",
+    "The challenge": "Challenge", "The new experience": "Experience", "The reframing": "Reframing", "The opportunity": "Opportunity",
+    "Two ways to reach out": "Two ways", "Proactive messages": "Proactive", "The core decisions": "Decisions",
+    "From message to conversation": "Conversation", "Design decisions": "Decisions", "Shipped, then it grew": "Shipped",
+    "What AI does, what I decide": "Roles", "My workflow": "Workflow", "How I work with AI": "Practice", "AI in my design system": "Design system",
+    "When AI gets it wrong": "Mistakes", "Rules I hold to": "Rules", "The prompts": "Prompts", "How to use them": "Using them",
+    "The setup": "Setup", "AI draft, my final": "Draft vs final", "The timeline": "Timeline", "What is in the box": "In the box",
+}
+
+def section_links(content):
+    """One pill link per content section, labelled from its number line ('03 / Exploration') or, failing that, its heading."""
+    links = []
+    for m in re.finditer(r'<section class="c2-sec cs-section[^"]*" id="(part-\d\d)">(.*?)(?=<section class="c2-sec|\Z)', content, re.S):
+        pid, body = m.group(1), m.group(2)
+        num = re.search(r'<p class="c2-num">(.*?)</p>', body)
+        h2 = re.search(r'<h2[^>]*>(.*?)</h2>', body, re.S)
+        label = ""
+        if num and "/" in num.group(1): label = num.group(1).split("/", 1)[1].strip()
+        elif h2: label = re.sub(r"<[^>]+>", "", h2.group(1)).strip()
+        if not label: continue
+        label = NAV_SHORT.get(label, label[4:] if label.startswith("The ") else label)
+        links.append(f'<a class="nav__link nav__part" href="#{pid}"><span>{esc(label)}</span></a>')
+    return links
+
 def render(p):
     _EXTRA_JS.clear(); _EXTRA_JS.extend(p.get("extra_js", []))
+    content = number_sections("\n".join(p["sections"]))
+    nav = p["nav"]
+    if "<!--sections-->" in nav:
+        links = section_links(content)
+        nav = nav.replace("<!--sections-->", "\n        ".join(links))
+        if len(links) > 7: nav = nav.replace('class="nav__pill nav__pill--case nav__pill--parts"', 'class="nav__pill nav__pill--case nav__pill--parts nav__pill--dense"')
     out = head(p)
-    out += p["nav"]
+    out += nav
     out += p["hero"]
     for s in p.get("pre", []): out += s
-    out += '  <main class="cs-content" data-layer="Content">\n' + number_sections("\n".join(p["sections"])) + '\n  </main>\n'
+    out += '  <main class="cs-content" data-layer="Content">\n' + content + '\n  </main>\n'
     out += p.get("after", "")
     out += footer(p["next"], p.get("back_label", "All work"), p.get("back_href", "index.html#work"))
     return out

@@ -577,6 +577,7 @@
   }
   var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
   function greet() {
+    if (document.documentElement.classList.contains("sl-on")) { setTimeout(greet, 400); return; } /* the loader is still on stage */
     if (Date.now() < (state.hushUntil || 0)) { setTimeout(greet, state.hushUntil - Date.now() + 400); return; }
     var first = true;
     if (CONFIG.welcomeOncePerSession) { try { first = !sessionStorage.getItem("sunny:hello"); sessionStorage.setItem("sunny:hello", "1"); } catch (e) { /* ignore */ } }
@@ -1020,6 +1021,7 @@
   }
   /* API is available immediately; calls before the DOM is ready are ignored */
   var api = global.Sunny = {
+    art: art, /* the character's SVG markup, for the loader's stand-in */
     act: function (n, pri) { return !!root && act(n, typeof pri === "string" ? (PRI[pri] != null ? PRI[pri] : PRI.direct) : (pri == null ? PRI.direct : pri)); },
     /* a sound cue that respects the visitor's sound setting (unlike sfx, which is for previews) */
     cue: function (n) { if (SFX[n]) cue(n); },

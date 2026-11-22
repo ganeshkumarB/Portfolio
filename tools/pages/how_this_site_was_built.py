@@ -52,7 +52,7 @@ PAGE = dict(
     title="How this site was built · Ganeshkumar B",
     description="Designed in Figma, built with Claude in plain HTML, CSS and JavaScript. The setup, the AI drafts next to the finals, and the build timeline.",
     og="assets/og-image.png",
-    nav=nav("how-this-site-was-built.html"),
+    nav=nav("how-this-site-was-built.html", parts=True),
     hero=hero("Site", "Build log", "How this site was built", "Designed in Figma, built with Claude in plain HTML, CSS and JavaScript, reviewed by me every round.",
               [("Stack", "HTML, CSS, JavaScript, no framework"), ("Built with", "Figma, Figma MCP, Claude Code"), ("Hosted on", "GitHub Pages"), ("Since", "13 November 2026")]),
     sections=SECTIONS,

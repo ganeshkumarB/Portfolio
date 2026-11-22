@@ -39,7 +39,7 @@ ASK_HTML = '<div class="hr2-ask">' + "".join(
 
 LOOK = grid([
     f'<div class="c2-card hr2-look">{ICON["layers"]}<h3 class="c2-h3">Seven case studies</h3><p class="c2-p">Zobot, design system, Operator Console, Reports, Brand, Outbound, Feedback.</p>{link_arrow("Explore", "index.html#work")}</div>',
-    f'<div class="c2-card hr2-look">{ICON["doc"]}<h3 class="c2-h3">Resume</h3><p class="c2-p">A printable web version, plus one-page and full PDFs.</p>{link_arrow("Open", "resume.html")}</div>',
+    f'<div class="c2-card hr2-look">{ICON["doc"]}<h3 class="c2-h3">Resume</h3><p class="c2-p">The resume as a PDF, one download.</p>{link_arrow("Download", "assets/Ganeshkumar-B-Resume.pdf", down=True)}</div>',
     f'<div class="c2-card hr2-look">{ICON["linkedin"]}<h3 class="c2-h3">LinkedIn</h3><p class="c2-p">Profile, recommendations and career history.</p>{link_arrow("View", "https://www.linkedin.com/in/ganeshkumarb1997/", ext=True)}</div>',
     f'<div class="c2-card hr2-look">{ICON["pen"]}<h3 class="c2-h3">Writing</h3><p class="c2-p">Short posts on fundamentals, UX and working systems.</p>{link_arrow("Read", "index.html#writing")}</div>'], 4)
 
@@ -62,6 +62,6 @@ PAGE = dict(
               "A lead or senior product design role owning the design system and the Figma-to-code bridge, in a B2B SaaS team that ships.",
               [("Role", "Lead, staff or senior product designer · design systems"), ("Notice period", "30 days"), ("Location", "Chennai, India · IST · remote or relocation welcome"), ("Experience", "8+ years, one enterprise product end to end")], mod="c2-hero--info-68"),
     sections=SECTIONS,
-    next=dict(label="Next", title="Read the resume", href="resume.html"),
+    next=dict(label="Next", title="How I use AI", href="how-i-use-ai.html"),
     back_label="Back to the site", back_href="index.html",
 )

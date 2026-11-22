@@ -93,7 +93,7 @@ PAGE = dict(
     title="How I use AI · Ganeshkumar B",
     description="Where Claude and Figma MCP sit in a senior product designer's design-system workflow, where they went wrong, and the rules for using them.",
     og="assets/og-image.png",
-    nav=nav("how-i-use-ai.html"),
+    nav=nav("how-i-use-ai.html", parts=True),
     hero=hero("AI", "Honest version", "How I use AI", "A practical look at how I use Claude, Figma MCP and Code Connect in my product design work.",
               [("Tools", "Claude · Figma MCP · Code Connect"), ("Where", "Design system and product design"), ("Role", "Execution with human judgment"), ("Updated", "November 2026")],
               side_h3="AI drafts. I decide."),

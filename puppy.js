@@ -641,7 +641,7 @@
     if (mode !== "together" || reduced || met() || storyOn) return;
     var S = global.Sunny, s = sense();
     if (!S || !S.shift || s.asleep || s.askOpen) { setTimeout(maybeStory, 4000); return; }
-    if (s.talking || s.busy || !beside()) { setTimeout(maybeStory, 1500); return; } /* let Sunny finish its hello first, and come down from the hero perch */
+    if (s.talking || s.busy || !beside() || document.documentElement.classList.contains("sl-on")) { setTimeout(maybeStory, 1500); return; } /* let Sunny finish its hello first, and come down from the hero perch */
     story();
   }
   function story() {

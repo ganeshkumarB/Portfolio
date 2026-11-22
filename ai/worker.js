@@ -44,7 +44,7 @@ export function buildSystem(K) {
   lines.push(`Highlights: ${P.highlights.join("; ")}.`);
   lines.push(`Location: ${P.location}. ${P.workModes}`);
   lines.push(`Looking for: ${P.lookingFor} Notice period: ${P.notice}. Replies ${P.replies}.`);
-  lines.push(`Contact: ${P.email}. LinkedIn ${P.links.linkedin}. Behance ${P.links.behance}. Dribbble ${P.links.dribbble}. Instagram ${P.links.instagram}. Resume at resume.html (one-page and full two-page PDFs). Hiring page at hire.html.`);
+  lines.push(`Contact: ${P.email}. LinkedIn ${P.links.linkedin}. Behance ${P.links.behance}. Dribbble ${P.links.dribbble}. Instagram ${P.links.instagram}. Resume: a PDF download at assets/Ganeshkumar-B-Resume.pdf (the Resume button in the header). Hiring page at hire.html.`);
   lines.push(`Tools: ${P.tools}`);
   lines.push(`Coding: ${P.coding}`);
   lines.push(`Leadership: ${P.leadership}`);
@@ -81,7 +81,7 @@ export function buildSystem(K) {
 const SYSTEM = buildSystem(K);
 
 /* ---------- request shaping ---------- */
-const PATH_RE = /^(index\.html(#[a-z-]+)?|#[a-z-]+|case-[a-z-]+\.html(#part-\d\d)?|hire\.html|resume\.html|how-i-use-ai\.html|prompts\.html|how-this-site-was-built\.html)$/;
+const PATH_RE = /^(index\.html(#[a-z-]+)?|#[a-z-]+|case-[a-z-]+\.html(#part-\d\d)?|hire\.html|assets\/Ganeshkumar-B-Resume\.pdf|how-i-use-ai\.html|prompts\.html|how-this-site-was-built\.html)$/;
 function allowedHref(h) {
   h = String(h).trim().replace(/^\//, "");
   if (h.startsWith("mailto:" + K.mail)) return h;
@@ -116,7 +116,7 @@ export function parseReply(text) {
   let suggest = null;
   reply = reply.replace(/(?:^|\n)\s*Next:\s*(.+?)\s*$/i, (m, q) => { suggest = [q.replace(/^["“]|["”]$/g, "").slice(0, 90)]; return ""; });
   /* bare paths the model may still write become the page's name in the sentence, plus an action */
-  reply = reply.replace(/\(?\/?((?:case-[a-z-]+|hire|resume|how-i-use-ai|prompts|how-this-site-was-built)\.html(?:#[a-z0-9-]+)?)\)?/g, (m, p) => {
+  reply = reply.replace(/\(?\/?((?:case-[a-z-]+|hire|how-i-use-ai|prompts|how-this-site-was-built)\.html(?:#[a-z0-9-]+)?)\)?/g, (m, p) => {
     const h = allowedHref(p);
     if (!h) return "";
     const path = h.split("#")[0];

@@ -73,7 +73,7 @@ PAGE = dict(
     title="Prompt library · Claude + Figma MCP · Ganeshkumar B",
     description="Seven free prompts for design-system work with Claude and Figma MCP: tokens, dark mode, components, Code Connect, audits, critique and case studies.",
     og="assets/og-image.png",
-    nav=nav("prompts.html"),
+    nav=nav("prompts.html", parts=True),
     hero=hero("Prompts", "Free to use", "Prompt library", "The prompts behind my Claude + Figma MCP workflow. Copy, adapt and use them as a starting point.",
               [("Count", "7 prompts"), ("For", "Claude + Figma MCP + Code Connect"), ("License", "Use freely, credit optional"), ("Download", '<a href="assets/prompts.md" download>prompts.md</a>')]),
     sections=SECTIONS,
