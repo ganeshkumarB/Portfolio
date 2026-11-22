@@ -633,3 +633,29 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 /* Sunny stays in the bottom-right corner: the stage is exactly as wide as the character, so there is no room to walk */
 .sunny { width: 150px; right: 16px; }
 @media (max-width: 720px) { .sunny { width: 150px; right: 8px; } }
+
+/* ---------- Sunny 2.0: three more faces, mood tints, paused when the tab is hidden ---------- */
+[data-emotion="focused"] .s-eye { transform: scaleY(0.82) translateY(1px); }
+[data-emotion="focused"] .s-m--smile { opacity: 0; } [data-emotion="focused"] .s-m--flat { opacity: 1; transform: scaleX(0.7); }
+[data-emotion="focused"] .s-char { animation: su-lean 2.4s ease-in-out 1; }
+[data-emotion="relaxed"] .s-eye { opacity: 0; } [data-emotion="relaxed"] .s-eye-happy { opacity: 1; }
+[data-emotion="relaxed"] .s-char { animation: su-droop 3s ease-in-out 1; }
+[data-emotion="confused"] .s-eye--l { transform: scale(1.2); } [data-emotion="confused"] .s-eye--r { transform: scale(0.85); }
+[data-emotion="confused"] .s-m--smile { opacity: 0; } [data-emotion="confused"] .s-m--wavy { opacity: 1; }
+[data-emotion="confused"] .s-char { animation: su-tilt 1.6s ease-in-out 1; }
+@keyframes su-lean { 0%, 100% { transform: none; } 50% { transform: translateY(2px) scale(0.985); } }
+/* mood: the idle loop breathes with it */
+.sunny[data-mood="sleepy"] .s-body { animation-duration: 5.4s; }
+.sunny[data-mood="sleepy"] .s-sprout { animation-duration: 5s; }
+.sunny[data-mood="relaxed"] .s-body { animation-duration: 4.6s; }
+.sunny[data-mood="excited"] .s-sprout, .sunny[data-mood="happy"] .s-sprout { animation-duration: 1.6s; }
+.sunny[data-mood="focused"] .s-eyes { animation-duration: 7s; }
+.sunny[data-mood="curious"] .s-sprout { animation-duration: 2.2s; }
+/* nothing animates while the tab is hidden */
+.sunny.is-paused .sunny__svg *, .sunny.is-paused .s-char, .sunny.is-paused .sunny__char { animation-play-state: paused !important; }
+
+/* Ask panel: clear button and system notes */
+.ask__clear { margin-left: auto; padding: 6px 10px; border: 0; border-radius: 999px; background: none; color: var(--muted, #6b6f78); font: 500 10px/1.4 "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.ask__clear:hover { background: var(--surface, #f5f5f3); color: var(--ink, #15161a); }
+.ask__close { margin-left: 0; }
+.ask__sys { margin: 0; font: 500 10px/1.4 "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted, #6b6f78); }

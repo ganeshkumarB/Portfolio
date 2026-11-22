@@ -1,14 +1,23 @@
 /* Sunny: the site companion. A little sun with a sprout who lives in the
-   bottom-right corner of every page, entertains itself with acts (walk, cycle,
-   swim, skate, skip rope, drink, beer, smoke, juggle, sing, read, yoga, fish,
-   selfie, dance, peek, sleep), wears the whole emotion set, talks
-   in a speech bubble and reacts to the visitor (pointer, clicks, drag, scroll,
-   theme, leaving the window). Plain JS, inline SVG, CSS animations.
+   bottom-right corner of every page, keeps itself busy with small acts
+   (cycle, swim, skate, skip rope, drink, read, yoga, fish, selfie, dance,
+   peek, sleep), wears a set of emotions, talks in a speech bubble and reacts
+   to the visitor (pointer, clicks, drag, scroll, theme, leaving the window).
+   Plain JS, inline SVG, CSS animations.
+
+   Behaviour engine: Sunny knows the page, the section in view, whether the
+   visitor is reading, scrolling, idle or chatting, and its own mood. Acts
+   are chosen from context pools with cooldowns and priorities, and
+   proactive speech is rationed (see CONFIG). Quiet while you read,
+   expressive at meaningful moments.
 
    Sound: a welcome chime on the visitor's first click, tap or key (browsers
    block audio before that), a smile chirp on every click, a small sound for
-   every emotion and quiet cues for the acts. Sunny.setSound / setCues.
+   every emotion and quiet cues for the acts. Off until the visitor turns it
+   on. Sunny.setSound / setCues.
+
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
+        Sunny.context() · Sunny.setAskOpen(bool) · Sunny.mood() · Sunny.config
 */
 (function (global) {
   "use strict";
@@ -110,14 +119,22 @@
   /* ---------- Lines ---------- */
   var isCase = /case-/.test(location.pathname);
   var QUIPS = [
-    "Pssst. Try clicking me.", "You can drag me along the edge. I don't mind.",
+    "Pssst. Try clicking me.",
     "Fun fact: I'm 100% SVG and a little JavaScript.", "I run on design tokens. And snacks.",
     "Scroll on, there's more below.", "My favourite colour? #FFC93C. Obviously.",
     "Why did the designer go broke? Too many free trials.", "I told a CSS joke. Nobody got it. It needed more context.",
     "I'd tell you a UX joke, but it's three screens deep.", "Ganesh built me from a Figma frame. No frameworks were harmed.",
     "Between you and me, the Zobot case is the good one.", "Did you know every button here is Code Connected?",
-    "Hold on, stretching.", "I could do this all day. I literally do."
+    "Hold on, stretching.", "I could do this all day. I literally do.", "Press A if you have a question. I know things."
   ];
+  /* a few lines that only fit a mood */
+  var MOOD_QUIPS = {
+    curious: ["Ooh. What's this bit?", "I'm reading along. Slowly.", "Hm. Interesting choice."],
+    proud: ["Not bad, right?", "That one took a while. Worth it.", "I had nothing to do with this. Still proud."],
+    sleepy: ["Long day.", "Five more minutes.", "Is it bedtime yet?"],
+    relaxed: ["Take your time.", "No rush. I'm not going anywhere.", "Nice and quiet."],
+    happy: ["Hi again.", "This is fun.", "You're good company."]
+  };
   var CASE_QUIPS = ["Good pick. This one's a favourite.", "The next case is one scroll away →", "Spot the component library? It's everywhere here.", "Take your time, I'll wait. Badly."];
   var ACT_LINES = {
     walk: ["Just stretching my legs.", "Patrolling.", "Going for a walk."],
@@ -143,9 +160,33 @@
   };
   function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 
+  /* ---------- Config: how often Sunny acts and speaks on its own ----------
+     Conservative on purpose. Replies to the visitor (clicks, drags, questions)
+     are never rationed; only Sunny's own initiative is. Tweak at runtime with
+     Sunny.config.<key> = value. */
+  var CONFIG = {
+    tick: 2000,                   /* engine heartbeat, ms */
+    ambientGap: [16000, 30000],   /* pause between ambient acts, ms, drawn from this range */
+    actCooldown: 100000,          /* fallback cooldown for an act without its own */
+    bubbleGap: 14000,             /* minimum gap between proactive speech bubbles */
+    maxProactivePerPage: 6,       /* proactive bubbles per page view */
+    sectionLines: true,           /* one line the first time a section comes into view */
+    readingAfter: 5000,           /* scrolled, then still this long = reading: quiet acts only, no bubbles */
+    idleAfter: 60000,             /* no scroll this long = idle: Sunny may play */
+    sleepAfter: 50000,            /* no input at all this long = sleep */
+    welcomeOncePerSession: true,  /* the full hello once per tab session, a wave on later pages */
+    ignoreAfter: 3                /* this many unanswered bubbles in a row and Sunny goes quieter */
+  };
+  /* priorities: a running act is only interrupted by something of equal or higher priority */
+  var PRI = { sleep: 0, idle: 1, ambient: 2, scroll: 3, section: 4, event: 5, drag: 6, direct: 7 };
+
   /* ---------- DOM ---------- */
   var root, charEl, bubble, napBtn, svg, look, actTimer = 0, sayTimer = 0, emoteTimer = 0, busy = false, asleep = false;
   var sx = 0, stageW = 320, charW = 140, lastInput = Date.now(), facingLeft = false;
+  /* what Sunny is doing and feeling */
+  var state = { mood: "neutral", moodUntil: 0, cur: null, nextAmbient: 0, lastBubble: 0, pending: false, proactive: 0, unanswered: 0, engaged: 0, lastAct: {}, recent: [], lastScroll: 0, lastNear: 0 };
+  /* what Sunny knows about the page and the visitor */
+  var ctx = { page: "home", project: null, section: null, sectionLabel: null, sectionTitle: null, reading: false, idle: true, atTop: true, atBottom: false, askOpen: false, seen: {} };
 
   function build() {
     root = document.createElement("div");
@@ -178,12 +219,38 @@
   function face(left) { facingLeft = left; root.classList.toggle("is-flip", left); }
 
   /* ---------- Speech ---------- */
+  /* say: show a bubble now. Used for replies to something the visitor did. */
   function say(text, ms) {
+    /* lines inside an ambient act stay silent while the visitor reads */
+    if (state.quietAct && ctx.reading && !state.sayForce) return;
     clearTimeout(sayTimer);
     bubble.textContent = text;
     root.classList.add("is-talking");
     sayTimer = setTimeout(function () { root.classList.remove("is-talking"); }, ms || Math.max(1800, 900 + text.length * 55));
   }
+  /* speak: Sunny's own initiative. Rationed: not while reading or chatting,
+     not too often, not past the per-page budget, and quieter when ignored.
+     `force` is for reactions to the visitor (coming back, leaving): they skip
+     the reading check and the budget but keep a short gap. */
+  function speak(text, ms, force) {
+    var now = Date.now();
+    if (!root || asleep || ctx.askOpen) return false;
+    if (!force && ctx.reading) return false;
+    if (now - state.lastBubble < (force ? 2500 : CONFIG.bubbleGap * quietFactor())) return false;
+    if (!force && state.proactive >= CONFIG.maxProactivePerPage) return false;
+    if (!force) { if (state.pending) state.unanswered++; state.pending = true; state.proactive++; }
+    state.lastBubble = now;
+    state.sayForce = true; say(text, ms); state.sayForce = false;
+    return true;
+  }
+  /* ignored three times in a row: twice the gaps; six: three times. Engaged visitors get a little more. */
+  function quietFactor() {
+    if (state.unanswered >= CONFIG.ignoreAfter * 2) return 3;
+    if (state.unanswered >= CONFIG.ignoreAfter) return 2;
+    return state.engaged >= 2 ? 0.75 : 1;
+  }
+  /* the visitor did something to Sunny: it was not being ignored */
+  function noticed() { state.pending = false; state.unanswered = 0; state.engaged++; lastInput = Date.now(); }
 
   /* ---------- Sound: tiny synthesized cues, no audio files ----------
      Browsers only let audio start after a gesture (click, key, touch). Cues
@@ -207,7 +274,7 @@
   } catch (e) { /* ignore */ }
   var voice = VOICES[voiceName];
   var gestured = false; /* browsers only start audio after a click, tap or key press */
-  function ctx() {
+  function ctx_audio() {
     var AC = global.AudioContext || global.webkitAudioContext;
     if (!AC || !gestured) return null;
     if (!actx) actx = new AC();
@@ -217,7 +284,7 @@
   }
   function tone(notes, type, vol) {
     /* notes: [frequency, start, duration, glideTo] in seconds */
-    var ac = ctx(); if (!ac) return;
+    var ac = ctx_audio(); if (!ac) return;
     var t = ac.currentTime, v = voice;
     notes.forEach(function (n) {
       var o = ac.createOscillator(), g = ac.createGain(), dur = n[2] * v.release;
@@ -235,7 +302,7 @@
   }
   function hiss(dur, from, to, vol, filterType) {
     /* a short filtered noise burst: splashes, swooshes, shutter clicks */
-    var ac = ctx(); if (!ac) return;
+    var ac = ctx_audio(); if (!ac) return;
     var len = Math.ceil(ac.sampleRate * dur), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
     for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
     var src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(), t = ac.currentTime;
@@ -284,7 +351,7 @@
   /* every other cue is opt-in (Sunny.setCues(true)); gesture cues play now,
      act cues only once an earlier gesture has unlocked audio */
   function sfx(name) { if (extraCues) play(name); }
-  function cue(name) { if (extraCues && unlocked) play(name); }
+  function cue(name) { if (extraCues && unlocked && !ctx.askOpen) play(name); }
   function setSound(on) {
     soundOn = !!on;
     try { localStorage.setItem("sunny:sound", soundOn ? "on" : "off"); } catch (e) { /* ignore */ }
@@ -299,31 +366,8 @@
     try { localStorage.setItem("sunny:voice", name); } catch (e) { /* ignore */ }
     if (preview) { gestured = true; unlocked = true; if (!soundOn) setSound(true); play("boop"); setTimeout(function () { play("ding"); }, 220); }
   }
-  /* welcome: a chime with the wave. Browsers only allow sound after a click,
-     tap or key press, so if the page opened without one we wait for the first. */
-  var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
-  function deliverWelcome() {
-    if (welcomed) return;
-    welcomed = true; welcomedAt = Date.now(); unlocked = true;
-    var line = isCase ? caseLine() : pick(["Hi! I'm Sunny. Welcome!", "Hello there! Welcome to Ganesh's portfolio.", "Hi! Great to see you."]);
-    stopAct(); act("wave");
-    play("ding"); say(line);
-  }
-  function welcome() {
-    if (welcomed) return;
-    var ac = ctx();
-    if (!ac) return;
-    if (ac.state === "running") { deliverWelcome(); return; }
-    /* resume() finishes a moment after the gesture: deliver when it does */
-    if (welcomeWaiting) return;
-    welcomeWaiting = true;
-    var done = function () { welcomeWaiting = false; if (ac.state === "running") deliverWelcome(); };
-    try { ac.resume().then(done, function () { welcomeWaiting = false; }); } catch (e) { welcomeWaiting = false; }
-    setTimeout(function () { if (welcomeWaiting) done(); }, 400);
-  }
-
-  /* ---------- Emotions ---------- */
-  var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700 };
+  /* ---------- Emotions (faces) and mood (the longer-lived state behind them) ---------- */
+  var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700, focused: 2600, relaxed: 3000, confused: 1800 };
   function emote(name, ms, silent) {
     if (!EMOTIONS[name]) return;
     if (!silent) { if (name === "blush") smileSound(); else if (EMOTION_SFX[name]) cue(EMOTION_SFX[name]); }
@@ -333,6 +377,15 @@
     root.setAttribute("data-emotion", name);
     emoteTimer = setTimeout(function () { root.removeAttribute("data-emotion"); }, ms || EMOTIONS[name]);
   }
+  /* mood: set by events, decays back to neutral. It tints the idle animation
+     (CSS data-mood), biases which acts get picked and which quips fit. */
+  var MOODS = ["neutral", "happy", "curious", "excited", "proud", "shy", "sleepy", "relaxed", "focused", "dizzy", "confused"];
+  function setMood(name, ms) {
+    if (MOODS.indexOf(name) < 0) return;
+    state.mood = name; state.moodUntil = Date.now() + (ms || 20000);
+    if (root) { if (name === "neutral") root.removeAttribute("data-mood"); else root.setAttribute("data-mood", name); }
+  }
+  function moodTick(now) { if (state.mood !== "neutral" && now > state.moodUntil) setMood("neutral"); }
 
   /* ---------- Acts ---------- */
   var ACTS = {
@@ -425,53 +478,221 @@
     var mine = actToken;
     return setTimeout(function () { if (actToken === mine) fn(); }, ms);
   }
-  function act(name) {
+  /* act(name, pri): run an act unless something more important is still
+     running. Ambient acts (chosen by the engine) are interrupted by anything;
+     a reaction to the visitor interrupts an ambient act; a drag beats both.
+     Lines belonging to an ambient act go through speak() and are rationed. */
+  function act(name, pri) {
     var a = ACTS[name];
-    if (!a || reduced) return;
+    if (!a || reduced) return false;
+    if (pri == null) pri = PRI.event;
+    var now = Date.now();
+    if (state.cur && now < state.cur.until && pri < state.cur.pri) return false;
     clearTimeout(actTimer);
     actToken++;
     root.removeAttribute("data-act");
     root.classList.remove("is-catch");
     void root.offsetWidth;
     root.setAttribute("data-act", name);
-    busy = true;
+    busy = true; state.quietAct = pri <= PRI.ambient;
     var ms = a.ms;
     if (a.run) { var r = a.run(); if (r) ms = r; }
-    if (ACT_LINES[name] && Math.random() < 0.8) say(pick(ACT_LINES[name]));
+    state.lastAct[name] = now;
+    state.recent.push(name); if (state.recent.length > 4) state.recent.shift();
+    if (ACT_LINES[name] && Math.random() < 0.8) { if (pri <= PRI.ambient) speak(pick(ACT_LINES[name])); else say(pick(ACT_LINES[name])); }
     if (name === "sleep") {
-      asleep = true;
+      asleep = true; state.cur = { name: name, pri: PRI.sleep, until: Infinity };
       var sn = setInterval(function () { if (!asleep) { clearInterval(sn); return; } cue("snore"); }, 3400);
-      return;
+      return true;
     }
-    actTimer = setTimeout(function () { root.removeAttribute("data-act"); busy = false; }, ms);
+    state.cur = { name: name, pri: pri, until: now + ms };
+    /* quietAct stays on past the end so an act's closing line (a beat after it) is gated too; the next act or stopAct() resets it */
+    actTimer = setTimeout(function () { root.removeAttribute("data-act"); busy = false; state.cur = null; }, ms);
+    return true;
   }
-  function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; }
+  function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; state.cur = null; state.quietAct = false; }
   function wake() {
     if (!asleep) return;
     asleep = false; stopAct(); cue("pop");
+    setMood("happy", 12000);
     emote("surprised"); say(pick(["Huh? I'm awake!", "Was I snoring?", "Oh! Hi."]));
   }
 
-  /* ---------- Director ---------- */
-  var WEIGHTS = [["wave", 6], ["hop", 7], ["peek", 4], ["dance", 6], ["cycle", 7], ["swim", 5], ["drink", 6], ["beer", 5], ["smoke", 4], ["joker", 6], ["sing", 5], ["read", 5], ["yoga", 5], ["skate", 6], ["fish", 5], ["selfie", 5], ["skip", 5], ["stretch", 4], ["quip", 13], ["glance", 8]];
-  function weighted() {
-    var total = WEIGHTS.reduce(function (s, w) { return s + w[1]; }, 0), r = Math.random() * total;
-    for (var i = 0; i < WEIGHTS.length; i++) { r -= WEIGHTS[i][1]; if (r <= 0) return WEIGHTS[i][0]; }
-    return "hop";
+  /* ---------- Welcome: the full hello once per session, a wave after that ---------- */
+  var CASE_LINES = {
+    "zobot": "💬 Bots! My people. Scroll in.",
+    "design-system": "🧩 26 components and me. I’m the 27th.",
+    "operator-console": "🎧 Agent mode. Queue's calm today.",
+    "reports": "📋 Charts. Each one answers one question.",
+    "brand-configuration": "🎨 Brand day. Pick a colour, I'll wear it.",
+    "outbound": "📣 Outbound! Say it loud.",
+    "feedback": "⭐ Rate me. Five stars, I hope."
+  };
+  function caseLine() { return CASE_LINES[ctx.project] || "Oh, a case study. Good choice."; }
+  function helloLine() {
+    var h = new Date().getHours();
+    var tod = h >= 5 && h < 12 ? "Good morning ☀ " : h >= 12 && h < 17 ? "Afternoon. " : h >= 17 && h < 21 ? "Golden hour, my favourite. " : "Late one? Me too. ";
+    return tod + (isCase ? caseLine() : "I'm Sunny. I'll keep you company.");
   }
-  function direct() {
-    if (reduced || document.hidden || busy || asleep || root.classList.contains("is-carried") || root.hasAttribute("data-emotion")) return;
-    var idleFor = Date.now() - lastInput;
-    if (idleFor > 20000) { act("sleep"); return; }
-    var what = weighted();
-    if (what === "quip") say(pick(isCase ? CASE_QUIPS.concat(QUIPS) : QUIPS));
-    else if (what === "glance") glance();
-    else act(what);
+  var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
+  function greet() {
+    var first = true;
+    if (CONFIG.welcomeOncePerSession) { try { first = !sessionStorage.getItem("sunny:hello"); sessionStorage.setItem("sunny:hello", "1"); } catch (e) { /* ignore */ } }
+    act("wave", PRI.event);
+    if (first) { say(helloLine()); return; }
+    if (isCase) { /* a case gets its one line the first time it is opened in this session */
+      var key = "sunny:case:" + ctx.project, said = false;
+      try { said = !!sessionStorage.getItem(key); sessionStorage.setItem(key, "1"); } catch (e) { /* ignore */ }
+      if (!said) say(caseLine());
+    }
   }
+  function deliverWelcome() {
+    if (welcomed) return;
+    welcomed = true; welcomedAt = Date.now(); unlocked = true;
+    play("ding"); greet();
+  }
+  /* with sound on, the hello waits for the gesture that unlocks audio so the chime can play with it */
+  function welcome() {
+    if (welcomed) return;
+    var ac = ctx_audio();
+    if (!ac) return;
+    if (ac.state === "running") { deliverWelcome(); return; }
+    if (welcomeWaiting) return;
+    welcomeWaiting = true;
+    var done = function () { welcomeWaiting = false; if (ac.state === "running") deliverWelcome(); };
+    try { ac.resume().then(done, function () { welcomeWaiting = false; }); } catch (e) { welcomeWaiting = false; }
+    setTimeout(function () { if (welcomeWaiting) done(); }, 400);
+  }
+
+  /* ---------- Context: which page, which section, is the visitor reading ---------- */
+  function pageInfo() {
+    var p = location.pathname, m = p.match(/case-([a-z-]+)\.html/);
+    if (m) { ctx.page = "case"; ctx.project = m[1]; return; }
+    if (/\/(index\.html)?$/.test(p)) { ctx.page = "home"; return; }
+    var s = p.match(/([a-z0-9-]+)\.html$/);
+    ctx.page = s ? s[1] : "page";
+  }
+  function labelFor(el) {
+    if (ctx.page === "case") { var a = document.querySelector('.cs-formula a[href="#' + el.id + '"]'); return a ? a.textContent.replace(/^\d+\s*/, "").trim() : el.id; }
+    return el.getAttribute("data-layer") || el.id;
+  }
+  function titleFor(el) { var h = el.querySelector(".cs-h2, .section__title, .contact__title, .hero__title, h2, h1"); return h ? h.textContent.trim() : null; }
+  /* the section with the most of itself on screen is the current one */
+  function watchSections(onEnter) {
+    if (!global.IntersectionObserver) return;
+    var nodes = ctx.page === "case" ? document.querySelectorAll(".cs-section[id]") : document.querySelectorAll("section[id], header[id], footer[id]");
+    if (!nodes.length) return;
+    var ratios = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { ratios[en.target.id] = en.isIntersecting ? Math.max(0.01, en.intersectionRatio) : 0; });
+      var best = null, bestR = 0;
+      Object.keys(ratios).forEach(function (id) { if (ratios[id] > bestR) { bestR = ratios[id]; best = id; } });
+      if (best && best !== ctx.section) {
+        var el = document.getElementById(best);
+        ctx.section = best; ctx.sectionLabel = labelFor(el); ctx.sectionTitle = titleFor(el);
+        if (onEnter) onEnter(best, el);
+      }
+    }, { threshold: [0, 0.2, 0.35, 0.5, 0.75] });
+    Array.prototype.forEach.call(nodes, function (n) { io.observe(n); });
+  }
+  /* reading = scrolled a moment ago and still now. Idle = no scroll for a while. */
+  function senseTick(now) {
+    var since = now - state.lastScroll;
+    ctx.reading = !ctx.askOpen && since > CONFIG.readingAfter && since < CONFIG.idleAfter;
+    ctx.idle = since >= CONFIG.idleAfter;
+    if (ctx.reading && state.mood === "neutral" && since > 20000) setMood("relaxed", 15000);
+  }
+
+  /* ---------- Behaviour engine ----------
+     Every tick: sense → eligible acts for this context and mood → weighted
+     pick → act, line or glance → pause. `quiet` acts may run while the visitor
+     reads; nothing speaks then. */
+  var BEHAVIOURS = {
+    wave:    { w: 2, cool: 90e3 },
+    hop:     { w: 4, cool: 45e3 },
+    peek:    { w: 4, cool: 70e3, quiet: true },
+    dance:   { w: 2, cool: 150e3 },
+    cycle:   { w: 2, cool: 150e3 },
+    swim:    { w: 2, cool: 180e3 },
+    drink:   { w: 3, cool: 150e3 },
+    beer:    { w: 1, cool: 300e3 },
+    smoke:   { w: 1, cool: 400e3 },
+    joker:   { w: 2, cool: 200e3 },
+    sing:    { w: 2, cool: 200e3 },
+    read:    { w: 3, cool: 120e3, quiet: true },
+    yoga:    { w: 3, cool: 150e3, quiet: true },
+    skate:   { w: 2, cool: 180e3 },
+    fish:    { w: 2, cool: 200e3, quiet: true },
+    selfie:  { w: 2, cool: 180e3 },
+    skip:    { w: 2, cool: 180e3 },
+    stretch: { w: 3, cool: 90e3, quiet: true },
+    quip:    { w: 5, cool: 40e3 },
+    glance:  { w: 8, cool: 8e3, quiet: true }
+  };
+  /* what fits where: boosts by home section, case page and page end */
+  var POOLS = {
+    hey: { glance: 2, wave: 2, peek: 1 },
+    work: { peek: 4, glance: 2, read: 1 },
+    process: { hop: 3, cycle: 2, skate: 1, joker: 1 },
+    story: { glance: 4, read: 2, stretch: 1 },
+    gallery: { selfie: 4, peek: 1 },
+    writing: { read: 5 },
+    skills: { selfie: 2, dance: 2, sing: 1, joker: 1 },
+    ai: { joker: 2, wave: 1, peek: 1 },
+    contact: { wave: 5 },
+    "case": { read: 3, peek: 2, glance: 2, stretch: 1 },
+    end: { dance: 3, wave: 2, selfie: 1 }
+  };
+  var MOOD_POOLS = {
+    happy: { hop: 2, dance: 1 }, curious: { peek: 3, read: 2, glance: 2 }, excited: { dance: 3, skate: 2, hop: 2, skip: 1 },
+    proud: { selfie: 3, sing: 2 }, shy: { glance: 3, stretch: 1 }, sleepy: { stretch: 3, yoga: 3 },
+    relaxed: { yoga: 3, fish: 2, read: 2, drink: 1 }, focused: { glance: 2 }, dizzy: { stretch: 2 }, confused: { glance: 2, peek: 1 }
+  };
+  function choose() {
+    var now = Date.now(), boost = {}, k;
+    var pool = ctx.atBottom ? "end" : ctx.page === "case" ? "case" : ctx.section;
+    var p = POOLS[pool] || {}; for (k in p) boost[k] = (boost[k] || 0) + p[k];
+    var m = MOOD_POOLS[state.mood] || {}; for (k in m) boost[k] = (boost[k] || 0) + m[k];
+    var list = [], total = 0;
+    for (k in BEHAVIOURS) {
+      var b = BEHAVIOURS[k];
+      if (ctx.reading && !b.quiet) continue;
+      if (k === "quip" && state.proactive >= CONFIG.maxProactivePerPage) continue;
+      if (state.lastAct[k] && now - state.lastAct[k] < (b.cool || CONFIG.actCooldown)) continue;
+      if (k !== "glance" && state.recent.indexOf(k) > -1) continue;
+      var w = b.w + (boost[k] || 0) * 2;
+      list.push([k, w]); total += w;
+    }
+    if (!list.length) return null;
+    var r = Math.random() * total;
+    for (var i = 0; i < list.length; i++) { r -= list[i][1]; if (r <= 0) return list[i][0]; }
+    return list[list.length - 1][0];
+  }
+  function quips() { var m = MOOD_QUIPS[state.mood], base = isCase ? CASE_QUIPS.concat(QUIPS) : QUIPS; return m ? m.concat(base) : base; }
   function glance() {
+    state.lastAct.glance = Date.now();
     var gx = (Math.random() * 2 - 1).toFixed(2), gy = (Math.random() * 1.2 - 0.6).toFixed(2);
     look.style.transform = "translate(" + gx * 5 + "px," + gy * 4 + "px)";
     setTimeout(function () { if (Date.now() - lastInput > 1000) look.style.transform = ""; }, 800 + Math.random() * 600);
+  }
+  function direct() {
+    var now = Date.now();
+    moodTick(now); senseTick(now);
+    if (reduced || document.hidden || drag || root.classList.contains("is-carried")) return;
+    var idleFor = now - lastInput;
+    if (asleep) return;
+    if (!ctx.askOpen && idleFor > CONFIG.sleepAfter) { act("sleep", PRI.sleep); return; }
+    if (idleFor > CONFIG.sleepAfter * 0.6 && state.mood === "neutral") setMood("sleepy", 20000);
+    if (ctx.askOpen) { if (Math.random() < 0.15) glance(); return; }
+    if (now < state.nextAmbient) return;
+    if (state.cur && now < state.cur.until) return;
+    if (root.hasAttribute("data-emotion")) return;
+    var what = choose(), gap = CONFIG.ambientGap;
+    state.nextAmbient = now + (gap[0] + Math.random() * (gap[1] - gap[0])) * quietFactor() * (ctx.reading ? 1.6 : 1);
+    if (!what) return;
+    if (what === "quip") speak(pick(quips()));
+    else if (what === "glance") glance();
+    else act(what, PRI.ambient);
   }
 
   /* ---------- Interaction ---------- */
@@ -489,14 +710,14 @@
     if (near !== nearNow) {
       nearNow = near;
       root.classList.toggle("is-near", near);
-      if (near && !busy && !drag) { act("wave"); cue("bubble"); }
+      if (near && !drag && !ctx.askOpen && Date.now() - state.lastNear > 12000) { state.lastNear = Date.now(); if (act("wave", PRI.event)) cue("bubble"); }
     }
   }
   function wireInput() {
     if (finePointer) global.addEventListener("pointermove", onPointer, { passive: true });
     global.addEventListener("keydown", function () { lastInput = Date.now(); wake(); });
     global.addEventListener("touchstart", function () { lastInput = Date.now(); wake(); }, { passive: true });
-    function firstGesture() { gestured = true; if (!soundOn) return; ctx(); welcome(); }
+    function firstGesture() { gestured = true; if (!soundOn) return; ctx_audio(); welcome(); }
     global.addEventListener("pointerdown", firstGesture, { passive: true });
     global.addEventListener("keydown", firstGesture);
     global.addEventListener("touchstart", firstGesture, { passive: true });
@@ -506,13 +727,13 @@
       if (drag && drag.moved) return;
       var now = Date.now();
       taps = taps.filter(function (t) { return now - t < 1400; }); taps.push(now);
-      stopAct();
-      if (taps.length >= 3) { smileSound(); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
-      else if (taps.length === 2) { smileSound(); emote("dizzy", 0, true); act("hop"); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
-      else if ((tipTurn = !tipTurn)) { emote("wink"); say("Tip: " + pick(TIPS), 4200); }
-      else { emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
+      noticed(); stopAct();
+      if (taps.length >= 3) { smileSound(); setMood("dizzy", 8000); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
+      else if (taps.length === 2) { smileSound(); setMood("excited", 15000); emote("dizzy", 0, true); act("hop", PRI.direct); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else if ((tipTurn = !tipTurn)) { setMood("happy", 20000); emote("wink"); say("Tip: " + pick(TIPS), 4200); }
+      else { setMood("happy", 20000); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
-    svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
+    svg.addEventListener("contextmenu", function (e) { e.preventDefault(); noticed(); stopAct(); sfx("tick"); emote("cool"); say(pick(["Too cool for context menus.", "Shades on.", "Right-click? Bold."])); });
 
     /* drag along the edge */
     svg.addEventListener("pointerdown", function (e) {
@@ -524,13 +745,14 @@
     svg.addEventListener("pointermove", function (e) {
       if (!drag) return;
       var dx = e.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stopAct(); sfx("pickup"); root.classList.add("is-carried"); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
+      if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; noticed(); stopAct(); state.cur = { name: "drag", pri: PRI.drag, until: Infinity }; sfx("pickup"); root.classList.add("is-carried"); setMood("dizzy", 10000); emote("surprised", 60000); say(pick(["Wheee, I'm flying!", "Careful, I'm fragile. Not really.", "Put me down! …no wait, this is fun."])); }
       if (drag.moved) setX(drag.startSx + dx, 0);
     });
     function endDrag() {
       if (!drag) return;
       var moved = drag.moved; drag = null;
       if (moved) {
+        state.cur = null;
         root.classList.remove("is-carried");
         root.removeAttribute("data-emotion");
         root.classList.add("is-landing"); sfx("land"); setTimeout(function () { root.classList.remove("is-landing"); }, 500);
@@ -548,31 +770,53 @@
       setTimeout(function () { root.classList.add("is-gone"); document.documentElement.classList.remove("has-sunny"); }, 2300);
     });
 
-    /* scroll: whoa on fast scrolls, celebrate at the bottom */
-    var lastY = global.scrollY, lastT = 0, whoaAt = 0, bottomSaid = false;
+    /* one scroll listener: speed, direction flips, page end, and the reading sense */
+    var lastY = global.scrollY, lastT = 0, whoaAt = 0, bottomSaid = false, runTimer = 0, flips = [], dizzyAt = 0, lastDir = 0;
     global.addEventListener("scroll", function () {
-      lastInput = Date.now(); wake();
       var now = performance.now(), y = global.scrollY;
+      lastInput = state.lastScroll = Date.now(); wake();
       if (lastT) {
-        var v = (y - lastY) / Math.max(8, now - lastT);
-        if (Math.abs(v) > 2 && now - whoaAt > 2000) { whoaAt = now; root.style.setProperty("--sy", v > 0 ? "1" : "-1"); emote("whoa"); cue("swoosh"); }
+        var v = (y - lastY) / Math.max(8, now - lastT), dir = v > 0 ? 1 : v < 0 ? -1 : 0;
+        if (Math.abs(v) > 0.9) { root.classList.add("is-running"); clearTimeout(runTimer); runTimer = setTimeout(function () { root.classList.remove("is-running"); }, 500); }
+        if (Math.abs(v) > 2 && now - whoaAt > 4000 && !ctx.askOpen) { whoaAt = now; root.style.setProperty("--sy", v > 0 ? "1" : "-1"); emote("whoa"); cue("swoosh"); }
+        if (dir && lastDir && dir !== lastDir) {
+          flips.push(now); flips = flips.filter(function (t) { return now - t < 1500; });
+          if (flips.length >= 4 && now - dizzyAt > 5000) { dizzyAt = now; flips = []; stopAct(); setMood("dizzy", 8000); emote("dizzy", 1600); say(pick(["Whoa. Slow down.", "Dizzy… which way is up?", "Pick a direction!"]), 1800); }
+        }
+        if (dir) lastDir = dir;
       }
       lastY = y; lastT = now;
-      var atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
-      if (atBottom && !bottomSaid) { bottomSaid = true; stopAct(); cue("ding"); act("dance"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
-      if (!atBottom && y < 200) bottomSaid = false;
+      ctx.atTop = y < 200;
+      ctx.atBottom = y + global.innerHeight >= document.documentElement.scrollHeight - 40;
+      if (ctx.atBottom && !bottomSaid) {
+        bottomSaid = true; setMood("proud", 20000);
+        if (act("dance", PRI.event)) { cue("ding"); say(isCase ? "End of the case! Next one's right there →" : "You made it to the end! Say hi to Ganesh."); }
+      }
+      if (!ctx.atBottom && ctx.atTop) bottomSaid = false;
     }, { passive: true });
 
     /* window, tab, theme */
-    document.documentElement.addEventListener("mouseleave", function () { if (!busy) { emote("sad"); say(pick(["Come back…", "Bye for now.", "I'll be here."])); } });
-    document.documentElement.addEventListener("mouseenter", function () { emote("happy"); say(pick(["You're back!", "Hi again!", "Missed you."])); });
-    document.addEventListener("visibilitychange", function () { if (!document.hidden) { stopAct(); act("wave"); say(pick(["Welcome back!", "Oh hey, you're back."])); cue("pop"); } });
+    var wentOut = false, edgeAt = 0;
+    document.documentElement.addEventListener("mouseleave", function () {
+      if (busy || asleep || ctx.askOpen || Date.now() - edgeAt < 10000) return;
+      edgeAt = Date.now(); wentOut = true; emote("sad"); speak(pick(["Come back…", "Bye for now.", "I'll be here."]), 2200, true);
+    });
+    document.documentElement.addEventListener("mouseenter", function () {
+      if (!wentOut || asleep || ctx.askOpen) return;
+      wentOut = false; setMood("happy", 15000); emote("happy"); speak(pick(["You're back!", "Hi again!", "Missed you."]), 2200, true);
+    });
+    document.addEventListener("visibilitychange", function () {
+      root.classList.toggle("is-paused", document.hidden);
+      if (document.hidden || asleep) return;
+      setMood("excited", 10000);
+      if (act("wave", PRI.event)) { speak(pick(["Welcome back!", "Oh hey, you're back."]), 2200, true); cue("pop"); }
+    });
     if (global.MutationObserver) new MutationObserver(function () {
       var dark = document.documentElement.getAttribute("data-theme") === "dark";
-      if (Date.now() - welcomedAt < 2500) { sfx("tick"); return; }
+      if (Date.now() - welcomedAt < 2500 || ctx.askOpen) { sfx("tick"); return; }
       stopAct(); sfx("tick");
-      if (dark) { emote("sleepy", 2500); say(pick(["Dark mode. Cosy.", "Lights off. Nice."])); }
-      else { emote("cool"); say(pick(["Bright! Shades on.", "Light mode? Bold choice."])); }
+      if (dark) { setMood("relaxed", 20000); emote("sleepy", 2500); say(pick(["Dark mode. Cosy.", "Lights off. Nice."])); }
+      else { setMood("happy", 15000); emote("cool"); say(pick(["Bright! Shades on.", "Light mode? Bold choice."])); }
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
@@ -588,50 +832,49 @@
     "Ship ugly, ship often. One real project beats ten tutorials.",
     "Related things closer, groups further apart. That is most of layout."
   ];
-  var CASE_LINES = {
-    "zobot": "💬 Bots! My people. Scroll in.",
-    "design-system": "🧩 26 components and me. I’m the 27th.",
-    "operator-console": "🎧 Agent mode. Queue's calm today.",
-    "reports": "📋 Charts. Each one answers one question.",
-    "brand-configuration": "🎨 Brand day. Pick a colour, I'll wear it.",
-    "outbound": "📣 Outbound! Say it loud.",
-    "feedback": "⭐ Rate me. Five stars, I hope."
-  };
-  function caseLine() {
-    var m = location.pathname.match(/case-([a-z-]+)\.html/);
-    return (m && CASE_LINES[m[1]]) || "Oh, a case study. Good choice.";
-  }
+  /* home sections: one reaction each, the first time they come into view */
   var SECTIONS = {
-    work: { emotion: "curious", line: "Seven case studies. Open one, I'll peek over the edge." },
-    process: { act: "walk", line: "Tokens → components → code. I carry the chip to Ship.", then: { emotion: "proud", line: "Shipped. Zero drift." } },
-    story: { emotion: "shy", line: "That's him. I'm the sidekick." },
-    gallery: { emotion: "love", line: "Ooh, art. Click a piece and I'll hold the frame." },
-    writing: { act: "read", line: "Reading the carousels. Spacing is 80%, apparently." },
-    skills: { emotion: "proud", line: "skills.* All tokens, no fluff." },
-    ai: { emotion: "proud", line: "That's my section. Press A and ask me anything." },
-    contact: { act: "wave", line: "Say hi. He replies within a day." }
+    work: { emotion: "curious", mood: "curious", line: "Seven case studies. Open one, I'll peek over the edge." },
+    process: { act: "hop", mood: "excited", line: "Tokens → components → code. I carry the chip to Ship.", then: { emotion: "proud", line: "Shipped. Zero drift." } },
+    story: { emotion: "shy", mood: "shy", line: "That's him. I'm the sidekick." },
+    gallery: { emotion: "love", mood: "happy", line: "Ooh, art. Click a piece and I'll hold the frame." },
+    writing: { act: "read", mood: "curious", line: "Reading the carousels. Spacing is 80%, apparently." },
+    skills: { emotion: "proud", mood: "proud", line: "skills.* All tokens, no fluff." },
+    ai: { emotion: "proud", mood: "proud", line: "That's my section. Press A and ask me anything." },
+    contact: { act: "wave", mood: "happy", line: "Say hi. He replies within a day." }
   };
+  /* case studies: a nod at the parts that matter, keyed by the outline label */
+  var CASE_SECTIONS = {
+    "Exploration": { emotion: "curious", mood: "curious" },
+    "Discovery": { emotion: "curious", mood: "curious" },
+    "Decisions": { emotion: "curious", mood: "curious", line: "This is where the interesting decisions happened." },
+    "Your thinking": { emotion: "curious", mood: "curious", line: "This is where the interesting decisions happened." },
+    "Outcome": { emotion: "proud", mood: "proud", line: "The payoff." },
+    "Impact": { emotion: "proud", mood: "proud", line: "The payoff." },
+    "Output": { emotion: "proud", mood: "proud", line: "Counts he can stand behind." },
+    "Takeaway": { emotion: "relaxed", mood: "relaxed", line: "One line worth remembering." },
+    "Reflection": { emotion: "relaxed", mood: "relaxed", line: "One line worth remembering." }
+  };
+  var lastReact = 0;
+  function react(r) {
+    if (reduced || asleep || ctx.askOpen || Date.now() - lastReact < 2500) return;
+    lastReact = Date.now();
+    if (r.mood) setMood(r.mood, 25000);
+    var ok = true;
+    if (r.act) ok = act(r.act, PRI.section);
+    else if (r.emotion) { if (state.cur && state.cur.pri > PRI.section && Date.now() < state.cur.until) ok = false; else emote(r.emotion); }
+    if (ok && r.line) speak(r.line, 3200);
+    if (ok && r.then) setTimeout(function () { if (!asleep && !ctx.askOpen) { emote(r.then.emotion); speak(r.then.line, 2600); } }, 3600);
+  }
+  function enterSection(id) {
+    if (!CONFIG.sectionLines || ctx.seen[id]) return;
+    ctx.seen[id] = true;
+    var r = ctx.page === "case" ? CASE_SECTIONS[ctx.sectionLabel] : SECTIONS[id];
+    if (ctx.page === "case" && !ctx.seen._case) { ctx.seen._case = true; setMood("curious", 30000); }
+    if (r) react(r);
+  }
   function wireReactions() {
-    var lastReact = 0;
-    function react(r) {
-      if (asleep || busy || Date.now() - lastReact < 2500) return;
-      lastReact = Date.now();
-      stopAct();
-      if (r.act) act(r.act); else if (r.emotion) emote(r.emotion);
-      if (r.line) say(r.line, 3200);
-      if (r.then) setTimeout(function () { if (!asleep) { emote(r.then.emotion); say(r.then.line, 2600); } }, 3600);
-    }
-
-    /* sections scrolling past (home page) */
-    if (!isCase && global.IntersectionObserver) {
-      var seen = {};
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          var id = en.target.id;
-          if (en.isIntersecting && en.intersectionRatio >= 0.35 && !seen[id] && SECTIONS[id]) { seen[id] = true; react(SECTIONS[id]); }
-        });
-      }, { threshold: [0.35] });
-      Object.keys(SECTIONS).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+    if (ctx.page === "home") {
       /* the four steps of How I work: Sunny reacts when a visitor picks one */
       var STEPS = [
         { emotion: "curious", line: "Step one: understand the real problem first." },
@@ -642,39 +885,23 @@
       var stepsSeen = {};
       document.addEventListener("how:step", function (e) {
         var i = e.detail; if (stepsSeen[i] || !STEPS[i]) return;
-        stepsSeen[i] = true; react(STEPS[i]);
+        stepsSeen[i] = true; noticed(); react(STEPS[i]);
       });
       /* opening a case card */
       Array.prototype.forEach.call(document.querySelectorAll("details.case"), function (d) {
         d.addEventListener("toggle", function () {
-          if (d.open) react({ emotion: "curious", line: pick(["Ooh, opening that one?", "Good pick. Every screen is recreated.", "Peeking over the edge…"]) });
+          if (d.open) react({ emotion: "curious", mood: "curious", line: pick(["Ooh, opening that one?", "Good pick. Every screen is recreated.", "Peeking over the edge…"]) });
         });
       });
       /* hovering the email actions */
       var excitedAt = 0;
       Array.prototype.forEach.call(document.querySelectorAll("#emailLink, .hero__cta .btn--ghost, .cs-cta .btn-sun"), function (a) {
         a.addEventListener("mouseenter", function () {
-          if (busy || Date.now() - excitedAt < 6000) return;
-          excitedAt = Date.now(); emote("excited", 1200); say(pick(["Yes! Do it.", "Go on, say hi.", "👍 He replies within a day."]), 2200);
+          if (busy || ctx.askOpen || Date.now() - excitedAt < 6000) return;
+          excitedAt = Date.now(); emote("excited", 1200); speak(pick(["Yes! Do it.", "Go on, say hi.", "👍 He replies within a day."]), 2200, true);
         });
       });
     }
-
-    /* scroll speed: run when fast, dizzy on quick back-and-forth */
-    var sLastY = global.scrollY, sLastT = 0, runTimer = 0, flips = [], dizzyAt = 0, lastDir = 0;
-    global.addEventListener("scroll", function () {
-      var now = performance.now(), y = global.scrollY;
-      if (sLastT) {
-        var v = (y - sLastY) / Math.max(8, now - sLastT), dir = v > 0 ? 1 : v < 0 ? -1 : 0;
-        if (Math.abs(v) > 0.9) { root.classList.add("is-running"); clearTimeout(runTimer); runTimer = setTimeout(function () { root.classList.remove("is-running"); }, 500); }
-        if (dir && lastDir && dir !== lastDir) {
-          flips.push(now); flips = flips.filter(function (t) { return now - t < 1500; });
-          if (flips.length >= 4 && now - dizzyAt > 5000) { dizzyAt = now; flips = []; stopAct(); emote("dizzy", 1600); say(pick(["Whoa. Slow down.", "Dizzy… which way is up?", "Pick a direction!"]), 1800); }
-        }
-        if (dir) lastDir = dir;
-      }
-      sLastY = y; sLastT = now;
-    }, { passive: true });
 
     /* dark mode: night cap · inspect mode: glasses and self-measurement */
     var isDark = function () { return document.documentElement.getAttribute("data-theme") === "dark"; };
@@ -691,15 +918,15 @@
 
     /* resume download */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__resume"), function (a) {
-      a.addEventListener("click", function () { stopAct(); emote("proud", 1800); say("📄 Carrying your PDF… there, it's yours.", 2600); });
+      a.addEventListener("click", function () { stopAct(); setMood("proud", 15000); emote("proud", 1800); say("📄 Carrying your PDF… there, it's yours.", 2600); });
     });
 
-    /* typing "sunny" */
+    /* typing "sunny" anywhere that is not a text field */
     var typed = "";
     global.addEventListener("keydown", function (e) {
-      if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable || e.key.length !== 1) return;
+      if (ctx.askOpen || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable || e.key.length !== 1) return;
       typed = (typed + e.key.toLowerCase()).slice(-5);
-      if (typed === "sunny") { typed = ""; stopAct(); act("dance"); say("You found me! ☀", 2400); sunRain(); }
+      if (typed === "sunny") { typed = ""; noticed(); stopAct(); setMood("excited", 15000); act("dance", PRI.direct); say("You found me! ☀", 2400); if (!reduced) sunRain(); }
     });
     function sunRain() {
       var layer = document.createElement("div"); layer.className = "sun-rain"; layer.setAttribute("aria-hidden", "true");
@@ -714,32 +941,28 @@
       setTimeout(function () { layer.remove(); }, 4200);
     }
 
-    /* time of day */
+    /* evening tint; the time of day is part of the hello line */
     var h = new Date().getHours();
     if (h >= 17 && h < 21) root.classList.add("is-evening");
-    setTimeout(function () {
-      if (busy || asleep) return;
-      if (h >= 5 && h < 12) { emote("happy"); say("Good morning ☀", 2000); }
-      else if (h >= 12 && h < 17) { emote("cool", 2600); say("Afternoon. Shades on.", 2000); }
-      else if (h >= 17 && h < 21) { emote("happy"); say("Golden hour. My favourite.", 2200); }
-      else { emote("sleepy", 2600); say("Late one? Me too.", 2200); }
-    }, 4800);
   }
 
   /* ---------- Boot ---------- */
   function init() {
     try { if (sessionStorage.getItem("sunny:nap")) return; } catch (e) { /* ignore */ }
+    pageInfo();
     build();
     document.documentElement.classList.add("has-sunny");
+    state.lastScroll = Date.now(); /* the page opens on its first section: reading until proven idle */
+    watchSections(enterSection);
     if (!reduced) {
       wireInput();
       setTimeout(function () { root.classList.add("is-in"); }, 300);
       setTimeout(function () {
         if (soundOn) welcome();
-        if (!welcomed) { act("wave"); say(isCase ? caseLine() : "Hi! I'm Sunny. I'll keep you company."); }
+        if (!welcomed) { welcomed = true; welcomedAt = Date.now(); greet(); }
       }, 1100);
       wireReactions();
-      setInterval(direct, 5200);
+      setInterval(direct, CONFIG.tick);
     } else {
       root.classList.add("is-in", "is-static");
     }
@@ -747,18 +970,31 @@
   }
   /* API is available immediately; calls before the DOM is ready are ignored */
   var api = global.Sunny = {
-    act: function (n) { if (root) act(n); },
+    act: function (n) { if (root) act(n, PRI.direct); },
     emote: function (n, ms) { if (root) emote(n, ms); },
     emotionSounds: EMOTION_SFX,
-    say: function (t, ms) { if (root) say(t, ms); },
+    say: function (t, ms) { if (root) { state.sayForce = true; say(t, ms); state.sayForce = false; } },
     sfx: function (n) { if (SFX[n]) { try { SFX[n](); } catch (e) { /* silent */ } } },
     setSound: setSound, soundOn: function () { return soundOn; },
     setCues: setCues, cuesOn: function () { return extraCues; },
     setVoice: setVoice, voice: function () { return voiceName; }, voices: Object.keys(VOICES),
     audioState: function () { return { context: actx ? actx.state : "none", unlocked: unlocked, welcomed: welcomed }; },
-    acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), sounds: Object.keys(SFX), el: null
+    /* the Ask panel tells Sunny when it is open: no ambient acts, no bubbles, a focused face */
+    setAskOpen: function (on) {
+      ctx.askOpen = !!on;
+      if (!root) return;
+      if (on) { noticed(); if (state.cur && state.cur.pri <= PRI.ambient) stopAct(); setMood("focused", 120000); if (!reduced) emote("focused", 2000, true); }
+      else setMood("happy", 10000);
+    },
+    /* where the visitor is: page, project and the section in view */
+    context: function () { return { page: ctx.page, project: ctx.project, section: ctx.section, sectionLabel: ctx.sectionLabel, sectionTitle: ctx.sectionTitle }; },
+    mood: function () { return state.mood; },
+    setMood: function (n, ms) { setMood(n, ms); },
+    config: CONFIG,
+    debug: function () { return { state: state, ctx: ctx }; },
+    acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), moods: MOODS, sounds: Object.keys(SFX), el: null
   };
   /* mount after the page has loaded, in an idle slot, so the first paint is not waiting on the mascot */
-  function later(fn) { if (global.requestIdleCallback) global.requestIdleCallback(fn, { timeout: 1200 }); else setTimeout(fn, 120); }
-  if (document.readyState === "complete") later(init); else global.addEventListener("load", function () { later(init); });
+  function whenIdle(fn) { if (global.requestIdleCallback) global.requestIdleCallback(fn, { timeout: 1200 }); else setTimeout(fn, 120); }
+  if (document.readyState === "complete") whenIdle(init); else global.addEventListener("load", function () { whenIdle(init); });
 })(window);

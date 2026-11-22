@@ -15,10 +15,10 @@
     var dark = t === "dark";
     if (dark) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme");
     if (icon) icon.textContent = dark ? "☾" : "☀";
-    toggle.setAttribute("aria-pressed", String(dark));
+    if (toggle) toggle.setAttribute("aria-pressed", String(dark));
   }
   if (stored === "dark") applyTheme("dark");
-  toggle.addEventListener("click", function () {
+  if (toggle) toggle.addEventListener("click", function () {
     var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     try { localStorage.setItem("theme", next); } catch (e) { /* ignore */ }
     toggle.classList.add("is-spinning");
