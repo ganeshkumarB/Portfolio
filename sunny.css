@@ -721,141 +721,102 @@ html.no-sunny .puppy { display: none !important; }
 .puppy.is-talking .puppy__bubble { opacity: 1; transform: translateY(0) scale(1); }
 [data-theme="dark"] .puppy__bubble { background: #f3f4f6; color: #15161a; }
 
-/* hidden by default: effects, alternate faces */
-.p-fx, .p-eye-happy, .p-eye-x, .p-lids, .p-brows, .p-blush, .p-tongue, .p-tear, .p-m { opacity: 0; transition: opacity 0.2s ease; }
-.p-m--rest { opacity: 1; }
-/* origins and eased transforms */
+/* hidden by default: effects and the alternate faces drawn over the illustration */
+.p-fx, .p-eye-happy, .p-eye-x, .p-lids, .p-brows, .p-blush, .p-tongue, .p-tear, .p-m, .p-m-patch { opacity: 0; transition: opacity 0.2s ease; }
+/* whole-figure moves use the 220 box; parts inside the scaled artwork pivot on their own centre */
 .p-char { transform-origin: 110px 200px; }
-.p-body { transform-origin: 110px 152px; }
-.p-head { transform-origin: 110px 118px; }
-.p-ear--l { transform-origin: 74px 86px; }
-.p-ear--r { transform-origin: 146px 86px; }
-.p-tail { transform-origin: 150px 158px; }
-.p-eyes { transform-origin: 110px 100px; }
-.p-eye--l { transform-origin: 92px 100px; }
-.p-eye--r { transform-origin: 128px 100px; }
-.p-legs-back, .p-legs-front { transform-origin: 110px 198px; }
-.p-leg--br { transform-origin: 139px 160px; }
-.p-leg--fl { transform-origin: 94px 170px; }
-.p-nose { transform-origin: 110px 122px; }
+.p-art { transform-origin: 110px 200px; transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.p-flip { transform-origin: 110px 110px; }
+.puppy.is-solo .p-flip { transform: scaleX(-1); } /* alone in the corner, the pup faces the page */
+.p-eye, .p-look, .p-bolt { transform-box: fill-box; transform-origin: 50% 50%; }
+.p-eye { transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
 .p-look { transition: transform 0.25s ease-out; }
-.p-ear, .p-head, .p-body, .p-leg, .p-legs-back, .p-legs-front, .p-tail, .p-eye, .p-m--o { transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
+/* a mouth drawn over the painted one brings its fur patch along */
+.puppy[data-emotion="happy"] .p-m-patch, .puppy[data-emotion="excited"] .p-m-patch, .puppy[data-emotion="proud"] .p-m-patch, .puppy[data-emotion="surprised"] .p-m-patch, .puppy[data-emotion="sad"] .p-m-patch, .puppy[data-emotion="dizzy"] .p-m-patch, .puppy[data-emotion="scared"] .p-m-patch, .puppy[data-act="howl"] .p-m-patch, .puppy[data-act="yawn"] .p-m-patch { opacity: 1; }
 
-/* idle life: breathe, blink, a slow tail, a small bob */
-.puppy.is-in .p-body { animation: pp-breathe 3.4s ease-in-out infinite; }
-.puppy.is-in .p-eyes { animation: pp-blink 5.2s ease-in-out infinite; }
-.puppy.is-in .p-tail { animation: pp-sway 3.8s ease-in-out infinite; }
-.puppy.is-in .p-head { animation: pp-bob 4.4s ease-in-out infinite; }
-.puppy.is-near .p-tail { animation-duration: 1.1s; }
-.puppy[data-emotion] .p-eyes, .puppy[data-act="sleep"] .p-eyes, .puppy[data-act="yawn"] .p-eyes { animation-play-state: paused; }
-.puppy[data-act] .p-head, .puppy[data-emotion] .p-head { animation: none; }
-@keyframes pp-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025, 1.035); } }
+/* idle life: breathe, blink, a slow sway */
+.puppy.is-in .p-art { animation: pp-breathe 3.6s ease-in-out infinite; }
+.puppy.is-in .p-eye { animation: pp-blink 5.2s ease-in-out infinite; }
+.puppy.is-in .p-eye--r { animation-delay: 0.04s; }
+.puppy.is-near .p-art { animation-duration: 1.6s; }
+.puppy[data-emotion] .p-eye, .puppy[data-act="sleep"] .p-eye, .puppy[data-act="yawn"] .p-eye { animation-play-state: paused; }
+.puppy[data-act] .p-art, .puppy[data-emotion] .p-art { animation: none; }
+@keyframes pp-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.012, 1.03); } }
 @keyframes pp-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.08); } }
-@keyframes pp-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
-@keyframes pp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 
-/* acts */
-.puppy[data-act="wag"] .p-tail, .puppy[data-act="bounce"] .p-tail, .puppy[data-act="spin"] .p-tail { animation: pp-wag 0.3s ease-in-out infinite alternate; }
-@keyframes pp-wag { from { transform: rotate(-14deg); } to { transform: rotate(24deg); } }
-.puppy[data-act="tilt"] .p-head { transform: rotate(-14deg) translateX(-4px); }
-.puppy[data-act="tilt"] .p-ear--r { transform: rotate(10deg); }
-.puppy[data-act="twitch"] .p-ear--l { animation: pp-twitch 0.9s ease-in-out 1; }
-@keyframes pp-twitch { 0%, 100% { transform: none; } 30% { transform: rotate(-18deg); } 60% { transform: rotate(6deg); } }
+/* acts: the figure moves as one; faces change on top */
+.puppy[data-act="wag"] .p-art { animation: pp-wiggle 0.34s ease-in-out infinite alternate; }
+@keyframes pp-wiggle { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+.puppy[data-act="tilt"] .p-art { transform: rotate(-9deg); }
+.puppy[data-act="twitch"] .p-art { animation: pp-twitch 0.9s ease-in-out 1; }
+@keyframes pp-twitch { 0%, 100% { transform: none; } 30% { transform: scale(1.02, 0.98); } 60% { transform: scale(0.99, 1.01); } }
 .puppy[data-act="hop"] .p-char { animation: pp-hop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
 @keyframes pp-hop { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-22px); } }
-.puppy[data-act="sniff"] .p-head { transform: translate(6px, 14px) rotate(8deg); }
-.puppy[data-act="sniff"] .p-nose { animation: pp-nose 0.5s ease-in-out infinite alternate; }
+.puppy[data-act="sniff"] .p-art { transform: translate(5px, 8px) rotate(7deg); }
 .puppy[data-act="sniff"] .p-char { animation: pp-shuffle 2.6s ease-in-out 1; }
-@keyframes pp-nose { from { transform: scale(1); } to { transform: scale(1.18, 0.9); } }
 @keyframes pp-shuffle { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
-.puppy[data-act="scratch"] .p-leg--br { animation: pp-scratch 0.22s ease-in-out infinite alternate; }
-.puppy[data-act="scratch"] .p-head { transform: rotate(10deg) translateX(6px); }
-.puppy[data-act="scratch"] .p-body { animation: pp-jiggle 0.22s ease-in-out infinite alternate; }
+.puppy[data-act="scratch"] .p-art { animation: pp-jiggle 0.22s ease-in-out infinite alternate; }
 .puppy[data-act="scratch"] .p-eye { opacity: 0; } .puppy[data-act="scratch"] .p-eye-happy { opacity: 1; }
-@keyframes pp-scratch { from { transform: rotate(-30deg) translate(4px, -6px); } to { transform: rotate(-44deg) translate(8px, -12px); } }
-@keyframes pp-jiggle { from { transform: translateX(-1.5px); } to { transform: translateX(1.5px); } }
+@keyframes pp-jiggle { from { transform: translateX(-1.5px) rotate(-1deg); } to { transform: translateX(1.5px) rotate(1deg); } }
 .puppy[data-act="shake"] .p-char { animation: pp-shake 0.14s ease-in-out infinite alternate; }
-.puppy[data-act="shake"] .p-ear { animation: pp-flap 0.14s ease-in-out infinite alternate; }
 .puppy[data-act="shake"] .p-fx--lines { opacity: 1; }
-@keyframes pp-shake { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
-@keyframes pp-flap { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
-.puppy[data-act="peek"] .p-head { animation: pp-peek 2.8s ease-in-out 1; }
-@keyframes pp-peek { 0%, 100% { transform: none; } 25% { transform: rotate(-8deg) translateX(-10px); } 70% { transform: rotate(8deg) translateX(10px); } }
+@keyframes pp-shake { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.puppy[data-act="peek"] .p-art { animation: pp-peek 2.8s ease-in-out 1; }
+@keyframes pp-peek { 0%, 100% { transform: none; } 25% { transform: rotate(-6deg) translateX(-8px); } 70% { transform: rotate(6deg) translateX(8px); } }
 .puppy[data-act="bounce"] .p-char { animation: pp-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3; }
 .puppy[data-act="bounce"] .p-eye { opacity: 0; } .puppy[data-act="bounce"] .p-eye-happy, .puppy[data-act="bounce"] .p-tongue { opacity: 1; }
-.puppy[data-act="sit"] .p-body, .puppy[data-act="listen"] .p-body { transform: translateY(10px) scaleY(0.92); animation: none; }
-.puppy[data-act="sit"] .p-legs-back, .puppy[data-act="listen"] .p-legs-back { transform: translateY(8px) scaleY(0.5); }
-.puppy[data-act="sit"] .p-head { transform: translateY(8px); }
-.puppy[data-act="sit"] .p-tail, .puppy[data-act="listen"] .p-tail { transform: translateY(10px) rotate(-20deg); animation: none; }
-.puppy[data-act="listen"] .p-head { transform: translate(6px, 6px) rotate(6deg); }
-.puppy[data-act="listen"] .p-ear { transform: scaleY(1.1); }
-.puppy[data-act="lie"] .p-body, .puppy[data-act="sleep"] .p-body { transform: translateY(28px) scale(1.08, 0.72); animation: none; }
-.puppy[data-act="lie"] .p-legs-back, .puppy[data-act="sleep"] .p-legs-back { transform: translateY(26px) scaleY(0.35); }
-.puppy[data-act="lie"] .p-legs-front, .puppy[data-act="sleep"] .p-legs-front { transform: translateY(20px) scaleY(0.55); }
-.puppy[data-act="lie"] .p-head, .puppy[data-act="sleep"] .p-head { transform: translateY(32px); }
-.puppy[data-act="lie"] .p-tail, .puppy[data-act="sleep"] .p-tail { transform: translateY(34px) rotate(-30deg); animation: none; }
+.puppy[data-act="sit"] .p-art, .puppy[data-act="listen"] .p-art { transform: scale(1.04, 0.9); }
+.puppy[data-act="listen"] .p-art { transform: scale(1.04, 0.9) rotate(4deg); }
+.puppy[data-act="lie"] .p-art, .puppy[data-act="sleep"] .p-art { transform: translateY(2px) scale(1.12, 0.76); }
 .puppy[data-act="sleep"] .p-lids, .puppy[data-act="sleep"] .p-fx--zzz { opacity: 1; }
 .puppy[data-act="sleep"] .p-z { animation: pp-z 2.4s ease-in-out infinite; }
 .puppy[data-act="sleep"] .p-z2 { animation-delay: 0.8s; } .puppy[data-act="sleep"] .p-z3 { animation-delay: 1.6s; }
 @keyframes pp-z { 0% { opacity: 0; transform: translate(0, 6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(6px, -14px); } }
-.puppy[data-act="stretch"] .p-body { transform: scaleX(1.12) translateY(4px); animation: none; }
-.puppy[data-act="stretch"] .p-legs-front { transform: translate(-8px, 2px) rotate(-10deg); }
-.puppy[data-act="stretch"] .p-head { transform: translate(-6px, 8px) rotate(-6deg); }
-.puppy[data-act="stretch"] .p-tail { transform: rotate(20deg); animation: none; }
+.puppy[data-act="stretch"] .p-art { transform: translateX(-4px) scale(1.1, 0.95); }
 .puppy[data-act="spin"] .p-char { animation: pp-spin 1.6s cubic-bezier(0.4, 0, 0.2, 1) 1; }
 @keyframes pp-spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-.puppy[data-act="howl"] .p-head { transform: rotate(-18deg) translate(4px, -6px); }
-.puppy[data-act="howl"] .p-m--rest { opacity: 0; } .puppy[data-act="howl"] .p-m--o, .puppy[data-act="howl"] .p-fx--notes { opacity: 1; }
+.puppy[data-act="howl"] .p-art { transform: rotate(-12deg) translateY(-4px); }
+.puppy[data-act="howl"] .p-m--o, .puppy[data-act="howl"] .p-fx--notes { opacity: 1; }
 .puppy[data-act="howl"] .p-note { animation: pp-z 1.6s ease-in-out infinite; } .puppy[data-act="howl"] .p-note2 { animation-delay: 0.6s; }
 .puppy[data-act="nudge"] .p-char { animation: pp-nudge 1.8s ease-in-out 1; }
 @keyframes pp-nudge { 0%, 100% { transform: translateX(0); } 45%, 60% { transform: translateX(30px) rotate(4deg); } }
-.puppy[data-act="paw"] .p-leg--fl { animation: pp-paw 1.8s ease-in-out 1; }
-.puppy[data-act="paw"] .p-body { transform: rotate(-3deg); }
-@keyframes pp-paw { 0%, 100% { transform: none; } 35%, 75% { transform: rotate(-55deg) translate(-6px, -14px); } 55% { transform: rotate(-45deg) translate(-4px, -12px); } }
-.puppy[data-act="yawn"] .p-m--rest { opacity: 0; } .puppy[data-act="yawn"] .p-m--o { opacity: 1; transform: scale(1.5); }
-.puppy[data-act="yawn"] .p-lids { opacity: 1; } .puppy[data-act="yawn"] .p-head { transform: rotate(-6deg) translateY(-2px); }
+.puppy[data-act="paw"] .p-art { animation: pp-paw 1.8s ease-in-out 1; }
+@keyframes pp-paw { 0%, 100% { transform: none; } 35%, 75% { transform: rotate(-7deg) translateX(6px); } 55% { transform: rotate(-5deg) translateX(5px); } }
+.puppy[data-act="yawn"] .p-m--o { opacity: 1; transform: scale(1.4); transform-box: fill-box; transform-origin: 50% 50%; }
+.puppy[data-act="yawn"] .p-lids { opacity: 1; } .puppy[data-act="yawn"] .p-art { transform: rotate(-4deg) translateY(-2px); }
 
 /* emotions */
 .puppy[data-emotion="happy"] .p-eye, .puppy[data-emotion="love"] .p-eye, .puppy[data-emotion="proud"] .p-eye { opacity: 0; }
 .puppy[data-emotion="happy"] .p-eye-happy, .puppy[data-emotion="love"] .p-eye-happy, .puppy[data-emotion="proud"] .p-eye-happy { opacity: 1; }
-.puppy[data-emotion="happy"] .p-m--rest, .puppy[data-emotion="excited"] .p-m--rest, .puppy[data-emotion="proud"] .p-m--rest, .puppy[data-emotion="surprised"] .p-m--rest, .puppy[data-emotion="sad"] .p-m--rest, .puppy[data-emotion="dizzy"] .p-m--rest, .puppy[data-emotion="scared"] .p-m--rest { opacity: 0; }
 .puppy[data-emotion="happy"] .p-m--smile, .puppy[data-emotion="happy"] .p-tongue, .puppy[data-emotion="excited"] .p-m--smile, .puppy[data-emotion="excited"] .p-tongue, .puppy[data-emotion="proud"] .p-m--smile { opacity: 1; }
-.puppy[data-emotion="happy"] .p-tail, .puppy[data-emotion="love"] .p-tail { animation: pp-wag 0.3s ease-in-out infinite alternate; }
-.puppy[data-emotion="curious"] .p-head { transform: rotate(-12deg) translateX(-3px); }
-.puppy[data-emotion="curious"] .p-ear--l { transform: rotate(-10deg) scaleY(1.1); }
+.puppy[data-emotion="happy"] .p-art, .puppy[data-emotion="love"] .p-art { animation: pp-wiggle 0.34s ease-in-out infinite alternate; }
+.puppy[data-emotion="curious"] .p-art { transform: rotate(-9deg); }
 .puppy[data-emotion="curious"] .p-fx--q { opacity: 1; }
 .puppy[data-emotion="surprised"] .p-eye { transform: scale(1.25, 1.3); }
-.puppy[data-emotion="surprised"] .p-ear--l, .puppy[data-emotion="scared"] .p-ear--l { transform: rotate(-24deg); }
-.puppy[data-emotion="surprised"] .p-ear--r, .puppy[data-emotion="scared"] .p-ear--r { transform: rotate(24deg); }
 .puppy[data-emotion="surprised"] .p-m--o, .puppy[data-emotion="scared"] .p-m--o { opacity: 1; }
 .puppy[data-emotion="surprised"] .p-char { animation: pp-startle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
 @keyframes pp-startle { 0%, 100% { transform: none; } 30% { transform: translateY(-10px) scale(1.04, 0.96); } }
 .puppy[data-emotion="sleepy"] .p-lids { opacity: 1; }
-.puppy[data-emotion="sleepy"] .p-head { transform: translateY(6px) rotate(4deg); }
-.puppy[data-emotion="sleepy"] .p-ear--l { transform: rotate(-14deg); } .puppy[data-emotion="sleepy"] .p-ear--r { transform: rotate(14deg); }
+.puppy[data-emotion="sleepy"] .p-art { transform: translateY(3px) rotate(3deg); }
 .puppy[data-emotion="excited"] .p-eye { transform: scale(1.12); }
-.puppy[data-emotion="excited"] .p-tail { animation: pp-wag 0.22s ease-in-out infinite alternate; }
 .puppy[data-emotion="excited"] .p-fx--stars { opacity: 1; }
 .puppy[data-emotion="excited"] .p-star { animation: pp-twinkle 0.6s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
 @keyframes pp-twinkle { from { transform: scale(0.7) rotate(0); } to { transform: scale(1.15) rotate(25deg); } }
 .puppy[data-emotion="excited"] .p-char { animation: pp-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 3; }
 .puppy[data-emotion="sad"] .p-brows, .puppy[data-emotion="sad"] .p-m--frown, .puppy[data-emotion="sad"] .p-tear { opacity: 1; }
-.puppy[data-emotion="sad"] .p-ear--l { transform: rotate(-32deg) translateY(6px); } .puppy[data-emotion="sad"] .p-ear--r { transform: rotate(32deg) translateY(6px); }
-.puppy[data-emotion="sad"] .p-head { transform: translateY(6px); }
+.puppy[data-emotion="sad"] .p-art { transform: translateY(4px) rotate(2deg); }
 .puppy[data-emotion="shy"] .p-blush { opacity: 1; }
-.puppy[data-emotion="shy"] .p-head { transform: rotate(8deg) translateX(6px); }
-.puppy[data-emotion="shy"] .p-eye { transform: translate(3px, 2px) scaleY(0.85); }
-.puppy[data-emotion="shy"] .p-ear--l { transform: rotate(-10deg); } .puppy[data-emotion="shy"] .p-ear--r { transform: rotate(10deg); }
+.puppy[data-emotion="shy"] .p-art { transform: rotate(5deg) translateX(4px); }
+.puppy[data-emotion="shy"] .p-eye { transform: scaleY(0.85); }
 .puppy[data-emotion="love"] .p-fx--hearts, .puppy[data-emotion="love"] .p-blush { opacity: 1; }
 .puppy[data-emotion="love"] .p-heart { animation: pp-float 1.6s ease-in-out infinite; } .puppy[data-emotion="love"] .p-heart2 { animation-delay: 0.5s; }
 @keyframes pp-float { 0% { opacity: 0; transform: translateY(6px) scale(0.8); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-16px) scale(1.1); } }
-.puppy[data-emotion="proud"] .p-body { transform: scale(1.04, 1.06) translateY(-3px); animation: none; }
-.puppy[data-emotion="proud"] .p-head { transform: rotate(-4deg) translateY(-4px); }
+.puppy[data-emotion="proud"] .p-art { transform: scale(1.04, 1.06) translateY(-2px); }
 .puppy[data-emotion="dizzy"] .p-eye { opacity: 0; } .puppy[data-emotion="dizzy"] .p-eye-x, .puppy[data-emotion="dizzy"] .p-m--wavy { opacity: 1; }
 .puppy[data-emotion="dizzy"] .p-char { animation: pp-wobble 0.5s ease-in-out infinite; }
 @keyframes pp-wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
 .puppy[data-emotion="scared"] .p-eye { transform: scale(1.2); }
-.puppy[data-emotion="scared"] .p-body { transform: scale(0.94) translateY(4px); animation: none; }
+.puppy[data-emotion="scared"] .p-art { transform: scale(0.94) translateY(2px); }
 .puppy[data-emotion="scared"] .p-fx--sweat { opacity: 1; }
 
 /* still when asked to be */
