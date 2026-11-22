@@ -836,3 +836,32 @@ html.no-sunny .puppy { display: none !important; }
 .prefs__comp-art svg + svg { margin-left: -8px; width: 18px; height: 18px; }
 .prefs__row--comp { flex-direction: column; align-items: flex-start; gap: 12px; }
 .prefs__row--comp .prefs__text { width: 100%; }
+
+/* ---------- Ask panel: tidied to a 16px grid, left-aligned like the thread ---------- */
+.ask { border-radius: 18px; box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.04); }
+.ask__head { padding: 12px 12px 12px 16px; gap: 10px; }
+.ask__head > .ask__ava, .ask__head > .ask__ava svg { width: 32px; height: 30px; }
+.ask__title { font-size: 14px; line-height: 1.3; }
+.ask__status { font-size: 10px; letter-spacing: 0.06em; }
+.ask__clear { margin-left: auto; padding: 6px 10px; border-radius: 8px; font: 500 12px/1.2 "Inter", system-ui, sans-serif; letter-spacing: 0; text-transform: none; }
+.ask__close { width: 32px; height: 32px; font-size: 20px; }
+.ask__log { padding: 16px; gap: 12px; }
+.ask__hello { flex-direction: row; align-items: flex-start; gap: 12px; padding: 2px 0 6px; text-align: left; }
+.ask__hello .ask__ava, .ask__hello .ask__ava svg { width: 40px; height: 38px; }
+.ask__hello p { font-size: 14px; line-height: 1.5; padding-top: 6px; }
+.ask__chips { gap: 8px; }
+.ask__chips--stack { padding-left: 52px; } /* in line with the hello text, like a reply */
+.ask__chip { padding: 7px 12px; font-size: 13px; line-height: 1.4; }
+.ask__msg .ask__ava, .ask__msg .ask__ava svg, .ask__typing .ask__ava, .ask__typing .ask__ava svg { width: 28px; height: 26px; }
+.ask__body { padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+.ask__msg--sunny .ask__body { border-top-left-radius: 4px; }
+.ask__msg--you .ask__body { border-bottom-right-radius: 4px; }
+.ask__sources { margin-top: 2px; }
+.ask__foot { padding: 10px 16px 12px; border-top: 1px solid var(--line, #d7dae0); }
+.ask__form { padding: 5px 5px 5px 14px; }
+.ask__form:focus-within { border-color: var(--ink, #15161a); box-shadow: 0 0 0 3px rgba(255, 213, 74, 0.28); }
+.ask__input { font-size: 14px; height: 34px; }
+.ask__send { width: 34px; height: 34px; }
+.ask__note { padding: 8px 2px 0; font-size: 10px; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ask__sys { padding-left: 40px; }
+@media (max-width: 767px) { .ask { border-radius: 0; } }

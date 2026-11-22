@@ -358,7 +358,7 @@
   }
   function hello() {
     var c = context(), p = c.project ? byId(c.project) : null;
-    return p ? "Hi! I’m Sunny. You’re reading the " + p.name + " case. Ask me about the problem, the decisions or what shipped." : "Hi! I’m Sunny. Ask me anything about " + HIM + "’s work and I’ll point you to the right case study.";
+    return p ? "Hi, I’m Sunny. You’re reading the " + p.name + " case. Ask about the problem, the decisions or what shipped." : "Hi, I’m Sunny. Ask about " + HIM + "’s work and I’ll point you to the right case study.";
   }
   function clearAll() {
     if (busy && inflight) inflight.abort();
@@ -379,7 +379,7 @@
         '<button type="button" class="ask__close" aria-label="Close. The conversation is kept." title="Close (the conversation is kept)">×</button></div>' +
         '<div class="ask__log" aria-live="polite"><div class="ask__hello">' + AVA + '<p>' + esc(hello()) + '</p></div></div>' +
         '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about ' + esc(HIM) + '’s work…" maxlength="240" autocomplete="off" aria-label="Your question" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
-        '<p class="ask__note">' + (AI_ENDPOINT ? "AI answers via " + HIM + "’s own server · can be wrong · nothing stored" : "Answers from the site, no AI service · nothing stored") + '</p></div>' +
+        '<p class="ask__note">' + (AI_ENDPOINT ? "AI via " + HIM + "’s own server · can be wrong · nothing stored" : "Answers from the site · nothing stored") + '</p></div>' +
       "</div>");
     root.appendChild(panel);
     charEl.appendChild(askBtn);
