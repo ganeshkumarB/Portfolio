@@ -666,7 +666,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 /* puppy mode: Sunny steps off stage, the Ask button and panel stay */
 .sunny.is-silent .sunny__svg, .sunny.is-silent .sunny__bubble, .sunny.is-silent .sunny__nap { display: none; }
 .sunny.is-silent .sunny__char { pointer-events: none; cursor: default; }
-.sunny.is-silent .sunny__ask { pointer-events: auto; }
+.sunny.is-silent .sunny__ask { pointer-events: auto; top: -22px; left: -34px; } /* alone, the pup's face is where Sunny's left cheek was: the button floats above its ears */
 /* together: the Ask button rises above the sidekick's head */
 .sunny.is-duo .sunny__ask { top: 14px; }
 html.no-sunny .puppy { display: none !important; }
@@ -697,13 +697,13 @@ html.no-sunny .puppy { display: none !important; }
 .puppy__svg * { transform-box: view-box; }
 [data-theme="dark"] .puppy__svg { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.4)); }
 
-/* speech bubble: smaller than Sunny's, never shown over Sunny's */
+/* speech bubble: smaller than Sunny's, to the pup's left so it never sits over Sunny or the Ask button */
 .puppy__bubble {
   position: absolute;
-  right: 6px;
-  bottom: calc(100% - 6px);
-  transform: translateY(8px) scale(0.9);
-  transform-origin: 85% 100%;
+  right: calc(100% - 6px);
+  bottom: 44%;
+  transform: translateX(8px) scale(0.9);
+  transform-origin: 100% 80%;
   max-width: 190px;
   width: max-content;
   padding: 7px 11px;
@@ -717,8 +717,8 @@ html.no-sunny .puppy { display: none !important; }
   transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.14);
 }
-.puppy__bubble::after { content: ""; position: absolute; right: 22px; bottom: -5px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
-.puppy.is-talking .puppy__bubble { opacity: 1; transform: translateY(0) scale(1); }
+.puppy__bubble::after { content: ""; position: absolute; right: -5px; bottom: 9px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
+.puppy.is-talking .puppy__bubble { opacity: 1; transform: translateX(0) scale(1); }
 [data-theme="dark"] .puppy__bubble { background: #f3f4f6; color: #15161a; }
 
 /* hidden by default: effects and the alternate faces drawn over the illustration */
