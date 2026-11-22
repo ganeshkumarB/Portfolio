@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>From a basic bot flow to a complete chatbot builder · Zobot · Case study 01 · Ganeshkumar B</title>
-  <meta name="description" content="Redesigning Zobot, the no-code chatbot builder in Zoho SalesIQ, for contextual, multi-path conversations without writing code." />
+  <meta name="description" content="Redesigning Zobot, the no-code chatbot builder in Zoho SalesIQ, from a linear flow into a visual, structured builder for real conversations." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ganeshuxcraft.in" />
   <meta property="og:title" content="From a basic bot flow to a complete chatbot builder · Zobot · Case study 01 · Ganeshkumar B" />
-  <meta property="og:description" content="Redesigning Zobot, the no-code chatbot builder in Zoho SalesIQ, for contextual, multi-path conversations without writing code." />
+  <meta property="og:description" content="Redesigning Zobot, the no-code chatbot builder in Zoho SalesIQ, from a linear flow into a visual, structured builder for real conversations." />
   <meta property="og:url" content="https://ganeshuxcraft.in/case-zobot.html" />
   <meta property="og:image" content="https://ganeshuxcraft.in/assets/og/case-zobot.png" />
-  <meta property="og:image:alt" content="Zobot: from a basic bot flow to a complete chatbot builder, case study cover" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,19 +18,20 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261302" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261303" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261302" />
-  <link rel="stylesheet" href="sunny.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261302" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261303" />
+  
+  <link rel="stylesheet" href="cs2.css?v=20261303" />
+  <link rel="stylesheet" href="sunny.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261303" /></noscript>
 </head>
-<body class="is-ready cs-page">
-
+<body class="is-ready cs-page c2-page">
   <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
@@ -50,203 +50,50 @@
     </nav>
     </div>
   </header>
-
-  <section class="cs-hero cs-hero--tight" data-layer="Hero">
-    <div class="cs-tags"><span class="tag">Zobot · Product design</span><span class="lbl lbl--12">Case study 01 / 07</span></div>
-    <h1 class="cs-title">From a basic bot flow to a complete chatbot builder.</h1>
-    <p class="cs-lede">Redesigning Zobot, the no-code chatbot builder in Zoho SalesIQ, for contextual, multi-path conversations without writing code.</p>
-    <div class="cs-meta">
-      <hr />
-      <dl>
-        <div><dt class="lbl">My role</dt><dd>Product design, end to end</dd></div>
-        <div><dt class="lbl">Team</dt><dd>Design + Engineering</dd></div>
-        <div><dt class="lbl">Platform</dt><dd>Web app</dd></div>
-        <div><dt class="lbl">Timeline</dt><dd>2018 – 2024 · Shipped in SalesIQ 2.0</dd></div>
-      </dl>
+  <section class="cs-hero" data-layer="Hero">
+    <p class="c2-kicker">Zobot · Product design<small>Case study 01 / 07</small></p>
+    <div class="c2-hero__grid">
+      <h1 class="c2-h1">From a basic bot flow to a complete chatbot builder.</h1>
+      <p class="c2-lede">The story of Zobot: a chatbot-building experience that evolved from a simple, linear flow to a visual, structured builder for real-world conversations.</p>
     </div>
+    <dl class="c2-meta"><div><dt>Product</dt><dd>Zoho SalesIQ</dd></div><div><dt>Role</dt><dd>Product Designer</dd></div><div><dt>Timeline</dt><dd>2018 – 2024</dd></div><div><dt>Scope</dt><dd>Builder, interaction, system</dd></div></dl>
   </section>
 
-  <section class="cs-visual zb-hero" data-layer="Hero visual" aria-label="The Zobot builder canvas">
-    <figure class="zb-shot zb-shot--hero">
-      <img src="assets/case/zobot-canvas.webp" srcset="assets/case/zobot-canvas-1000.webp 1000w, assets/case/zobot-canvas.webp 1800w" sizes="(max-width: 1240px) calc(100vw - 40px), 1200px" width="1800" height="1387" alt="The Zobot builder canvas: a single-choice question card connects to a criteria router, which branches to a company-details card or an end-chat card; a second row collects company and phone details" fetchpriority="high" decoding="async" />
-    </figure>
-    <p class="lbl lbl--10">The shipped builder with a sample bot. One canvas holds the question, the decision, both branches and their outcomes.</p>
+  <section class="cs-visual" data-layer="Hero visual" aria-label="The Zobot builder canvas, redrawn">
+    <div class="c2-visual c2-frame c2-frame--dark"><svg class="zb2-canvas" viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Zobot builder: a Start pill, a Message block, a Question block with three options, each routed to an Action or Message block"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="1200" height="480" rx="18" fill="#1c1e24"/><path d="M0 18 a18 18 0 0 1 18 -18 H1182 a18 18 0 0 1 18 18 V48 H0 Z" fill="#191b20"/><text x="24" y="31" font-size="15.5" font-weight="600" fill="#fff">Zobot</text><rect x="1090" y="12" width="86" height="26" rx="13" fill="#ffd54a"/><text x="1133" y="30" font-size="14.4" font-weight="600" fill="#15161a" text-anchor="middle">Publish</text><rect x="0" y="48" width="48" height="414" fill="#191b20"/><path d="M0 462 a18 18 0 0 0 18 18 H48 V462 Z" fill="#191b20"/><rect x="16" y="70" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="108" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="146" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="184" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="222" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="92" y="222" width="92" height="36" rx="18" fill="#4d8dff"/><text x="138" y="246" font-size="15.5" font-weight="600" fill="#fff" text-anchor="middle">▶ Start</text><g transform="translate(228 180)"><rect width="200" height="110" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#4d8dff"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Message</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">How can I help you today?</text></g><g transform="translate(486 118)"><rect width="220" height="210" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#a78bfa"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Question</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Choose an option</text><rect x="18" y="72" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="91" font-size="14" font-weight="500" fill="#dce0e8">Sales</text><circle cx="220" cy="86" r="5" fill="#4d8dff"/><rect x="18" y="108" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="127" font-size="14" font-weight="500" fill="#dce0e8">Support</text><circle cx="220" cy="122" r="5" fill="#4d8dff"/><rect x="18" y="144" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="163" font-size="14" font-weight="500" fill="#dce0e8">Others</text><circle cx="220" cy="158" r="5" fill="#4d8dff"/></g><g transform="translate(788 62)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#2ea05a"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Action</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Route to Sales</text></g><g transform="translate(788 196)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#2ea05a"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Action</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Create a ticket</text></g><g transform="translate(788 330)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#4d8dff"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Message</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">How can I assist?</text></g><path d="M184 240 C206.0 240 206.0 235 228 235" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M428 235 C457.0 235 457.0 223 486 223" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 204 C747.0 204 747.0 108 788 108" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 240 C747.0 240 747.0 242 788 242" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 276 C747.0 276 747.0 376 788 376" fill="none" stroke="#5a5f6b" stroke-width="2"/></svg></div>
+    <p class="c2-cap">Sample bot on the shipped builder, redrawn. One canvas holds the question, the decision, every branch and its outcome.</p>
   </section>
 
   <section class="cs-note" data-layer="NDA note">
-    <div class="cs-note__box">
-      <span class="lbl">Note</span>
-      <p>This work was done under a non-disclosure agreement with Zoho. The builder is shown with a sample bot; other screens are recreated with sample data and marked as such, and internal metrics, customer details and unreleased work are left out. Happy to go deeper in a conversation.</p>
-    </div>
+    <div class="cs-note__box"><span class="lbl">Note</span><p>This work was done under a non-disclosure agreement with Zoho. The builder is shown with a sample bot; other screens are recreated with sample data, and internal metrics, customer details and unreleased work are left out.</p></div>
   </section>
-
   <main class="cs-content" data-layer="Content">
-
-    <nav class="cs-formula mono" aria-label="Case study outline"><a href="#part-01"><b>01</b>Context</a><a href="#part-02"><b>02</b>Challenge</a><a href="#part-03"><b>03</b>Exploration</a><a href="#part-04"><b>04</b>Experience</a><a href="#part-05"><b>05</b>System</a><a href="#part-06"><b>06</b>Decisions</a><a href="#part-07"><b>07</b>In action</a><a href="#part-08"><b>08</b>Growth</a><a href="#part-09"><b>09</b>Outcome</a><a href="#part-10"><b>10</b>Takeaway</a></nav>
-
-    <section class="cs-section" id="part-01">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01 / Context</span>
-        <h2 class="cs-h2">A simpler flow wasn’t enough anymore.</h2>
-        <p class="cs-sub">SalesIQ already had a basic way to define bot conversations. As the product grew, that experience needed to go beyond a simple flow.</p>
-      </div>
-      <div class="zb-compare">
-        <figure class="zb-before">
-          <figcaption><span class="lbl lbl--10">Before</span><span class="t-h t-h--17">A basic, mostly linear flow</span></figcaption>
-          <div class="zb-linear" aria-hidden="true">
-            <div class="zb-linear__step"><span class="lbl lbl--10">Welcome</span><span>Hi! How can we help today?</span></div><i class="conn"></i>
-            <div class="zb-linear__step"><span class="lbl lbl--10">Question</span><span>What are you looking for?</span></div><i class="conn"></i>
-            <div class="zb-linear__step"><span class="lbl lbl--10">Collect</span><span>Your email address</span></div><i class="conn"></i>
-            <div class="zb-linear__step"><span class="lbl lbl--10">Hand off</span><span>Connect to an operator</span></div>
-          </div>
-          <span class="lbl lbl--9">Illustrative. The original defined a conversation as a short sequence of steps.</span>
-        </figure>
-        <figure class="zb-after">
-          <figcaption><span class="lbl lbl--10 lbl--blue">After</span><span class="t-h t-h--17">One canvas: questions, decisions, branches and outcomes</span></figcaption>
-          <div class="zb-shot"><img loading="lazy" decoding="async" src="assets/case/zobot-router.webp" width="1400" height="919" alt="Builder detail: a criteria router card with two labelled outputs, Callback leading to a company-details card and Not Matched leading to an end-chat card" /></div>
-          <span class="lbl lbl--9">The shipped builder. Detail of the canvas above.</span>
-        </figure>
-      </div>
-      <p class="zb-text zb-text--small">The opportunity: rethink how businesses create bots, from defining conversations to controlling logic, collecting information and connecting to business workflows.</p>
-    </section>
-
-    <section class="cs-section" id="part-02">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02 / Challenge</span>
-        <h2 class="cs-h2">Approachable for beginners. Flexible enough to grow.</h2>
-        <p class="cs-sub">A chatbot is more than a sequence of messages: it collects information, understands responses, handles decisions, branches, performs actions and connects to workflows. All of it had to fit one visual environment.</p>
-      </div>
-      <ol class="zb-dimstrip"><li class="zb-dim"><span class="zb-dim__n mono">01</span><b>Conversations</b><span class="zb-dim__d">What the bot says, in order</span><div class="zb-dim__shot"><img loading="lazy" decoding="async" src="assets/case/zobot-choice.webp" alt="" /></div><span class="lbl lbl--9">A single-choice question</span></li><li class="zb-dim"><span class="zb-dim__n mono">02</span><b>Logic</b><span class="zb-dim__d">Conditions and branches</span><div class="zb-dim__shot"><img loading="lazy" decoding="async" src="assets/case/zobot-router.webp" alt="" /></div><span class="lbl lbl--9">A router with two outcomes</span></li><li class="zb-dim"><span class="zb-dim__n mono">03</span><b>Data</b><span class="zb-dim__d">What it asks for and keeps</span><div class="zb-dim__shot"><img loading="lazy" decoding="async" src="assets/case/zobot-company.webp" alt="" /></div><span class="lbl lbl--9">Collecting the company</span></li><li class="zb-dim"><span class="zb-dim__n mono">04</span><b>Actions</b><span class="zb-dim__d">Route, hand off, end</span><div class="zb-dim__shot"><img loading="lazy" decoding="async" src="assets/case/zobot-endchat.webp" alt="" /></div><span class="lbl lbl--9">Ending the chat</span></li><li class="zb-dim"><span class="zb-dim__n mono">05</span><b>Integrations</b><span class="zb-dim__d">Where it connects</span><div class="zb-dim__shot zb-dim__shot--type"><span class="mono">Zoho CRM · Desk</span><span class="mono">Webhooks · APIs</span></div><span class="lbl lbl--9">Workflows · External systems</span></li></ol>
-      <div class="zb-axis-row mono"><span>Approachable for beginners</span><i></i><span>Flexible for advanced use</span></div>
-    </section>
-
-    <section class="cs-section" id="part-03">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03 / Exploration</span>
-        <h2 class="cs-h2">Finding the right way to build conversations.</h2>
-        <p class="cs-sub">Three interaction models, weighed against each other. The references are the no-code builders of the time; the drawings are redrawn.</p>
-      </div>
-      <div class="zb-models">
-        <div class="zb-model"><div class="diagram" aria-hidden="true"><i style="left:40px;top:24px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:27px;width:16px;height:16px;background:var(--cs-line)"></i><i style="left:40px;top:56px;width:260px;height:22px;background:var(--cs-surface)"></i><i style="left:18px;top:59px;width:16px;height:16px;background:var(--cs-line)"></i><i style="left:40px;top:88px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:91px;width:16px;height:16px;background:var(--cs-line)"></i><i style="left:40px;top:120px;width:260px;height:22px;background:var(--cs-surface)"></i><i style="left:18px;top:123px;width:16px;height:16px;background:var(--cs-line)"></i><i style="left:40px;top:152px;width:260px;height:22px;background:var(--cs-blue-tint)"></i><i style="left:18px;top:155px;width:16px;height:16px;background:var(--cs-line)"></i></div><span class="lbl lbl--10">Linear flow · Reference: Intercom, 2018</span><p class="t-h">Linear flow</p><p class="t-p">Simple and easy to understand, but restrictive for complex conversations. Branching has to live somewhere else.</p></div>
-        <div class="zb-model"><div class="diagram" aria-hidden="true"><i style="left:24px;top:30px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:150px;top:20px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:90px;top:90px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:220px;top:110px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:40px;top:140px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:180px;top:170px;width:70px;height:26px;background:var(--cs-blue-tint)"></i><i style="left:94px;top:43px;width:56px;height:2px;background:#b7bac2;border-radius:0"></i><i style="left:124px;top:46px;width:2px;height:44px;background:#b7bac2;border-radius:0"></i><i style="left:160px;top:103px;width:60px;height:2px;background:#b7bac2;border-radius:0"></i><i style="left:74px;top:116px;width:2px;height:24px;background:#b7bac2;border-radius:0"></i><i style="left:210px;top:136px;width:2px;height:34px;background:#b7bac2;border-radius:0"></i></div><span class="lbl lbl--10">Freeform canvas · Reference: Landbot, 2018</span><p class="t-h">Freeform canvas</p><p class="t-p">Flexible, but can become difficult to follow when flows grow. Nothing tells you where a conversation starts or ends.</p></div>
-        <div class="zb-model zb-model--chosen"><div class="diagram diagram--dark" aria-hidden="true"><i style="left:140px;top:20px;width:90px;height:26px;background:var(--blue)"></i><i style="left:184px;top:46px;width:2px;height:22px;background:#b7bac2;border-radius:0"></i><i style="left:140px;top:68px;width:90px;height:26px;background:var(--blue)"></i><i style="left:184px;top:94px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i><i style="left:94px;top:110px;width:182px;height:2px;background:#b7bac2;border-radius:0"></i><i style="left:94px;top:110px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i><i style="left:274px;top:110px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i><i style="left:50px;top:126px;width:90px;height:26px;background:#fff"></i><i style="left:230px;top:126px;width:90px;height:26px;background:#fff"></i><i style="left:94px;top:152px;width:2px;height:16px;background:#b7bac2;border-radius:0"></i><i style="left:50px;top:168px;width:90px;height:22px;background:#50545f"></i></div><span class="lbl lbl--10 lbl--amber">Structured flow · Chosen direction</span><p class="t-h">Structured flow</p><p class="t-p">A visual flow that maintains direction, clarity, and flexibility. Blocks sit on a canvas, but connections keep a direction.</p></div>
-      </div>
-      <div class="zb-principle"><span class="lbl lbl--10 lbl--blue">Design principle</span><p>The conversation should read like a list, but behave like a flowchart.</p></div>
-      <span class="lbl lbl--9">Sources: Intercom product blog (2018) · Landbot Product Hunt launch (2018)</span>
-    </section>
-
-    <section class="cs-section" id="part-04">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04 / Experience</span>
-        <h2 class="cs-h2">From individual steps to a connected conversation.</h2>
-        <p class="cs-sub">The builder brings three areas together: a canvas to see the conversation, blocks to build it, and a panel to shape the block you are on.</p>
-      </div>
-      <figure class="zb-annot zb-annot--side">
-        <div class="zb-shot zb-shot--annot">
-          <img loading="lazy" decoding="async" src="assets/case/zobot-canvas.webp" srcset="assets/case/zobot-canvas-1000.webp 1000w, assets/case/zobot-canvas.webp 1800w" sizes="(max-width: 1240px) calc(100vw - 40px), 1200px" width="1800" height="1387" alt="The builder canvas with six numbered annotations" />
-          <ol class="zb-marks" aria-hidden="true"><li class="zb-mark" style="--x:22%;--y:58%"><span>1</span></li><li class="zb-mark" style="--x:31%;--y:19.5%"><span>2</span></li><li class="zb-mark" style="--x:28.4%;--y:11.5%"><span>3</span></li></ol>
-        </div>
-        <div class="zb-annot__side"><ol class="zb-legend"><li><span class="zb-legend__n mono">01</span><div><b>See the whole conversation</b><p>Every block of the bot sits on one canvas, read left to right.</p></div></li><li><span class="zb-legend__n mono">02</span><div><b>Build through blocks</b><p>Each output is a place to continue; the next block attaches to its path.</p></div></li><li><span class="zb-legend__n mono">03</span><div><b>Configure in context</b><p>Selecting a block opens its settings beside the canvas, never on another screen.</p></div></li></ol><p class="zb-callout">The conversation stays visible.</p></div>
-      </figure>
-    </section>
-
-    <section class="cs-section cs-section--wide" id="part-05">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05 / System</span>
-        <h2 class="cs-h2">A builder made of building blocks.</h2>
-        <p class="cs-sub">Different jobs, one shared anatomy. In the product the blocks are called cards; four families cover what a bot says, does, collects and connects to.</p>
-      </div>
-      <div class="zb-sys">
-        <figure class="zb-annot zb-annot--anat">
-          <div class="zb-shot zb-shot--annot"><img loading="lazy" decoding="async" src="assets/case/zobot-choice.webp" width="849" height="521" alt="A single-choice block: usage counts above, a titled header, the question text, the block type at the foot and an output port on the right" /><ol class="zb-marks" aria-hidden="true"><li class="zb-mark zb-mark--sm" style="--x:62%;--y:26%"><span>1</span></li><li class="zb-mark zb-mark--sm" style="--x:86%;--y:41%"><span>2</span></li><li class="zb-mark zb-mark--sm" style="--x:38%;--y:7%"><span>3</span></li><li class="zb-mark zb-mark--sm" style="--x:97%;--y:58%"><span>4</span></li></ol></div>
-          <figcaption><span class="lbl lbl--10">Anatomy of a block</span><ol class="zb-legend zb-legend--col"><li><span class="zb-legend__n mono">01</span><div><b>Block type</b><p>The title bar names the block; the foot shows its family</p></div></li><li><span class="zb-legend__n mono">02</span><div><b>Title</b><p>Editable, so a large bot stays navigable</p></div></li><li><span class="zb-legend__n mono">03</span><div><b>Content</b><p>What the visitor sees: the question, the message, the request</p></div></li><li><span class="zb-legend__n mono">04</span><div><b>Output port</b><p>Where the conversation continues; routers have one per branch</p></div></li></ol></figcaption>
-        </figure>
-        <ol class="zb-fams"><li class="zb-fam"><span class="zb-fam__n mono">01</span><div class="zb-fam__body"><b>Response</b><span class="zb-fam__one">What the bot communicates.</span><p>Messages, buttons, carousels, and other response patterns.</p></div><span class="zb-fam__eg mono">Single choice · Message</span></li><li class="zb-fam"><span class="zb-fam__n mono">02</span><div class="zb-fam__body"><b>Action</b><span class="zb-fam__one">What the bot does.</span><p>Routing, actions, handoffs, and other conversational operations.</p></div><span class="zb-fam__eg mono">Criteria router · End chat</span></li><li class="zb-fam"><span class="zb-fam__n mono">03</span><div class="zb-fam__body"><b>Data</b><span class="zb-fam__one">What the bot collects.</span><p>Questions, user inputs, visitor details, and responses.</p></div><span class="zb-fam__eg mono">Company · Phone</span></li><li class="zb-fam"><span class="zb-fam__n mono">04</span><div class="zb-fam__body"><b>Integration</b><span class="zb-fam__one">Where the conversation connects.</span><p>Business workflows, external systems, and integrations.</p></div><span class="zb-fam__eg mono">Workflows · External systems</span></li></ol>
-      </div>
-    </section>
-
-    <section class="cs-section" id="part-06">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">06 / Decisions</span>
-        <h2 class="cs-h2">Three decisions shaped the builder.</h2>
-      </div>
-      <ol class="zb-dec3">
-        <li><span class="t-serif t-serif--44 n">01</span><div><b>A flowchart, not a script.</b><p>Make conversation logic visible where it happens.</p></div></li>
-        <li><span class="t-serif t-serif--44 n">02</span><div><b>Start simple. Customize when needed.</b><p>Defaults first; advanced controls when they are asked for.</p></div></li>
-        <li><span class="t-serif t-serif--44 n">03</span><div><b>Built to expand.</b><p>New blocks and integrations fit the same system.</p></div></li>
-      </ol>
-    </section>
-
-    <section class="cs-section cs-section--wide" id="part-07">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">07 / In action</span>
-        <h2 class="cs-h2">A conversation, built visually.</h2>
-        <p class="cs-sub">One sample bot from the canvas above: a visitor is asked whether they want a callback, and the conversation branches from the answer.</p>
-      </div>
-      <figure class="zb-annot zb-annot--path zb-annot--side">
-        <div class="zb-shot zb-shot--annot"><img loading="lazy" decoding="async" src="assets/case/zobot-router.webp" width="1400" height="919" alt="The callback flow: the router sends Callback to a company-details card and Not Matched to an end-chat card" /><svg class="zb-path" viewBox="0 0 1952 1281" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path class="zb-path__grey" d="M626 343 H 760 C 800 343, 800 1036, 840 1036 H 1148"/>
-            <path class="zb-path__sun" d="M626 213 H 760 C 800 213, 800 325, 840 325 H 1192"/>
-          </svg></div>
-        <div class="zb-annot__side"><ol class="zb-chips zb-chips--v mono"><li><b>Ask</b><span>a single-choice question</span></li><li aria-hidden="true">→</li><li><b>Decide</b><span>a router reads the answer</span></li><li aria-hidden="true">→</li><li><b>Branch</b><span>callback or not matched</span></li><li aria-hidden="true">→</li><li><b>Resolve</b><span>collect details or end warmly</span></li></ol><span class="lbl lbl--9">The Callback path, highlighted. The other branch closes the chat.</span></div>
-      </figure>
-
-    </section>
-
-    <section class="cs-section" id="part-08">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">08 / Growth</span>
-        <h2 class="cs-h2">From a focused builder to a broader platform.</h2>
-        <p class="cs-sub">What I designed, and what the product grew into afterwards.</p>
-      </div>
-      <ol class="zb-tl">
-        <li class="is-mine"><span class="zb-tl__tag mono">My design</span><i></i><b>Canvas · Block system · Configuration</b><span>Shipped in SalesIQ 2.0 on website chat</span></li>
-        <li><i></i><b>Templates</b><span>Start from a ready bot</span></li>
-        <li><i></i><b>More capabilities</b><span>Import and export, more block types</span></li>
-        <li><i></i><b>Integrations</b><span>Workflows and external systems</span></li>
-        <li class="is-later"><span class="zb-tl__tag mono">Product evolution</span><i></i><b>Channels &amp; AI</b><span>Seven channels, 30 languages, Bring Your Own AI</span></li>
-      </ol>
-      <p class="zb-text zb-text--small">The SalesIQ team shipped and extended the builder; the later capabilities belong to the product and the people who kept building it. Sources: help.zoho.com, blog.zoho.com/salesiq.</p>
-    </section>
-
-    <section class="cs-section" id="part-09">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">09 / Outcome</span>
-        <h2 class="cs-h2">Complex conversations became easier to build, understand and extend.</h2>
-      </div>
-      <ol class="zb-checks3">
-        <li><i aria-hidden="true">✓</i><div><b>Visual control over logic</b><p>Routing and branches are drawn, not scripted.</p></div></li>
-        <li><i aria-hidden="true">✓</i><div><b>Flexibility without code</b><p>Questions, data and handoffs are blocks anyone can place.</p></div></li>
-        <li><i aria-hidden="true">✓</i><div><b>A foundation for complex bots</b><p>New blocks, templates and channels arrived without changing the canvas.</p></div></li>
-      </ol>
-      <span class="lbl lbl--9">Internal metrics stay under the NDA.</span>
-    </section>
-
-    <section class="cs-section" id="part-10">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">10 / Takeaway</span>
-        <h2 class="cs-h2">Defaults matter as much as features.</h2>
-      </div>
-      <div class="zb-take">
-        <p class="zb-take__q">A flexible builder is only useful when people know where to start. The experience needs structure, sensible defaults, and the freedom to customize as complexity grows.</p>
-      </div>
-    </section>
-
+<section class="c2-sec cs-section" id="part-01"><div class="c2-sec__head"><p class="c2-num">01 / Context</p><h2 class="c2-h2">A simpler flow wasn’t enough anymore.</h2><p class="c2-sub">Zobot began as a basic, linear bot builder: good for simple use cases, but it quickly showed its limits as conversation needs grew.</p></div><div class="zb2-before"><span class="c2-lbl">Before · A basic, linear flow</span><div class="zb2-before__row"><div class="zb2-before__step"><span>▷</span>Welcome message</div><i aria-hidden="true">→</i><div class="zb2-before__step"><span>?</span>Ask a question</div><i aria-hidden="true">→</i><div class="zb2-before__step"><span>≡</span>Show a response</div></div><span class="c2-lbl">Illustrative. A conversation was a short sequence of steps.</span></div></section>
+<section class="c2-sec cs-section" id="part-02"><div class="c2-sec__head c2-sec__head--solo"><p class="c2-num">02 / Challenge</p><h2 class="c2-h2">As conversations grew, the builder became harder to use.</h2></div><div class="c2-cols" style="--n:3"><div><span class="c2-lbl c2-lbl--11">01</span><h3 class="c2-h3">Linear interaction</h3><p class="c2-p">Worked for simple flows, but felt restrictive.</p></div><div><span class="c2-lbl c2-lbl--11">02</span><h3 class="c2-h3">Disconnected configuration</h3><p class="c2-p">Switching between steps made it hard to see the flow.</p></div><div><span class="c2-lbl c2-lbl--11">03</span><h3 class="c2-h3">Growing complexity</h3><p class="c2-p">More branches and logic made it difficult to maintain.</p></div></div></section>
+<section class="c2-sec cs-section" id="part-03"><div class="c2-sec__head"><p class="c2-num">03 / Exploration</p><h2 class="c2-h2">Finding the right way to build conversations.</h2><p class="c2-sub">I explored three interaction models to balance simplicity, freedom and structure.</p></div><div class="c2-grid" style="--n:3"><div class="c2-card"><div class="c2-card__fig"><svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="110" y="18" width="80" height="24" rx="6" fill="#e8f0ff"/><rect x="110" y="58" width="80" height="24" rx="6" fill="#e8f0ff"/><rect x="110" y="98" width="80" height="24" rx="6" fill="#e8f0ff"/><path d="M150 42v16M150 82v16" stroke="#b9c7e6" stroke-width="2"/></svg></div><span class="c2-lbl">Model 01</span><h3 class="c2-h3">Linear flow</h3><p class="c2-p">Easy to follow, but limited for complex logic.</p></div><div class="c2-card"><div class="c2-card__fig"><svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="22" y="22" width="60" height="22" rx="6" fill="#e8f0ff"/><rect x="128" y="12" width="60" height="22" rx="6" fill="#e8f0ff"/><rect x="214" y="46" width="60" height="22" rx="6" fill="#e8f0ff"/><rect x="48" y="96" width="60" height="22" rx="6" fill="#e8f0ff"/><rect x="156" y="78" width="60" height="22" rx="6" fill="#e8f0ff"/><rect x="214" y="106" width="60" height="22" rx="6" fill="#e8f0ff"/><path d="M82 33L128 23M188 23l26 23M52 44l26 52M108 107l48-18M216 89l-2 17M186 89l28-32" stroke="#b9c7e6" stroke-width="1.6" fill="none"/></svg></div><span class="c2-lbl">Model 02</span><h3 class="c2-h3">Freeform canvas</h3><p class="c2-p">Flexible and powerful, but can feel unstructured.</p></div><div class="c2-card c2-card--cream"><div class="c2-chosen" aria-hidden="true">✓</div><div class="c2-card__fig"><svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="22" y="58" width="56" height="24" rx="12" fill="#4d8dff"/><text x="50" y="74" font-size="11" font-weight="600" fill="#fff" text-anchor="middle" font-family="Inter,system-ui,sans-serif">Start</text><rect x="106" y="54" width="64" height="32" rx="7" fill="#1c1e24"/><rect x="214" y="22" width="64" height="28" rx="7" fill="#e8f0ff" stroke="#4d8dff" stroke-width="1.5"/><rect x="214" y="90" width="64" height="28" rx="7" fill="#e8f0ff" stroke="#4d8dff" stroke-width="1.5"/><path d="M78 70h28M170 66c22 0 22-30 44-30M170 74c22 0 22 30 44 30" stroke="#4d8dff" stroke-width="1.6" fill="none"/></svg></div><span class="c2-lbl">Chosen direction</span><h3 class="c2-h3">Structured flow</h3><p class="c2-p">A directional canvas that keeps the conversation readable and scalable.</p></div></div><div class="c2-principle"><span class="c2-lbl">The design principle</span><p>The conversation should read like a list, but behave like a flowchart.</p></div></section>
+<section class="c2-sec cs-section" id="part-04"><div class="c2-sec__head"><p class="c2-num">04 / Experience</p><h2 class="c2-h2">From individual steps to a connected conversation.</h2><p class="c2-sub">A visual builder to see, build and configure the entire conversation in one place.</p></div><div class="c2-split"><div class="c2-split__vis"><div class="c2-frame c2-frame--dark"><svg class="zb2-canvas" viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Zobot builder: a Start pill, a Message block, a Question block with three options, each routed to an Action or Message block"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="1200" height="480" rx="18" fill="#1c1e24"/><path d="M0 18 a18 18 0 0 1 18 -18 H1182 a18 18 0 0 1 18 18 V48 H0 Z" fill="#191b20"/><text x="24" y="31" font-size="15.5" font-weight="600" fill="#fff">Zobot</text><rect x="1090" y="12" width="86" height="26" rx="13" fill="#ffd54a"/><text x="1133" y="30" font-size="14.4" font-weight="600" fill="#15161a" text-anchor="middle">Publish</text><rect x="0" y="48" width="48" height="414" fill="#191b20"/><path d="M0 462 a18 18 0 0 0 18 18 H48 V462 Z" fill="#191b20"/><rect x="16" y="70" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="108" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="146" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="184" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="16" y="222" width="16" height="16" rx="4" fill="#3a3d46"/><rect x="92" y="222" width="92" height="36" rx="18" fill="#4d8dff"/><text x="138" y="246" font-size="15.5" font-weight="600" fill="#fff" text-anchor="middle">▶ Start</text><g transform="translate(228 180)"><rect width="200" height="110" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#4d8dff"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Message</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">How can I help you today?</text></g><g transform="translate(486 118)"><rect width="220" height="210" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#a78bfa"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Question</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Choose an option</text><rect x="18" y="72" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="91" font-size="14" font-weight="500" fill="#dce0e8">Sales</text><circle cx="220" cy="86" r="5" fill="#4d8dff"/><rect x="18" y="108" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="127" font-size="14" font-weight="500" fill="#dce0e8">Support</text><circle cx="220" cy="122" r="5" fill="#4d8dff"/><rect x="18" y="144" width="184" height="28" rx="6" fill="#33363f"/><text x="30" y="163" font-size="14" font-weight="500" fill="#dce0e8">Others</text><circle cx="220" cy="158" r="5" fill="#4d8dff"/></g><g transform="translate(788 62)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#2ea05a"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Action</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Route to Sales</text></g><g transform="translate(788 196)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#2ea05a"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Action</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">Create a ticket</text></g><g transform="translate(788 330)"><rect width="220" height="92" rx="14" fill="#2a2d35"/><rect x="18" y="18" width="12" height="12" rx="3" fill="#4d8dff"/><text x="38" y="29" font-size="14.5" font-weight="600" fill="#fff">Message</text><text x="18" y="56" font-size="15" font-weight="500" fill="#dce0e8">How can I assist?</text></g><path d="M184 240 C206.0 240 206.0 235 228 235" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M428 235 C457.0 235 457.0 223 486 223" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 204 C747.0 204 747.0 108 788 108" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 240 C747.0 240 747.0 242 788 242" fill="none" stroke="#5a5f6b" stroke-width="2"/><path d="M706 276 C747.0 276 747.0 376 788 376" fill="none" stroke="#5a5f6b" stroke-width="2"/></svg></div></div><div><ol class="c2-steps"><li><span class="c2-dot">1</span><h3 class="c2-h3">See the whole conversation</h3><p class="c2-p">Understand the flow at a glance.</p></li><li><span class="c2-dot">2</span><h3 class="c2-h3">Build through blocks</h3><p class="c2-p">Connect, branch and extend with ease.</p></li><li><span class="c2-dot">3</span><h3 class="c2-h3">Configure in context</h3><p class="c2-p">Edit a block without losing the bigger flow.</p></li></ol></div></div></section>
+<section class="c2-sec cs-section" id="part-05"><div class="c2-sec__head"><p class="c2-num">05 / System</p><h2 class="c2-h2">Different jobs. One shared anatomy.</h2><p class="c2-sub">Every block follows the same structural pattern, so it is easy to learn, consistent to use and flexible to extend.</p></div><div class="zb2-system"><svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of a block: title, content, options, block type and output ports"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="500" height="270" rx="16" fill="#f5f5f3"/><pattern id="zbdots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#dadce2"/></pattern><rect width="500" height="270" rx="16" fill="url(#zbdots)"/><g transform="translate(150 30)"><rect width="250" height="188" rx="10" fill="#fff" stroke="#d7dae0"/><path d="M0 10a10 10 0 0 1 10-10h230a10 10 0 0 1 10 10v26H0z" fill="#6b6b6b"/><text x="14" y="23" font-size="15" font-weight="500" fill="#fff">Role selection</text><path d="M226 12h10m-9 0v10h8V12m-6 3v5m4-5v5" stroke="#fff" stroke-width="1.3" fill="none"/><text x="14" y="60" font-size="14" fill="#15161a">Please select your role: Student or Staff</text><path d="M0 76h250" stroke="#e5e5e5"/><text x="14" y="98" font-size="14" fill="#5f6368">Student</text><circle cx="250" cy="93" r="5.5" fill="#7a8290"/><path d="M0 110h250" stroke="#e5e5e5"/><text x="14" y="132" font-size="14" fill="#5f6368">Staff</text><circle cx="250" cy="127" r="5.5" fill="#7a8290"/><path d="M0 144h250" stroke="#e5e5e5"/><path d="M0 144h250v34a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#f8f8f8"/><text x="125.0" y="166" font-size="12" font-weight="500" fill="#8a8f98" text-anchor="middle" letter-spacing="1">⌸  BUTTON</text></g><text x="22" y="52" font-size="13" font-weight="600" fill="#15161a">Title</text><path d="M100 48H148" stroke="#ffd54a" stroke-width="2" stroke-dasharray="3 4"/><circle cx="148" cy="48" r="3" fill="#ffd54a"/><text x="22" y="94" font-size="13" font-weight="600" fill="#15161a">Content</text><path d="M100 90H148" stroke="#ffd54a" stroke-width="2" stroke-dasharray="3 4"/><circle cx="148" cy="90" r="3" fill="#ffd54a"/><text x="22" y="154" font-size="13" font-weight="600" fill="#15161a">Options</text><path d="M100 150H148" stroke="#ffd54a" stroke-width="2" stroke-dasharray="3 4"/><circle cx="148" cy="150" r="3" fill="#ffd54a"/><text x="22" y="228" font-size="13" font-weight="600" fill="#15161a">Block type</text><path d="M100 224H148" stroke="#ffd54a" stroke-width="2" stroke-dasharray="3 4"/><circle cx="148" cy="224" r="3" fill="#ffd54a"/><text x="418" y="150" font-size="12" font-weight="600" fill="#15161a">Output</text><text x="418" y="166" font-size="12" font-weight="600" fill="#15161a">ports</text><path d="M404 140H414" stroke="#ffd54a" stroke-width="2" stroke-dasharray="3 4"/></svg><div><h3 class="zb2-system__h">Block families</h3><div class="c2-grid" style="--n:2"><div class="c2-card"><span class="c2-lbl">01</span><h3 class="c2-h3">Response</h3><p class="c2-p">Communicate with visitors.</p></div><div class="c2-card"><span class="c2-lbl">02</span><h3 class="c2-h3">Action</h3><p class="c2-p">Control the conversation (routing, handoffs).</p></div><div class="c2-card"><span class="c2-lbl">03</span><h3 class="c2-h3">Data</h3><p class="c2-p">Collect and use information.</p></div><div class="c2-card"><span class="c2-lbl">04</span><h3 class="c2-h3">Integration</h3><p class="c2-p">Connect with CRM and other tools.</p></div></div></div></div></section>
+<section class="c2-sec cs-section" id="part-06"><div class="c2-sec__head c2-sec__head--solo"><p class="c2-num">06 / Design decisions</p><h2 class="c2-h2">Three key decisions shaped the builder.</h2></div><div class="c2-decisions" style="--n:3"><div><b class="c2-big">01</b><h3 class="c2-h3">A flowchart, not a script.</h3><p class="c2-p">Make conversation logic visible and easier to understand.</p></div><div><b class="c2-big">02</b><h3 class="c2-h3">Start simple. Customize when needed.</h3><p class="c2-p">Sensible defaults, without limiting advanced control.</p></div><div><b class="c2-big">03</b><h3 class="c2-h3">Built to expand.</h3><p class="c2-p">New blocks and integrations fit into the same system.</p></div></div></section>
+<section class="c2-sec cs-section" id="part-07"><div class="c2-sec__head"><p class="c2-num">07 / In action</p><h2 class="c2-h2">A conversation, built visually.</h2><p class="c2-sub">A simple callback flow that brings the key pieces together, from the first question to the final outcome.</p></div><div class="c2-frame"><svg viewBox="0 0 1200 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A callback flow: a single-choice question routes Yes to a contact-details block and a thank-you message, and No to an end-chat block"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="1200" height="372" rx="18" fill="#f5f5f3"/><pattern id="zbdots2" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.1" fill="#dadce2"/></pattern><rect width="1200" height="372" rx="18" fill="url(#zbdots2)"/><g transform="translate(40 30)"><rect width="270" height="188" rx="10" fill="#fff" stroke="#d7dae0"/><path d="M0 10a10 10 0 0 1 10-10h250a10 10 0 0 1 10 10v26H0z" fill="#6b6b6b"/><text x="14" y="23" font-size="15" font-weight="500" fill="#fff">Callback offer</text><path d="M246 12h10m-9 0v10h8V12m-6 3v5m4-5v5" stroke="#fff" stroke-width="1.3" fill="none"/><text x="14" y="60" font-size="14" fill="#15161a">Would you like to request a callback?</text><path d="M0 76h270" stroke="#e5e5e5"/><text x="14" y="98" font-size="14" fill="#5f6368">Yes</text><circle cx="270" cy="93" r="5.5" fill="#7a8290"/><path d="M0 110h270" stroke="#e5e5e5"/><text x="14" y="132" font-size="14" fill="#5f6368">No</text><circle cx="270" cy="127" r="5.5" fill="#7a8290"/><path d="M0 144h270" stroke="#e5e5e5"/><path d="M0 144h270v34a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#f8f8f8"/><text x="135.0" y="166" font-size="12" font-weight="500" fill="#8a8f98" text-anchor="middle" letter-spacing="1">☰  SINGLE CHOICE</text></g><g transform="translate(430 16)"><rect width="270" height="120" rx="10" fill="#fff" stroke="#d7dae0"/><path d="M0 10a10 10 0 0 1 10-10h250a10 10 0 0 1 10 10v26H0z" fill="#6b6b6b"/><text x="14" y="23" font-size="15" font-weight="500" fill="#fff">Contact details</text><path d="M246 12h10m-9 0v10h8V12m-6 3v5m4-5v5" stroke="#fff" stroke-width="1.3" fill="none"/><text x="14" y="60" font-size="14" fill="#15161a">Please share your contact details.</text><path d="M0 76h270" stroke="#e5e5e5"/><path d="M0 76h270v34a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#f8f8f8"/><text x="135.0" y="98" font-size="12" font-weight="500" fill="#8a8f98" text-anchor="middle" letter-spacing="1">⌨  USER INPUT</text><circle cx="270" cy="93" r="5.5" fill="#7a8290"/></g><g transform="translate(820 16)"><rect width="270" height="120" rx="10" fill="#fff" stroke="#d7dae0"/><path d="M0 10a10 10 0 0 1 10-10h250a10 10 0 0 1 10 10v26H0z" fill="#6b6b6b"/><text x="14" y="23" font-size="15" font-weight="500" fill="#fff">Thank you</text><path d="M246 12h10m-9 0v10h8V12m-6 3v5m4-5v5" stroke="#fff" stroke-width="1.3" fill="none"/><text x="14" y="60" font-size="14" fill="#15161a">Thanks! We’ll get in touch soon.</text><path d="M0 76h270" stroke="#e5e5e5"/><path d="M0 76h270v34a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#f8f8f8"/><text x="135.0" y="98" font-size="12" font-weight="500" fill="#8a8f98" text-anchor="middle" letter-spacing="1">✉  MESSAGE</text><circle cx="270" cy="93" r="5.5" fill="#7a8290"/></g><g transform="translate(430 200)"><rect width="270" height="120" rx="10" fill="#fff" stroke="#d7dae0"/><path d="M0 10a10 10 0 0 1 10-10h250a10 10 0 0 1 10 10v26H0z" fill="#6b6b6b"/><text x="14" y="23" font-size="15" font-weight="500" fill="#fff">Close chat</text><path d="M246 12h10m-9 0v10h8V12m-6 3v5m4-5v5" stroke="#fff" stroke-width="1.3" fill="none"/><text x="14" y="60" font-size="14" fill="#15161a">Okay, have a great day!</text><path d="M0 76h270" stroke="#e5e5e5"/><path d="M0 76h270v34a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#f8f8f8"/><text x="135.0" y="98" font-size="12" font-weight="500" fill="#8a8f98" text-anchor="middle" letter-spacing="1">⏻  END CHAT</text><circle cx="270" cy="93" r="5.5" fill="#7a8290"/></g><path d="M310 123 C370 123 370 119 430 119" fill="none" stroke="#7a8290" stroke-width="2"/><path d="M310 157 C370 157 370 303 430 303" fill="none" stroke="#7a8290" stroke-width="2"/><path d="M700 119 C760 119 760 119 820 119" fill="none" stroke="#7a8290" stroke-width="2"/><rect x="352" y="98" width="34" height="20" rx="6" fill="#e1f5ea"/><text x="369" y="112" font-size="11" font-weight="500" fill="#1f8a4c" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,monospace">Yes</text><rect x="352" y="188" width="30" height="20" rx="6" fill="#fde8eb"/><text x="367" y="202" font-size="11" font-weight="500" fill="#d64545" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,monospace">No</text><text x="40" y="352" font-size="10" font-weight="500" fill="#61656e" font-family="JetBrains Mono,ui-monospace,monospace" letter-spacing="0.8">SAMPLE BOT · OPTION PORTS ROUTE THE CONVERSATION: YES COLLECTS DETAILS, NO CLOSES THE CHAT</text></svg></div></section>
+<section class="c2-sec cs-section" id="part-08"><div class="c2-sec__head c2-sec__head--solo"><p class="c2-num">08 / Shipped, then it grew</p><h2 class="c2-h2">From a focused builder to a broader platform.</h2></div><div class="c2-timeline"><div><span class="c2-year">2018</span><h3 class="c2-h3">Original design</h3><p class="c2-p">A simple, linear bot builder for basic use cases.</p></div><div><span class="c2-year">2020</span><h3 class="c2-h3">Team implementation</h3><p class="c2-p">Shipped, stabilised and adopted by customers.</p></div><div><span class="c2-year">2022 – 2024</span><h3 class="c2-h3">Product evolution</h3><p class="c2-p">Expanded block types, more capabilities, integrations, channels and AI.</p></div></div><p class="c2-foot">Later capabilities belong to the product and the team who kept building it. Sources: help.zoho.com, blog.zoho.com/salesiq.</p></section>
+<section class="c2-sec cs-section" id="part-09"><div class="c2-outcome"><div><p class="c2-num">09 / Outcome</p><h2>Complex conversations became easier to build, understand and extend.</h2></div><div class="c2-outcome__cols"><div><i>▷</i><b>Visual control</b><span>over conversation logic.</span></div><div><i>◇</i><b>More flexibility</b><span>without writing code.</span></div><div><i>∞</i><b>A foundation</b><span>for more complex chatbot experiences.</span></div></div></div></section>
+<section class="c2-sec cs-section" id="part-10"><div class="c2-sec__head c2-sec__head--solo"><p class="c2-num">10 / Reflection</p></div><div class="c2-reflect"><p>“Defaults matter as much as features.”</p><div><p class="c2-sub">A flexible builder is only useful when people know where to start. The experience needs structure, sensible defaults and the freedom to customise as complexity grows.</p></div></div></section>
   </main>
-
   <footer class="cs-next" data-layer="Next">
-    <div class="cs-next__main">
-      <span class="lbl lbl--soft">Next case study</span>
-      <a class="cs-next__title" href="case-design-system.html">Design system <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    <div class="cs-next__inner">
+      <div class="cs-next__main">
+        <span class="cs-next__lbl">Next case study</span>
+        <a class="cs-next__title" href="case-design-system.html">Design system<span class="cs-next__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
     </div>
-    <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261302"></script>
-  <script src="case.js?v=20261302"></script>
-  <script src="sunny.js?v=20261302"></script>
-  <script src="sunny-config.js?v=20261302"></script>
-  <script src="ai/knowledge.js?v=20261302"></script>
-  <script src="sunny-ai.js?v=20261302"></script>
+  <script src="prefs.js?v=20261303"></script>
+  <script src="case.js?v=20261303"></script>
+  <script src="sunny.js?v=20261303"></script>
+  <script src="sunny-config.js?v=20261303"></script>
+  <script src="ai/knowledge.js?v=20261303"></script>
+  <script src="sunny-ai.js?v=20261303"></script>
 </body>
 </html>

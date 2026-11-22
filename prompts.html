@@ -14,22 +14,24 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://ganeshuxcraft.in/assets/og-image.png" />
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261302" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261303" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261302" />
-  <link rel="stylesheet" href="sunny.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261302" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261303" />
+  
+  <link rel="stylesheet" href="cs2.css?v=20261303" />
+  <link rel="stylesheet" href="sunny.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261303" /></noscript>
 </head>
-<body class="is-ready cs-page prompts-page">
-
+<body class="is-ready cs-page c2-page">
   <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
@@ -37,107 +39,100 @@
       <a class="nav__brand mono" href="index.html" aria-label="ganeshuxcraft.in, home"><svg class="pendant" viewBox="0 0 260 300" width="34" height="39" aria-hidden="true" focusable="false"><defs><linearGradient id="pendantCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#pendantCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg><span class="nav__brand-txt">ganeshuxcraft.in</span></a>
       <div class="nav__pill nav__pill--case">
         <span class="nav__indicator" aria-hidden="true"></span>
-        <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <a class="nav__link nav__home is-active" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
         <span class="nav__sep" aria-hidden="true"></span>
-        <a class="nav__link" href="how-i-use-ai.html">AI</a>
-        <a class="nav__link is-active" href="prompts.html">Prompts</a>
-        <a class="nav__link" href="how-this-site-was-built.html">This site</a>
+        <a class="nav__link" href="index.html#work">Work</a>
+        <a class="nav__link" href="hire.html">Hiring me?</a>
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
       <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
     </nav>
     </div>
   </header>
-
-  <section class="cs-hero" data-layer="Hero">
-    <a class="cs-back" href="index.html#contact"><span aria-hidden="true">←</span> Back to the site</a>
-    <div class="cs-tags"><span class="tag">&lt;Prompts /&gt;</span><span class="lbl lbl--12">Free to use</span></div>
-    <h1 class="cs-title">Prompt library</h1>
-    <p class="cs-lede">The prompts behind my Claude + Figma MCP workflow. Copy one, swap the bracketed parts, treat the output as a draft.</p>
-    <div class="cs-meta">
-      <hr />
-      <dl>
-        <div><dt class="lbl">Count</dt><dd>7 prompts</dd></div>
-        <div><dt class="lbl">For</dt><dd>Claude with Figma MCP and Code Connect</dd></div>
-        <div><dt class="lbl">Licence</dt><dd>Use freely, credit optional</dd></div>
-        <div><dt class="lbl">Download</dt><dd><a href="assets/prompts.md" download>prompts.md</a></dd></div>
-      </dl>
+  <section class="cs-hero c2-hero--info" data-layer="Hero">
+    <a class="c2-back" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to the site</a>
+    <p class="c2-kicker c2-kicker--info">&lt;Prompts /&gt; <span>·</span> Free to use</p>
+    <div class="c2-hero__grid">
+      <h1 class="c2-h1">Prompt library</h1>
+      <div class="c2-hero__side"><p>The prompts behind my Claude + Figma MCP workflow. Copy, adapt and use them as a starting point.</p></div>
     </div>
+    <dl class="c2-meta"><div><dt>Count</dt><dd>7 prompts</dd></div><div><dt>For</dt><dd>Claude + Figma MCP + Code Connect</dd></div><div><dt>License</dt><dd>Use freely, credit optional</dd></div><div><dt>Download</dt><dd><a href="assets/prompts.md" download>prompts.md</a></dd></div></dl>
   </section>
-
   <main class="cs-content" data-layer="Content">
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
-        <h2 class="cs-h2">The prompts</h2>
-        <p class="cs-sub">In the order I use them.</p>
-      </div>
-      <div class="prompts">
-        <article class="prompt" id="prompt-1">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">01</span><h3 class="prompt__title">Token setup from an existing stylesheet</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">You are helping me set up Figma variables from an existing product. Here is the stylesheet: [paste CSS or a link]. Extract every colour, type size, spacing and radius value that appears more than once. Group them into collections (color, type, space, radius), propose a name for each in the form `color/ink`, `space/4`, `radius/md`, and show me the values that look like one-offs so I can decide whether to keep or merge them. Do not invent values that are not in the file.</p>
-        </article>
-        <article class="prompt" id="prompt-2">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">02</span><h3 class="prompt__title">Light and dark modes without drift</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Here are my light-mode colour tokens: [paste]. Propose a dark-mode value for each that keeps the same role (background, surface, text, muted, line, accent) and the same contrast ratios against the text tokens, within ±0.3. Flag any pair that cannot reach 4.5:1 and suggest the smallest change that fixes it. Output as a two-column table: token, light, dark, contrast.</p>
-        </article>
-        <article class="prompt" id="prompt-3">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">03</span><h3 class="prompt__title">Generate a component through Figma MCP</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Using the connected Figma file, build a [Button] component with variants for [primary, ghost, danger] × [sm, md, lg] × [default, hover, disabled]. Bind every fill, text colour, radius and padding to the existing variables; never type a raw hex or pixel value. Name layers the way the rest of the library does. When you are done, list every variable you bound so I can review the mapping before I publish.</p>
-        </article>
-        <article class="prompt" id="prompt-4">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">04</span><h3 class="prompt__title">Code Connect mapping</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Map the Figma component [Button] to the React component at [path/to/Button.tsx]. Match each Figma variant property to a prop (variant, size, state) and each boolean property to an optional prop. Write the Code Connect file so Dev Mode shows a real, copy-pasteable usage example for the selected variant. Then tell me which props exist in code but have no Figma property, and which Figma properties have no prop.</p>
-        </article>
-        <article class="prompt" id="prompt-5">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">05</span><h3 class="prompt__title">Audit a generated component against the system</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Here is a component you generated: [paste or select in Figma]. Check it against the design system: every colour, radius, space and type value must be a variable. List anything hard-coded, anything bound to the wrong token (for example a surface colour used as text), and any spacing that is not on the 4-point scale. Fix only what you listed and show me a before/after table.</p>
-        </article>
-        <article class="prompt" id="prompt-6">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">06</span><h3 class="prompt__title">Critique in order</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Review this screen the way a senior designer runs a critique: goal, flow, hierarchy, component, pixel, in that order. For each layer, say what you see, what it costs the user, and ask one question. Do not start with spacing or colour. If the goal is unclear, stop there and tell me what you would need to know.</p>
-        </article>
-        <article class="prompt" id="prompt-7">
-          <div class="prompt__head"><span class="lbl lbl--12 lbl--blue">07</span><h3 class="prompt__title">Turn research notes into a case-study outline</h3><button type="button" class="prompt__copy mono" data-copy>copy</button></div>
-          <p class="prompt__body">Here are my notes on a project: [paste]. Draft a case-study outline with six sections: the problem as the user felt it, what we tried first, the design decisions (three, each with the trade-off), what shipped, what changed for users, and what I would do differently. Keep my numbers exactly as written; where I have no number, leave a marker rather than inventing one.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
-        <h2 class="cs-h2">How to use them</h2>
-        <p class="cs-sub">Three habits that make the output reviewable.</p>
-      </div>
-      <div class="nrows">
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">01</span><div><h3>Swap the brackets</h3><p>Everything in [square brackets] is yours to fill: the component, the file, the notes. The rest is the shape that has worked for me.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">02</span><div><h3>Ask for the list of bindings</h3><p>Most prompts end by asking the model to list what it bound or changed. That list is the review surface; read it before the output.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">03</span><div><h3>Keep the numbers out of its hands</h3><p>Where a prompt involves your data, tell the model to keep your figures exactly as written and to leave a marker instead of inventing one.</p></div></div>
-      </div>
-      <div class="cs-cta">
-        <div class="grow"><h3>Want the whole set as a file?</h3><p>One Markdown file, the same seven prompts, for your own notes or your team's wiki.</p></div>
-        <a class="btn-sun" href="assets/prompts.md">Download prompts.md</a>
-      </div>
-    </section>
-
+<section class="c2-sec cs-section" id="part-01"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">01</p><h2 class="c2-h2">The prompts</h2><p class="c2-sub">Choose one to view.</p></div><div class="pl2"><div class="pl2-list" role="tablist" aria-label="Prompts"><button type="button" class="pl2-row is-on" data-prompt="1" role="tab" aria-selected="true" aria-controls="prompt-1" id="tab-1"><span class="pl2-row__n">01</span><span class="pl2-row__t">Token setup from an existing stylesheet</span><span class="pl2-row__c">Design system</span></button><button type="button" class="pl2-row" data-prompt="2" role="tab" aria-selected="false" aria-controls="prompt-2" id="tab-2"><span class="pl2-row__n">02</span><span class="pl2-row__t">Light and dark modes without drift</span><span class="pl2-row__c">Theme</span></button><button type="button" class="pl2-row" data-prompt="3" role="tab" aria-selected="false" aria-controls="prompt-3" id="tab-3"><span class="pl2-row__n">03</span><span class="pl2-row__t">Generate a component through Figma MCP</span><span class="pl2-row__c">Components</span></button><button type="button" class="pl2-row" data-prompt="4" role="tab" aria-selected="false" aria-controls="prompt-4" id="tab-4"><span class="pl2-row__n">04</span><span class="pl2-row__t">Code Connect mapping</span><span class="pl2-row__c">Implementation</span></button><button type="button" class="pl2-row" data-prompt="5" role="tab" aria-selected="false" aria-controls="prompt-5" id="tab-5"><span class="pl2-row__n">05</span><span class="pl2-row__t">Audit a generated component against the system</span><span class="pl2-row__c">Review</span></button><button type="button" class="pl2-row" data-prompt="6" role="tab" aria-selected="false" aria-controls="prompt-6" id="tab-6"><span class="pl2-row__n">06</span><span class="pl2-row__t">Critique in order</span><span class="pl2-row__c">Critique</span></button><button type="button" class="pl2-row" data-prompt="7" role="tab" aria-selected="false" aria-controls="prompt-7" id="tab-7"><span class="pl2-row__n">07</span><span class="pl2-row__t">Turn research notes into a case-study outline</span><span class="pl2-row__c">Case study</span></button></div><div class="pl2-detailwrap"><article class="prompt pl2-detail" id="prompt-1" role="tabpanel" aria-labelledby="tab-1">
+          <span class="pl2-detail__k">Design system <i>·</i> 01</span>
+          <h3 class="pl2-detail__h">Token setup from an existing stylesheet</h3>
+          <p class="pl2-detail__d">Extract design tokens from an existing product and structure them for Figma.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">You are helping me set up Figma variables from an existing product. Here is the stylesheet: [paste CSS or a link]. Extract every colour, type size, spacing and radius value that appears more than once. Group them into collections (color, type, space, radius), propose a name for each in the form `color/ink`, `space/4`, `radius/md`, and show me the values that look like one-offs so I can decide whether to keep or merge them. Do not invent values that are not in the file.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Figma MCP</span><span class="pl2-chip">Tokens</span><span class="pl2-chip">Variables</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+          <span class="pl2-detail__k">Theme <i>·</i> 02</span>
+          <h3 class="pl2-detail__h">Light and dark modes without drift</h3>
+          <p class="pl2-detail__d">Propose dark-mode values that keep every token’s role and contrast.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Here are my light-mode colour tokens: [paste]. Propose a dark-mode value for each that keeps the same role (background, surface, text, muted, line, accent) and the same contrast ratios against the text tokens, within ±0.3. Flag any pair that cannot reach 4.5:1 and suggest the smallest change that fixes it. Output as a two-column table: token, light, dark, contrast.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Tokens</span><span class="pl2-chip">Contrast</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+          <span class="pl2-detail__k">Components <i>·</i> 03</span>
+          <h3 class="pl2-detail__h">Generate a component through Figma MCP</h3>
+          <p class="pl2-detail__d">Build a variant set bound to the library’s variables, then list every binding for review.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Using the connected Figma file, build a [Button] component with variants for [primary, ghost, danger] × [sm, md, lg] × [default, hover, disabled]. Bind every fill, text colour, radius and padding to the existing variables; never type a raw hex or pixel value. Name layers the way the rest of the library does. When you are done, list every variable you bound so I can review the mapping before I publish.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Figma MCP</span><span class="pl2-chip">Components</span><span class="pl2-chip">Variables</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+          <span class="pl2-detail__k">Implementation <i>·</i> 04</span>
+          <h3 class="pl2-detail__h">Code Connect mapping</h3>
+          <p class="pl2-detail__d">Map a Figma component to its code props and surface what does not line up.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Map the Figma component [Button] to the React component at [path/to/Button.tsx]. Match each Figma variant property to a prop (variant, size, state) and each boolean property to an optional prop. Write the Code Connect file so Dev Mode shows a real, copy-pasteable usage example for the selected variant. Then tell me which props exist in code but have no Figma property, and which Figma properties have no prop.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Code Connect</span><span class="pl2-chip">React</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-5" role="tabpanel" aria-labelledby="tab-5" hidden>
+          <span class="pl2-detail__k">Review <i>·</i> 05</span>
+          <h3 class="pl2-detail__h">Audit a generated component against the system</h3>
+          <p class="pl2-detail__d">Check a generated component for hard-coded values and wrong bindings, then fix only those.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Here is a component you generated: [paste or select in Figma]. Check it against the design system: every colour, radius, space and type value must be a variable. List anything hard-coded, anything bound to the wrong token (for example a surface colour used as text), and any spacing that is not on the 4-point scale. Fix only what you listed and show me a before/after table.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Figma MCP</span><span class="pl2-chip">Audit</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-6" role="tabpanel" aria-labelledby="tab-6" hidden>
+          <span class="pl2-detail__k">Critique <i>·</i> 06</span>
+          <h3 class="pl2-detail__h">Critique in order</h3>
+          <p class="pl2-detail__d">Review a screen the way a senior designer runs a critique: goal, flow, hierarchy, component, pixel.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Review this screen the way a senior designer runs a critique: goal, flow, hierarchy, component, pixel, in that order. For each layer, say what you see, what it costs the user, and ask one question. Do not start with spacing or colour. If the goal is unclear, stop there and tell me what you would need to know.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">ChatGPT</span><span class="pl2-chip">Critique</span></div></div>
+        </article><article class="prompt pl2-detail" id="prompt-7" role="tabpanel" aria-labelledby="tab-7" hidden>
+          <span class="pl2-detail__k">Case study <i>·</i> 07</span>
+          <h3 class="pl2-detail__h">Turn research notes into a case-study outline</h3>
+          <p class="pl2-detail__d">Draft a six-section outline from notes, keeping every number exactly as written.</p>
+          <div class="pl2-prompt"><div class="pl2-prompt__head"><span class="c2-lbl c2-lbl--11">The prompt</span><button type="button" class="pl2-copy prompt__copy" data-copy>Copy</button></div><p class="prompt__body">Here are my notes on a project: [paste]. Draft a case-study outline with six sections: the problem as the user felt it, what we tried first, the design decisions (three, each with the trade-off), what shipped, what changed for users, and what I would do differently. Keep my numbers exactly as written; where I have no number, leave a marker rather than inventing one.</p></div>
+          <div class="pl2-works"><span class="c2-lbl c2-lbl--11">Works with</span><div class="pl2-chips"><span class="pl2-chip">Claude</span><span class="pl2-chip">Writing</span></div></div>
+        </article></div></div></section>
+<section class="c2-sec cs-section" id="part-02"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">02</p><h2 class="c2-h2">How to use them</h2><p class="c2-sub">Three habits that make the output reviewable.</p></div><div class="c2-rows"><div><span class="c2-rowno">01</span><h3 class="c2-h3">Swap the brackets</h3><p class="c2-p">Fill in the square brackets. The rest is structure.</p></div><div><span class="c2-rowno">02</span><h3 class="c2-h3">Ask for the list of bindings</h3><p class="c2-p">Use the model’s binding list as your review surface.</p></div><div><span class="c2-rowno">03</span><h3 class="c2-h3">Keep the numbers out of its hands</h3><p class="c2-p">Use supplied figures only; never invent metrics.</p></div></div></section>
+<div class="c2-cta"><div><h3>Want the whole set as a file?</h3><p>One Markdown file with all seven prompts, for your notes or team wiki.</p></div><a class="c2-cta__btn" download href="assets/prompts.md">Download prompts.md <span class="c2-cta__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg></span></a></div>
   </main>
-
   <footer class="cs-next" data-layer="Next">
-    <div class="cs-next__main">
-      <span class="lbl lbl--soft">Next</span>
-      <a class="cs-next__title" href="how-this-site-was-built.html">How this site was built <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    <div class="cs-next__inner">
+      <div class="cs-next__main">
+        <span class="cs-next__lbl">Next</span>
+        <a class="cs-next__title" href="how-this-site-was-built.html">How this site was built<span class="cs-next__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
     </div>
-    <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
   </footer>
 
-  <script src="prefs.js?v=20261302"></script>
-  <script src="case.js?v=20261302"></script>
-  <script src="extras.js?v=20261302"></script>
-  <script src="sunny.js?v=20261302"></script>
-  <script src="sunny-config.js?v=20261302"></script>
-  <script src="ai/knowledge.js?v=20261302"></script>
-  <script src="sunny-ai.js?v=20261302"></script>
+  <script src="prefs.js?v=20261303"></script>
+  <script src="case.js?v=20261303"></script>
+  <script src="sunny.js?v=20261303"></script>
+  <script src="sunny-config.js?v=20261303"></script>
+  <script src="ai/knowledge.js?v=20261303"></script>
+  <script src="sunny-ai.js?v=20261303"></script>
+<script src="extras.js?v=20261303"></script>
+<script>
+(function () {
+  var rows = document.querySelectorAll(".pl2-row"), panels = document.querySelectorAll(".pl2-detail");
+  rows.forEach(function (row) {
+    row.addEventListener("click", function () {
+      var n = row.getAttribute("data-prompt");
+      rows.forEach(function (r) { var on = r === row; r.classList.toggle("is-on", on); r.setAttribute("aria-selected", String(on)); });
+      panels.forEach(function (p) { p.hidden = p.id !== "prompt-" + n; });
+    });
+  });
+})();
+</script>
 </body>
 </html>

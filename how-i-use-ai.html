@@ -14,22 +14,24 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://ganeshuxcraft.in/assets/og-image.png" />
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261302" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261303" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261302" />
-  <link rel="stylesheet" href="sunny.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261302" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261303" />
+  
+  <link rel="stylesheet" href="cs2.css?v=20261303" />
+  <link rel="stylesheet" href="sunny.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261303" /></noscript>
 </head>
-<body class="is-ready cs-page ai-page">
-
+<body class="is-ready cs-page c2-page">
   <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
@@ -37,134 +39,71 @@
       <a class="nav__brand mono" href="index.html" aria-label="ganeshuxcraft.in, home"><svg class="pendant" viewBox="0 0 260 300" width="34" height="39" aria-hidden="true" focusable="false"><defs><linearGradient id="pendantCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#pendantCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg><span class="nav__brand-txt">ganeshuxcraft.in</span></a>
       <div class="nav__pill nav__pill--case">
         <span class="nav__indicator" aria-hidden="true"></span>
-        <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <a class="nav__link nav__home is-active" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
         <span class="nav__sep" aria-hidden="true"></span>
-        <a class="nav__link is-active" href="how-i-use-ai.html">AI</a>
-        <a class="nav__link" href="prompts.html">Prompts</a>
-        <a class="nav__link" href="how-this-site-was-built.html">This site</a>
+        <a class="nav__link" href="index.html#work">Work</a>
+        <a class="nav__link" href="hire.html">Hiring me?</a>
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
       <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
     </nav>
     </div>
   </header>
-
-  <section class="cs-hero" data-layer="Hero">
-    <a class="cs-back" href="index.html#contact"><span aria-hidden="true">←</span> Back to the site</a>
-    <div class="cs-tags"><span class="tag">&lt;AI /&gt;</span><span class="lbl lbl--12">Honest version</span></div>
-    <h1 class="cs-title">How I use AI</h1>
-    <p class="cs-lede">AI drafts, I decide. Where Claude and Figma MCP help, where they got it wrong, and the rules I hold to.</p>
-    <div class="cs-meta">
-      <hr />
-      <dl>
-        <div><dt class="lbl">Tools</dt><dd>Claude · Figma MCP · Code Connect · ChatGPT</dd></div>
-        <div><dt class="lbl">Where</dt><dd>Design system, and this site</dd></div>
-        <div><dt class="lbl">Rule</dt><dd>Nothing generated ships unreviewed</dd></div>
-        <div><dt class="lbl">Updated</dt><dd>November 2026</dd></div>
-      </dl>
+  <section class="cs-hero c2-hero--info" data-layer="Hero">
+    <a class="c2-back" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to the site</a>
+    <p class="c2-kicker c2-kicker--info">&lt;AI /&gt; <span>·</span> Honest version</p>
+    <div class="c2-hero__grid">
+      <h1 class="c2-h1">How I use AI</h1>
+      <div class="c2-hero__side"><h3>AI drafts. I decide.</h3><p>A practical look at how I use Claude, Figma MCP and Code Connect in my product design work.</p></div>
     </div>
+    <dl class="c2-meta"><div><dt>Tools</dt><dd>Claude · Figma MCP · Code Connect</dd></div><div><dt>Where</dt><dd>Design system and product design</dd></div><div><dt>Role</dt><dd>Execution with human judgment</dd></div><div><dt>Updated</dt><dd>November 2026</dd></div></dl>
   </section>
-
   <main class="cs-content" data-layer="Content">
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
-        <h2 class="cs-h2">What AI does, what I decide</h2>
-        <p class="cs-sub">The split, plainly.</p>
-      </div>
-      <div class="g g--2">
-        <div class="card card--split">
-          <span class="lbl lbl--12 lbl--blue">AI does</span>
-          <ul class="split__list">
-            <li>Drafts: a first pass at variants, dark-mode values, copy and code.</li>
-            <li>Reads the system through Figma MCP and keeps to the tokens it finds.</li>
-            <li>Maps components to code through Code Connect and writes the usage examples.</li>
-            <li>Critiques a screen in order (goal, flow, hierarchy, component, pixel) when I ask it to.</li>
-            <li>Writes the JavaScript on this site, and most of the CSS, from my brief.</li>
-          </ul>
-        </div>
-        <div class="card card--split card--ink">
-          <span class="lbl lbl--12 lbl--sun">I decide</span>
-          <ul class="split__list">
-            <li>What the problem is, and whether it is worth solving.</li>
-            <li>The palette, the type scale, the spacing rhythm, the names. The system is mine.</li>
-            <li>What ships. Every generated screen is reviewed against the tokens before it goes anywhere.</li>
-            <li>Every number. If AI writes a metric I cannot source, it comes out.</li>
-            <li>When to stop. AI will keep going; the taste call is the job.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
-        <h2 class="cs-h2">Where it sits in the workflow</h2>
-        <p class="cs-sub">The same five steps as the pipeline.</p>
-      </div>
-      <div class="nrows">
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">01</span><div><h3>Tokens</h3><p>I set the colours, type, space and radius as Figma variables. AI proposes the dark-mode counterparts and checks contrast; I accept or adjust each pair.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">02</span><div><h3>Components</h3><p>I define the anatomy, states and names. Claude generates the variant matrix through Figma MCP, bound to the variables, and lists every binding for me to check.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">03</span><div><h3>Code Connect</h3><p>AI drafts the mapping from Figma properties to props. I verify it against the real component and fix what drifted.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">04</span><div><h3>Figma MCP</h3><p>A prompt goes in, a component comes out in Figma and in code. The replay on the home page shows the loop; the audit prompt in the library is how I check the result.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">05</span><div><h3>Ship</h3><p>Review, then publish. The library and the code stay in step because the same tokens drive both.</p></div></div>
-      </div>
-    </section>
-
-    <section class="cs-section" id="wrong">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03</span>
-        <h2 class="cs-h2">When AI got it wrong</h2>
-        <p class="cs-sub">Real examples from this site. Each caught by review, not by the model.</p>
-      </div>
-      <div class="g g--2 g--20">
-        <div class="tile tile--wrong"><p class="t-h t-h--17">The logo's g went white in dark mode</p><p class="t-p">Claude mapped the mark's ink to the theme token, so the g on the lamp cone inverted with the page. It looked broken, not clever. Fixed by pinning the g to ink and leaving the cone light.</p></div><div class="tile"><p class="t-h t-h--17">A metric that did not exist</p><p class="t-p">An early draft of the facts row claimed a 30% improvement. No source, so it was deleted. Everything on the site now is a count I can stand behind.</p></div><div class="tile"><p class="t-h t-h--17">Career years filled in by guesswork</p><p class="t-p">The career map needed one entry per year from 2018 to now. Claude placed the middle years from the resume's date ranges, which is a guess. Those placements are flagged and I am confirming them one by one.</p></div><div class="tile"><p class="t-h t-h--17">A gallery view that rendered blank</p><p class="t-p">The bento layout came back empty: the grid aligned items to the start and each tile collapsed to zero height. A one-line CSS fix, found by reading the computed styles, not by asking again.</p></div><div class="tile"><p class="t-h t-h--17">A one-page resume that spilled to two</p><p class="t-p">The print stylesheet let the sheet grow with its content. The page now has a fixed A4 height and hidden overflow, and the PDF is checked for a single page every time it is regenerated.</p></div><div class="tile"><p class="t-h t-h--17">Text a screen reader would read as nonsense</p><p class="t-p">The resume button exposed its progress counter, so it read as “Resume.pdf0%”. AI did not catch this; a review pass did. The counter is hidden from assistive tech now.</p></div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04</span>
-        <h2 class="cs-h2">Rules I hold to</h2>
-        <p class="cs-sub">Short, so they get followed.</p>
-      </div>
-      <div class="g g--4">
-        <div class="tile"><p class="t-h t-h--17">Draft, never decide</p><p class="t-p">AI output is a starting point. It never ships without a human reading it.</p></div><div class="tile"><p class="t-h t-h--17">Tokens or nothing</p><p class="t-p">A generated component binds to the system's variables or it is rejected.</p></div><div class="tile"><p class="t-h t-h--17">No real data in prompts</p><p class="t-p">Case studies use sample data. The product's real content stays inside Zoho.</p></div><div class="tile"><p class="t-h t-h--17">Say when it is AI</p><p class="t-p">This page and the chat both say what is generated and what is not.</p></div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05</span>
-        <h2 class="cs-h2">Go deeper</h2>
-        <p class="cs-sub">The prompts and the build log.</p>
-      </div>
-      <div class="g g--2">
-        <a class="tile tile--link" href="prompts.html"><p class="t-h t-h--17">The prompt library</p><p class="t-p">Seven prompts for tokens, components, Code Connect and critique. Free to copy.</p><span class="tile__go">Open →</span></a><a class="tile tile--link" href="how-this-site-was-built.html"><p class="t-h t-h--17">How this site was built</p><p class="t-p">The setup, the timeline and AI's drafts next to the final pages.</p><span class="tile__go">Open →</span></a>
-      </div>
-      <div class="cs-cta">
-        <div class="grow"><h3>Working out where AI fits in your design team?</h3><p>I have done it for one product and one system. Happy to compare notes.</p></div>
-        <a class="btn-sun" href="mailto:ganesh.rayanbalu@gmail.com?subject=AI%20in%20the%20design%20workflow">Email me <span class="btn__ico btn__ico--ext" aria-hidden="true">↗</span></a>
-      </div>
-    </section>
-
+<section class="c2-sec cs-section" id="part-01"><div class="c2-sec__head c2-sec__head--solo c2-sec__head--right"><p class="c2-num">01</p><h2 class="c2-h2">What AI does, what I decide</h2></div><div class="ai2-split"><div class="ai2-split__card"><h3 class="ai2-split__h">AI handles</h3><ul class="ai2-checks"><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>First drafts and alternatives</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Execution (UI, code, documentation)</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Exploration (variants, edge cases)</li></ul></div><div class="ai2-split__card ai2-split__card--dark"><h3 class="ai2-split__h">I own</h3><ul class="ai2-checks"><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>The problem and direction</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Visual and system decisions</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>What ships (the final call)</li></ul></div></div></section>
+<section class="c2-sec cs-section" id="part-02"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">02</p><h2 class="c2-h2">My workflow</h2><p class="c2-sub">A five-step flow from foundation to ship.</p></div><ol class="ai2-flow"><li><span class="ai2-flow__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span><h3 class="c2-h3">Tokens</h3><p class="c2-p">Define the foundation</p></li><li><span class="ai2-flow__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><h3 class="c2-h3">Components</h3><p class="c2-p">Build and structure</p></li><li><span class="ai2-flow__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span><h3 class="c2-h3">Code Connect</h3><p class="c2-p">Map design to code</p></li><li><span class="ai2-flow__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h3v6H9a3 3 0 0 1 0-6zM12 3h3a3 3 0 0 1 0 6h-3zM9 9h3v6H9a3 3 0 0 1 0-6zM12 12a3 3 0 1 1 3 3 3 3 0 0 1-3-3zM9 15h3v3a3 3 0 1 1-3-3z"/></svg></span><h3 class="c2-h3">Figma MCP</h3><p class="c2-p">Inspect and explore</p></li><li class=is-last><span class="ai2-flow__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><h3 class="c2-h3">Ship</h3><p class="c2-p">Review and publish</p></li></ol></section>
+<section class="c2-sec cs-section" id="part-03"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">03</p><h2 class="c2-h2">How I work with AI</h2><p class="c2-sub">A simple loop I follow for product design work.</p></div><div class="c2-row-steps" style="--n:4"><div><span class="c2-dot c2-dot--ink">1</span><h3 class="c2-h3">Context</h3><p class="c2-p">Define the problem and constraints.</p></div><div><span class="c2-dot c2-dot--ink">2</span><h3 class="c2-h3">Prompt</h3><p class="c2-p">Give clear, structured input.</p></div><div><span class="c2-dot c2-dot--ink">3</span><h3 class="c2-h3">Critique</h3><p class="c2-p">Review for usability, consistency and fit.</p></div><div><span class="c2-dot c2-dot--ink">4</span><h3 class="c2-h3">Refine</h3><p class="c2-p">Keep what works, and improve the rest.</p></div></div><div class="ai2-example">
+  <div class="ai2-example__prompt"><span class="c2-mono">&gt;_ Prompt</span><p>“Redesign the operator console header for clarity and quick actions. Keep it minimal and aligned to our design tokens.”</p></div>
+  <span class="ai2-example__arrow" aria-hidden="true">→</span>
+  <div class="ai2-example__col"><span class="ai2-example__lbl">First output</span>
+    <div class="ai2-mock ai2-mock--first" aria-hidden="true"><div class="ai2-mock__bar"><i class="ai2-mock__dot"></i><i class="ai2-mock__line" style="width:34px"></i><i class="ai2-mock__line" style="width:28px"></i><i class="ai2-mock__sp"></i><i class="ai2-mock__dot"></i><i class="ai2-mock__dot"></i><i class="ai2-mock__dot"></i></div><i class="ai2-mock__line ai2-mock__line--wide"></i><i class="ai2-mock__line" style="width:70%"></i></div></div>
+  <span class="ai2-example__arrow" aria-hidden="true">→</span>
+  <div class="ai2-example__col"><span class="ai2-example__lbl">Refined (after review)</span>
+    <div class="ai2-mock" aria-hidden="true"><div class="ai2-mock__bar"><span class="ai2-mock__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg><i class="ai2-mock__line" style="width:120px"></i></span><i class="ai2-mock__sp"></i><svg class="ai2-mock__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg><svg class="ai2-mock__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 17h12l-1.5-2V11a4.5 4.5 0 0 0-9 0v4z"/><path d="M10 20h4"/></svg><i class="ai2-mock__dot ai2-mock__dot--ink"></i></div><i class="ai2-mock__line ai2-mock__line--wide"></i></div></div>
+</div></section>
+<section class="c2-sec cs-section" id="part-04"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">04</p><h2 class="c2-h2">AI in my design system</h2><p class="c2-sub">From design tokens to production components.</p></div><div class="ai2-dsflow"><div class="c2-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h3v6H9a3 3 0 0 1 0-6zM12 3h3a3 3 0 0 1 0 6h-3zM9 9h3v6H9a3 3 0 0 1 0-6zM12 12a3 3 0 1 1 3 3 3 3 0 0 1-3-3zM9 15h3v3a3 3 0 1 1-3-3z"/></svg><h3 class="c2-h3">Design system</h3><p class="c2-p">Tokens · Components</p></div><div class="c2-card c2-card--dark"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8zM19 15l.9 3.1L23 19l-3.1.9L19 23l-.9-3.1L15 19l3.1-.9z"/></svg><h3 class="c2-h3">AI-assisted mapping</h3><p class="c2-p">Inspect · Map · Generate</p></div><div class="c2-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg><h3 class="c2-h3">Code Connect</h3><p class="c2-p">Design → Code</p></div><div class="c2-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg><h3 class="c2-h3">Production</h3><p class="c2-p">Reviewed · Maintained</p></div></div><div class="ai2-comp">
+  <div class="ai2-comp__col"><span class="ai2-example__lbl">Component example: Button</span>
+    <span class="ai2-comp__btn">Button</span><span class="ai2-comp__sub">Primary</span>
+    <div class="ai2-comp__props"><span>Size</span><span class="ai2-comp__sel">Medium <i>⌄</i></span><span>State</span><span class="ai2-comp__sel">Default <i>⌄</i></span></div>
+  </div>
+  <span class="ai2-example__arrow" aria-hidden="true">→</span>
+  <div class="ai2-comp__col"><span class="ai2-example__lbl">Mapped implementation</span>
+    <pre class="ai2-code"><code>&lt;Button
+  variant="primary"
+  size="medium"
+  state="default"
+/&gt;</code></pre>
+  </div>
+  <div class="ai2-comp__col ai2-comp__col--checks"><ul class="ai2-checks ai2-checks--blue"><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Uses design tokens</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Variants mapped automatically</li><li><svg class="ai2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reviewed and corrected before ship</li></ul></div></div></section>
+<section class="c2-sec cs-section" id="part-05"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">05</p><h2 class="c2-h2">When AI gets it wrong</h2><p class="c2-sub">Real examples, and how I corrected them.</p></div><div class="ai2-wrongs"><div class="ai2-wrong"><h3 class="c2-h3">The logo’s gold went white in dark mode</h3><div class="ai2-wrong__pair"><div class="ai2-logo"><span class="ai2-logo__mark ai2-logo__mark--white"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8zM19 15l.9 3.1L23 19l-3.1.9L19 23l-.9-3.1L15 19l3.1-.9z"/></svg></span></div><span class="ai2-example__arrow" aria-hidden="true">→</span><div class="ai2-logo"><span class="ai2-logo__mark"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8zM19 15l.9 3.1L23 19l-3.1.9L19 23l-.9-3.1L15 19l3.1-.9z"/></svg></span></div></div><div class="ai2-wrong__tags"><span class="ai2-tag ai2-tag--bad">✕ Generated</span><span class="ai2-tag ai2-tag--good">✓ Corrected</span></div></div><div class="ai2-wrong"><h3 class="c2-h3">A metric that did not exist</h3><div class="ai2-wrong__pair"><div class="ai2-metric"><b>↑ 30%</b><span>Improvement</span></div><span class="ai2-example__arrow" aria-hidden="true">→</span><div class="ai2-metric"><b>—</b><span>Improvement</span></div></div><div class="ai2-wrong__tags"><span class="ai2-tag ai2-tag--bad">✕ Fabricated</span><span class="ai2-tag ai2-tag--good">✓ Removed</span></div></div><div class="ai2-wrong"><h3 class="c2-h3">A gallery view that rendered blank</h3><div class="ai2-wrong__pair"><div class="ai2-gal"><i></i><i></i><i></i><i></i></div><span class="ai2-example__arrow" aria-hidden="true">→</span><div class="ai2-gal ai2-gal--ok"><i></i><i></i><i></i><i></i></div></div><div class="ai2-wrong__tags"><span class="ai2-tag ai2-tag--bad">✕ Blank output</span><span class="ai2-tag ai2-tag--good">✓ Fixed</span></div></div></div><div class="ai2-other"><span class="ai2-other__lbl">Other issues I catch</span><span>Career years by guesswork</span><span>One-page resume split</span><span>Screen reader reads nonsense</span></div></section>
+<section class="c2-sec cs-section" id="part-06"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">06</p><h2 class="c2-h2">Rules I hold to</h2><p class="c2-sub">Simple principles, no exceptions.</p></div><div class="c2-rules"><div><h3>Draft, never decide</h3><p class="c2-p">AI gives options. I make the call.</p></div><div><h3>Tokens or nothing</h3><p class="c2-p">Only within the design system.</p></div><div><h3>No real data in prompts</h3><p class="c2-p">Use static or sample data.</p></div><div><h3>Disclose AI</h3><p class="c2-p">Be clear when AI contributes.</p></div></div></section>
+<section class="c2-sec cs-section" id="part-07"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">07</p><h2 class="c2-h2">Go deeper</h2><p class="c2-sub">More detail, if you want to explore.</p></div><div class="ai2-deeper"><a class="ai2-deeper__item" href="prompts.html"><h3>Prompt library <span aria-hidden="true">→</span></h3><p class="c2-p">The prompts I use for design, systems and critique.</p></a><a class="ai2-deeper__item" href="how-this-site-was-built.html"><h3>How this site was built <span aria-hidden="true">→</span></h3><p class="c2-p">Tools, decisions and workflow behind this portfolio.</p></a></div></section>
+<div class="c2-cta"><div><h3>Working out where AI fits in your design workflow?</h3><p>Let’s talk about a practical, design-led approach.</p></div><a class="c2-cta__btn" href="mailto:ganesh.rayanbalu@gmail.com?subject=AI%20in%20the%20design%20workflow">Email me <span class="c2-cta__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </main>
-
   <footer class="cs-next" data-layer="Next">
-    <div class="cs-next__main">
-      <span class="lbl lbl--soft">Next</span>
-      <a class="cs-next__title" href="prompts.html">Open the prompt library <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    <div class="cs-next__inner">
+      <div class="cs-next__main">
+        <span class="cs-next__lbl">Next</span>
+        <a class="cs-next__title" href="prompts.html">Open the prompt library<span class="cs-next__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
     </div>
-    <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
   </footer>
 
-  <script src="prefs.js?v=20261302"></script>
-  <script src="case.js?v=20261302"></script>
-  <script src="extras.js?v=20261302"></script>
-  <script src="sunny.js?v=20261302"></script>
-  <script src="sunny-config.js?v=20261302"></script>
-  <script src="ai/knowledge.js?v=20261302"></script>
-  <script src="sunny-ai.js?v=20261302"></script>
+  <script src="prefs.js?v=20261303"></script>
+  <script src="case.js?v=20261303"></script>
+  <script src="sunny.js?v=20261303"></script>
+  <script src="sunny-config.js?v=20261303"></script>
+  <script src="ai/knowledge.js?v=20261303"></script>
+  <script src="sunny-ai.js?v=20261303"></script>
 </body>
 </html>

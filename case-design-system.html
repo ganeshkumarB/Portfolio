@@ -11,7 +11,6 @@
   <meta property="og:description" content="Building a unified design system that connects foundations, components, and code across Zoho SalesIQ, bringing consistency, speed, and collaboration to product design and development." />
   <meta property="og:url" content="https://ganeshuxcraft.in/case-design-system.html" />
   <meta property="og:image" content="https://ganeshuxcraft.in/assets/og/case-design-system.png" />
-  <meta property="og:image:alt" content="Design system: case study cover" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,20 +18,20 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261302" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261303" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="ds-system.css?v=20261302" />
-  <link rel="stylesheet" href="case.css?v=20261302" />
-  <link rel="stylesheet" href="sunny.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261302" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261303" />
+  <link rel="stylesheet" href="ds-system.css?v=20261303" />
+  <link rel="stylesheet" href="cs2.css?v=20261303" />
+  <link rel="stylesheet" href="sunny.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261303" /></noscript>
 </head>
-<body class="is-ready cs-page">
-
+<body class="is-ready cs-page c2-page">
   <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
@@ -51,23 +50,17 @@
     </nav>
     </div>
   </header>
-
-  <section class="cs-hero cs-hero--tight" data-layer="Hero">
-    <div class="cs-tags"><span class="tag">Design infrastructure · Zoho SalesIQ</span><span class="lbl lbl--12">Case study 02 / 07</span></div>
-    <h1 class="cs-title">One system. Multiple products. A connected workflow.</h1>
-    <p class="cs-lede">Building a unified design system that connects foundations, components, and code across Zoho SalesIQ, bringing consistency, speed, and collaboration to product design and development.</p>
-    <div class="cs-meta">
-      <hr />
-      <dl>
-        <div><dt class="lbl">Role</dt><dd>Design systems lead</dd></div>
-        <div><dt class="lbl">Product</dt><dd>Zoho SalesIQ</dd></div>
-        <div><dt class="lbl">Scope</dt><dd>Tokens · Components · Platforms · Documentation · Code</dd></div>
-        <div><dt class="lbl">Built with</dt><dd>Figma variables, Code Connect, Claude + Figma MCP, HTML and CSS</dd></div>
-      </dl>
+  <section class="cs-hero" data-layer="Hero">
+    <p class="c2-kicker">Design infrastructure · Zoho SalesIQ<small>Case study 02 / 07</small></p>
+    <div class="c2-hero__grid">
+      <h1 class="c2-h1">One system. Multiple products. A connected workflow.</h1>
+      <p class="c2-lede">Building a unified design system for Zoho SalesIQ, from tokens to components and from Figma to code. A single source that powers web, mobile SDK and WhatsApp surfaces in light and dark modes.</p>
     </div>
+    <dl class="c2-meta c2-meta--6"><div><dt>Role</dt><dd>Design system owner</dd></div><div><dt>Duration</dt><dd>2024 – Now</dd></div><div><dt>Tools &amp; workflow</dt><dd>Figma Variables · Code Connect · Claude + Figma MCP</dd></div><div><dt>Scope</dt><dd>26+ reusable components</dd></div><div><dt>Surfaces</dt><dd>Web · Mobile SDK · WhatsApp</dd></div><div><dt>Themes</dt><dd>Light · Dark</dd></div></dl>
   </section>
 
-  <section class="cs-visual zb-hero" data-layer="Hero visual" aria-label="The design system site, rendered live">
+  <section class="cs-visual" data-layer="Hero visual" aria-label="The design system site, rendered live from its own CSS">
+    <div class="c2-visual dsy2-stage">
     <div class="dsy-stage dsy-stage--ink">
       <div class="dsy-stage__bar"><div class="dsy-controls" role="group" aria-label="Preview modes"><div class="dsy-seg" data-dsx-for="dsxHero" data-kind="theme"><button type="button" data-v="light" aria-pressed="true">Light</button><button type="button" data-v="dark" aria-pressed="false">Dark</button></div><div class="dsy-seg" data-dsx-for="dsxHero" data-kind="platform"><button type="button" data-v="desktop" aria-pressed="true">Desktop</button><button type="button" data-v="tablet" aria-pressed="false">Tablet</button><button type="button" data-v="mobile" aria-pressed="false">Mobile</button></div></div><span class="dsy-stage__note mono">Live · rendered from the system’s CSS</span></div>
       <div class="dsx dsy-docs" id="dsxHero" data-theme="light" data-platform="desktop">
@@ -89,233 +82,45 @@
               </div>
             </div>
     </div>
-    <ol class="dsy-metrics dsy-metrics--d" aria-label="System scale"><li><b>147</b><span>Variables</span><p>Design tokens in Figma</p></li><li><b>26</b><span>Components</span><p>Production-ready, reusable UI</p></li><li><b>359</b><span>Variants</span><p>Every state, size and use case</p></li><li><b>3</b><span>Platforms</span><p>Web, tablet and mobile</p></li><li><b>2</b><span>Themes</span><p>Light and dark</p></li></ol>
-    <p class="lbl lbl--10">Every control above is the system’s own HTML and CSS with sample content. Switch the theme and the platform to watch the variables do the work.</p>
-  </section>
 
-  <section class="cs-note" data-layer="Note">
-    <div class="cs-note__box">
-      <span class="lbl">Note</span>
-      <p>This work was done under a non-disclosure agreement with Zoho. Product screens are recreated with sample data; components, tokens and code are rendered from the system’s own CSS package. Internal metrics and customer details are left out.</p>
     </div>
+    <p class="c2-cap">The system’s own components rendered with sample content, in light and dark.</p>
   </section>
 
+  <section class="cs-note" data-layer="NDA note">
+    <div class="cs-note__box"><span class="lbl">Note</span><p>This work was done under a non-disclosure agreement with Zoho. Product screens are recreated with sample data; components, tokens and code come from the system itself. Internal metrics and customer details are left out.</p></div>
+  </section>
   <main class="cs-content" data-layer="Content">
-
-    <nav class="cs-formula mono" aria-label="Case study outline"><a href="#part-01"><b>01</b>Problem</a><a href="#part-02"><b>02</b>Decision</a><a href="#part-03"><b>03</b>Foundation to product</a><a href="#part-04"><b>04</b>Foundations</a><a href="#part-05"><b>05</b>Components</a><a href="#part-06"><b>06</b>Adaptability</a><a href="#part-07"><b>07</b>In products</a><a href="#part-08"><b>08</b>Design and code</a><a href="#part-09"><b>09</b>Output</a><a href="#part-10"><b>10</b>Quality</a><a href="#part-11"><b>11</b>Takeaway</a></nav>
-
-    <section class="cs-section" id="part-01">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01 / The problem</span>
-        <h2 class="cs-h2">A design system fails quietly.</h2>
-        <p class="cs-sub">As SalesIQ grew, the interface started to drift: the same components looked and behaved differently across modules, slowing both design and development.</p>
-      </div>
-      <div class="dsx dsy-drift" data-theme="light" data-platform="desktop">
-        <div class="dsy-drift__col"><span class="dsy-drift__t">Different buttons</span><div class="dsy-drift__pair"><button class="ds-btn ds-btn--primary" type="button" tabindex="-1">Create</button><button class="dsy-off dsy-off--btn" type="button" tabindex="-1">Create</button></div></div>
-        <div class="dsy-drift__col"><span class="dsy-drift__t">Different inputs</span><div class="dsy-drift__pair dsy-drift__pair--col"><label class="ds-field ds-field--sm"><span class="ds-field__control"><input type="text" placeholder="Enter name" tabindex="-1" /></span></label><input class="dsy-off dsy-off--input" type="text" placeholder="Enter name" tabindex="-1" /></div></div>
-        <div class="dsy-drift__col"><span class="dsy-drift__t">Different patterns</span><div class="dsy-drift__pair"><span class="ds-badge ds-badge--success">Active</span><span class="dsy-off dsy-off--pill">Active</span></div></div>
-      </div>
-      <p class="dsy-result"><b>The result?</b> Inconsistency, repeated effort, and slower delivery across the product.</p>
-      <span class="lbl lbl--9">Illustrative pairs: the system’s component beside the kind of one-off it replaced.</span>
-    </section>
-
-    <section class="cs-section" id="part-02">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02 / The decision</span>
-        <h2 class="cs-h2">One source, several outputs.</h2>
-        <p class="cs-sub">Rather than maintaining separate definitions across design and code, we established a shared system: a single source of truth that drives both design and implementation.</p>
-      </div>
-      <figure class="zb-figure"><svg class="dsy-insight dsy-insight--wide" viewBox="0 0 1000 300" aria-hidden="true" focusable="false">
-            <defs><marker id="dsy-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="var(--muted)"/></marker></defs>
-            <g class="dsy-i__out"><rect x="20" y="110" width="230" height="80" rx="14"/><text class="dsy-i__t" x="135" y="143" text-anchor="middle">Product requirements</text><text class="dsy-i__d" x="135" y="166" text-anchor="middle">what SalesIQ needs to ship</text></g>
-            <path class="dsy-i__w" d="M250 150 H 330" marker-end="url(#dsy-arr2)"/>
-            <g class="dsy-i__src"><rect x="332" y="100" width="270" height="100" rx="14"/><text class="dsy-i__t" x="467" y="140" text-anchor="middle">Design system</text><text class="dsy-i__d" x="467" y="164" text-anchor="middle">shared foundation · one source of truth</text></g>
-            <path class="dsy-i__w" d="M602 134 C 650 134, 650 70, 698 70" marker-end="url(#dsy-arr2)"/>
-            <path class="dsy-i__w" d="M602 166 C 650 166, 650 230, 698 230" marker-end="url(#dsy-arr2)"/>
-            <g class="dsy-i__node"><rect x="700" y="36" width="280" height="68" rx="12"/><text class="dsy-i__t" x="840" y="63" text-anchor="middle">Design</text><text class="dsy-i__d" x="840" y="86" text-anchor="middle">Figma library · variables and components</text></g>
-            <g class="dsy-i__node"><rect x="700" y="196" width="280" height="68" rx="12"/><text class="dsy-i__t" x="840" y="223" text-anchor="middle">Engineering</text><text class="dsy-i__d" x="840" y="246" text-anchor="middle">Production components · the same tokens</text></g>
-          </svg><figcaption class="lbl lbl--9">Requirements enter once. The library designers use and the components engineers ship both come from the same definitions.</figcaption></figure>
-    </section>
-
-    <section class="cs-section" id="part-03">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03 / From foundation to product</span>
-        <h2 class="cs-h2">Foundations to code, in one line.</h2>
-        <p class="cs-sub">A clear path from a design decision to a consistent, implementable interface.</p>
-      </div>
-      <div class="dsy-chain3">
-        <div class="dsy-chain3__step"><span class="lbl lbl--10 lbl--blue">Token</span><b>bg/brand</b><p>A semantic token that resolves to a primitive, with one answer per theme.</p>
-          <ol class="dsy-token2"><li><i style="background:#4F46E5"></i><span>Light</span><b class="mono">brand/600 · #4F46E5</b></li><li><i style="background:#6366F1"></i><span>Dark</span><b class="mono">brand/500 · #6366F1</b></li></ol>
-          <span class="lbl lbl--9">Also behind the icon button, the switch when on, the tab indicator and the chat launcher.</span></div>
-        <span class="dsy-chain3__arrow" aria-hidden="true">→</span>
-        <div class="dsy-chain3__step"><span class="lbl lbl--10 lbl--blue">Component</span><b>Button / Primary</b><p>Every fill, radius, height and spacing bound to a token. Three sizes from one definition.</p>
-          <div class="dsx dsy-chain3__stage dsy-chain3__stage--sizes" data-theme="light" data-platform="desktop"><div><button class="ds-btn ds-btn--primary ds-btn--sm" type="button" tabindex="-1">Create</button><span class="mono">sm · 32</span></div><div><button class="ds-btn ds-btn--primary" type="button" tabindex="-1">Create</button><span class="mono">md · 40</span></div><div><button class="ds-btn ds-btn--primary ds-btn--lg" type="button" tabindex="-1">Create</button><span class="mono">lg · 48</span></div></div></div>
-        <span class="dsy-chain3__arrow" aria-hidden="true">→</span>
-        <div class="dsy-chain3__step"><span class="lbl lbl--10 lbl--blue">Interface</span><b>Used across SalesIQ</b><p>The same component, inside a real pattern.</p><div class="dsx dsy-chain3__stage dsy-chain3__stage--wide" data-theme="light" data-platform="desktop"><div class="ds-dialog"><div class="ds-dialog__inner"><div class="ds-dialog__head"><h3 class="ds-dialog__title">Delete this conversation?</h3></div><p class="ds-dialog__text">It will be removed for everyone on the team. Transcripts already exported are not affected.</p><div class="ds-dialog__actions"><button class="ds-btn ds-btn--secondary" type="button" tabindex="-1">Cancel</button><button class="ds-btn ds-btn--danger" type="button" tabindex="-1">Delete</button></div></div></div></div></div>
-      </div>
-    </section>
-
-    <section class="cs-section" id="part-04">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04 / The foundations</span>
-        <h2 class="cs-h2">Primitives underneath, meaning on top.</h2>
-        <p class="cs-sub">A set of design tokens that bring order to colour, type, spacing and more, creating one language across the product. Primitives are raw values; semantic tokens give them a job, with a Light and a Dark answer each.</p>
-      </div>
-      <div class="dsy-found">
-        <div class="dsy-found__ramps"><span class="lbl lbl--10 lbl--blue">Colour · 57 primitives</span><div class="dsy-ramp"><span class="dsy-ramp__n mono">brand</span><div class="dsy-ramp__cells"><i title="brand/50 #EEF2FF" style="background:#EEF2FF"></i><i title="brand/100 #E0E7FF" style="background:#E0E7FF"></i><i title="brand/200 #C7D2FE" style="background:#C7D2FE"></i><i title="brand/300 #A5B4FC" style="background:#A5B4FC"></i><i title="brand/400 #818CF8" style="background:#818CF8"></i><i title="brand/500 #6366F1" style="background:#6366F1"></i><i title="brand/600 #4F46E5" style="background:#4F46E5"></i><i title="brand/700 #4338CA" style="background:#4338CA"></i><i title="brand/800 #3730A3" style="background:#3730A3"></i><i title="brand/900 #312E81" style="background:#312E81"></i><i title="brand/950 #1E1B4B" style="background:#1E1B4B"></i></div><span class="dsy-ramp__k mono">50 → 950</span></div><div class="dsy-ramp"><span class="dsy-ramp__n mono">neutral</span><div class="dsy-ramp__cells"><i title="neutral/0 #FFFFFF" style="background:#FFFFFF"></i><i title="neutral/50 #F8FAFC" style="background:#F8FAFC"></i><i title="neutral/100 #F1F5F9" style="background:#F1F5F9"></i><i title="neutral/200 #E2E8F0" style="background:#E2E8F0"></i><i title="neutral/300 #CBD5E1" style="background:#CBD5E1"></i><i title="neutral/400 #94A3B8" style="background:#94A3B8"></i><i title="neutral/500 #64748B" style="background:#64748B"></i><i title="neutral/600 #475569" style="background:#475569"></i><i title="neutral/700 #334155" style="background:#334155"></i><i title="neutral/800 #1E293B" style="background:#1E293B"></i><i title="neutral/900 #0F172A" style="background:#0F172A"></i><i title="neutral/950 #020617" style="background:#020617"></i></div><span class="dsy-ramp__k mono">0 → 950</span></div><div class="dsy-ramp"><span class="dsy-ramp__n mono">green</span><div class="dsy-ramp__cells"><i title="green/50 #F0FDF4" style="background:#F0FDF4"></i><i title="green/100 #DCFCE7" style="background:#DCFCE7"></i><i title="green/300 #86EFAC" style="background:#86EFAC"></i><i title="green/500 #22C55E" style="background:#22C55E"></i><i title="green/600 #16A34A" style="background:#16A34A"></i><i title="green/700 #15803D" style="background:#15803D"></i><i title="green/900 #14532D" style="background:#14532D"></i><i title="green/950 #052E16" style="background:#052E16"></i></div><span class="dsy-ramp__k mono">50 → 950</span></div><div class="dsy-ramp"><span class="dsy-ramp__n mono">amber</span><div class="dsy-ramp__cells"><i title="amber/50 #FFFBEB" style="background:#FFFBEB"></i><i title="amber/100 #FEF3C7" style="background:#FEF3C7"></i><i title="amber/300 #FCD34D" style="background:#FCD34D"></i><i title="amber/500 #F59E0B" style="background:#F59E0B"></i><i title="amber/600 #D97706" style="background:#D97706"></i><i title="amber/700 #B45309" style="background:#B45309"></i><i title="amber/900 #78350F" style="background:#78350F"></i><i title="amber/950 #451A03" style="background:#451A03"></i></div><span class="dsy-ramp__k mono">50 → 950</span></div><div class="dsy-ramp"><span class="dsy-ramp__n mono">red</span><div class="dsy-ramp__cells"><i title="red/50 #FEF2F2" style="background:#FEF2F2"></i><i title="red/100 #FEE2E2" style="background:#FEE2E2"></i><i title="red/300 #FCA5A5" style="background:#FCA5A5"></i><i title="red/500 #EF4444" style="background:#EF4444"></i><i title="red/600 #DC2626" style="background:#DC2626"></i><i title="red/700 #B91C1C" style="background:#B91C1C"></i><i title="red/900 #7F1D1D" style="background:#7F1D1D"></i><i title="red/950 #450A0A" style="background:#450A0A"></i></div><span class="dsy-ramp__k mono">50 → 950</span></div><div class="dsy-ramp"><span class="dsy-ramp__n mono">sky</span><div class="dsy-ramp__cells"><i title="sky/50 #F0F9FF" style="background:#F0F9FF"></i><i title="sky/100 #E0F2FE" style="background:#E0F2FE"></i><i title="sky/300 #7DD3FC" style="background:#7DD3FC"></i><i title="sky/500 #0EA5E9" style="background:#0EA5E9"></i><i title="sky/600 #0284C7" style="background:#0284C7"></i><i title="sky/700 #0369A1" style="background:#0369A1"></i><i title="sky/900 #0C4A6E" style="background:#0C4A6E"></i><i title="sky/950 #082F49" style="background:#082F49"></i></div><span class="dsy-ramp__k mono">50 → 950</span></div></div>
-        <div class="dsy-found__sem"><span class="lbl lbl--10 lbl--blue">Semantic · 40 × Light and Dark</span><ol class="dsy-sem"><li class="dsy-sem__h mono"><span>token</span><span>Light</span><span>Dark</span></li><li><span class="mono dsy-sem__n">bg/canvas</span><span class="dsy-sem__v"><i style="background:#F8FAFC"></i><span class="mono">neutral/50</span></span><span class="dsy-sem__v"><i style="background:#020617"></i><span class="mono">neutral/950</span></span></li><li><span class="mono dsy-sem__n">bg/surface</span><span class="dsy-sem__v"><i style="background:#FFFFFF"></i><span class="mono">neutral/0</span></span><span class="dsy-sem__v"><i style="background:#0F172A"></i><span class="mono">neutral/900</span></span></li><li><span class="mono dsy-sem__n">bg/brand</span><span class="dsy-sem__v"><i style="background:#4F46E5"></i><span class="mono">brand/600</span></span><span class="dsy-sem__v"><i style="background:#6366F1"></i><span class="mono">brand/500</span></span></li><li><span class="mono dsy-sem__n">text/primary</span><span class="dsy-sem__v"><i style="background:#0F172A"></i><span class="mono">neutral/900</span></span><span class="dsy-sem__v"><i style="background:#F8FAFC"></i><span class="mono">neutral/50</span></span></li><li><span class="mono dsy-sem__n">text/secondary</span><span class="dsy-sem__v"><i style="background:#475569"></i><span class="mono">neutral/600</span></span><span class="dsy-sem__v"><i style="background:#CBD5E1"></i><span class="mono">neutral/300</span></span></li><li><span class="mono dsy-sem__n">border/default</span><span class="dsy-sem__v"><i style="background:#E2E8F0"></i><span class="mono">neutral/200</span></span><span class="dsy-sem__v"><i style="background:#334155"></i><span class="mono">neutral/700</span></span></li><li><span class="mono dsy-sem__n">border/focus</span><span class="dsy-sem__v"><i style="background:#6366F1"></i><span class="mono">brand/500</span></span><span class="dsy-sem__v"><i style="background:#818CF8"></i><span class="mono">brand/400</span></span></li></ol></div>
-      </div>
-      <div class="dsy-dims">
-        <div class="dsy-dims__col"><span class="lbl lbl--10 lbl--blue">Typography</span><div class="dsx dsy-type dsy-dimstage" data-theme="light" data-platform="desktop"><span class="ds-h2 dsy-type__aa">Aa</span><div class="dsy-type__list"><span class="ds-h4">Heading · Inter Semibold</span><span class="ds-body">Body · Inter Regular 16/24</span><span class="ds-label">Label · Inter Semibold 14/20</span><span class="ds-caption">Caption · 12/16</span></div></div><span class="lbl lbl--9">Text styles bound to platform variables: one style, three sizes</span></div>
-        <div class="dsy-dims__col"><span class="lbl lbl--10 lbl--blue">Spacing · 11 steps</span><div class="dsy-dimstage"><div class="dsy-space"><i style="width:2px" title="space/0 = 0"></i><i style="width:4px" title="space/1 = 4"></i><i style="width:8px" title="space/2 = 8"></i><i style="width:12px" title="space/3 = 12"></i><i style="width:16px" title="space/4 = 16"></i><i style="width:20px" title="space/5 = 20"></i><i style="width:24px" title="space/6 = 24"></i><i style="width:32px" title="space/8 = 32"></i><i style="width:40px" title="space/10 = 40"></i><i style="width:48px" title="space/12 = 48"></i><i style="width:64px" title="space/16 = 64"></i></div></div><span class="lbl lbl--9 mono">0 · 4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64</span></div>
-        <div class="dsy-dims__col"><span class="lbl lbl--10 lbl--blue">Radius · 6 steps</span><div class="dsy-dimstage"><div class="dsy-radii"><span class="dsy-radius" style="border-radius:4px"><b class="mono">xs</b></span><span class="dsy-radius" style="border-radius:6px"><b class="mono">sm</b></span><span class="dsy-radius" style="border-radius:10px"><b class="mono">md</b></span><span class="dsy-radius" style="border-radius:14px"><b class="mono">lg</b></span><span class="dsy-radius" style="border-radius:20px"><b class="mono">xl</b></span><span class="dsy-radius" style="border-radius:24px"><b class="mono">full</b></span></div></div><span class="lbl lbl--9 mono">4 · 6 · 10 · 14 · 20 · full</span></div>
-      </div>
-    </section>
-
-    <section class="cs-section" id="part-05">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">05 / The components</span>
-        <h2 class="cs-h2">Twenty-six components, one anatomy.</h2>
-        <p class="cs-sub">Different components, the same underlying structure: a shared anatomy that brings consistency to behaviour, spacing and states.</p>
-      </div>
-      <figure class="dsy-anat">
-          <div class="dsx dsy-anat__stage" data-theme="light" data-platform="desktop"><div class="dsy-anat__obj"><button class="ds-btn ds-btn--primary ds-btn--lg" type="button" tabindex="-1"><svg class="ds-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Button<svg class="ds-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-            <ol class="zb-marks" aria-hidden="true"><li class="zb-mark zb-mark--sm" style="--x:50%;--y:-60%"><span>1</span></li><li class="zb-mark zb-mark--sm" style="--x:16%;--y:150%"><span>2</span></li><li class="zb-mark zb-mark--sm" style="--x:50%;--y:150%"><span>3</span></li><li class="zb-mark zb-mark--sm" style="--x:86%;--y:150%"><span>4</span></li></ol>
-          </div></div>
-          <figcaption><ol class="zb-legend zb-legend--col dsy-anat__legend">
-            <li><span class="zb-legend__n mono">01</span><div><b>Container</b><p>Defines size, radius and alignment: <span class="mono">control/height</span>, <span class="mono">radius/md</span>, <span class="mono">space/4</span>.</p></div></li>
-            <li><span class="zb-legend__n mono">02</span><div><b>Leading icon</b><p>Optional, an instance-swap slot with the same spacing rules.</p></div></li>
-            <li><span class="zb-legend__n mono">03</span><div><b>Label</b><p>Clear, consistent typography from the Label text style.</p></div></li>
-            <li><span class="zb-legend__n mono">04</span><div><b>Trailing icon</b><p>Optional, for actions like dropdowns and navigation.</p></div></li>
-          </ol></figcaption>
-        </figure>
-      <div class="dsx dsy-states" data-theme="light" data-platform="desktop">
-        <div><span class="dsy-states__h mono">Default</span><button class="ds-btn ds-btn--primary" type="button" tabindex="-1">Create</button></div>
-        <div><span class="dsy-states__h mono">Hover</span><button class="ds-btn ds-btn--primary is-hover" type="button" tabindex="-1">Create</button></div>
-        <div><span class="dsy-states__h mono">Pressed</span><button class="ds-btn ds-btn--primary is-pressed" type="button" tabindex="-1">Create</button></div>
-        <div><span class="dsy-states__h mono">Focus</span><button class="ds-btn ds-btn--primary is-focus" type="button" tabindex="-1">Create</button></div>
-        <div><span class="dsy-states__h mono">Disabled</span><button class="ds-btn ds-btn--primary" type="button" disabled tabindex="-1">Create</button></div>
-        <div><span class="dsy-states__h mono">With icon</span><button class="ds-btn ds-btn--primary" type="button" tabindex="-1"><svg class="ds-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Create</button></div>
-        <div><span class="dsy-states__h mono">Icon only</span><button class="ds-icon-btn ds-icon-btn--primary" type="button" tabindex="-1" aria-label="Create"><svg class="ds-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
-      </div>
-      <span class="lbl lbl--9">The same anatomy through every state. Hover, pressed and focus are held open for display; in use they are the pseudo-classes. 24 variants in all: 4 styles × 6 states.</span>
-    </section>
-
-    <section class="cs-section" id="part-06">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">06 / Adaptability</span>
-        <h2 class="cs-h2">One component, three platforms.</h2>
-        <p class="cs-sub">A single component adapts across web, tablet and mobile, keeping the same structure and behaviour while adjusting to each platform’s context. Nothing is redrawn: the Platform collection changes control heights, type and layout.</p>
-      </div>
-      <div class="dsy-resp dsy-resp--even">
-        <figure class="dsy-resp__item"><figcaption><span class="lbl lbl--10 lbl--blue">Desktop</span><span class="lbl lbl--9">Modal · controls 40</span></figcaption><div class="dsx dsy-resp__frame dsy-resp__frame--dlg" data-theme="light" data-platform="desktop"><div class="ds-dialog"><div class="ds-dialog__inner"><div class="ds-dialog__head"><h3 class="ds-dialog__title">Delete this conversation?</h3></div><p class="ds-dialog__text">It will be removed for everyone on the team. Transcripts already exported are not affected.</p><div class="ds-dialog__actions"><button class="ds-btn ds-btn--secondary" type="button" tabindex="-1">Cancel</button><button class="ds-btn ds-btn--danger" type="button" tabindex="-1">Delete</button></div></div></div></div></figure>
-        <figure class="dsy-resp__item"><figcaption><span class="lbl lbl--10 lbl--blue">Tablet</span><span class="lbl lbl--9">Modal · controls 44</span></figcaption><div class="dsx dsy-resp__frame dsy-resp__frame--dlg" data-theme="light" data-platform="tablet"><div class="ds-dialog"><div class="ds-dialog__inner"><div class="ds-dialog__head"><h3 class="ds-dialog__title">Delete this conversation?</h3></div><p class="ds-dialog__text">It will be removed for everyone on the team. Transcripts already exported are not affected.</p><div class="ds-dialog__actions"><button class="ds-btn ds-btn--secondary" type="button" tabindex="-1">Cancel</button><button class="ds-btn ds-btn--danger" type="button" tabindex="-1">Delete</button></div></div></div></div></figure>
-        <figure class="dsy-resp__item"><figcaption><span class="lbl lbl--10 lbl--blue">Mobile · Dark</span><span class="lbl lbl--9">Bottom sheet · controls 48 · actions stack</span></figcaption><div class="dsx dsy-resp__frame dsy-resp__frame--dlg" data-theme="dark" data-platform="mobile"><div class="ds-dialog"><div class="ds-dialog__inner"><div class="ds-dialog__head"><h3 class="ds-dialog__title">Delete this conversation?</h3></div><p class="ds-dialog__text">It will be removed for everyone on the team. Transcripts already exported are not affected.</p><div class="ds-dialog__actions"><button class="ds-btn ds-btn--secondary" type="button" tabindex="-1">Cancel</button><button class="ds-btn ds-btn--danger" type="button" tabindex="-1">Delete</button></div></div></div></div></figure>
-      </div>
-    </section>
-
-    <section class="cs-section" id="part-07">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">07 / Real-world application</span>
-        <h2 class="cs-h2">The same parts, two very different screens.</h2>
-        <p class="cs-sub">The same design system powers different workflows, from a focused conversation interface to a data-rich operator console.</p>
-      </div>
-      <figure class="dsy-prodfig">
-        <div class="dsy-prodfig__bar"><div class="dsy-controls" role="group" aria-label="Preview modes"><div class="dsy-seg" data-dsx-for="dsxProd" data-kind="theme"><button type="button" data-v="light" aria-pressed="true">Light</button><button type="button" data-v="dark" aria-pressed="false">Dark</button></div></div><span class="lbl lbl--10">Sample data · rendered from the system’s CSS</span></div>
-        <div class="dsx dsy-two" id="dsxProd" data-theme="light" data-platform="desktop">
-          <div class="dsy-two__pane"><span class="dsy-two__t mono">Live chat</span><div class="dsy-chat">
-            <div class="dsy-chat__list">
-              <a class="ds-convo" aria-selected="true" href="#" tabindex="-1"><span class="ds-avatar ds-avatar--sm" data-status="online">EC</span><div class="ds-convo__main"><div class="ds-convo__top"><span class="ds-convo__name">Emma Carter</span><span class="ds-convo__time">2m</span></div><div class="ds-convo__preview">How can I update my plan?</div></div></a>
-              <a class="ds-convo ds-convo--unread" href="#" tabindex="-1"><span class="ds-avatar ds-avatar--sm" data-status="away">RS</span><div class="ds-convo__main"><div class="ds-convo__top"><span class="ds-convo__name">Rohit S</span><span class="ds-convo__time">10m</span></div><div class="ds-convo__preview">Is the integration available?</div><div class="ds-convo__bottom"><span class="ds-convo__count">1</span></div></div></a>
-              <a class="ds-convo" href="#" tabindex="-1"><span class="ds-avatar ds-avatar--sm">PM</span><div class="ds-convo__main"><div class="ds-convo__top"><span class="ds-convo__name">Priya M</span><span class="ds-convo__time">24m</span></div><div class="ds-convo__preview">Thanks!</div></div></a>
-            </div>
-            <div class="dsy-chat__thread">
-              <div class="ds-msg ds-msg--in"><div class="ds-msg__body"><div class="ds-msg__bubble">How can I update my plan?</div><div class="ds-msg__meta">10:10</div></div></div>
-              <div class="ds-msg ds-msg--out"><div class="ds-msg__body"><div class="ds-msg__bubble">From Settings → Billing. Want me to send the link?</div><div class="ds-msg__meta" data-status="read">10:11 · Read</div></div></div>
-              <div class="ds-composer"><div class="ds-composer__chips"><button class="ds-chip" type="button" tabindex="-1">Send link</button></div><textarea placeholder="Type a reply" tabindex="-1"></textarea><div class="ds-composer__bar"><button class="ds-btn ds-btn--primary ds-btn--sm" type="button" tabindex="-1">Send</button></div></div>
-            </div>
-          </div></div>
-          <div class="dsy-two__pane"><span class="dsy-two__t mono">Operator console</span><div class="dsy-console">
-            <div class="dsy-console__bar"><span class="ds-h4">Operator console</span><div class="dsy-row"><span class="ds-presence" data-presence="available">Available</span><span class="ds-badge">Last 7 days</span></div></div>
-            <div class="dsy-console__kpis">
-              <div class="ds-card ds-card--outlined dsy-kpi"><span class="ds-caption">Conversations</span><b class="ds-h2">1,248</b><span class="ds-badge ds-badge--success">↑ 12%</span></div>
-              <div class="ds-card ds-card--outlined dsy-kpi"><span class="ds-caption">Response time</span><b class="ds-h2">36s</b><span class="ds-badge ds-badge--success">↓ 18%</span></div>
-              <div class="ds-card ds-card--outlined dsy-kpi"><span class="ds-caption">Satisfaction</span><b class="ds-h2">4.8<small>/5</small></b><span class="ds-badge ds-badge--success">↑ 0.3</span></div>
-            </div>
-            <div class="ds-card ds-card--outlined dsy-spark"><span class="ds-caption">Conversations this week</span><svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C 40 60, 60 40, 100 44 S 160 70, 200 50 S 260 20, 300 30 S 360 60, 400 24" fill="none" stroke="var(--ds-color-bg-brand)" stroke-width="2.5"/><path d="M0 70 C 40 60, 60 40, 100 44 S 160 70, 200 50 S 260 20, 300 30 S 360 60, 400 24 V 90 H 0 Z" fill="var(--ds-color-bg-brand-subtle)"/></svg></div>
-          </div></div>
-        </div>
-      </figure>
-    </section>
-
-    <section class="cs-section" id="part-08">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">08 / Design and code</span>
-        <h2 class="cs-h2">Two lanes, one source.</h2>
-        <p class="cs-sub">A connected workflow that keeps design and development in sync, from an update in Figma to production-ready components.</p>
-      </div>
-      <div class="dsy-lanes">
-        <div class="dsy-lane"><span class="dsy-lane__ico" aria-hidden="true">◆</span><b>Design</b><span>Figma variables and components</span><p>Tokens live as variables with Light, Dark and three platform modes; every component is bound to them.</p></div>
-        <span class="dsy-lanes__arrow" aria-hidden="true">→</span>
-        <div class="dsy-lane dsy-lane--mid"><span class="dsy-lane__ico mono" aria-hidden="true">&lt;/&gt;</span><b>Sync</b><span>Code Connect</span><p>Each Figma component is mapped to its production counterpart, so the inspector shows the real code.</p></div>
-        <span class="dsy-lanes__arrow" aria-hidden="true">→</span>
-        <div class="dsy-lane"><span class="dsy-lane__ico" aria-hidden="true">▣</span><b>Engineering</b><span>Component library</span><p>The same tokens as CSS custom properties, one class per component, states as pseudo-classes.</p></div>
-      </div>
-      <div class="dsy-loop mono"><i></i><span>Stay in sync · Iterate · Release</span><i></i></div>
-      <div class="dsy-chain">
-        <div class="dsy-chain__code"><span class="lbl lbl--10 lbl--sun">components.css · as shipped</span><pre class="mono">.ds-btn--primary {
-  background: <b>var(--ds-color-bg-brand)</b>;
-  color: var(--ds-color-text-on-brand);
-  box-shadow: var(--ds-shadow-button);
-}</pre></div>
-        <div class="dsy-chain__path"><span class="lbl lbl--10 lbl--blue">How one value travels</span><ol class="mono"><li><span>Figma variable</span><b>bg/brand</b></li><li><span>CSS custom property</span><b>--ds-color-bg-brand</b></li><li><span>Light</span><b>brand/600 · #4F46E5</b></li><li><span>Dark</span><b>brand/500 · #6366F1</b></li></ol><p class="zb-text zb-text--small">Change the alias once and the Figma library, the CSS and every button on this page move together.</p></div>
-      </div>
-    </section>
-
-    <section class="cs-section" id="part-09">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">09 / The output</span>
-        <h2 class="cs-h2">What one source produces.</h2>
-        <p class="cs-sub">A unified system that powers multiple products, platforms and use cases across SalesIQ.</p>
-      </div>
-      <ol class="dsy-scale dsy-scale--hi"><li><b>147</b><span>Variables</span><p>Design tokens in Figma</p></li><li><b>26</b><span>Components</span><p>Reusable, production-ready UI</p></li><li><b>359</b><span>Variants</span><p>Every state, size and use case</p></li><li><b>3</b><span>Platforms</span><p>Web, tablet and mobile</p></li><li><b>2</b><span>Themes</span><p>Light and dark</p></li></ol>
-      <span class="lbl lbl--9">Counts from the system build. No adoption, efficiency or business figures are claimed.</span>
-    </section>
-
-    <section class="cs-section" id="part-10">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">10 / Quality and evolution</span>
-        <h2 class="cs-h2">Checked before it ships, and after.</h2>
-        <p class="cs-sub">A simple, repeatable process keeps the system consistent and evolving with the product.</p>
-      </div>
-      <ol class="dsy-steps4"><li><span class="dsy-steps4__n mono">01</span><b>Build</b><span class="dsy-steps4__s">Design and implement</span><p>Tokens first, then components in Figma and CSS.</p></li><li><span class="dsy-steps4__n mono">02</span><b>Validate</b><span class="dsy-steps4__s">Review and QA</span><p>Audit the bindings, render every component in both themes.</p></li><li><span class="dsy-steps4__n mono">03</span><b>Release</b><span class="dsy-steps4__s">Adopt across the product</span><p>Code Connect links each component to its real code.</p></li><li><span class="dsy-steps4__n mono">04</span><b>Evolve</b><span class="dsy-steps4__s">Feedback and iterate</span><p>Lessons become rules; a changelog and user guide carry it forward.</p></li></ol>
-    </section>
-
-    <section class="cs-section" id="part-11">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">11 / The takeaway</span>
-        <h2 class="cs-h2">A system is infrastructure, not a collection.</h2>
-      </div>
-      <div class="zb-take">
-        <p class="zb-take__q">It’s not just a library of components. It’s a connected foundation that keeps design and development aligned, consistent, and ready to scale with the product.</p>
-      </div>
-    </section>
-
+<section class="c2-sec cs-section" id="part-01"><div class="c2-sec__head"><p class="c2-num">01 / The problem</p><h2 class="c2-h2">The gap between Figma and code.</h2><p class="c2-sub">Components were being defined and rebuilt in multiple places, leading to inconsistencies across design, code and product surfaces.</p></div><div class="dsy2-problem"><div class="dsy2-problem__side"><div class="dsy2-problem__pair"><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A button as designed in Figma"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="300" height="120" rx="12" fill="#f5f5f3"/><text x="16" y="24" font-size="13" font-weight="600" fill="#15161a">Design (Figma)</text><rect x="99" y="56" width="102" height="48" rx="2" fill="none" stroke="#4d8dff" stroke-width="1.5"/><rect x="99" y="56" width="5" height="5" fill="#fff" stroke="#4d8dff"/><rect x="196" y="56" width="5" height="5" fill="#fff" stroke="#4d8dff"/><rect x="99" y="99" width="5" height="5" fill="#fff" stroke="#4d8dff"/><rect x="196" y="99" width="5" height="5" fill="#fff" stroke="#4d8dff"/><g transform="translate(107 64)"><rect width="86" height="32" rx="8" fill="#4f46e5"/><text x="43.0" y="21.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">Create</text></g><rect x="124" y="106" width="52" height="13" rx="3" fill="#4d8dff"/><text x="150" y="115.5" font-size="9" font-weight="500" fill="#fff" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,monospace">144 × 40</text></svg><span aria-hidden="true">↔</span><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The same button as implemented in code"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="300" height="120" rx="12" fill="#f5f5f3"/><text x="16" y="24" font-size="13" font-weight="600" fill="#15161a">Code (implementation)</text><g transform="translate(107 64)"><rect width="86" height="32" rx="8" fill="#4f46e5"/><text x="43.0" y="21.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">Create</text></g></svg></div><h3 class="c2-h3">Duplicated definitions</h3><p class="c2-p">The same component lived separately in design and code.</p></div><div class="dsy2-problem__side"><div class="dsy2-problem__trio"><svg viewBox="0 0 190 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Web"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="190" height="120" rx="12" fill="#f5f5f3"/><text x="14" y="22" font-size="13" font-weight="600" fill="#15161a">Web</text><g transform="translate(28 58)"><rect width="134" height="34" rx="8" fill="#4f46e5"/><text x="67.0" y="22.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">💬 Chat with us</text></g></svg><svg viewBox="0 0 190 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mobile SDK"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="190" height="120" rx="12" fill="#f5f5f3"/><text x="14" y="22" font-size="13" font-weight="600" fill="#15161a">Mobile SDK</text><g transform="translate(65 60)"><rect width="60" height="30" rx="8" fill="#eef0ff"/><text x="30.0" y="20.0" font-size="13" font-weight="600" fill="#4f46e5" text-anchor="middle">Chat</text></g></svg><svg viewBox="0 0 190 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WhatsApp"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="190" height="120" rx="12" fill="#f5f5f3"/><text x="14" y="22" font-size="13" font-weight="600" fill="#15161a">WhatsApp</text><rect x="18" y="58" width="154" height="34" rx="8" fill="#fff"/><text x="95" y="80" font-size="12" font-weight="600" fill="#1f8a4c" text-anchor="middle">Chat on WhatsApp</text></svg></div><h3 class="c2-h3">Drift across surfaces</h3><p class="c2-p">The same action looked and behaved differently on web, mobile and WhatsApp.</p></div></div></section>
+<section class="c2-sec cs-section" id="part-02"><div class="c2-sec__head"><p class="c2-num">02 / Context</p><h2 class="c2-h2">One button, every surface.</h2><p class="c2-sub">A single chat action, adapted for different contexts, but consistent in structure, behaviour and brand.</p></div><div class="c2-grid" style="--n:3"><div class="c2-card dsy2-ctx"><span class="c2-lbl">Web · Chat widget</span><div class="dsy2-widget"><b>Need help?</b><span>Chat with our team.</span><i class="dsy2-btn">💬 Chat with us</i></div></div><div class="c2-card dsy2-ctx"><span class="c2-lbl">Mobile SDK</span><div class="dsy2-phone"><div class="dsy2-phone__bar"><span>9:41</span><span>▮▮ ◔</span></div><i class="dsy2-btn">💬 Chat with us</i></div></div><div class="c2-card dsy2-ctx dsy2-ctx--wa"><span class="c2-lbl">WhatsApp</span><div class="dsy2-wa"><p>Chat with us on WhatsApp.</p><i>◎ Continue on WhatsApp</i></div></div></div></section>
+<section class="c2-sec cs-section" id="part-03"><div class="c2-sec__head"><p class="c2-num">03 / Foundations</p><h2 class="c2-h2">Tokens first.</h2><p class="c2-sub">A token system that brings order to colour, typography, spacing and more, with a clear hierarchy from primitives to semantic tokens to component tokens.</p></div><div class="dsy2-tokens"><div><span class="c2-lbl">Colour</span><div class="dsy2-swatches"><i style="background:#4f46e5"></i><i style="background:#818cf8"></i><i style="background:#c7d2fe"></i><i style="background:#eef2ff"></i></div><code>--color-primary-600</code><code>--color-primary-500</code><code>--color-neutral-200</code></div><div><span class="c2-lbl">Typography</span><div class="dsy2-type"><b>Aa</b><span>Inter</span></div><div class="dsy2-weights"><span style="font-weight:400">Aa<small>Regular</small></span><span style="font-weight:500">Aa<small>Medium</small></span><span style="font-weight:600">Aa<small>Semibold</small></span></div></div><div><span class="c2-lbl">Spacing</span><div class="dsy2-space"><span><i style="width:16px"></i><code>4 px</code></span><span><i style="width:32px"></i><code>8 px</code></span><span><i style="width:48px"></i><code>12 px</code></span><span><i style="width:64px"></i><code>16 px</code></span><span><i style="width:96px"></i><code>24 px</code></span></div></div><div><span class="c2-lbl">Radius</span><div class="dsy2-radius"><span><i style="border-radius:2px"></i><code>2 px</code></span><span><i style="border-radius:4px"></i><code>4 px</code></span><span><i style="border-radius:8px"></i><code>8 px</code></span><span><i style="border-radius:12px"></i><code>12 px</code></span></div></div><div class="dsy2-tokens__themes"><div><span class="c2-lbl">Light</span><div class="dsy2-theme"><i class="dsy2-btn">Button</i></div></div><div><span class="c2-lbl">Dark</span><div class="dsy2-theme dsy2-theme--dark"><i class="dsy2-btn dsy2-btn--dark">Button</i></div></div></div></div></section>
+<section class="c2-sec cs-section" id="part-04"><div class="c2-sec__head"><p class="c2-num">04 / Architecture</p><h2 class="c2-h2">Figma to code without the gap.</h2><p class="c2-sub">A connected workflow that takes design decisions from tokens to production, with AI-assisted implementation.</p></div><div class="c2-flow" style="--n:5"><div class="c2-card"><span class="c2-ico-lg">◇</span><h3 class="c2-h3">Tokens</h3><p class="c2-p">Primitives → Semantic → Component</p></div><div class="c2-card"><span class="c2-ico-lg">▦</span><h3 class="c2-h3">Components</h3><p class="c2-p">Built with Figma Variables</p></div><div class="c2-card"><span class="c2-ico-lg">&lt;/&gt;</span><h3 class="c2-h3">Code Connect</h3><p class="c2-p">Map components to production</p></div><div class="c2-card"><span class="c2-ico-lg">✦</span><h3 class="c2-h3">Figma MCP + Claude</h3><p class="c2-p">Generate the Figma library and production components</p></div><div class="c2-card"><span class="c2-ico-lg">➚</span><h3 class="c2-h3">Ship</h3><p class="c2-p">Consistent, ready to use across products</p></div></div></section>
+<section class="c2-sec cs-section" id="part-05"><div class="c2-sec__head"><p class="c2-num">05 / The solution</p><h2 class="c2-h2">26+ components on top.</h2><p class="c2-sub">A reusable component library built on a consistent anatomy, interaction patterns and token-driven styling.</p></div><div class="c2-split c2-split--half"><div class="c2-split__vis"><svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of a button: container, leading icon, label"><style>text{font-family:Inter,system-ui,sans-serif}</style><rect width="500" height="220" rx="16" fill="#f5f5f3"/><rect x="178" y="98" width="146" height="50" rx="2" fill="none" stroke="#4d8dff" stroke-width="1.4" stroke-dasharray="4 3"/><g transform="translate(184 103)"><rect width="134" height="40" rx="8" fill="#4f46e5"/><text x="67.0" y="25.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">＋ Button</text></g><text x="284" y="30" font-size="12" font-weight="600" fill="#15161a">Container</text><text x="284" y="46" font-size="11" fill="#61656e">Padding, radius, state</text><path d="M300 52v45" stroke="#ffd54a" stroke-width="2"/><circle cx="300" cy="97" r="3" fill="#ffd54a"/><text x="90" y="104" font-size="12" font-weight="600" fill="#15161a">Leading icon</text><text x="90" y="120" font-size="11" fill="#61656e">Optional</text><path d="M170 110h30" stroke="#ffd54a" stroke-width="2"/><circle cx="200" cy="110" r="3" fill="#ffd54a"/><text x="300" y="184" font-size="12" font-weight="600" fill="#15161a">Label</text><text x="300" y="200" font-size="11" fill="#61656e">Typography, colour</text><path d="M268 150v26" stroke="#ffd54a" stroke-width="2"/><circle cx="268" cy="150" r="3" fill="#ffd54a"/></svg></div><div><div class="dsy2-tiles"><div class="dsy2-tile"><span>Button</span><i class="dsy2-btn dsy2-btn--sm">Create</i></div><div class="dsy2-tile"><span>Input</span><span class="dsy2-input">Enter a value</span></div><div class="dsy2-tile"><span>Tag</span><span class="dsy2-tag">● Active</span></div><div class="dsy2-tile"><span>Alert</span><span class="dsy2-alert">ⓘ Info message</span></div></div></div></div></section>
+<section class="c2-sec cs-section" id="part-06"><div class="c2-sec__head"><p class="c2-num">06 / Implementation</p><h2 class="c2-h2">Designed once, generated twice.</h2><p class="c2-sub">The same component definition produces both a Figma library for design and a production-ready component for engineering.</p></div><div class="dsy2-impl"><div class="dsy2-lib"><span class="dsy2-lib__t">Figma library</span><div class="dsy2-lib__body"><ul><li class="is-on">◇ Button</li><li>◇ Input</li><li>◇ Tag</li></ul><div class="dsy2-lib__sel"><i class="dsy2-btn">Create</i><i class="dsy2-btn dsy2-btn--ghost">Create</i></div></div></div><div class="dsy2-code"><div class="dsy2-code__bar"><span>&lt;/&gt; Production component</span><b>TSX</b></div><pre>&lt;Button
+  variant="primary"
+  size="md"
+  leadingIcon="plus"
+&gt;
+  Create
+&lt;/Button&gt;</pre></div></div></section>
+<section class="c2-sec cs-section" id="part-07"><div class="c2-sec__head"><p class="c2-num">07 / Impact</p><h2 class="c2-h2">Shipped on three surfaces, from one source.</h2><p class="c2-sub">A single system now powers multiple product surfaces with greater consistency, faster delivery and easier maintenance.</p></div><div class="dsy2-impact"><div><span class="c2-pill">Before</span><p class="c2-p">Components were built per surface, leading to duplication and inconsistencies.</p></div><div><span class="c2-pill c2-pill--now">Now</span><p class="c2-p">A unified system with shared tokens and components across web, mobile SDK and WhatsApp.</p></div><div><span class="c2-pill c2-pill--cream">Today</span><p class="c2-p">A connected workflow from design to code, with faster iteration and easier scaling.</p></div></div></section>
+<section class="c2-sec cs-section" id="part-08"><div class="c2-sec__head c2-sec__head--solo"><p class="c2-num">08 / Reflection</p></div><div class="dsy2-reflect"><div class="c2-reflect"><p>One source of truth.<br>Zero drift.</p><div><p class="c2-sub dsy2-reflect-p">The system is only as good as the gap between Figma and code. My job is to keep that gap at zero.</p></div></div></div></section>
   </main>
-
   <footer class="cs-next" data-layer="Next">
-    <div class="cs-next__main">
-      <span class="lbl lbl--soft">Next case study</span>
-      <a class="cs-next__title" href="case-operator-console.html">Operator Console <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    <div class="cs-next__inner">
+      <div class="cs-next__main">
+        <span class="cs-next__lbl">Next case study</span>
+        <a class="cs-next__title" href="case-operator-console.html">Operator Console<span class="cs-next__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
     </div>
-    <a class="cs-next__all" href="index.html#work"><span aria-hidden="true">←</span> All work</a>
   </footer>
 
-  <script src="prefs.js?v=20261302"></script>
-  <script src="case.js?v=20261302"></script>
-  <script src="sunny.js?v=20261302"></script>
-  <script src="sunny-config.js?v=20261302"></script>
-  <script src="ai/knowledge.js?v=20261302"></script>
-  <script src="sunny-ai.js?v=20261302"></script>
+  <script src="prefs.js?v=20261303"></script>
+  <script src="case.js?v=20261303"></script>
+  <script src="sunny.js?v=20261303"></script>
+  <script src="sunny-config.js?v=20261303"></script>
+  <script src="ai/knowledge.js?v=20261303"></script>
+  <script src="sunny-ai.js?v=20261303"></script>
 </body>
 </html>

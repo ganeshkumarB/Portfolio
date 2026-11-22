@@ -607,10 +607,14 @@
     ctx.page = s ? s[1] : "page";
   }
   function labelFor(el) {
-    if (ctx.page === "case") { var a = document.querySelector('.cs-formula a[href="#' + el.id + '"]'); return a ? a.textContent.replace(/^\d+\s*/, "").trim() : el.id; }
+    if (ctx.page === "case") {
+      var a = document.querySelector('.cs-formula a[href="#' + el.id + '"]'); if (a) return a.textContent.replace(/^\d+\s*/, "").trim();
+      var n = el.querySelector(".c2-num"); if (n) return n.textContent.replace(/^\d+\s*\/\s*/, "").trim();
+      return el.id;
+    }
     return el.getAttribute("data-layer") || el.id;
   }
-  function titleFor(el) { var h = el.querySelector(".cs-h2, .section__title, .contact__title, .hero__title, h2, h1"); return h ? h.textContent.trim() : null; }
+  function titleFor(el) { var h = el.querySelector(".cs-h2, .c2-h2, .section__title, .contact__title, .hero__title, h2, h1"); return h ? h.textContent.trim() : null; }
   /* the section with the most of itself on screen is the current one */
   function watchSections(onEnter) {
     if (!global.IntersectionObserver) return;

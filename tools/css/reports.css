@@ -1,0 +1,89 @@
+/* ---------- Reports: recreated dashboard, em-scaled so the same markup works large and small ---------- */
+.rp-dash { font-size: 12px; font-family: var(--font-sans); color: #15161a; background: #fff; line-height: 1.3; }
+.rp-dash--sm { font-size: 7px; }
+.rp-dash * { box-sizing: border-box; }
+.rp-top { display: flex; align-items: center; gap: 1.2em; padding: 1em 1.6em; border-bottom: 1px solid #ececef; }
+.rp-search { flex: 1; max-width: 32em; margin-left: auto; padding: 0.55em 1em; border-radius: 999px; background: #f5f5f3; color: #9a9ea8; font-size: 0.95em; }
+.rp-avail { margin-left: auto; display: flex; align-items: center; gap: 0.6em; color: #61656e; font-size: 0.95em; }
+.rp-avail i { width: 2.4em; height: 1.3em; border-radius: 999px; background: #1f8a4c; position: relative; }
+.rp-avail i::after { content: ""; position: absolute; top: 0.15em; right: 0.15em; width: 1em; height: 1em; border-radius: 50%; background: #fff; }
+.rp-ava { width: 1.8em; height: 1.8em; border-radius: 50%; background: #f6c6a8; }
+.rp-body { display: grid; grid-template-columns: 4.2em 13.5em 1fr; min-height: 36em; }
+.rp-rail { background: #fafafa; border-right: 1px solid #ececef; padding: 1.2em 0; display: flex; flex-direction: column; gap: 0.6em; align-items: center; }
+.rp-rail__item { width: 3.4em; padding: 0.5em 0; border-radius: 0.6em; display: flex; flex-direction: column; align-items: center; gap: 0.3em; color: #9a9ea8; font-size: 0.68em; font-weight: 500; }
+.rp-rail__item svg { width: 1.6em; height: 1.6em; }
+.rp-rail__item.is-on { background: #eaf1ff; color: #4d8dff; }
+.rp-nav { border-right: 1px solid #ececef; padding: 1.2em 0.8em; display: flex; flex-direction: column; gap: 0.15em; }
+.rp-nav__item { padding: 0.55em 0.9em; border-radius: 0.5em; font-size: 0.95em; font-weight: 500; color: #15161a; }
+.rp-nav__item--g { color: #61656e; font-weight: 600; }
+.rp-nav__item.is-on { background: #eaf1ff; color: #4d8dff; }
+.rp-nav__item:not(.rp-nav__item--g) { padding-left: 1.8em; }
+.rp-main { background: #f8f9fb; padding: 1.4em 1.6em; display: flex; flex-direction: column; gap: 1.1em; min-width: 0; }
+.rp-main__head { display: flex; align-items: center; justify-content: space-between; }
+.rp-main__head h4 { margin: 0; font-size: 1.35em; font-weight: 600; }
+.rp-select { padding: 0.4em 0.9em; border: 1px solid #e6e7ea; border-radius: 0.5em; background: #fff; font-size: 0.95em; font-weight: 500; }
+.rp-kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.8em; }
+.rp-kpi { background: #fff; border: 1px solid #ececef; border-radius: 0.7em; padding: 0.9em 1em; display: flex; flex-direction: column; gap: 0.3em; }
+.rp-kpi span { font-size: 0.92em; color: #61656e; font-weight: 500; }
+.rp-kpi b { font-size: 1.85em; font-weight: 600; letter-spacing: -0.01em; }
+.rp-delta { display: inline-block; align-self: flex-start; padding: 0.15em 0.5em; border-radius: 0.4em; font-size: 0.75em; font-weight: 600; font-style: normal; }
+.rp-delta--up { background: #e1f5ea; color: #1f8a4c; }
+.rp-delta--down { background: #fde8eb; color: #d64545; }
+.rp-charts { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 0.8em; }
+.rp-card { background: #fff; border: 1px solid #ececef; border-radius: 0.7em; padding: 1em 1.1em; display: flex; flex-direction: column; gap: 0.8em; min-width: 0; }
+.rp-card__head { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.rp-card__head h5 { margin: 0; font-size: 1.05em; font-weight: 600; }
+.rp-sub { font-size: 0.85em; color: #9a9ea8; }
+.rp-legend { display: flex; gap: 1em; font-size: 0.82em; color: #61656e; }
+.rp-legend span { display: inline-flex; align-items: center; gap: 0.4em; }
+.rp-legend i { width: 0.7em; height: 0.7em; border-radius: 50%; }
+.rp-chart__svg { display: block; width: 100%; height: auto; }
+.rp-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.6em; align-items: end; height: 13em; padding-top: 2.2em; }
+.rp-bar { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 0.5em; }
+.rp-bar i { width: 100%; height: var(--h); border-radius: 0.4em 0.4em 0 0; background: #c8dcff; }
+.rp-bar.is-on i { background: #4d8dff; }
+.rp-bar b { font-size: 0.78em; font-weight: 500; color: #9a9ea8; }
+.rp-bar.is-on b { color: #15161a; }
+.rp-bar__tip { position: absolute; top: -1.9em; padding: 0.25em 0.6em; border-radius: 0.4em; background: #15161a; color: #fff; font-size: 0.8em; font-weight: 600; }
+.rp-heat { display: grid; grid-template-columns: 3.2em 1fr; gap: 0.6em; align-items: stretch; }
+.rp-heat__labels { display: grid; grid-template-rows: repeat(3, 1fr); font-size: 0.78em; color: #9a9ea8; }
+.rp-heat__labels span { display: flex; align-items: center; }
+.rp-heat__grid { display: grid; grid-template-columns: repeat(24, 1fr); gap: 0.3em; }
+.rp-heat__grid i { display: block; aspect-ratio: 1.3; border-radius: 0.2em; }
+@media (max-width: 720px) { .rp-dash { font-size: 7px; } .rp-nav { display: none; } .rp-body { grid-template-columns: 4.2em 1fr; } }
+
+/* before: the earlier Articles report */
+.rp-before { position: relative; padding: 24px 28px 26px; border-radius: 16px; background: #fafafa; border: 1px solid var(--c2-line-soft); }
+.rp-before__bar { height: 26px; border-radius: 8px 8px 0 0; background: #f0f1f3; margin: -24px -28px 20px; border-bottom: 1px solid var(--c2-line-soft); }
+.rp-before__banner { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; padding: 28px 28px 24px; border-radius: 12px; background: #0b5cad; color: #fff; }
+.rp-before__banner h4 { margin: 0; font-size: 18px; font-weight: 600; }
+.rp-before__banner p { margin: 8px 0 20px; font-size: 12px; line-height: 1.5; color: #dbe8ff; max-width: 560px; }
+.rp-before__kpis { display: flex; gap: 10px; flex-wrap: wrap; }
+.rp-before__kpis > div { position: relative; width: 160px; padding: 12px 12px 10px 16px; border-radius: 8px; background: #fff; color: #15161a; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+.rp-before__kpis > div i { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #4d8dff; }
+.rp-before__kpis > div .rp-delta { position: absolute; top: 10px; right: 10px; font-size: 9px; }
+.rp-before__kpis > div span { font-size: 8px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #9a9ea8; }
+.rp-before__kpis > div b { font-size: 16px; font-weight: 600; }
+.rp-before__art { position: relative; min-height: 150px; }
+.rp-before__p { position: absolute; bottom: 0; width: 22px; height: 54px; border-radius: 11px 11px 4px 4px; }
+.rp-before__p::before { content: ""; position: absolute; top: -18px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: inherit; }
+.rp-before__p--y { left: 10px; background: #ffd54a; height: 70px; }
+.rp-before__p--g { left: 40px; background: #2bb59a; }
+.rp-before__p--s { right: 60px; background: #f6c6a8; height: 66px; }
+.rp-before__p--w { right: 30px; background: #fff; height: 50px; }
+.rp-before__box { position: absolute; left: 100px; bottom: 0; width: 110px; height: 120px; border-radius: 6px; background: #0a4a8c; }
+.rp-before__tag { position: absolute; right: 28px; bottom: -14px; }
+@media (max-width: 900px) { .rp-before__banner { grid-template-columns: 1fr; } .rp-before__art { display: none; } }
+
+/* challenge band */
+.rp-challenge { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; padding: 40px; }
+.rp-challenge__h { font-size: clamp(26px, 2.4vw, 34px); max-width: 540px; margin-top: 18px; }
+.rp-aims { list-style: none; margin: 0; padding: 4px 0 4px 40px; border-left: 1px solid var(--c2-line); display: flex; flex-direction: column; gap: 18px; }
+.rp-aims li { display: flex; gap: 14px; align-items: flex-start; }
+.rp-aims .c2-ico { width: 20px; height: 20px; color: var(--c2-blue); flex: none; margin-top: 1px; }
+.rp-aims b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); }
+.rp-aims div > span { font-size: 14px; color: var(--c2-muted); font-weight: 500; }
+@media (max-width: 900px) { .rp-challenge { grid-template-columns: 1fr; } .rp-aims { padding-left: 0; border-left: 0; } }
+
+/* hotfix for the shared shell: case.css gives .cs-note width:100% and the c2 column is content-box, so the note overflowed by two gutters on narrow screens */
+.c2-page .cs-note { width: auto; }

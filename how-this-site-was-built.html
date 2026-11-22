@@ -14,22 +14,24 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://ganeshuxcraft.in/assets/og-image.png" />
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261302" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261302" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261303" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261303" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="case.css?v=20261302" />
-  <link rel="stylesheet" href="sunny.css?v=20261302" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261302" /></noscript>
+  <link rel="stylesheet" href="case.css?v=20261303" />
+  
+  <link rel="stylesheet" href="cs2.css?v=20261303" />
+  <link rel="stylesheet" href="sunny.css?v=20261303" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261303" /></noscript>
 </head>
-<body class="is-ready cs-page site-page">
-
+<body class="is-ready cs-page c2-page">
   <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
@@ -37,127 +39,55 @@
       <a class="nav__brand mono" href="index.html" aria-label="ganeshuxcraft.in, home"><svg class="pendant" viewBox="0 0 260 300" width="34" height="39" aria-hidden="true" focusable="false"><defs><linearGradient id="pendantCone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdc6e"/><stop offset="1" stop-color="#ffeaa8"/></linearGradient></defs><g class="pendant__lamp"><polygon class="pendant__cone" points="92,86 168,86 260,275 0,275" fill="url(#pendantCone)"/><circle class="pendant__bulb" cx="130" cy="86" r="13" fill="#ffd54a"/><path class="pendant__ink" d="M78 84A52 40 0 0 1 182 84Z" fill="#15161a"/><rect class="pendant__ink" x="76" y="82" width="108" height="5" rx="2.5" fill="#15161a"/><path class="pendant__cord" d="M130 2V46" stroke="#15161a" stroke-width="4" stroke-linecap="round"/></g><ellipse class="pendant__pool" cx="130" cy="275" rx="130" ry="22" fill="#ffd54a"/><path class="pendant__g pendant__ink" d="M 142.5 234.6 Q 130.1 230.9 124.1 228.5 Q 118.0 226.0 116.1 224.0 Q 114.1 222.0 114.1 219.6 Q 114.1 217.2 116.0 215.3 Q 117.8 213.5 120.5 212.4 L 120.7 211.6 Q 113.0 213.3 108.4 215.7 Q 103.9 218.0 102.0 221.1 Q 100.0 224.1 100.0 227.9 Q 100.0 232.1 102.9 235.3 Q 105.8 238.4 112.8 241.2 Q 119.8 244.0 132.3 247.4 Q 142.6 250.0 148.2 252.6 Q 153.8 255.3 155.9 258.4 Q 158.1 261.6 158.1 265.4 Q 158.1 271.1 155.0 275.0 Q 151.9 278.9 145.7 281.0 Q 139.5 283.0 130.3 283.0 Q 112.9 283.0 104.6 276.0 Q 96.3 269.0 96.3 257.6 Q 96.3 251.6 101.5 247.1 Q 106.6 242.6 116.6 240.9 L 116.4 239.8 Q 98.9 242.4 91.4 248.1 Q 84.0 253.9 84.0 262.1 Q 84.0 268.5 88.8 273.7 Q 93.6 278.8 103.7 281.7 Q 113.7 284.6 129.3 284.6 Q 149.7 284.6 160.9 277.2 Q 172.1 269.7 172.1 258.0 Q 172.1 252.2 169.6 248.0 Q 167.1 243.8 160.7 240.6 Q 154.3 237.4 142.5 234.6Z M 143.3 151.9 144.6 151.9 Q 146.9 148.2 149.3 145.9 Q 151.6 143.6 154.3 143.6 Q 156.3 143.6 157.8 145.2 Q 159.3 146.9 160.8 149.0 Q 162.3 151.2 164.1 152.8 Q 165.9 154.4 168.5 154.4 Q 172.2 154.4 174.1 152.2 Q 176.0 150.0 176.0 146.3 Q 176.0 141.4 172.6 138.2 Q 169.2 135.0 163.6 135.0 Q 157.2 135.0 152.6 139.3 Q 148.0 143.6 144.1 150.4Z M 165.2 179.3 Q 165.2 170.3 160.6 162.8 Q 155.9 155.3 147.6 150.9 Q 139.2 146.4 127.9 146.4 Q 115.8 146.4 107.0 151.0 Q 98.2 155.6 93.4 163.4 Q 88.7 171.3 88.7 181.2 Q 88.7 190.1 93.5 197.4 Q 98.3 204.7 106.9 209.1 Q 115.5 213.4 126.7 213.4 Q 137.6 213.4 146.3 209.0 Q 155.0 204.6 160.1 196.9 Q 165.2 189.2 165.2 179.3Z M 123.5 148.3 Q 133.5 148.1 139.9 157.2 Q 146.3 166.3 147.2 181.4 Q 148.1 194.8 143.2 202.9 Q 138.2 211.1 129.8 211.4 Q 123.5 211.5 118.4 207.4 Q 113.2 203.2 110.0 195.7 Q 106.8 188.2 106.2 178.4 Q 105.7 169.6 107.8 162.9 Q 109.9 156.2 114.0 152.3 Q 118.1 148.5 123.5 148.3Z" fill="#15161a"/></svg><span class="nav__brand-txt">ganeshuxcraft.in</span></a>
       <div class="nav__pill nav__pill--case">
         <span class="nav__indicator" aria-hidden="true"></span>
-        <a class="nav__link nav__home" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
+        <a class="nav__link nav__home is-active" href="index.html" title="Home"><svg class="nav__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5 8 2.8l5.5 4.7V13a.8.8 0 0 1-.8.8H9.6V9.6H6.4v4.2H3.3a.8.8 0 0 1-.8-.8V7.5Z"/></svg><span class="nav__txt">Home</span></a>
         <span class="nav__sep" aria-hidden="true"></span>
-        <a class="nav__link" href="how-i-use-ai.html">AI</a>
-        <a class="nav__link" href="prompts.html">Prompts</a>
-        <a class="nav__link is-active" href="how-this-site-was-built.html">This site</a>
+        <a class="nav__link" href="index.html#work">Work</a>
+        <a class="nav__link" href="hire.html">Hiring me?</a>
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
       <a class="nav__resume" href="assets/Ganeshkumar-B-Resume-1page.pdf" target="_blank" rel="noopener" title="Open the one-page resume (PDF)" aria-label="Open the one-page resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↗</span></a>
     </nav>
     </div>
   </header>
-
-  <section class="cs-hero" data-layer="Hero">
-    <a class="cs-back" href="index.html#contact"><span aria-hidden="true">←</span> Back to the site</a>
-    <div class="cs-tags"><span class="tag">&lt;Site /&gt;</span><span class="lbl lbl--12">Build log</span></div>
-    <h1 class="cs-title">How this site was built</h1>
-    <p class="cs-lede">Designed in Figma, built with Claude in plain HTML, CSS and JavaScript, reviewed by me every round.</p>
-    <div class="cs-meta">
-      <hr />
-      <dl>
-        <div><dt class="lbl">Stack</dt><dd>HTML · CSS · JavaScript · no framework</dd></div>
-        <div><dt class="lbl">Built with</dt><dd>Figma, Figma MCP and Claude Code</dd></div>
-        <div><dt class="lbl">Hosted on</dt><dd>GitHub Pages</dd></div>
-        <div><dt class="lbl">Since</dt><dd>13 November 2026</dd></div>
-      </dl>
+  <section class="cs-hero c2-hero--info" data-layer="Hero">
+    <a class="c2-back" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to the site</a>
+    <p class="c2-kicker c2-kicker--info">&lt;Site /&gt; <span>·</span> Build log</p>
+    <div class="c2-hero__grid">
+      <h1 class="c2-h1">How this site was built</h1>
+      <div class="c2-hero__side"><p>Designed in Figma, built with Claude in plain HTML, CSS and JavaScript, reviewed by me every round.</p></div>
     </div>
+    <dl class="c2-meta"><div><dt>Stack</dt><dd>HTML, CSS, JavaScript, no framework</dd></div><div><dt>Built with</dt><dd>Figma, Figma MCP, Claude Code</dd></div><div><dt>Hosted on</dt><dd>GitHub Pages</dd></div><div><dt>Since</dt><dd>13 November 2026</dd></div></dl>
   </section>
-
   <main class="cs-content" data-layer="Content">
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">01</span>
-        <h2 class="cs-h2">The setup</h2>
-        <p class="cs-sub">Three tools, one loop.</p>
-      </div>
-      <div class="nrows">
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">01</span><div><h3>Design in Figma</h3><p>Every section started as a frame on the Portfolio v2 page. Claude reads the frames through Figma MCP, so the hero copy, spacing and the pendant mark came from the file, not from a description.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">02</span><div><h3>Build with Claude Code</h3><p>I describe the change, Claude edits the files, I look at it in the browser. Most changes are one or two sentences from me; some took ten rounds of “not like that”.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">03</span><div><h3>Review, then upload</h3><p>Each round ends as a commit and a zip. I upload to GitHub myself and the page is live within minutes. Nothing goes up that I have not seen rendered.</p></div></div>
-      </div>
-    </section>
-
-    <section class="cs-section" id="drafts">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">02</span>
-        <h2 class="cs-h2">AI draft, my final</h2>
-        <p class="cs-sub">Drag the handle. Left is Claude's first pass, right is what shipped.</p>
-      </div>
-      <div class="g g--2 g--20">
-        <figure class="compare" data-compare>
-          <div class="compare__stage">
-            <img src="assets/compare/home-after.webp" alt="" width="1440" height="900" loading="lazy" />
-            <div class="compare__before"><img src="assets/compare/home-before.webp" alt="" width="1440" height="900" loading="lazy" /></div>
-            <div class="compare__handle" aria-hidden="true"><span>⇔</span></div>
-            <span class="compare__tag compare__tag--a mono">AI draft</span><span class="compare__tag compare__tag--b mono">Final</span>
-          </div>
-          <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Reveal the draft or the final" />
-          <figcaption><b>Home page.</b> Left is the first upload Claude built from my brief: plain text wordmark, no theme switch, a hero that said less. Right is after the Figma v2 page, the pendant mark, the inspector and three weeks of review.</figcaption>
-        </figure>
-        <figure class="compare" data-compare>
-          <div class="compare__stage">
-            <img src="assets/compare/404-after.webp" alt="" width="1440" height="900" loading="lazy" />
-            <div class="compare__before"><img src="assets/compare/404-before.webp" alt="" width="1440" height="900" loading="lazy" /></div>
-            <div class="compare__handle" aria-hidden="true"><span>⇔</span></div>
-            <span class="compare__tag compare__tag--a mono">AI draft</span><span class="compare__tag compare__tag--b mono">Final</span>
-          </div>
-          <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Reveal the draft or the final" />
-          <figcaption><b>404 page.</b> Claude's first 404 was a sensible card with a button. I asked for Sunny to stand in as the zero under the pendant's light, then fixed the dark-mode lamp by hand.</figcaption>
-        </figure>
-      </div>
-      <p class="cs-note">Both pairs are renders of real commits in this repository, before and after. The case-study pages are not shown here because the AI drafts for them were never saved as images.</p>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">03</span>
-        <h2 class="cs-h2">The timeline</h2>
-        <p class="cs-sub">From the first upload to today, by day.</p>
-      </div>
-      <div class="nrows">
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 13</span><div><h3>First upload</h3><p>The site goes live on GitHub Pages with a custom domain. HTML, CSS and JavaScript, no framework, no build step.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 14</span><div><h3>Sunny learns to act</h3><p>The mascot gets its acts, emotions and synthesized sound cues, and starts greeting visitors.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 15</span><div><h3>Seven case studies</h3><p>Reports, Brand configuration, Outbound and Feedback join Zobot, the design system and the Operator Console.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 16</span><div><h3>The pendant mark</h3><p>The lamp becomes the logo and favicon, the Figma v2 page is applied, the theme switch moves to the nav pill.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 17–18</span><div><h3>Review pass</h3><p>Accessibility fixes, WebP gallery with a lightbox, the resume PDF, the component inspector with Figma counterparts, scroll reveals.</p></div></div>
-        <div class="nrow"><span class="lbl lbl--12 lbl--blue n">Nov 19</span><div><h3>The interactive layer</h3><p>Career map, hiring page and printable resume, keyboard shortcuts, Sunny's reactions, collage gallery, the 404, Ask Sunny, and the pages you are reading now.</p></div></div>
-      </div>
-    </section>
-
-    <section class="cs-section">
-      <div class="cs-head">
-        <span class="lbl lbl--12 lbl--blue">04</span>
-        <h2 class="cs-h2">What is in the box</h2>
-        <p class="cs-sub">The parts that took the most rounds.</p>
-      </div>
-      <div class="g g--3">
-        <a class="tile tile--link" href="index.html#hey"><p class="t-h t-h--17">Sunny</p><p class="t-p">An SVG mascot with sixteen emotions and a dozen acts, built from a Figma frame. Press A to ask it something.</p><span class="tile__go">Open →</span></a><a class="tile tile--link" href="index.html#hey"><p class="t-h t-h--17">Component inspector</p><p class="t-p">Press I on the home page. Hover any layer to see its tokens, click to pin it and see the Figma counterpart.</p><span class="tile__go">Open →</span></a><a class="tile tile--link" href="index.html#process"><p class="t-h t-h--17">Build, replayed</p><p class="t-p">The prompt-to-component loop, now the fourth step of How I work, with an animated scene for each step.</p><span class="tile__go">Open →</span></a>
-      </div>
-      <div class="cs-cta">
-        <div class="grow"><h3>Curious about the code?</h3><p>It is all in the page source: no bundler, no framework. View source on any page, or ask Sunny.</p></div>
-        <a class="btn-sun" href="mailto:ganesh.rayanbalu@gmail.com?subject=About%20the%20site">Email me <span class="btn__ico btn__ico--ext" aria-hidden="true">↗</span></a>
-      </div>
-    </section>
-
+<section class="c2-sec cs-section" id="part-01"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">01</p><h2 class="c2-h2">The setup</h2><p class="c2-sub">Three tools, one loop.</p></div><ol class="bl2-setup"><li><span class="bl2-setup__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h3v6H9a3 3 0 0 1 0-6zM12 3h3a3 3 0 0 1 0 6h-3zM9 9h3v6H9a3 3 0 0 1 0-6zM12 12a3 3 0 1 1 3 3 3 3 0 0 1-3-3zM9 15h3v3a3 3 0 1 1-3-3z"/></svg></span><h3 class="c2-h3">01 · Design in Figma</h3><p class="c2-p">Structure, spacing, hierarchy and visual direction.</p></li><li><span class="bl2-setup__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span><h3 class="c2-h3">02 · Build with Claude Code</h3><p class="c2-p">Turn the design into a working site, and iterate in the browser.</p></li><li><span class="bl2-setup__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M18 11c0 4-6 3-10 6"/></svg></span><h3 class="c2-h3">03 · Review, then upload</h3><p class="c2-p">Review, fix what doesn’t work, then commit and publish to GitHub Pages.</p></li></ol></section>
+<section class="c2-sec cs-section" id="part-02"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">02</p><h2 class="c2-h2">AI draft, my final</h2><p class="c2-sub">Left is Claude’s first pass, right is what shipped.</p></div><div class="bl2-pair">
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--draft">AI draft</span><div class="c2-frame bl2-pair__shot"><img src="assets/compare/home-before.webp" alt="The first home page Claude built: plain text wordmark, no theme switch, a hero that said less." width="1440" height="900" loading="lazy" /></div></div>
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--final">Final</span><div class="c2-frame bl2-pair__shot"><img src="assets/compare/home-after.webp" alt="The shipped home page with the pendant mark, the inspector and the Figma v2 layout." width="1440" height="900" loading="lazy" /></div></div>
+      <div class="bl2-pair__note"><h3 class="c2-h3">Homepage</h3><p class="c2-p">The first pass had the structure. I refined the typography, spacing and visual rhythm to make it feel like my portfolio.</p></div>
+    </div><div class="bl2-pair">
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--draft">AI draft</span><div class="c2-frame bl2-pair__shot"><img src="assets/compare/404-before.webp" alt="Claude’s first 404: a sensible card with a button." width="1440" height="900" loading="lazy" /></div></div>
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--final">Final</span><div class="c2-frame bl2-pair__shot"><img src="assets/compare/404-after.webp" alt="The shipped 404 with Sunny standing in as the zero under the pendant’s light." width="1440" height="900" loading="lazy" /></div></div>
+      <div class="bl2-pair__note"><h3 class="c2-h3">404 page</h3><p class="c2-p">The first direction was functional. I simplified the composition and brought it back into the visual language of the site.</p></div>
+    </div><p class="bl2-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg> Both pairs are real commits from the same repository, before and after. The case-study pages aren’t shown here because the AI drafts for them were never saved as images.</p></section>
+<section class="c2-sec cs-section" id="part-03"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">03</p><h2 class="c2-h2">The timeline</h2><p class="c2-sub">From the first upload to today, by day.</p></div><ol class="bl2-timeline"><li><span class="bl2-timeline__d">Nov 13</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">First upload</h3><p class="c2-p">The site goes live on GitHub Pages with a custom domain. HTML, CSS and JavaScript, no framework, no build step.</p></div></li><li><span class="bl2-timeline__d">Nov 14</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">Sunny learns to act</h3><p class="c2-p">The mascot gets its acts, emotions and synthesised sound cues, and starts greeting visitors.</p></div></li><li><span class="bl2-timeline__d">Nov 15</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">Seven case studies</h3><p class="c2-p">Reports, Brand configuration, Outbound and Feedback join Zobot, then the design system and the Operator Console.</p></div></li><li><span class="bl2-timeline__d">Nov 16</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">The pendant mark</h3><p class="c2-p">The lamp becomes the logo and favicon, the Figma v2 page is applied, and the theme switch moves to the new pill.</p></div></li><li><span class="bl2-timeline__d">Nov 17–18</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">Review pass</h3><p class="c2-p">Accessibility fixes, a WebP gallery with a lightbox, the resume PDF, and the component inspector with Figma counterparts.</p></div></li><li><span class="bl2-timeline__d">Nov 19</span><span class="bl2-timeline__dot" aria-hidden="true"></span><div><h3 class="c2-h3">The interactive layer</h3><p class="c2-p">Career map, hiring page and printable resume, keyboard shortcuts, Sunny’s reactions, a collage gallery, the 404 and more.</p></div></li></ol></section>
+<section class="c2-sec cs-section" id="part-04"><div class="c2-sec__head c2-sec__head--right"><p class="c2-num">04</p><h2 class="c2-h2">What is in the box</h2><p class="c2-sub">The parts that took the most rounds.</p></div><div class="bl2-box"><div><span class="bl2-box__ico"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 10c1-3-1.5-4-.5-7" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16.5" cy="5.5" rx="3" ry="1.6" transform="rotate(-24 16.5 5.5)" fill="#FFC93C" stroke="#111" stroke-width="1.2"/><circle cx="20" cy="23" r="15" fill="#FFC93C" stroke="#111" stroke-width="2"/><ellipse cx="14.5" cy="22" rx="2.3" ry="3" fill="#111"/><ellipse cx="25.5" cy="22" rx="2.3" ry="3" fill="#111"/><circle cx="15.3" cy="20.8" r="0.9" fill="#fff"/><circle cx="26.3" cy="20.8" r="0.9" fill="#fff"/><path d="M16 28q4 3.5 8 0" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg></span><h3>Sunny</h3><p class="c2-p">An SVG mascot with screen emotions and a dozen acts, built from a Figma frame.</p><a class="c2-link" href="index.html#ai">Explore <span aria-hidden="true">→</span></a></div><div><span class="bl2-box__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></span><h3>Component inspector</h3><p class="c2-p">Press I on the home page. Hover any layer to see its tokens, then click to pin it and see the Figma counterpart.</p><a class="c2-link" href="index.html#hey">Explore <span aria-hidden="true">→</span></a></div><div><span class="bl2-box__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span><h3>Build, replayed</h3><p class="c2-p">The prompt-to-component loop, now the fourth step of how I work, with an animated scene for each step.</p><a class="c2-link" href="index.html#process">Explore <span aria-hidden="true">→</span></a></div></div></section>
+<div class="c2-cta"><div><h3>Curious about the code?</h3><p>It’s all in the page source: no bundler, no framework. View source on any page, or ask Sunny.</p></div><a class="c2-cta__btn" href="mailto:ganesh.rayanbalu@gmail.com?subject=About%20the%20site">Email me <span class="c2-cta__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </main>
-
   <footer class="cs-next" data-layer="Next">
-    <div class="cs-next__main">
-      <span class="lbl lbl--soft">Next</span>
-      <a class="cs-next__title" href="how-i-use-ai.html">How I use AI <span class="cs-next__arrow" aria-hidden="true">→</span></a>
+    <div class="cs-next__inner">
+      <div class="cs-next__main">
+        <span class="cs-next__lbl">Next</span>
+        <a class="cs-next__title" href="how-i-use-ai.html">How I use AI<span class="cs-next__arrow" aria-hidden="true">→</span></a>
+      </div>
+      <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
     </div>
-    <a class="cs-next__all" href="index.html"><span aria-hidden="true">←</span> Back to the site</a>
   </footer>
 
-  <script src="prefs.js?v=20261302"></script>
-  <script src="case.js?v=20261302"></script>
-  <script src="extras.js?v=20261302"></script>
-  <script src="sunny.js?v=20261302"></script>
-  <script src="sunny-config.js?v=20261302"></script>
-  <script src="ai/knowledge.js?v=20261302"></script>
-  <script src="sunny-ai.js?v=20261302"></script>
+  <script src="prefs.js?v=20261303"></script>
+  <script src="case.js?v=20261303"></script>
+  <script src="sunny.js?v=20261303"></script>
+  <script src="sunny-config.js?v=20261303"></script>
+  <script src="ai/knowledge.js?v=20261303"></script>
+  <script src="sunny-ai.js?v=20261303"></script>
 </body>
 </html>
