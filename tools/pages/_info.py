@@ -16,7 +16,7 @@ def nav(active=None, parts=False):
     return f'''  <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
-    <nav class="nav" aria-label="Primary">
+    <nav class="nav{" nav--rail" if parts else ""}" aria-label="Primary">
       {brand}
       <div class="nav__pill nav__pill--case{" nav__pill--parts" if parts else ""}">
         <span class="nav__indicator" aria-hidden="true"></span>

@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261305"
+VER = "20261306"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -138,7 +138,7 @@ def nav_case(num, total, prev_href, prev_label, next_href, next_label):
     return f'''  <header class="cs-top" data-layer="Nav">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
-    <nav class="nav" aria-label="Primary">
+    <nav class="nav nav--rail" aria-label="Primary">
       {_brand()}
       <div class="nav__pill nav__pill--case nav__pill--parts">
         <span class="nav__indicator" aria-hidden="true"></span>

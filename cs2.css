@@ -297,21 +297,23 @@
 /* the outline rail from the earlier layout is not part of this design */
 .c2-page .cs-formula { display: none; }
 
-/* ---------- Header pill with the page's sections, as on the home page ---------- */
-.nav__pill--parts { flex: 0 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-.nav__pill--parts::-webkit-scrollbar { display: none; }
-.nav__pill--parts .nav__dir .nav__txt { display: none; }
-.nav__pill--parts .nav__dir { padding-left: 10px; padding-right: 10px; }
-.nav__pill--dense .nav__link { padding-left: 9px; padding-right: 9px; font-size: 13.5px; }
-.nav__pill--dense .nav__sep { margin: 0 3px; }
-@media (max-width: 1080px) {
-  .nav__pill--parts { overflow: visible; }
-  .nav__pill--parts .nav__dir .nav__txt { display: inline; }
-  .nav__pill--dense .nav__link { font-size: 16px; padding: 12px 14px; }
+/* ---------- Section rail: case studies and the AI pages share the home page's left-hand rail (nav--rail) ---------- */
+@media (min-width: 1400px) {
+  .nav--rail .nav__pill--case .nav__sep, .nav--rail .nav__case { display: none; }
+  .nav--rail .nav__pill--case .nav__link { padding: 4px 0; }
+  .nav--rail .nav__dir { margin-top: 10px; }                 /* previous and next sit a little apart, under the sections */
+  .nav--rail .nav__dir + .nav__dir { margin-top: 0; }
+  .nav--rail .nav__dir::before { display: none; }           /* the arrow stands in for the dash */
+  .nav--rail .nav__dir .nav__arrow { display: inline-block; width: 14px; text-align: center; font-size: 12px; line-height: 1; color: var(--muted); }
+  .nav--rail .nav__dir .nav__txt { display: inline-block; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.25s ease; }
+  .nav--rail .nav__pill:hover .nav__dir .nav__txt, .nav--rail .nav__dir:focus-visible .nav__txt { opacity: 1; transform: none; }
+  .nav--rail .nav__dir--prev, .nav--rail .nav__dir--next { color: var(--muted); font-weight: 500; }
+  .nav--rail .nav__dir:hover { color: var(--ink); }
 }
-@media (min-width: 1081px) {
-  .nav:has(.nav__pill--parts) .nav__brand-txt { display: none; } /* the pendant alone leaves room for the sections */
-  .nav__pill--parts.is-scroll:not(.is-end) { mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); }
+@media (max-width: 1399px) {
+  .nav--rail .nav__pill--case .nav__sep { display: none; }
+  .nav--rail .nav__case { grid-column: 1 / -1; padding: 8px 14px; }
+  .nav--rail .nav__dir .nav__txt { display: inline; }
 }
 
 

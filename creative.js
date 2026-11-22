@@ -102,44 +102,45 @@
   var insComp = $("#insComp"), insCompName = $("#insCompName"), insCompFig = $("#insCompFig"), insCompPath = $("#insCompPath");
   var inspecting = false, current = null, currentRows = [], pinned = null;
 
-  /* Component registry: site element -> name + Figma counterpart (30-days file) */
-  var FIGMA = "https://www.figma.com/design/Sma139tt9vSYyfGyNE1Cey/ganeshuxcraft-%C2%B7-Design-system---screens?node-id=";
-  /* Figma counterparts live in "ganeshuxcraft · Design system & screens":
-     02 · Components & states for components, 03 · Screens for page-only layers, 05 · Sunny for the mascot. */
+  /* Component registry: site element -> name + Figma counterpart.
+     Counterparts live in the case-study, components and variables file (W6jMk8pRjf0wMhgx2iT7k9):
+     the Components page for parts, Screens for page-only layers, Illustration for Sunny and Puppy. */
+  var FIGMA = "https://www.figma.com/design/W6jMk8pRjf0wMhgx2iT7k9/ganeshuxcraft?node-id=";
   var components = [
-    { sel: ".nav__resume", name: "Nav / Resume button", figma: "Resume button · State=Rest", node: "2-81" },
-    { sel: ".nav__brand", name: "Brand / Pendant lockup", figma: "Brand mark · Mark=Lockup", node: "2-17" },
-    { sel: ".nav__theme", name: "Nav / Theme toggle", figma: "Theme toggle · Mode=Light / Dark", node: "2-168" },
+    { sel: ".nav__resume", name: "Nav / Resume button", figma: "Button · Style=Primary, Size=Small", node: "3-4" },
+    { sel: ".nav__brand", name: "Brand / Pendant lockup", figma: "Screens · Home", node: "12-36" },
+    { sel: ".nav__theme", name: "Nav / Theme toggle", figma: "Screens · Home", node: "12-36" },
     { sel: ".nav__inspect", name: "Nav / Inspect button", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".nav__pill", name: "Nav / Pill", figma: "Nav pill · Active=Hey…Contact", node: "2-99" },
+    { sel: ".nav__pill", name: "Nav / Pill", figma: "Nav Pill · State=Default / Active", node: "3-19" },
     { sel: ".replay", name: "How I work / Build replay", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".availability", name: "Hero / Availability pill", figma: "Tags & chips · Type=Status", node: "2-178" },
-    { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Button · Type=Primary, State=Default", node: "2-45" },
-    { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" },
-    { sel: ".bridge", name: "Hero / Figma ⇄ Code card", figma: "Screens · Home · Hero", node: "5-59" },
-    { sel: ".fact", name: "Facts / Stat", figma: "Stat · Metric=years / channels", node: "3-68" },
-    { sel: ".mz", name: "Work / Cover tile", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },
-    { sel: ".wrow", name: "Work / Index row", figma: "Work row · Collapsed / Hover / Expanded", node: "3-79" },
-    { sel: ".how__step", name: "How I work / Step", figma: "Process step · Type=Default / Final", node: "3-133" },
-    { sel: ".story__portrait", name: "Story / Portrait", figma: "Screens · Home · Story", node: "5-248" },
-    { sel: ".story__path", name: "Story / Career path", figma: "Screens · Home · Story", node: "5-248" },
-    { sel: ".piece", name: "Playground / Piece", figma: "Gallery tile · Default / Hover / Loading", node: "3-144" },
+    { sel: ".availability", name: "Hero / Availability pill", figma: "Tag", node: "3-20" },
+    { sel: ".hero__cta .btn--primary", name: "Button / Primary", figma: "Button · Style=Primary, Size=Default", node: "3-2" },
+    { sel: ".hero__cta .btn--ghost", name: "Button / Ghost", figma: "Button · Style=Ghost, Size=Default", node: "3-6" },
+    { sel: ".bridge", name: "Hero / Figma ⇄ Code card", figma: "Screens · Home", node: "12-36" },
+    { sel: ".fact", name: "Facts / Stat", figma: "Stat", node: "3-38" },
+    { sel: ".mz", name: "Work / Cover tile", figma: "Case Row", node: "3-26" },
+    { sel: ".wrow", name: "Work / Index row", figma: "Case Row", node: "3-26" },
+    { sel: ".how__step", name: "How I work / Step", figma: "Numbered Card", node: "3-41" },
+    { sel: ".story__portrait", name: "Story / Portrait", figma: "Screens · Home", node: "12-36" },
+    { sel: ".story__path", name: "Story / Career path", figma: "Screens · Home", node: "12-36" },
+    { sel: ".piece", name: "Playground / Piece", figma: "Media Frame", node: "3-47" },
     { sel: ".view-switch", name: "Gallery / View switch", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".featured", name: "Writing / Featured piece", figma: "Screens · Home · Writing", node: "5-323" },
-    { sel: ".post", name: "Writing / Post row", figma: "Post row · State=Default / Hover", node: "3-114" },
-    { sel: ".chips li", name: "Skills / Skill token", figma: "Tags & chips · Type=Skill token", node: "2-183" },
-    { sel: ".group", name: "Skills / Token group", figma: "Screens · Home · Skills", node: "5-365" },
+    { sel: ".featured", name: "Writing / Featured piece", figma: "Screens · Home", node: "12-36" },
+    { sel: ".post", name: "Writing / Post row", figma: "Screens · Home", node: "12-36" },
+    { sel: ".chips li", name: "Skills / Skill token", figma: "Tag", node: "3-20" },
+    { sel: ".group", name: "Skills / Token group", figma: "Section Header", node: "3-22" },
     { sel: ".ai__row", name: "AI / Page row", figma: "no Figma counterpart, built in code", node: "" },
     { sel: ".sunny-can", name: "AI / What Sunny can do", figma: "no Figma counterpart, built in code", node: "" },
-    { sel: ".icon-link", name: "Contact / Icon link", figma: "Screens · Home · Contact", node: "5-424" },
-    { sel: ".contact__link", name: "Contact / Mail link", figma: "Screens · Home · Contact", node: "5-424" },
-    { sel: ".ask", name: "Sunny / Ask Sunny panel", figma: "Screens · F · Ask Sunny in context", node: "21-935" },
-    { sel: ".sunny__ask", name: "Sunny / Launcher", figma: "Sunny · Pose=AI · Pointing", node: "17-257" },
-    { sel: ".sunny__char", name: "Sunny / Mascot", figma: "Sunny · Pose=Idle", node: "17-9" },
-    { sel: ".keys", name: "Keyboard shortcuts overlay", figma: "Tags & chips · Type=Shortcut key", node: "2-187" },
-    { sel: ".ins", name: "Inspector panel", figma: "Feedback · Type=Inspector", node: "3-167" },
-    { sel: ".btn--primary", name: "Button / Primary", figma: "Button · Type=Primary, State=Default", node: "2-45" },
-    { sel: ".btn--ghost", name: "Button / Ghost", figma: "Button · Type=Ghost, State=Default", node: "2-65" }
+    { sel: ".icon-link", name: "Contact / Icon link", figma: "Screens · Home", node: "12-36" },
+    { sel: ".contact__link", name: "Contact / Mail link", figma: "Screens · Home", node: "12-36" },
+    { sel: ".ask", name: "Sunny / Ask Sunny panel", figma: "no Figma counterpart, built in code", node: "" },
+    { sel: ".sunny__ask", name: "Sunny / Launcher", figma: "no Figma counterpart, built in code", node: "" },
+    { sel: ".sunny__char", name: "Sunny / Mascot", figma: "Sunny · Mood=Default (nine moods)", node: "5-245" },
+    { sel: ".puppy__char", name: "Puppy / Mascot", figma: "Puppy · Companion", node: "9-33" },
+    { sel: ".keys", name: "Keyboard shortcuts overlay", figma: "no Figma counterpart, built in code", node: "" },
+    { sel: ".ins", name: "Inspector panel", figma: "no Figma counterpart, built in code", node: "" },
+    { sel: ".btn--primary", name: "Button / Primary", figma: "Button · Style=Primary, Size=Default", node: "3-2" },
+    { sel: ".btn--ghost", name: "Button / Ghost", figma: "Button · Style=Ghost, Size=Default", node: "3-6" }
   ];
   function componentFor(el) {
     var node = el;
