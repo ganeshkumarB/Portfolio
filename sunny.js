@@ -18,6 +18,7 @@
 
    API: Sunny.act(name) · Sunny.emote(name) · Sunny.say(text) · Sunny.acts
         Sunny.context() · Sunny.setAskOpen(bool) · Sunny.mood() · Sunny.config
+        Sunny.on(event, fn) · Sunny.cue(name) · Sunny.pose(name, ms) · Sunny.shift(dx, ms)
 */
 (function (global) {
   "use strict";
@@ -179,7 +180,7 @@
     ignoreAfter: 3                /* this many unanswered bubbles in a row and Sunny goes quieter */
   };
   /* priorities: a running act is only interrupted by something of equal or higher priority */
-  var PRI = { sleep: 0, idle: 1, ambient: 2, scroll: 3, section: 4, event: 5, drag: 6, direct: 7 };
+  var PRI = { sleep: 0, idle: 1, ambient: 2, scroll: 3, section: 4, duo: 4.5, event: 5, drag: 6, direct: 7 };
 
   /* ---------- DOM ---------- */
   var root, charEl, bubble, napBtn, svg, look, actTimer = 0, sayTimer = 0, emoteTimer = 0, busy = false, asleep = false;
@@ -266,6 +267,7 @@
     var now = Date.now();
     if (!root || asleep || ctx.askOpen) return false;
     if (!force && ctx.reading) return false;
+    if (!force && now < (state.hushUntil || 0)) return false; /* a shared moment or the puppy's story has the floor */
     if (now - state.lastBubble < (force ? 2500 : CONFIG.bubbleGap * quietFactor())) return false;
     if (!force && state.proactive >= CONFIG.maxProactivePerPage) return false;
     if (!force) { if (state.pending) state.unanswered++; state.pending = true; state.proactive++; }
@@ -371,7 +373,12 @@
     giggle: function () { tone([[880, 0, 0.06], [988, 0.09, 0.06], [880, 0.18, 0.06], [1047, 0.27, 0.08]], "sine", 0.035); },
     wobble: function () { tone([[440, 0, 0.14, 520], [520, 0.14, 0.14, 400], [400, 0.28, 0.16, 480]], "triangle", 0.03); },
     proud: function () { tone([[784, 0, 0.12], [1047, 0.12, 0.3]], "triangle", 0.035); },
-    sigh: function () { hiss(0.4, 1200, 300, 0.02, "lowpass"); tone([[300, 0, 0.4, 220]], "sine", 0.02); }
+    sigh: function () { hiss(0.4, 1200, 300, 0.02, "lowpass"); tone([[300, 0, 0.4, 220]], "sine", 0.02); },
+    /* the sidekick */
+    bark: function () { tone([[520, 0, 0.07, 420], [640, 0.09, 0.08, 480]], "square", 0.03); },
+    sniff: function () { hiss(0.09, 1800, 900, 0.025, "bandpass"); hiss(0.08, 1800, 900, 0.02, "bandpass"); },
+    paw: function () { tone([[900, 0, 0.03]], "square", 0.015); tone([[760, 0.12, 0.03]], "square", 0.015); },
+    chirp: function () { tone([[880, 0, 0.08, 1320]], "sine", 0.035); }
   };
   /* which cue each emotion makes; blush is the smile chirp and always plays */
   var EMOTION_SFX = { happy: "bubble", surprised: "gasp", curious: "hmm", wink: "ting", sleepy: "yawn", shy: "aww", excited: "whee", dizzy: "wobble", angry: "grumble", sad: "sadden", love: "heart", cool: "shwoop", laugh: "giggle", whoa: "swoosh", bored: "sigh", proud: "proud" };
@@ -570,6 +577,7 @@
   }
   var welcomed = false, welcomedAt = 0, welcomeWaiting = false;
   function greet() {
+    if (Date.now() < (state.hushUntil || 0)) { setTimeout(greet, state.hushUntil - Date.now() + 400); return; }
     var first = true;
     if (CONFIG.welcomeOncePerSession) { try { first = !sessionStorage.getItem("sunny:hello"); sessionStorage.setItem("sunny:hello", "1"); } catch (e) { /* ignore */ } }
     act("wave", PRI.event);
@@ -717,6 +725,7 @@
     var now = Date.now();
     moodTick(now); senseTick(now);
     if (mode === "puppy") return; /* sensing continues for the sidekick; Sunny itself rests */
+    if (now < (state.hushUntil || 0)) return; /* hushed: the sidekick is running a scene */
     if (reduced || document.hidden || drag || root.classList.contains("is-carried")) return;
     var idleFor = now - lastInput;
     if (asleep) return;
@@ -1011,7 +1020,17 @@
   }
   /* API is available immediately; calls before the DOM is ready are ignored */
   var api = global.Sunny = {
-    act: function (n) { if (root) act(n, PRI.direct); },
+    act: function (n, pri) { return !!root && act(n, typeof pri === "string" ? (PRI[pri] != null ? PRI[pri] : PRI.direct) : (pri == null ? PRI.direct : pri)); },
+    /* a sound cue that respects the visitor's sound setting (unlike sfx, which is for previews) */
+    cue: function (n) { if (SFX[n]) cue(n); },
+    /* a timed class on the root, for small poses the CSS defines: is-pat, is-sprout, is-lookdown */
+    pose: function (name, ms) { if (!root) return; root.classList.add("is-" + name); setTimeout(function () { root.classList.remove("is-" + name); }, ms || 1500); },
+    /* slide the character sideways for a moment (the stage is only as wide as Sunny, so this is the only way to step toward a friend) */
+    shift: function (dx, ms) { if (!charEl) return; charEl.style.setProperty("--walk-ms", (ms || 700) + "ms"); charEl.style.setProperty("--shx", (dx || 0) + "px"); if (dx) { if (state.shiftFace == null) state.shiftFace = facingLeft; face(dx < 0); } else if (state.shiftFace != null) { face(state.shiftFace); state.shiftFace = null; } },
+    wake: function () { if (root) wake(); },
+    /* no proactive lines or ambient acts for a while: the sidekick is running a scene */
+    hush: function (ms) { state.hushUntil = Date.now() + (ms || 5000); },
+    PRI: PRI,
     emote: function (n, ms) { if (root) emote(n, ms); },
     emotionSounds: EMOTION_SFX,
     say: function (t, ms) { if (root) { state.sayForce = true; say(t, ms); state.sayForce = false; } },

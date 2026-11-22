@@ -265,7 +265,8 @@
     personality: "Curious, warm, a little mischievous, observant and concise. Quiet most of the time, expressive at meaningful moments.",
     does: "Keeps itself busy with small acts (waving, reading, yoga, fishing, a selfie), reacts to clicks, scrolling, the theme and the visitor leaving or returning, notices which section you are reading, and answers questions in the Ask panel (press A).",
     ai: "Without a server Sunny answers from a fixed list written from the site. With the worker deployed it answers in natural language with Claude, only from the facts on the site, through Ganesh’s own server; the API key never ships with the page. Nothing is stored.",
-    controls: "Sound is off until you turn it on in the preferences panel (four synthesized voices). The zz button sends Sunny off for a nap. Reduced motion stops its acts. The preferences panel can hide it entirely."
+    controls: "Sound is off until you turn it on in the preferences panel (four synthesized voices). The zz button sends Sunny off for a nap. Reduced motion stops its acts. The preferences panel can hide it entirely.",
+    puppy: "Puppy is Sunny’s sidekick, drawn from Ganesh’s own illustration. Choose Sunny, Puppy or Together in the preferences panel. The first time the two share the corner, Sunny finds a tiny sleeping pup, pats it, and it wakes and grows. Puppy never answers questions; it reacts, wags, naps, dreams, can be dragged along the bottom edge, and now and then the two share a moment: head pats, a dance, fetch, hide and seek, a selfie, stargazing after dark."
   };
 
   var recruiter = {

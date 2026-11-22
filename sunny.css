@@ -22,7 +22,7 @@
   pointer-events: auto;
   touch-action: none;
   cursor: grab;
-  translate: var(--sx, 0px) 0;
+  translate: calc(var(--sx, 0px) + var(--shx, 0px)) 0;
   transition: translate var(--walk-ms, 0ms) linear;
   opacity: 0;
   transform: translateY(120px);
@@ -683,7 +683,7 @@ html.no-sunny .puppy { display: none !important; }
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.45s ease, bottom 0.45s ease;
+  transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.45s ease, bottom 0.45s ease, translate var(--walk-ms, 0ms) linear;
 }
 .puppy.is-off { display: none; }
 .puppy.is-duo { --pp: 90px; right: 172px; bottom: 4px; }
@@ -727,7 +727,7 @@ html.no-sunny .puppy { display: none !important; }
 .p-char { transform-origin: 110px 200px; }
 .p-art { transform-origin: 110px 200px; transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .p-flip { transform-origin: 110px 110px; }
-.puppy.is-solo .p-flip { transform: scaleX(-1); } /* alone in the corner, the pup faces the page */
+.puppy.is-flip .p-flip { transform: scaleX(-1); } /* facing left: alone in the corner the pup faces the page; running left it turns */
 .p-eye, .p-look, .p-bolt { transform-box: fill-box; transform-origin: 50% 50%; }
 .p-eye { transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
 .p-look { transition: transform 0.25s ease-out; }
@@ -865,3 +865,104 @@ html.no-sunny .puppy { display: none !important; }
 .ask__note { padding: 8px 2px 0; font-size: 10px; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ask__sys { padding-left: 40px; }
 @media (max-width: 767px) { .ask { border-radius: 0; } }
+
+/* ---------- Sunny poses the sidekick asks for ---------- */
+.sunny.is-pat .s-arm--l { animation: su-pat 0.8s ease-in-out 3; }
+@keyframes su-pat { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(78deg) translate(-6px, -14px); } }
+.sunny.is-sprout .s-sprout { animation: su-sprout-tug 0.35s ease-in-out 4 !important; }
+@keyframes su-sprout-tug { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(-28deg) translateX(-6px); } }
+.sunny.is-lookdown .s-look { transform: translate(-5px, 6px) !important; }
+/* the whole cast naps with Sunny */
+html:not(.has-sunny) .puppy { display: none !important; }
+
+/* ---------- Puppy: the growth and relationship layer ---------- */
+.puppy__svg { touch-action: none; }
+/* minor idles */
+.puppy[data-act="blink2"] .p-eye { animation: pp-blink2 0.7s ease-in-out 1; }
+@keyframes pp-blink2 { 0%, 40%, 100% { transform: scaleY(1); } 20%, 60% { transform: scaleY(0.08); } }
+.puppy[data-act="lookup"] .p-art { transform: rotate(-4deg) translateY(-3px); }
+.puppy[data-act="perk"] .p-art { transform: translateY(-4px) scale(1.02, 1.05); }
+.puppy[data-act="perk"] .p-eye { transform: scale(1.1); }
+/* noticeable idles */
+.puppy[data-act="groom"] .p-art { transform: rotate(16deg) translate(6px, 8px); animation: pp-jiggle 0.3s ease-in-out infinite alternate; }
+.puppy[data-act="groom"] .p-tongue, .puppy[data-act="lick"] .p-tongue { opacity: 1; }
+.puppy[data-act="groom"] .p-eye { opacity: 0; } .puppy[data-act="groom"] .p-eye-happy { opacity: 1; }
+.puppy[data-act="run"] .p-char { animation: pp-run 0.26s ease-in-out infinite alternate; }
+@keyframes pp-run { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-5px) rotate(2deg); } }
+.puppy[data-act="run"] .p-shadow { animation: pp-shadow 0.26s ease-in-out infinite alternate; }
+@keyframes pp-shadow { from { transform: scaleX(1); } to { transform: scaleX(0.85); } }
+.puppy[data-act="lick"] .p-art { transform: rotate(-10deg) translateX(8px); animation: pp-jiggle 0.26s ease-in-out infinite alternate; }
+.puppy[data-act="wakeup"] .p-art { transform: translateX(-4px) scale(1.1, 0.95); }
+.puppy[data-act="wakeup"] .p-lids { opacity: 1; }
+/* rare surprises */
+.puppy[data-act="zoomies"] .p-char { animation: pp-zoomies 2.6s cubic-bezier(0.4, 0, 0.3, 1) 1; }
+@keyframes pp-zoomies { 0% { transform: translateX(0); } 20% { transform: translateX(-130px) rotate(-3deg); } 48% { transform: translateX(-140px) scale(1.05, 0.95); } 70% { transform: translateX(30px) rotate(3deg); } 85% { transform: translateX(28px) scale(1.04, 0.96); } 100% { transform: translateX(0); } }
+.puppy[data-act="zoomies"] .p-fx--lines { opacity: 1; }
+.puppy[data-act="tailchase"] .p-char { animation: pp-tailchase 2.8s cubic-bezier(0.45, 0, 0.35, 1) 1; }
+@keyframes pp-tailchase { 0% { transform: rotate(0); } 85% { transform: rotate(720deg); } 100% { transform: rotate(720deg); } }
+.puppy[data-act="tailchase"] .p-art { transform: rotate(14deg) scale(0.98); }
+.puppy[data-act="tailchase"] .p-eye { transform: translateX(3px); }
+.puppy[data-act="oops"] .p-char { animation: pp-oops 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
+@keyframes pp-oops { 0% { transform: none; } 25% { transform: translateY(-26px); } 50% { transform: translateY(0) rotate(14deg) translateX(10px); } 65% { transform: translateY(0) rotate(12deg) translateX(10px); } 100% { transform: none; } }
+.puppy[data-act="pawcheck"] .p-art { transform: rotate(-9deg) translate(4px, -2px); }
+.puppy[data-act="butterfly"] .p-fx--bfly { opacity: 1; }
+.puppy[data-act="butterfly"] .p-bfly { animation: pp-bfly 6.4s ease-in-out 1; transform-box: view-box; transform-origin: 0 0; }
+.puppy[data-act="butterfly"] .p-wing--l { animation: pp-wing 0.22s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 50%; }
+.puppy[data-act="butterfly"] .p-wing--r { animation: pp-wing 0.22s ease-in-out infinite alternate-reverse; transform-box: fill-box; transform-origin: 0 50%; }
+@keyframes pp-wing { from { transform: scaleX(1); } to { transform: scaleX(0.25); } }
+@keyframes pp-bfly { 0% { transform: translate(-20px, 60px); } 25% { transform: translate(40px, 20px); } 50% { transform: translate(120px, 36px); } 75% { transform: translate(190px, 14px); } 100% { transform: translate(260px, -30px); } }
+.puppy[data-act="attention"] .p-art { transform: rotate(-9deg) translateY(-2px); }
+/* dreaming, while asleep */
+.puppy.is-dreaming .p-fx--dream { opacity: 1; }
+.puppy.is-dreaming .p-bone { animation: pp-bone 1.6s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes pp-bone { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
+.puppy.is-dreaming .p-art { animation: pp-twitch 1.4s ease-in-out infinite; }
+/* two more faces */
+.puppy[data-emotion="mischievous"] .p-eye { transform: scaleY(0.6); }
+.puppy[data-emotion="mischievous"] .p-m--smile, .puppy[data-emotion="mischievous"] .p-m-patch { opacity: 1; }
+.puppy[data-emotion="mischievous"] .p-art { transform: rotate(6deg); }
+.puppy[data-emotion="confused"] .p-fx--q, .puppy[data-emotion="confused"] .p-m--wavy, .puppy[data-emotion="confused"] .p-m-patch { opacity: 1; }
+.puppy[data-emotion="confused"] .p-art { transform: rotate(10deg); }
+/* carried along the bottom edge, then set down */
+.puppy.is-carried, .puppy.is-carried .puppy__char { transition: none; }
+.puppy.is-carried .p-char { animation: pp-dangle 0.5s ease-in-out infinite alternate; }
+@keyframes pp-dangle { from { transform: rotate(-8deg) translateY(-8px); } to { transform: rotate(8deg) translateY(-8px); } }
+.puppy.is-carried .p-eye { transform: scale(1.15); }
+.puppy.is-carried .p-shadow { transform: scaleX(0.6); opacity: 0.5; }
+.puppy.is-landing .p-art { animation: pp-squash 0.5s ease-out 1; }
+@keyframes pp-squash { 0% { transform: scale(1.12, 0.84); } 60% { transform: scale(0.96, 1.04); } 100% { transform: none; } }
+/* the story: tiny and asleep, a warm glow when Sunny pats it, then it grows */
+.puppy.is-tiny { --pp: 44px; right: 196px; }
+.puppy.is-growing { transition: width 1.8s cubic-bezier(0.34, 1.56, 0.64, 1), height 1.8s cubic-bezier(0.34, 1.56, 0.64, 1), right 1.8s ease, bottom 1.8s ease; }
+.puppy.is-growing .p-fx--stars { opacity: 1; }
+.puppy.is-growing .p-star { animation: pp-twinkle 0.6s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.puppy::before { content: ""; position: absolute; inset: -30%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 201, 60, 0.55), rgba(255, 201, 60, 0) 65%); opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+.puppy.is-glow::before { opacity: 1; animation: pp-glow 1.1s ease-in-out infinite alternate; }
+@keyframes pp-glow { from { transform: scale(0.9); } to { transform: scale(1.1); } }
+.puppy__skip {
+  position: absolute; right: calc(100% + 10px); bottom: 40%; /* to the pup's left, clear of the Ask button */
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 7px 11px; border: 1px solid #111; border-radius: 999px; background: #fff; color: #111; cursor: pointer; pointer-events: auto;
+}
+.puppy__skip:hover, .puppy__skip:focus-visible { background: #111; color: #fff; outline: none; }
+[data-theme="dark"] .puppy__skip { border-color: #f3f4f6; background: #15161a; color: #f3f4f6; }
+[data-theme="dark"] .puppy__skip:hover, [data-theme="dark"] .puppy__skip:focus-visible { background: #f3f4f6; color: #15161a; }
+@media (max-width: 720px) { .puppy.is-tiny { --pp: 32px; right: 131px; } }
+/* hiding behind Sunny, stargazing */
+.puppy.is-hidden .puppy__char { opacity: 0.001; transition: opacity 0.2s ease 0.3s; }
+.puppy.is-stars .p-fx--stars { opacity: 1; }
+.puppy.is-stars .p-star { animation: pp-twinkle 1.2s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+/* the ball */
+.duo-ball { position: fixed; bottom: 12px; left: 0; width: 18px; height: 18px; z-index: 68; pointer-events: none; opacity: 0; transition: translate var(--ms, 0ms) cubic-bezier(0.2, 0.7, 0.3, 1), opacity 0.25s ease; }
+.duo-ball i { display: block; width: 100%; height: 100%; border-radius: 50%; background: #FFC93C; border: 1.5px solid #111; box-sizing: border-box; }
+.duo-ball.is-on { opacity: 1; }
+.duo-ball.is-fly i { animation: pp-arc var(--ms, 900ms) ease-out 1; }
+@keyframes pp-arc { 0% { transform: translateY(0) rotate(0); } 45% { transform: translateY(-70px) rotate(180deg); } 100% { transform: translateY(0) rotate(420deg); } }
+.duo-ball.is-glow i { box-shadow: 0 0 16px 5px rgba(255, 201, 60, 0.55); }
+/* Sunny throws */
+.sunny.is-throw .s-arm--r { animation: su-throw 0.9s ease-in-out 1; }
+@keyframes su-throw { 0% { transform: rotate(0); } 40% { transform: rotate(-150deg); } 70% { transform: rotate(40deg); } 100% { transform: rotate(0); } }
+/* reduced motion: nothing above moves */
+.puppy.is-static::before, .puppy.is-static .puppy__skip { display: none; }
+/* beside Sunny the Ask button sits over the pup's upper right, so its small effects move to the upper left */
+.puppy.is-duo .p-fx--zzz, .puppy.is-duo .p-fx--q, .puppy.is-duo .p-fx--hearts, .puppy.is-duo .p-fx--notes, .puppy.is-duo .p-fx--sweat, .puppy.is-duo .p-fx--dream { transform: translateX(-172px); }
