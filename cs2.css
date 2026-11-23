@@ -132,6 +132,8 @@
 .c2-icotile { width: 44px; height: 44px; border-radius: 10px; background: var(--c2-blue-tint); display: grid; place-items: center; color: var(--c2-blue); margin-bottom: 10px; }
 .c2-icotile svg { width: 20px; height: 20px; }
 .c2-ico-lg { font-family: var(--font-serif); font-weight: 500; font-size: 22px; line-height: 1; color: var(--c2-indigo); }
+.c2-ico-lg--svg { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: color-mix(in srgb, var(--c2-indigo) 10%, transparent); }
+.c2-ico-svg { display: block; width: 22px; height: 22px; }
 /* a row of cards with arrows between them */
 .c2-flow { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 12px; align-items: stretch; }
 .c2-flow > .c2-card { position: relative; }
@@ -299,19 +301,23 @@
 
 /* ---------- Section rail: case studies and the AI pages share the home page's left-hand rail (nav--rail) ---------- */
 @media (min-width: 1400px) {
-  .nav--rail .nav__pill--case .nav__sep, .nav--rail .nav__case { display: none; }
+  .nav--rail .nav__pill--case .nav__sep { display: none; }
   .nav--rail .nav__pill--case .nav__link { padding: 4px 0; }
-  .nav--rail .nav__dir { margin-top: 10px; }                 /* previous and next sit a little apart, under the sections */
-  .nav--rail .nav__dir + .nav__dir { margin-top: 0; }
-  .nav--rail .nav__dir::before { display: none; }           /* the arrow stands in for the dash */
-  .nav--rail .nav__dir .nav__arrow { display: inline-block; width: 14px; text-align: center; font-size: 12px; line-height: 1; color: var(--muted); }
-  .nav--rail .nav__dir .nav__txt { display: inline-block; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.25s ease; }
-  .nav--rail .nav__pill:hover .nav__dir .nav__txt, .nav--rail .nav__dir:focus-visible .nav__txt { opacity: 1; transform: none; }
-  .nav--rail .nav__dir--prev, .nav--rail .nav__dir--next { color: var(--muted); font-weight: 500; }
-  .nav--rail .nav__dir:hover { color: var(--ink); }
+  /* previous, the case count and next: one small switch at the foot of the sections; names show as tooltips */
+  .nav--rail .nav__switch { display: grid; grid-template-columns: 30px 30px; gap: 6px; width: max-content; margin-top: 20px; padding: 8px 9px 9px; border: 1px solid var(--line); border-radius: 16px; background: var(--card, #fff); }
+  .nav--rail .nav__switch .nav__case { display: block; grid-column: 1 / -1; order: -1; padding: 0 0 2px; text-align: center; font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); text-decoration: none; }
+  .nav--rail .nav__switch .nav__case:hover { color: var(--ink); }
+  .nav--rail .nav__dir, .nav--rail .nav__pill--case .nav__dir { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border-radius: 50%; color: var(--ink); font-weight: 500; transition: background-color 0.2s ease, color 0.2s ease; }
+  .nav--rail .nav__dir::before { display: none; }
+  .nav--rail .nav__dir .nav__txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .nav--rail .nav__dir .nav__arrow { opacity: 1 !important; transform: none !important; font-size: 13px; line-height: 1; color: inherit; }
+  .nav--rail .nav__dir:hover, .nav--rail .nav__dir:focus-visible { background: var(--ink); color: var(--bg, #fff); }
+  .nav--rail .nav__dir--next { background: var(--sun, #ffd54a); color: #15161a; }
+  .nav--rail .nav__dir--next:hover, .nav--rail .nav__dir--next:focus-visible { background: #15161a; color: #fff; }
 }
 @media (max-width: 1399px) {
   .nav--rail .nav__pill--case .nav__sep { display: none; }
+  .nav--rail .nav__switch { display: contents; }
   .nav--rail .nav__case { grid-column: 1 / -1; padding: 8px 14px; }
   .nav--rail .nav__dir .nav__txt { display: inline; }
 }

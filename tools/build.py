@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261315"
+VER = "20261316"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -146,9 +146,7 @@ def nav_case(num, total, prev_href, prev_label, next_href, next_label):
         <span class="nav__sep" aria-hidden="true"></span>
         <!--sections-->
         <span class="nav__sep" aria-hidden="true"></span>
-        {prev}
-        <a class="nav__case mono" href="index.html#work" title="All work">{num:02d} / {total:02d}</a>
-        {nxt}
+        <div class="nav__switch" role="group" aria-label="Case studies">{prev}<a class="nav__case mono" href="index.html#work" title="All work" aria-label="Case {num} of {total}, all work">{num:02d} / {total:02d}</a>{nxt}</div>
       </div>
       <div class="nav__utils"><button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button></div>
       <a class="nav__resume" href="assets/Ganeshkumar-B-Resume.pdf" download="Ganeshkumar-B-Resume.pdf" title="Download the resume (PDF)" aria-label="Download the resume (PDF)"><span class="nav__resume-txt">Resume</span><span class="nav__resume-arrow" aria-hidden="true">↓</span></a>

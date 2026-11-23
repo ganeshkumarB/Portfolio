@@ -686,9 +686,8 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 130%;
   object-fit: cover;
-  object-position: bottom;
 }
 .featured__cover .piece__tag { line-height: 1.55; }
 .featured__meta { font-size: 12px; color: var(--muted); white-space: pre; }
@@ -2715,12 +2714,13 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
 .writing .section__intro { padding-top: 10px; }
 .writing__grid { gap: 96px; }
 .featured { gap: 16px; padding: 0; border-radius: 0; background: none; }
-.featured__cover { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; margin-bottom: 14px; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: var(--surface); }
+.featured__cover { display: block; width: 100%; height: 200px; aspect-ratio: 4 / 3; margin-bottom: 14px; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: var(--surface); }
 .featured__cover img { object-position: center bottom; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .featured__cover:hover img, .featured:hover .featured__cover img { transform: scale(1.03); }
-.featured__cat, .post__cat { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.featured__kicker { margin: 0 0 2px; }
+.featured__kicker, .featured__cat, .post__cat { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .featured__title { font-size: 34px; line-height: 1.12; letter-spacing: -0.02em; }
-.featured__desc { max-width: 460px; font-size: 16px; line-height: 1.6; color: var(--body); }
+.featured__desc { max-width: 600px; font-size: 16px; line-height: 1.6; color: var(--body); }
 .featured__cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; padding-bottom: 3px; border-bottom: 1px solid var(--ink); font-size: 15px; font-weight: 500; color: var(--ink); text-decoration: none; transition: border-color 0.2s ease; }
 .featured__cta span { display: inline-block; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .featured__cta:hover { border-bottom-color: var(--sun); }
@@ -2833,7 +2833,7 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
 @media (min-width: 1081px) {
   .story__portrait { width: clamp(400px, 27vw, 520px); }
   .story__copy { flex: 1 1 0; max-width: none; }
-  .story .section__title { max-width: 560px; }
+  .story .section__title { max-width: 800px; }
   .story__text { max-width: 680px; }
   .journey__title { max-width: 320px; }
   .journey__item p, .journey__when { max-width: 320px; }
@@ -2882,7 +2882,8 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .hero__grid--wrapped .hero__copy { max-width: 1000px; gap: 26px; }
   .hero__grid--wrapped .hero__title { max-width: 1000px; font-size: 64px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 500; text-wrap: initial; }
   .hero__br { display: inline; }
-  .hero__grid--wrapped .hero__lede { max-width: 560px; }
+  .hero__grid--wrapped { container-type: inline-size; }
+  .hero__grid--wrapped .hero__lede { max-width: min(800px, calc(100cqw - 440px - 48px)); } /* up to 800px, never under the hero card */
   .hero__card { position: absolute; right: 0; top: 290px; width: 440px; transform: rotate(-2deg); transform-origin: 50% 50%; z-index: 2; }
   .hero__card .bridge { width: 100%; margin: 0; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.35); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease; will-change: transform; }
   .hero__card .bridge.is-tilting { transition: transform 0.12s ease-out, box-shadow 0.4s ease; box-shadow: 0 56px 100px -44px rgba(0, 0, 0, 0.4); }
@@ -2891,6 +2892,7 @@ body.lb-open .to-top, body.nav-open .to-top { opacity: 0; visibility: hidden; }
   .hero__grid--wrapped { min-height: 800px; }
   .hero__grid--wrapped .hero__title { font-size: 72px; }
   .hero__card { width: 520px; top: 314px; }
+  .hero__grid--wrapped .hero__lede { max-width: min(800px, calc(100cqw - 520px - 48px)); }
 }
 @media (max-width: 1080px) {
   .hero__grid--wrapped .hero__title { font-weight: 600; }
@@ -3478,3 +3480,41 @@ html.reduce-motion .scf-hi { opacity: 1; }
 .contact__copy { padding-bottom: 0; }
 @media (max-width: 1080px) { .contact__mark { font-size: clamp(48px, 10vw, 96px); } }
 @media (max-width: 720px) { .contact__mark { font-size: clamp(40px, 12.5vw, 64px); } }
+
+/* ============================================================
+   How I work, fixed bento: one stage that never resizes, four equal step tiles,
+   principles and the guide underneath. Steps change in place; nothing reflows.
+   ============================================================ */
+.how__grid.how__grid--fixed { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-areas: "stage tiles" "princ guide"; gap: 16px; align-items: stretch; }
+.how__grid--fixed .how__stage { grid-area: stage; position: relative; display: flex; flex-direction: column; height: 440px; min-width: 0; border: 1px solid var(--ink); border-radius: 22px; background: var(--card); overflow: hidden; }
+.how__grid--fixed .how__panel { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; padding: 26px 30px 28px; }
+.how__grid--fixed .how__panel[hidden] { display: none; }
+.how__grid--fixed .how__cap { display: flex; align-items: baseline; gap: 12px; margin: 0 0 6px; }
+.how__grid--fixed .how__cap .mono { font-size: 11px; color: #c98f00; }
+.how__grid--fixed .how__cap span + span { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.how__grid--fixed .how__scene { flex: 1 1 auto; min-height: 0; width: 100%; max-height: 330px; margin: auto 0; }
+.how__grid--fixed .how__panel--build { gap: 14px; }
+.how__grid--fixed .how__panel--build .replay { margin: auto 0 0; }
+.how__grid--fixed .how__panel--build .how__build-foot { justify-content: flex-end; }
+.how__grid--fixed .how__tiles { grid-area: tiles; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; min-width: 0; }
+.how__grid--fixed .how__step { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 6px; min-height: 0; height: 100%; padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--ink); text-align: left; overflow: hidden; transform: none; box-shadow: none; transition: border-color 0.2s ease, background-color 0.2s ease; }
+.how__grid--fixed .how__step:hover { border-color: var(--muted); transform: none; }
+.how__grid--fixed .how__step.is-active { border-color: var(--ink); background: var(--card); box-shadow: inset 0 0 0 1px var(--ink); }
+.how__grid--fixed .how__name { font-size: 19px; }
+.how__grid--fixed .how__desc { font-size: 13px; line-height: 1.45; }
+.how__grid--fixed .how__tile--principles { grid-area: princ; }
+.how__grid--fixed .how__tile--guide { grid-area: guide; }
+.how__grid--fixed .how__tile { padding: 22px 24px; border-radius: 18px; }
+@media (max-width: 1080px) {
+  .how__grid.how__grid--fixed { grid-template-columns: 1fr; grid-template-areas: "tiles" "stage" "princ" "guide"; }
+  .how__grid--fixed .how__stage { height: auto; min-height: 0; }
+  .how__grid--fixed .how__panel { padding: 18px; }
+  .how__grid--fixed .how__scene { max-height: none; margin: 8px 0 0; }
+  .how__grid--fixed .how__tiles { grid-template-rows: auto auto; gap: 10px; }
+  .how__grid--fixed .how__step { padding: 14px 14px 16px; }
+}
+@media (max-width: 560px) {
+  .how__grid--fixed .how__desc { display: none; }
+  .how__grid--fixed .how__name { font-size: 16px; }
+  .how__grid--fixed .how__panel--build .replay { grid-template-columns: 1fr; }
+}
