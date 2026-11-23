@@ -73,7 +73,7 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 @keyframes sst-flicker { 0%, 100% { opacity: 1; } 40% { opacity: 0.92; } 46% { opacity: 0.97; } 70% { opacity: 0.9; } }
 .sst-actors { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; }
 .sst-actor { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
-.sst-flip { position: absolute; inset: 0; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.sst-flip { position: absolute; inset: 0; transition: transform 0.24s cubic-bezier(0.5, 0, 0.2, 1); }
 .sst-flip.is-flipped { transform: scaleX(-1); }
 .sst-pose { position: absolute; inset: 0; transform-origin: 50% 94%; transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1); }
 .sst-over { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
@@ -100,6 +100,9 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-pose.st-trot { animation: sst-trot 0.38s ease-in-out infinite alternate; }
 @keyframes sst-trot { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-5px) rotate(1.5deg); } }
 .sst-pose.st-lean { transform: rotate(6deg) translateX(4px); }
+/* turning around: a little hop and a squash as the body swings, the way a dog pivots on its back legs */
+.sst-pose.st-turn { animation: sst-turn 0.34s cubic-bezier(0.3, 0.7, 0.4, 1) 1 !important; }
+@keyframes sst-turn { 0% { transform: none; } 35% { transform: translateY(-6px) scale(0.93, 1.05); } 70% { transform: translateY(1px) scale(1.05, 0.95); } 100% { transform: none; } }
 .puppy.st-rest .p-head { --hr: 4deg; --hy: 12px; --hx: 5px; }
 .sst-wet { opacity: 0; transition: opacity 1.2s ease; } .is-wet .sst-wet { opacity: 1; }
 .sst-drip { animation: sst-drip 1.1s ease-in infinite; } .sst-drip:nth-child(2) { animation-delay: 0.45s; } .sst-drip:nth-child(3) { animation-delay: 0.8s; }
@@ -472,6 +475,39 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (many) { for (var i = 0; i < el.length; i++) if (el[i].style.transform !== v) el[i].style.transform = v; } else if (el && el.style.transform !== v) el.style.transform = v;
   }
   function sceneOf(t) { for (var i = BANDS_T.length - 2; i >= 0; i--) if (t >= BANDS_T[i]) return i; return 0; }
+  /* ---- the pup's gait: bob, lean, sway and squash follow the distance actually covered, so the walk speeds up and
+     slows down with the movement, eases in and out, and each footfall can be heard ---- */
+  var G = { x: null, t: 0, phase: 0, amt: 0, foot: 0 };
+  function gaitOn() { return G.amt > 0.15; }
+  function gait(pose, px, Q) {
+    var dtg = clock - G.t; G.t = clock;
+    if (G.x === null || Math.abs(px - G.x) > 90 || dtg <= 0 || dtg > 0.25) { G.x = px; return; } /* a scene cut, not a step */
+    var dx = px - G.x; G.x = px;
+    var speed = Math.abs(dx) / dtg;
+    G.amt += ((reduced ? 0 : Math.min(1, speed / 150)) - G.amt) * Math.min(1, dtg * 7);
+    var stride = Q.creep ? 13 : speed > 230 ? 40 : 27; /* px per step: short when sneaking, long when running */
+    G.phase += Math.abs(dx) / stride * Math.PI;
+    var a = G.amt, s = Math.sin(G.phase);
+    var bob = -Math.abs(s) * (Q.creep ? 1.4 : 2 + 4.5 * a) * a;
+    var lean = (Q.creep ? 4 : 2.5 + 1.5 * a) * a;          /* nose a little forward, more when running */
+    var sway = Math.sin(G.phase) * 1.8 * a;                /* the body rocks from paw to paw */
+    var sq = Math.cos(G.phase * 2) * 0.03 * a;             /* squash on landing, stretch on the push */
+    var low = Q.creep ? 0.05 : 0;
+    pose.style.translate = "0 " + (bob + (Q.creep ? 3 : 0)).toFixed(2) + "px";
+    pose.style.rotate = (lean + sway).toFixed(2) + "deg";
+    pose.style.scale = (1 + sq).toFixed(3) + " " + (1 - sq - low).toFixed(3);
+    var foot = Math.floor(G.phase / Math.PI);
+    if (foot !== G.foot) { G.foot = foot; if (a > 0.3) SND.paw(speed > 230); }
+  }
+  /* a change of direction plays a quick pivot instead of a slow mirror */
+  function turned(actor, flip) {
+    flip = !!flip;
+    if (actor.lastFlip !== undefined && actor.lastFlip !== flip && !reduced && !story.classList.contains("is-still")) {
+      var p = actor.pose; p.classList.remove("st-turn"); void p.offsetWidth; p.classList.add("st-turn");
+      clearTimeout(actor.turnT); actor.turnT = setTimeout(function () { p.classList.remove("st-turn"); }, 360);
+    }
+    actor.lastFlip = flip;
+  }
   var capIdx = -1, lineIdx = -1, clock = 0, lastRefl = -1, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 1, windNow = 0.2, heads = null;
   function render(tReal) {
     var t = reduced ? KEY_T[sceneOf(tReal)] : tReal;
@@ -510,7 +546,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       setCls(A.sunnyRoot, "st-slow", S.slow); setCls(A.sunnyRoot, "st-hold", S.hold && track(UMB_VIS, t) > 0); setCls(A.sunnyRoot, "st-reach", S.reach); setCls(A.sunnyRoot, "st-hug", S.hug); setCls(A.sunnyRoot, "st-mend", S.mend);
       setCls(A.sunny.el, "has-mend", S.mend);
       setCls(A.sunny.pose, "st-sit", S.sit); setCls(A.sunny.pose, "st-bend", S.bend); setCls(A.sunny.pose, "st-tremble", S.tremble); setCls(A.sunny.pose, "st-breath", S.breath);
-      setCls(A.sunny.flip, "is-flipped", S.flip);
+      turned(A.sunny, S.flip); setCls(A.sunny.flip, "is-flipped", S.flip);
       lookAt(A.sunnyLook, (S.look || [0, 0])[0], (S.look || [0, 0])[1], S.flip, 5, 4);
       var sway = reduced ? 0 : Math.sin(clock * 1.3) * 2.4 * (0.4 + windNow), uo = track(UMB_OPEN, t), uv = track(UMB_VIS, t), ur = track(UMB_ROT, t);
       A.umbTilt.setAttribute("transform", "rotate(" + (ur + sway).toFixed(2) + ")");
@@ -518,16 +554,18 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       A.umbG.style.opacity = uv;
       var Q = states(PUP_S, t), px = track(PUP_X, t);
       place(A.pup, px, 17 / 220, track(PUP_OP, t));
-      setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act);
+      /* walking and running are drawn from the real speed below, not from a fixed loop */
+      setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act === "run" ? null : Q.act);
       setCls(A.pupRoot, "st-rest", Q.rest);
       setCls(A.pup.el, "is-wet", Q.wet); setCls(A.pup.el, "has-scarf-g", Q.scarf === "g"); setCls(A.pup.el, "has-scarf-w", Q.scarf === "w");
-      setCls(A.pup.pose, "st-shiver", Q.shiver); setCls(A.pup.pose, "st-creep", Q.creep); setCls(A.pup.pose, "st-trot", Q.trot); setCls(A.pup.pose, "st-lean", Q.lean);
-      setCls(A.pup.flip, "is-flipped", Q.flip);
+      setCls(A.pup.pose, "st-shiver", Q.shiver && !gaitOn()); setCls(A.pup.pose, "st-lean", Q.lean);
+      gait(A.pup.pose, px, Q);
+      turned(A.pup, Q.flip); setCls(A.pup.flip, "is-flipped", Q.flip);
       lookAt(A.pupLooks, (Q.look || [0, 0])[0], (Q.look || [0, 0])[1], Q.flip, 22, 16, true);
       for (var d = 0; d < 3; d++) {
         var D = states(DOG_S[d], t), dg = A.dogs[d], dx = track(DOG_X[d], t);
         place(dg, dx, 8 / 220, t < 30.5 && !inRoom ? Math.min(1, Math.max(0, (2260 - dx) / 220)) : 0, dg.size, dg.h);
-        setCls(dg.pose, "st-walk", D.walk); setCls(dg.pose, "st-loom", D.loom); setCls(dg.pose, "st-hesitate", D.hesitate); setCls(dg.pose, "st-leave", D.leave); setCls(dg.flip, "is-flipped", D.flip);
+        setCls(dg.pose, "st-walk", D.walk); setCls(dg.pose, "st-loom", D.loom); setCls(dg.pose, "st-hesitate", D.hesitate); setCls(dg.pose, "st-leave", D.leave); turned(dg, D.flip); setCls(dg.flip, "is-flipped", D.flip);
       }
       var ra = Math.round(P.refl * 100) / 100;
       if (ra !== lastRefl) {
@@ -662,9 +700,32 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     whimper: function (at) { voice({ at: at, type: "triangle", f: [[0, 880], [0.2, 1330], [0.42, 1180], [0.66, 760]], vib: [7, 26], form: [[1450, 3, 1.1], [3000, 4, 0.35]], vol: 0.09, dur: 0.7, a: 0.07, r: 0.2, breath: 0.012 }); },
     whimperFear: function (at) { voice({ at: at, type: "triangle", f: [[0, 1050], [0.14, 1520], [0.3, 1380], [0.5, 1000]], vib: [11, 40], form: [[1700, 3, 1.1], [3300, 4, 0.4]], vol: 0.1, dur: 0.52, a: 0.04, r: 0.16, breath: 0.015 }); SND.whimper((at || 0) + 0.62); },
     whine: function (at) { voice({ at: at, type: "triangle", f: [[0, 700], [0.26, 1080], [0.44, 1260]], vib: [6, 18], form: [[1400, 3, 1]], vol: 0.08, dur: 0.48, a: 0.08, r: 0.14, breath: 0.01 }); },
-    barkScared: function (at) { voice({ at: at, f: [[0, 980], [0.02, 1260], [0.1, 720]], form: [[1750, 5, 1], [3200, 6, 0.45]], vol: 0.075, dur: 0.12, a: 0.004, r: 0.07 }); noise(0.05, "bandpass", 2700, 1, 0.03, at); },
-    barkHappy: function (at) { voice({ at: at, f: [[0, 760], [0.025, 1020], [0.12, 620]], form: [[1500, 4, 1], [2900, 5, 0.5]], vol: 0.1, dur: 0.15, a: 0.004, r: 0.08 }); noise(0.06, "bandpass", 2300, 1, 0.035, at); },
-    yips: function (at) { at = at || 0; SND.barkHappy(at); SND.barkHappy(at + 0.2); voice({ at: at + 0.42, f: [[0, 1150], [0.05, 1350], [0.09, 950]], form: [[1900, 5, 1]], vol: 0.07, dur: 0.1, a: 0.003, r: 0.05 }); },
+    /* a bark: the pitch jumps up and falls, two detuned voices and a square for the edge, a little distortion for the
+       rasp, three mouth formants, a breath at the start and a soft chest thump underneath */
+    bark: function (at, o) {
+      if (!live()) return; var t = ac.currentTime + (at || 0), d = o.dur;
+      var env = ac.createGain(); env.gain.setValueAtTime(0.0001, t); env.gain.exponentialRampToValueAtTime(o.vol, t + 0.007);
+      env.gain.exponentialRampToValueAtTime(o.vol * 0.55, t + d * 0.4); env.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      var ws = ac.createWaveShaper(), k = o.rasp || 10, n = 512, curve = new Float32Array(n);
+      for (var q = 0; q < n; q++) { var x = q * 2 / n - 1; curve[q] = (1 + k) * x / (1 + k * Math.abs(x)); }
+      ws.curve = curve;
+      [["sawtooth", 0], ["sawtooth", 9], ["square", -6]].forEach(function (v, vi) {
+        var osc = ac.createOscillator(); osc.type = v[0]; osc.detune.value = v[1];
+        osc.frequency.setValueAtTime(o.f[0], t); osc.frequency.linearRampToValueAtTime(o.f[1], t + d * 0.16); osc.frequency.exponentialRampToValueAtTime(o.f[2], t + d);
+        var g = ac.createGain(); g.gain.value = vi === 2 ? 0.35 : 0.5; osc.connect(g); g.connect(ws); osc.start(t); osc.stop(t + d + 0.03);
+      });
+      ws.connect(env);
+      o.form.forEach(function (fm) { var bp = ac.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = fm[0]; bp.Q.value = fm[1]; var fg = ac.createGain(); fg.gain.value = fm[2]; env.connect(bp); bp.connect(fg); fg.connect(master); });
+      noise(Math.min(0.06, d * 0.4), "bandpass", o.form[1][0], 1.1, o.vol * 0.45, at);                     /* the breath that starts it */
+      var th = ac.createOscillator(); th.type = "sine"; th.frequency.setValueAtTime(o.f[0] * 0.5, t); th.frequency.exponentialRampToValueAtTime(o.f[2] * 0.4, t + d * 0.6);
+      var tg = ac.createGain(); tg.gain.setValueAtTime(0.0001, t); tg.gain.exponentialRampToValueAtTime(o.vol * 0.6, t + 0.01); tg.gain.exponentialRampToValueAtTime(0.0001, t + d * 0.6);
+      th.connect(tg); tg.connect(master); th.start(t); th.stop(t + d);
+    },
+    barkScared: function (at) { SND.bark(at, { f: [640, 1020, 560], dur: 0.13, vol: 0.085, rasp: 6, form: [[1100, 5, 1], [2300, 7, 0.55], [3600, 8, 0.25]] }); },
+    barkHappy: function (at) { SND.bark(at, { f: [520, 820, 430], dur: 0.17, vol: 0.1, rasp: 9, form: [[900, 5, 1], [1900, 7, 0.6], [3200, 8, 0.25]] }); },
+    yips: function (at) { at = at || 0; SND.barkHappy(at); SND.barkHappy(at + 0.22); SND.bark(at + 0.46, { f: [760, 1150, 820], dur: 0.11, vol: 0.075, rasp: 5, form: [[1200, 5, 1], [2500, 7, 0.55], [3800, 8, 0.2]] }); noise(0.18, "bandpass", 1300, 0.9, 0.02, at + 0.62); },
+    arf: function (at) { SND.bark(at, { f: [480, 700, 380], dur: 0.2, vol: 0.09, rasp: 12, form: [[850, 5, 1], [1800, 7, 0.6], [3000, 8, 0.25]] }); },
+    paw: function (run) { if (!live()) return; noise(0.03, "bandpass", run ? 1100 : 1500, 1, run ? 0.016 : 0.011); if (outdoor && rainNow > 0.2) noise(0.05, "highpass", 2600, 0.7, 0.012, 0.01); },
     pant: function (at, n, fast) { at = at || 0; n = n || 7; var gap = fast ? 0.15 : 0.2; for (var i = 0; i < n; i++) noise(0.1, "bandpass", i % 2 ? 1100 : 1500, 0.9, i % 2 ? 0.02 : 0.03, at + i * gap); },
     sniff: function (at) { at = at || 0; for (var i = 0; i < 3; i++) noise(0.045, "highpass", 2400, 0.8, 0.035, at + i * 0.09); },
     crunch: function (at) { at = at || 0; for (var i = 0; i < 6; i++) noise(0.03, "highpass", 1700 + Math.random() * 900, 0.6, 0.03, at + i * 0.13 + Math.random() * 0.04); },
@@ -673,7 +734,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     shake: function (at) { at = at || 0; for (var i = 0; i < 9; i++) noise(0.05, "bandpass", 1800, 0.8, 0.03, at + i * 0.055); },
     rub: function (at) { at = at || 0; for (var i = 0; i < 8; i++) noise(0.14, "bandpass", 2100, 0.6, 0.028, at + i * 0.17); },
     growl: function (at, dur) { dur = dur || 1.6; voice({ at: at, f: [[0, 82], [dur * 0.5, 96], [dur, 78]], am: 23, form: [[480, 1.2, 1.1], [900, 2, 0.45]], low: [380, 0.8], vol: 0.13, dur: dur, a: 0.3, r: 0.5 }); noise(dur, "lowpass", 360, 0.7, 0.04, at, null, true); },
-    bigBark: function (at) { voice({ at: at, f: [[0, 240], [0.03, 330], [0.22, 170]], form: [[700, 3, 1], [1500, 4, 0.6], [2600, 5, 0.22]], low: [500, 0.6], vol: 0.15, dur: 0.26, a: 0.006, r: 0.12 }); noise(0.12, "bandpass", 900, 1, 0.05, at); },
+    bigBark: function (at) { SND.bark(at, { f: [190, 280, 140], dur: 0.3, vol: 0.16, rasp: 22, form: [[480, 4, 1], [950, 5, 0.7], [2300, 6, 0.3]] }); SND.bark((at || 0) + 0.34, { f: [170, 250, 130], dur: 0.26, vol: 0.12, rasp: 22, form: [[460, 4, 1], [920, 5, 0.7], [2200, 6, 0.3]] }); },
     huff: function (at) { noise(0.35, "bandpass", 650, 0.8, 0.06, at, 380); },
     yelp: function (at) { voice({ at: at, f: [[0, 300], [0.08, 460], [0.16, 400]], form: [[800, 3, 1], [1700, 4, 0.4]], vol: 0.1, dur: 0.18, a: 0.006, r: 0.08 }); },
     paws: function (at, n, soft) { at = at || 0; for (var i = 0; i < (n || 8); i++) noise(0.05, "bandpass", 900, 0.8, soft ? 0.015 : 0.028, at + i * 0.25 + (i % 2) * 0.06); },
@@ -687,7 +748,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   var SUNNY_CUES = { hmm: 1, gasp: 1, swoosh: 1, pop: 1, sigh: 1, tick: 1, aww: 1, ting: 1, ding: 1, bell: 1 };
   var CUES = [[6.5, "hmm"], [8.6, "whimper"], [10.6, "whimper"], [13.15, "thunder"], [13.4, "paws"], [15.0, "gasp"], [15.6, "growl"], [16.3, "swoosh"], [16.6, "whimperFear"], [17.5, "barkScared"], [17.78, "barkScared"], [18.4, "bigBark"], [19.1, "whimperFear"], [20.1, "growlShort"],
     [21.4, "breath"], [23.1, "huff"], [24.6, "pop"], [24.82, "yelp"], [25.4, "huff"], [26.7, "pawsAway"], [28.9, "sigh"], [31.6, "whimper"], [33.8, "tick"], [35.2, "sniff"], [36.2, "crunch"], [37.6, "whine"], [38.9, "aww"], [39.3, "barkHappy"],
-    [40.8, "rub"], [42.6, "shake"], [44.2, "tick"], [45.0, "crunch"], [46.0, "ting"], [47.5, "yips"], [48.1, "pant"], [49.9, "creak"], [50.5, "birds"], [51.4, "pant"], [53.0, "birds"], [53.5, "ding"], [53.95, "yips"], [54.5, "pantFast"], [57.6, "pupSigh"], [61.6, "sleep"], [63.6, "bell"]];
+    [40.8, "rub"], [42.6, "shake"], [44.2, "tick"], [44.9, "arf"], [45.0, "crunch"], [46.0, "ting"], [47.5, "yips"], [48.1, "pant"], [49.9, "creak"], [50.5, "birds"], [51.2, "arf"], [51.4, "pant"], [53.0, "birds"], [53.5, "ding"], [53.95, "yips"], [54.5, "pantFast"], [57.6, "pupSigh"], [61.6, "sleep"], [63.6, "bell"]];
   function cue(n) {
     if (!live()) return;
     if (SUNNY_CUES[n]) { try { if (win.Sunny && win.Sunny.sfx) win.Sunny.sfx(n); } catch (e) { /* optional */ } return; }
@@ -724,6 +785,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   /* ===================================================================== run */
   var tau = 0, prevTau = 0, done = false, started = false, paused = false, waitedFor = 0, rafId = 0;
   var at = qs.get("story-at"); /* a frozen moment, for checking the film */
+  var from = +qs.get("story-from") || 0; /* play from a given second, for checking the film */
   if (at != null) { story.classList.add("is-still"); paused = true; }
   var stylesheetOk = function () { var l = doc.querySelector('link[href*="sunny.css"]'); return !!l && l.media !== "print" && !!l.sheet; };
   function needPuppy() {
@@ -743,7 +805,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var dt = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now; clock += dt;
     if (!started) {
       waitedFor += dt;
-      if (ready()) { try { A = buildActors(); } catch (e) { return finish(true); } started = true; if (at != null) { tau = +at; prevTau = tau; } }
+      if (ready()) { try { A = buildActors(); } catch (e) { return finish(true); } started = true; if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; } }
       else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
     }
     if (started && !paused && !done) {
