@@ -97,16 +97,6 @@
     sections.forEach(function (s) { navObserver.observe(s); });
   }
 
-  /* the hero's first line: where I am and the time there */
-  var clock = $("#navClock");
-  if (clock) {
-    var tick = function () {
-      try { clock.textContent = "Chennai, India · " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) + " IST"; }
-      catch (e) { clock.textContent = "Chennai, India"; }
-    };
-    tick(); setInterval(tick, 30000);
-  }
-
   /* back to top: appears once the page has scrolled a screen or so */
   var toTop = document.createElement("button");
   toTop.type = "button"; toTop.className = "to-top"; toTop.setAttribute("aria-label", "Back to top");
