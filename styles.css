@@ -3550,3 +3550,43 @@ html.reduce-motion .tl__now::before { animation: none; }
   .tl__stop { padding: 0; }
   .tl__dot { left: -26px; top: 2px; }
 }
+
+/* ============================================================
+   Work covers, minimal: one idea per case study, drawn in the page's own colours (light and dark),
+   a single yellow accent. Text sits on the surface, no gradient.
+   ============================================================ */
+.mz { background: var(--surface); border: 1px solid var(--line); }
+.mz .cv { position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 72%; display: block; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.mz--a .cv { top: 4%; height: 70%; }
+.mz:hover .cv { transform: translateY(-3px); }
+.mz__ov { background: none; color: var(--ink); }
+.mz__num { color: var(--muted); }
+.mz__title { color: var(--ink); }
+.mz__tags { color: var(--muted); }
+.mz:hover { border-color: var(--ink); }
+.cv-card { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+.cv-card--on { stroke: var(--blue); stroke-width: 2.5; }
+.cv-mut { fill: var(--line); }
+.cv-mutf { fill: var(--line); }
+.cv-ink { fill: var(--ink); opacity: 0.85; }
+.cv-inkf { fill: var(--ink); }
+.cv-bgf { fill: var(--bg); opacity: 0.55; }
+.cv-sun { fill: var(--sun); }
+.cv-blue { fill: var(--blue); }
+.cv-green { fill: #35b67c; }
+.cv-chip { fill: var(--line); }
+.cv-hl { fill: var(--surface); }
+.cv-knob { fill: #fff; }
+.cv-dotm { fill: var(--muted); }
+.cv-wire { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
+.cv-wire--ink { stroke: #15161a; opacity: 1; stroke-width: 3; }
+.cv-axis { fill: none; stroke: var(--line); stroke-width: 2; stroke-linecap: round; }
+.cv-starO { fill: none; stroke: var(--muted); stroke-width: 1.6; opacity: 0.6; }
+.cv-bubble { fill: #fff; }
+.cv-aa { font: 600 64px/1 var(--font-serif); letter-spacing: -0.03em; fill: var(--ink); }
+.cv-move { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); transform-box: fill-box; transform-origin: center; }
+.mz:hover .cv-move, .wrow:hover .cv-move, .wrow:focus-visible .cv-move { transform: translateY(-4px) scale(1.04); }
+/* the row peek: the same quiet card instead of a screenshot */
+.wrow__peek--cv { display: block; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+.wrow__peek--cv .cv { display: block; width: 100%; height: 100%; }
+@media (max-width: 760px) { .mz .cv { height: 66%; } }
