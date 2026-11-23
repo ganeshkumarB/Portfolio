@@ -43,6 +43,15 @@
 .c2-mono { font-family: var(--font-mono); font-weight: 500; }
 .c2-kicker { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-weight: 500; font-size: 13px; letter-spacing: 0.02em; color: var(--c2-blue); }
 .c2-kicker small { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c2-muted); }
+/* the switch between case studies, at the end of the hero's first line */
+.c2-switch { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; flex: none; padding: 3px; border: 1px solid var(--c2-line); border-radius: 999px; background: var(--card, #fff); }
+.c2-switch__count { padding: 0 10px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c2-muted); text-decoration: none; white-space: nowrap; }
+.c2-switch__count:hover { color: var(--ink); }
+.c2-switch__btn { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--ink); font: 500 14px/1 var(--font-sans); text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+.c2-switch__btn:hover { background: var(--ink); color: var(--bg, #fff); }
+.c2-switch__btn--next { background: var(--c2-yellow, #ffd54a); color: #15161a; }
+.c2-switch__btn--next:hover { background: #15161a; color: #fff; }
+.c2-switch__btn:focus-visible, .c2-switch__count:focus-visible { outline: 2px solid var(--c2-blue); outline-offset: 2px; }
 .c2-num { font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c2-blue); }
 .c2-lbl { font-family: var(--font-mono); font-weight: 500; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c2-muted); line-height: 1.5; }
 .c2-lbl--11 { font-size: 11px; }
@@ -303,17 +312,8 @@
 @media (min-width: 1400px) {
   .nav--rail .nav__pill--case .nav__sep { display: none; }
   .nav--rail .nav__pill--case .nav__link { padding: 4px 0; }
-  /* previous, the case count and next: one small switch at the foot of the sections; names show as tooltips */
-  .nav--rail .nav__switch { display: grid; grid-template-columns: 30px 30px; gap: 6px; width: max-content; margin-top: 20px; padding: 8px 9px 9px; border: 1px solid var(--line); border-radius: 16px; background: var(--card, #fff); }
-  .nav--rail .nav__switch .nav__case { display: block; grid-column: 1 / -1; order: -1; padding: 0 0 2px; text-align: center; font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); text-decoration: none; }
-  .nav--rail .nav__switch .nav__case:hover { color: var(--ink); }
-  .nav--rail .nav__dir, .nav--rail .nav__pill--case .nav__dir { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border-radius: 50%; color: var(--ink); font-weight: 500; transition: background-color 0.2s ease, color 0.2s ease; }
-  .nav--rail .nav__dir::before { display: none; }
-  .nav--rail .nav__dir .nav__txt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .nav--rail .nav__dir .nav__arrow { opacity: 1 !important; transform: none !important; font-size: 13px; line-height: 1; color: inherit; }
-  .nav--rail .nav__dir:hover, .nav--rail .nav__dir:focus-visible { background: var(--ink); color: var(--bg, #fff); }
-  .nav--rail .nav__dir--next { background: var(--sun, #ffd54a); color: #15161a; }
-  .nav--rail .nav__dir--next:hover, .nav--rail .nav__dir--next:focus-visible { background: #15161a; color: #fff; }
+  /* previous and next live in the hero now (c2-switch); the rail keeps only the sections */
+  .nav--rail .nav__switch { display: none; }
 }
 @media (max-width: 1399px) {
   .nav--rail .nav__pill--case .nav__sep { display: none; }

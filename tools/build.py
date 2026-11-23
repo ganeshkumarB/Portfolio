@@ -271,6 +271,19 @@ def section_links(content):
         links.append(f'<a class="nav__link nav__part" href="#{pid}"><span>{esc(label)}</span></a>')
     return links
 
+def case_switch(hero, nav):
+    """Case pages: the hero's "Case study 02 / 07" line becomes the switch between case studies (previous, count, next)."""
+    m = re.search(r'<small>(Case study (\d+) / (\d+))</small>', hero)
+    pv = re.search(r'nav__dir--prev" href="([^"]+)" title="([^"]+)"', nav)
+    nx = re.search(r'nav__dir--next" href="([^"]+)" title="([^"]+)"', nav)
+    if not (m and pv and nx): return hero
+    def btn(href, tip, arrow, cls):
+        return f'<a class="c2-switch__btn{cls}" href="{href}" aria-label="{tip}" data-tip="{tip}"><span aria-hidden="true">{arrow}</span></a>'
+    sw = ('<span class="c2-switch" role="group" aria-label="Case studies">' + btn(pv.group(1), pv.group(2), "←", "")
+          + f'<a class="c2-switch__count" href="index.html#work" data-tip="All case studies">{m.group(1)}</a>'
+          + btn(nx.group(1), nx.group(2), "→", " c2-switch__btn--next") + '</span>')
+    return hero.replace(m.group(0), sw, 1)
+
 def render(p):
     _EXTRA_JS.clear(); _EXTRA_JS.extend(p.get("extra_js", []))
     content = number_sections("\n".join(p["sections"]))
@@ -281,7 +294,7 @@ def render(p):
         if len(links) > 7: nav = nav.replace('class="nav__pill nav__pill--case nav__pill--parts"', 'class="nav__pill nav__pill--case nav__pill--parts nav__pill--dense"')
     out = head(p)
     out += nav
-    out += p["hero"]
+    out += case_switch(p["hero"], nav)
     for s in p.get("pre", []): out += s
     out += '  <main class="cs-content" data-layer="Content">\n' + content + '\n  </main>\n'
     out += p.get("after", "")
