@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261328"
+VER = "20261329"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -207,7 +207,7 @@ def head(p):
 '''
 
 def footer(nxt, back_label="All work", back_href="index.html#work", prev=None):
-    prev_html = (f'<a class="cs-next__prev" href="{prev[0]}"><span class="cs-next__plbl">Previous case study</span><span class="cs-next__pname"><span aria-hidden="true">←</span> {esc(prev[1])}</span></a>' if prev else "")
+    prev_html = (f'<a class="cs-next__prev" href="{prev[0]}"><span class="cs-next__plbl">{"Previous" if prev[0] in [f for f, _ in SERIES] else "Previous case study"}</span><span class="cs-next__pname"><span aria-hidden="true">←</span> {esc(prev[1])}</span></a>' if prev else "")
     return f'''  <footer class="cs-next" data-layer="Next">
     <div class="cs-next__inner">
       <div class="cs-next__main">
@@ -285,6 +285,35 @@ def case_switch(hero, nav):
           + btn(nx.group(1), nx.group(2), "→", " c2-switch__btn--next") + '</span>')
     return hero.replace(m.group(0), sw, 1)
 
+# the four AI pages read as one series, in the home page's order
+SERIES = [("how-i-use-ai.html", "How I work with AI"), ("prompts.html", "My prompt library"),
+          ("how-this-site-was-built.html", "How I built this portfolio"), ("meet-sunny.html", "Meet Sunny, the mascot")]
+SERIES_HOME = ("index.html#ai", "the AI section")
+
+def series_links(file):
+    """(index, previous, next) for a page in SERIES; ends link back to the AI section."""
+    files = [f for f, _ in SERIES]
+    if file not in files: return None
+    i = files.index(file)
+    prev = SERIES[i - 1] if i > 0 else None
+    nxt = SERIES[i + 1] if i < len(SERIES) - 1 else None
+    return i, prev, nxt
+
+def series_switch(hero, file):
+    """The hero's first line gets the same switch as a case study: previous, AI 01 / 04, next."""
+    r = series_links(file)
+    if not r: return hero
+    i, prev, nxt = r
+    def btn(target, tip, arrow, cls):
+        return f'<a class="c2-switch__btn{cls}" href="{target}" aria-label="{esc(tip)}" data-tip="{esc(tip)}"><span aria-hidden="true">{arrow}</span></a>'
+    back = (SERIES_HOME[0], "Back to " + SERIES_HOME[1])
+    sw = ('<span class="c2-switch" role="group" aria-label="AI pages">'
+          + btn(*(prev and (prev[0], "Previous: " + prev[1]) or back), "←", "")
+          + f'<a class="c2-switch__count" href="{SERIES_HOME[0]}" data-tip="All four, on the home page">AI {i + 1:02d} / {len(SERIES):02d}</a>'
+          + btn(*(nxt and (nxt[0], "Next: " + nxt[1]) or back), "→", " c2-switch__btn--next") + '</span>')
+    m = re.search(r'(<p class="c2-kicker[^"]*">.*?)(</p>)', hero, re.S)
+    return hero[:m.start(2)] + sw + hero[m.start(2):] if m else hero
+
 def render(p):
     _EXTRA_JS.clear(); _EXTRA_JS.extend(p.get("extra_js", []))
     content = number_sections("\n".join(p["sections"]))
@@ -295,12 +324,20 @@ def render(p):
         if len(links) > 7: nav = nav.replace('class="nav__pill nav__pill--case nav__pill--parts"', 'class="nav__pill nav__pill--case nav__pill--parts nav__pill--dense"')
     out = head(p)
     out += nav
-    out += case_switch(p["hero"], nav)
+    out += series_switch(case_switch(p["hero"], nav), p["file"])
     for s in p.get("pre", []): out += s
     out += '  <main class="cs-content" data-layer="Content">\n' + content + '\n  </main>\n'
     out += p.get("after", "")
     pv = re.search(r'nav__dir--prev" href="([^"]+)" title="Previous: ([^"]+)"', p["nav"])  # the case before this one, from its own nav
-    out += footer(p["next"], p.get("back_label", "All work"), p.get("back_href", "index.html#work"), (pv.group(1), pv.group(2)) if pv else None)
+    prev = (pv.group(1), pv.group(2)) if pv else None
+    nxt, back_label, back_href = p["next"], p.get("back_label", "All work"), p.get("back_href", "index.html#work")
+    sr = series_links(p["file"])
+    if sr:  # AI pages: previous and next in the series, and the way back to the AI section
+        i, sp, sn = sr
+        prev = sp
+        nxt = dict(label=f"Next · {i + 2:02d} / {len(SERIES):02d}", title=sn[1], href=sn[0]) if sn else dict(label="That’s all four", title="Back to the AI section", href=SERIES_HOME[0])
+        back_label, back_href = ("Back to the AI section", SERIES_HOME[0]) if sn else ("All work", "index.html#work")
+    out += footer(nxt, back_label, back_href, prev)
     return out
 
 def build_css():

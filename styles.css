@@ -3654,3 +3654,18 @@ html.reduce-motion .tl__now::before { animation: none; }
 .mz--a .cv.k { top: 3%; height: 79%; }
 #case-design-system .cv.k { top: 4%; height: 64%; }
 #case-operator-console .cv.k { top: 3%; height: 70%; }
+#case-operator-console .cv.k { top: 2.5%; height: 74%; padding: 0 1.5%; }
+@media (max-width: 1080px) { #case-operator-console .cv.k { height: 76%; } }
+/* tablets: Zobot across the top, the other two side by side below, each tall enough for its drawing and title */
+@media (min-width: 721px) and (max-width: 1080px) {
+  .work__mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: none; height: auto; }
+  .mz--a { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 8.5; }
+  .mz:not(.mz--a) { aspect-ratio: 5 / 4.4; }
+  .mz .cv.k, #case-design-system .cv.k, #case-operator-console .cv.k { top: 4%; height: 62%; }
+  .mz--a .cv.k { top: 3%; height: 74%; }
+}
+/* phones: one column, a little taller than 16:10 so the title never meets the drawing */
+@media (max-width: 720px) {
+  .mz, .mz--a { aspect-ratio: 4 / 3.5; }
+  .mz .cv.k, #case-design-system .cv.k, #case-operator-console .cv.k, .mz--a .cv.k { top: 4%; height: 60%; }
+}
