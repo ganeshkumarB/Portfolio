@@ -3627,10 +3627,17 @@ html.reduce-motion .tl__now::before { animation: none; }
 .k-big { font: 600 22px/1 var(--font-serif); letter-spacing: -0.02em; fill: var(--ink); }
 .k-word { font: 600 76px/1 var(--font-serif); letter-spacing: -0.04em; fill: var(--ink); }
 .wrow__peek--cv { width: 340px; aspect-ratio: 16 / 10; padding: 6px; }
-.mz .cv.k { top: 2%; height: 74%; padding: 0 4%; box-sizing: border-box; }
+.mz .cv.k { top: 5%; height: 70%; padding: 0 3%; box-sizing: border-box; } /* the frame is cropped to the drawing, so it fills the card */
+.mz--a .cv.k { top: 7%; height: 68%; }
+.mz .mz__ov { padding-top: 6px; }
 .k-dash { fill: rgba(77,141,255,0.06); stroke: var(--blue); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .k-wire--dash { stroke-dasharray: 3 3; }
 .k-cursor { fill: #15161a; stroke: #fff; stroke-width: 1; stroke-linejoin: round; }
 .k-ring { stroke: var(--card); stroke-width: 2; }
 .k-tick { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .k-violet { fill: #8b5cf6; }
+/* small tiles: clear of the Start here badge above and the title below */
+#case-design-system .cv.k { top: 17%; height: 55%; }
+#case-operator-console .cv.k { top: 5%; height: 62%; }
+/* wide screens: the mosaic grows with the page, so the drawings grow too instead of leaving side space */
+@media (min-width: 1400px) { .work__mosaic { height: clamp(520px, 34vw, 660px); } }
