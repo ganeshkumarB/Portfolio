@@ -45,6 +45,22 @@
 .rp-bar b { font-size: 0.78em; font-weight: 500; color: #9a9ea8; }
 .rp-bar.is-on b { color: #15161a; }
 .rp-bar__tip { position: absolute; top: -1.9em; padding: 0.25em 0.6em; border-radius: 0.4em; background: #15161a; color: #fff; font-size: 0.8em; font-weight: 600; }
+/* chats by type: a donut with its legend */
+.rp-donut { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 1.2em; }
+.rp-donut__svg { display: block; width: 100%; max-width: 12em; height: auto; justify-self: center; }
+.rp-donut__legend { display: flex; flex-direction: column; gap: 0.9em; }
+.rp-donut__row { display: grid; grid-template-columns: 0.8em 1fr auto; column-gap: 0.6em; align-items: center; font-size: 0.9em; color: #61656e; }
+.rp-donut__row i { width: 0.8em; height: 0.8em; border-radius: 0.25em; }
+.rp-donut__row b { font-weight: 600; color: #15161a; }
+.rp-donut__row em { grid-column: 2 / -1; font-style: normal; font-size: 0.85em; color: #9a9ea8; }
+/* incoming chats by hour: 24 bars */
+.rp-hours { position: relative; display: grid; grid-template-columns: repeat(24, 1fr); gap: 0.35em; align-items: end; height: 7em; padding-top: 1.6em; }
+.rp-hour { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 100%; }
+.rp-hour i { display: block; width: 100%; height: var(--h); border-radius: 0.25em 0.25em 0 0; background: #c8dcff; }
+.rp-hour.is-hi i { background: #93b8ff; }
+.rp-hour.is-on i { background: #2f6fe0; }
+.rp-hour .rp-bar__tip { top: -1.7em; white-space: nowrap; }
+.rp-hours__axis { display: flex; justify-content: space-between; margin-top: 0.4em; font-size: 0.75em; color: #9a9ea8; }
 .rp-heat { display: grid; grid-template-columns: 3.2em 1fr; gap: 0.6em; align-items: stretch; }
 .rp-heat__labels { display: grid; grid-template-rows: repeat(3, 1fr); font-size: 0.78em; color: #9a9ea8; }
 .rp-heat__labels span { display: flex; align-items: center; }

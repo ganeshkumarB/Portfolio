@@ -15,53 +15,58 @@ def _ico(name):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{RAIL_ICO[name]}</svg>'
 
 def _chart():
-    """Three smooth lines, a grid, hour labels and a tooltip. 560×200 units."""
-    def path(pts, color, fill=None):
-        d = f"M{pts[0][0]} {pts[0][1]}"
-        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
-            mx = (x0 + x1) / 2
-            d += f" C{mx} {y0} {mx} {y1} {x1} {y1}"
-        out = f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2"/>'
-        if fill:
-            out = f'<path d="{d} V190 H{pts[0][0]} Z" fill="{fill}"/>' + out
-        return out
-    xs = [40, 100, 160, 220, 280, 340, 400, 460, 520]
-    total = list(zip(xs, [120, 100, 70, 85, 60, 50, 80, 95, 110]))
-    inc = list(zip(xs, [150, 140, 125, 130, 118, 112, 128, 140, 150]))
-    outg = list(zip(xs, [175, 170, 160, 165, 150, 155, 162, 170, 176]))
-    s = ['<svg viewBox="0 0 560 210" class="rp-chart__svg" aria-hidden="true">']
-    for y, lab in ((40, "300"), (90, "200"), (140, "100")):
-        s.append(f'<path d="M40 {y}H540" stroke="#eef0f2"/><text x="8" y="{y + 3}" font-size="9" fill="#9a9ea8">{lab}</text>')
-    s.append(path(total, "#2bb59a", "rgba(43,181,154,0.12)")); s.append(path(inc, "#4d8dff", "rgba(77,141,255,0.10)")); s.append(path(outg, "#c084fc", "rgba(192,132,252,0.10)"))
-    for x, lab in zip(xs[:-1] + [xs[-1]], ["1 AM", "4 AM", "7 AM", "10 AM", "1 PM", "4 PM", "7 PM", "10 PM", ""]):
-        if lab: s.append(f'<text x="{x}" y="204" font-size="9" fill="#9a9ea8" text-anchor="middle">{lab}</text>')
-    s.append('<path d="M340 30V190" stroke="#d7dae0" stroke-dasharray="3 3"/>')
-    s.append('<g transform="translate(350 40)"><rect width="128" height="70" rx="8" fill="#fff" stroke="#e6e7ea"/><text x="10" y="18" font-size="10" font-weight="600" fill="#15161a">09 Sep, 3 PM</text>'
+    """Grouped bars: total, incoming and outgoing chats per three-hour slot, with the 4 PM tooltip. 560×222 units, sample data."""
+    slots = ["1 AM", "4 AM", "7 AM", "10 AM", "1 PM", "4 PM", "7 PM", "10 PM"]
+    total = [140, 120, 210, 240, 280, 320, 230, 170]
+    inc = [70, 60, 110, 125, 130, 145, 115, 85]
+    outg = [40, 35, 70, 80, 95, 109, 70, 50]
+    top, base, scale = 84, 206, 118 / 320
+    s = ['<svg viewBox="0 0 560 222" class="rp-chart__svg" aria-hidden="true">']
+    for v in (100, 200, 300):
+        y = base - v * scale
+        s.append(f'<path d="M40 {y:.1f}H548" stroke="#eef0f2"/><text x="8" y="{y + 3:.1f}" font-size="9" fill="#9a9ea8">{v}</text>')
+    s.append(f'<path d="M40 {base}H548" stroke="#e6e7ea"/>')
+    gw, bw = 63, 13
+    for k, lab in enumerate(slots):
+        x0 = 48 + k * gw
+        on = lab == "4 PM"
+        if on: s.append(f'<rect x="{x0 - 5}" y="{base - 320 * scale - 8:.1f}" width="{3 * bw + 14}" height="{320 * scale + 8:.1f}" rx="6" fill="#f3f6ff"/>')
+        for n, (vals, col) in enumerate(((total, "#2bb59a"), (inc, "#4d8dff"), (outg, "#c084fc"))):
+            h = vals[k] * scale
+            s.append(f'<rect x="{x0 + n * (bw + 2)}" y="{base - h:.1f}" width="{bw}" height="{h:.1f}" rx="3" fill="{col}"{"" if on else " opacity=\"0.85\""}/>')
+        s.append(f'<text x="{x0 + 1.5 * bw + 2}" y="219" font-size="9" fill="{"#15161a" if on else "#9a9ea8"}" text-anchor="middle"{" font-weight=\"600\"" if on else ""}>{lab}</text>')
+    s.append('<g transform="translate(320 2)"><rect width="128" height="70" rx="8" fill="#fff" stroke="#e6e7ea"/><text x="10" y="18" font-size="10" font-weight="600" fill="#15161a">09 Sep, 4 PM</text>'
              '<circle cx="14" cy="33" r="3" fill="#2bb59a"/><text x="22" y="36" font-size="9" fill="#61656e">Total chats</text><text x="118" y="36" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">320</text>'
              '<circle cx="14" cy="47" r="3" fill="#4d8dff"/><text x="22" y="50" font-size="9" fill="#61656e">Incoming chats</text><text x="118" y="50" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">145</text>'
              '<circle cx="14" cy="61" r="3" fill="#c084fc"/><text x="22" y="64" font-size="9" fill="#61656e">Outgoing chats</text><text x="118" y="64" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">109</text></g>')
     s.append('</svg>')
     return "".join(s)
 
-def _bars():
-    days = [("Mon", 62), ("Tue", 70), ("Wed", 100), ("Thu", 74), ("Fri", 68), ("Sat", 44), ("Sun", 36)]
-    out = ['<div class="rp-bars">']
-    for d, h in days:
-        on = " is-on" if d == "Wed" else ""
-        out.append(f'<div class="rp-bar{on}" style="--h:{h}%">' + ('<span class="rp-bar__tip">1.8K</span>' if on else "") + f'<i></i><b>{d}</b></div>')
-    out.append('</div>')
-    return "".join(out)
+def _donut():
+    """Chats by type: the KPI cards' 10K incoming and 2K outgoing, as a donut. Sample data."""
+    import math
+    parts = [("Incoming", 10, "#4d8dff"), ("Outgoing", 2, "#c084fc")]
+    total = sum(p[1] for p in parts); r = 52; c = 2 * math.pi * r; off = 0
+    arcs = []
+    for name, v, col in parts:
+        L = c * v / total
+        arcs.append(f'<circle cx="70" cy="70" r="{r}" fill="none" stroke="{col}" stroke-width="18" stroke-dasharray="{L - 2:.2f} {c - L + 2:.2f}" stroke-dashoffset="{-off:.2f}" transform="rotate(-90 70 70)"/>')
+        off += L
+    svg = ('<svg viewBox="0 0 140 140" class="rp-donut__svg" aria-hidden="true"><circle cx="70" cy="70" r="52" fill="none" stroke="#f0f2f5" stroke-width="18"/>' + "".join(arcs) +
+           '<text x="70" y="68" font-size="20" font-weight="600" fill="#15161a" text-anchor="middle">12K</text><text x="70" y="84" font-size="9" fill="#9a9ea8" text-anchor="middle">chats today</text></svg>')
+    legend = "".join(f'<div class="rp-donut__row"><i style="background:{col}"></i><span>{name}</span><b>{v}K</b><em>{round(100 * v / total)}%</em></div>' for name, v, col in parts)
+    return f'<div class="rp-donut">{svg}<div class="rp-donut__legend">{legend}</div></div>'
 
-def _heat():
-    shades = {0: "#eaf1ff", 1: "#c8dcff", 2: "#93b8ff", 3: "#5a91f5", 4: "#2f6fe0"}
-    rows = [[0, 1, 1, 1, 2, 2, 2, 4, 3, 2, 1, 0, 1, 2, 3, 4, 4, 4, 4, 4, 1, 1, 0, 0],
-            [2, 1, 0, 2, 0, 1, 2, 0, 4, 3, 2, 4, 1, 3, 4, 0, 4, 3, 2, 4, 0, 1, 1, 0],
-            [1, 1, 2, 1, 1, 0, 1, 4, 4, 4, 2, 0, 2, 4, 4, 4, 2, 0, 1, 3, 2, 2, 1, 0]]
-    out = ['<div class="rp-heat"><div class="rp-heat__labels"><span>&gt;100</span><span>&gt;50</span><span>0–50</span></div><div class="rp-heat__grid">']
-    for r in rows:
-        for v in r:
-            out.append(f'<i style="background:{shades[v]}"></i>')
-    out.append('</div></div>')
+def _hourly():
+    """Incoming chats by hour: 24 bars, the busiest hour marked. Sample data."""
+    vals = [3, 4, 5, 6, 8, 9, 10, 18, 22, 20, 14, 9, 12, 17, 21, 26, 24, 23, 25, 22, 12, 9, 6, 4]
+    peak = vals.index(max(vals))
+    out = ['<div class="rp-hours">']
+    for h, v in enumerate(vals):
+        cls = " is-on" if h == peak else (" is-hi" if v >= 18 else "")
+        tip = '<span class="rp-bar__tip">3 PM · 26</span>' if h == peak else ""
+        out.append(f'<div class="rp-hour{cls}" style="--h:{v / max(vals) * 100:.0f}%">{tip}<i></i></div>')
+    out.append('</div><div class="rp-hours__axis"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>')
     return "".join(out)
 
 def dashboard(small=False, heat=False):
@@ -69,7 +74,7 @@ def dashboard(small=False, heat=False):
     rail = "".join(f'<div class="rp-rail__item{" is-on" if n == "Reports" else ""}">{_ico(i)}<span>{n}</span></div>' for i, n in RAIL)
     nav = "".join(f'<div class="rp-nav__item{" rp-nav__item--g" if k == "g" else ""}{" is-on" if k == "on" else ""}">{n}</div>' for n, k in NAV)
     kpis = "".join(f'<div class="rp-kpi"><span>{l}</span><b>{v}</b><em class="rp-delta rp-delta--{d}">{dl}</em></div>' for l, v, dl, d in KPIS)
-    return f'''<div class="{cls}" role="img" aria-label="The redesigned Chats report: a left rail, a report navigation grouped by question, six KPI cards, a chat-volume trend line chart and chats by day">
+    return f'''<div class="{cls}" role="img" aria-label="The redesigned Chats report: a left rail, a report navigation grouped by question, six KPI cards, chat volume as grouped bars by time of day and chats by type as a donut">
   <div class="rp-top"><div class="rp-search">⌕ Search for chats, visitors and more</div><div class="rp-avail">Available <i></i></div><span class="rp-ava"></span></div>
   <div class="rp-body">
     <div class="rp-rail">{rail}</div>
@@ -78,10 +83,10 @@ def dashboard(small=False, heat=False):
       <div class="rp-main__head"><h4>Chats</h4><span class="rp-select">Today ⌄</span></div>
       <div class="rp-kpis">{kpis}</div>
       <div class="rp-charts">
-        <div class="rp-card rp-chart"><div class="rp-card__head"><h5>Chat volume trend</h5><div class="rp-legend"><span><i style="background:#2bb59a"></i>Total</span><span><i style="background:#4d8dff"></i>Incoming</span><span><i style="background:#c084fc"></i>Outgoing</span></div></div>{_chart()}</div>
-        <div class="rp-card rp-days"><div class="rp-card__head"><h5>Chats by day</h5><span class="rp-sub">This week</span></div>{_bars()}</div>
+        <div class="rp-card rp-chart"><div class="rp-card__head"><h5>Chat volume by time of day</h5><div class="rp-legend"><span><i style="background:#2bb59a"></i>Total</span><span><i style="background:#4d8dff"></i>Incoming</span><span><i style="background:#c084fc"></i>Outgoing</span></div></div>{_chart()}</div>
+        <div class="rp-card rp-days"><div class="rp-card__head"><h5>Chats by type</h5><span class="rp-sub">Today</span></div>{_donut()}</div>
       </div>
-      {('<div class="rp-card rp-heatcard"><div class="rp-card__head"><h5>Incoming chat volume</h5></div>' + _heat() + '</div>') if heat else ''}
+      {('<div class="rp-card rp-heatcard"><div class="rp-card__head"><h5>Incoming chats by hour</h5><span class="rp-sub">Busiest at 3 PM</span></div>' + _hourly() + '</div>') if heat else ''}
     </div>
   </div>
 </div>'''
