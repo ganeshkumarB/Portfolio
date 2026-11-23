@@ -109,29 +109,60 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 @keyframes sst-drip { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(18px); opacity: 0; } }
 .sst-scarf-g, .sst-scarf-w, .sst-mendscarf { opacity: 0; transition: opacity 0.5s ease; }
 .has-scarf-g .sst-scarf-g, .has-scarf-w .sst-scarf-w, .has-mend .sst-mendscarf { opacity: 1; }
-.sst-dog .sst-pose { animation: sst-dogbreath 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
-.sst-dog .sst-pose.st-walk { animation: sst-dogwalk 0.5s ease-in-out infinite alternate; }
-.sst-dog .sst-pose.st-loom { animation: sst-loom 2.4s ease-in-out infinite; }
-.sst-dog .sst-pose.st-hesitate { animation: sst-dogbreath 1.1s ease-in-out infinite; }
-@keyframes sst-dogbreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.008, 1.02); } }
-@keyframes sst-dogwalk { from { transform: translateY(0); } to { transform: translateY(-3px); } }
-@keyframes sst-loom { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
-.sst-dog .sst-over { filter: brightness(var(--dogB, 0.8)) saturate(0.88); }
-.dg-head { transform-box: fill-box; transform-origin: 86% 72%; transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.6, 1); }
-.dg-tail { transform-box: fill-box; transform-origin: 4% 70%; transition: transform 0.6s ease; animation: dg-tailsway 2.8s ease-in-out infinite; }
-@keyframes dg-tailsway { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }
-.dg-ear { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0.35s ease; }
-.dg-leg { transform-box: fill-box; transform-origin: 50% 6%; }
-.st-walk .dg-leg--a { animation: dg-step 0.5s ease-in-out infinite alternate; }
-.st-walk .dg-leg--b { animation: dg-step 0.5s ease-in-out infinite alternate-reverse; }
-@keyframes dg-step { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+/* the street dogs: jointed legs that walk in diagonal pairs, a body that bobs with the stride, a head that leads */
+.sst-dog .sst-pose { transform-origin: 50% 100%; }
+.sst-dog .sst-over { filter: brightness(var(--dogB, 0.8)) saturate(0.9); }
+.sst-dog .sst-over * { transform-box: view-box; }
+.dg-upper { animation: dg-breathe 2.8s ease-in-out infinite; transform-origin: 160px 200px; }
+@keyframes dg-breathe { 0%, 100% { transform: none; } 50% { transform: translateY(-0.6px) scale(1.004, 1.012); } }
+.dg-head { transform-origin: 96px 104px; transition: transform 0.6s cubic-bezier(0.3, 1.2, 0.5, 1); }
+.dg-jaw { transform-origin: 60px 84px; transition: transform 0.3s ease; }
+.dg-ear { transform-origin: 76px 50px; transition: transform 0.35s ease; }
+.dg-tail { transform-origin: 226px 104px; transition: transform 0.6s ease; animation: dg-tailsway 2.6s ease-in-out infinite; }
+@keyframes dg-tailsway { 0%, 100% { rotate: -4deg; } 50% { rotate: 4deg; } }
+.dg-scruff { transform-origin: 100px 98px; transition: transform 0.4s ease; }
+.dg-teeth { opacity: 0; transition: opacity 0.25s ease; }
 .dg-brow--u { opacity: 0; } .dg-brow { transition: opacity 0.3s ease; }
-.dg-eye { transform-box: fill-box; transform-origin: center; transition: transform 0.3s ease; }
-.st-loom .dg-head { transform: rotate(-7deg) translate(-5px, 7px); } .st-loom .dg-tail { transform: rotate(-14deg); } .st-loom .dg-ear { transform: rotate(-4deg); }
-.st-hesitate .dg-head { transform: rotate(7deg) translate(5px, -4px); } .st-hesitate .dg-ear { transform: rotate(26deg); } .st-hesitate .dg-tail { transform: rotate(34deg); }
+.dg-eye { transform-origin: 60px 64px; transition: transform 0.3s ease; }
+/* legs: thigh/upper leg swings from the shoulder or hip, the lower leg folds at the knee or hock while the paw is in the air */
+.dg-leg--fn, .dg-leg--ff { transform-origin: 113px 138px; } .dg-leg--ff { transform-origin: 124px 138px; }
+.dg-leg--bn { transform-origin: 206px 124px; } .dg-leg--bf { transform-origin: 196px 124px; }
+.dg-shin--f { transform-origin: 113px 174px; } .dg-leg--ff .dg-shin--f { transform-origin: 124px 174px; }
+.dg-shin--b { transform-origin: 208px 174px; } .dg-leg--bf .dg-shin--b { transform-origin: 198px 174px; }
+.st-walk .dg-leg { animation: dg-stride var(--gait, 0.62s) linear infinite; }
+.st-walk .dg-shin--f { animation: dg-knee var(--gait, 0.62s) linear infinite; }
+.st-walk .dg-shin--b { animation: dg-hock var(--gait, 0.62s) linear infinite; }
+.st-walk .dg-leg--ff, .st-walk .dg-leg--ff .dg-shin--f, .st-walk .dg-leg--bn, .st-walk .dg-leg--bn .dg-shin--b { animation-delay: calc(var(--gait, 0.62s) * -0.5); }
+@keyframes dg-stride { 0% { transform: rotate(17deg); } 60% { transform: rotate(-17deg); } 80% { transform: rotate(-2deg); } 100% { transform: rotate(17deg); } }
+@keyframes dg-knee { 0%, 58% { transform: none; } 72% { transform: rotate(-42deg); } 88% { transform: rotate(-12deg); } 100% { transform: none; } }
+@keyframes dg-hock { 0%, 58% { transform: none; } 72% { transform: rotate(30deg); } 90% { transform: rotate(6deg); } 100% { transform: none; } }
+.st-walk .dg-upper { animation: dg-bob calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
+@keyframes dg-bob { from { transform: translateY(0) rotate(0.4deg); } to { transform: translateY(-2.5px) rotate(-0.6deg); } }
+.st-walk .dg-head { animation: dg-nod calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
+@keyframes dg-nod { from { rotate: 0deg; } to { rotate: -3deg; } }
+.st-walk .dg-tail { animation: dg-tailwalk calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
+@keyframes dg-tailwalk { from { rotate: -6deg; } to { rotate: 6deg; } }
+/* looming: head down and forward, hackles up, a lifted lip, a slow heave of the chest */
+.st-loom .dg-head { transform: rotate(-9deg) translate(-6px, 10px); }
+.st-loom .dg-scruff { transform: scaleY(1.6); }
+.st-loom .dg-teeth { opacity: 1; }
+.st-loom .dg-tail { transform: rotate(-18deg); animation: none; }
+.st-loom .dg-ear { transform: rotate(-6deg); }
+.st-loom .dg-upper { animation: dg-heave 1.4s ease-in-out infinite; }
+@keyframes dg-heave { 0%, 100% { transform: none; } 50% { transform: translateY(-1px) scale(1.01, 1.025); } }
+/* unsure: head up and back, ears flat, the tail dropping, weight shifting back */
+.st-hesitate .dg-head { transform: rotate(8deg) translate(6px, -4px); }
+.st-hesitate .dg-ear { transform: rotate(24deg); }
+.st-hesitate .dg-tail { transform: rotate(30deg); animation: none; }
 .st-hesitate .dg-brow--m, .st-leave .dg-brow--m { opacity: 0; } .st-hesitate .dg-brow--u, .st-leave .dg-brow--u { opacity: 1; }
-.st-hesitate .dg-eye { transform: scale(1.18); }
-.st-leave .dg-tail { transform: rotate(50deg); animation: none; } .st-leave .dg-ear { transform: rotate(20deg); } .st-leave .dg-head { transform: rotate(4deg) translateY(4px); }
+.st-hesitate .dg-eye { transform: scale(1.16); }
+.st-hesitate .dg-upper { animation: dg-shift 1.2s ease-in-out infinite; }
+@keyframes dg-shift { 0%, 100% { transform: none; } 50% { transform: translateX(4px) rotate(1deg); } }
+/* leaving: a quick trot, tail tucked, head low */
+.st-leave { --gait: 0.46s; }
+.st-leave .dg-tail { transform: rotate(48deg); animation: none; }
+.st-leave .dg-ear { transform: rotate(22deg); }
+.st-leave .dg-head { transform: rotate(5deg) translateY(5px); }
 .sst-towel .tw { animation: sst-rub 0.32s ease-in-out infinite alternate; }
 @keyframes sst-rub { from { transform: translateX(-7px) rotate(-3deg); } to { transform: translateX(7px) rotate(3deg); } }
 .sst-spark { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; opacity: 0; pointer-events: none; }
@@ -397,31 +428,50 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       '<path d="M0 -188L-56 -129M0 -188L0 -129M0 -188L56 -129" stroke="#111" stroke-width="1.6" opacity="0.35"/><path d="M0 -188V-198" stroke="#111" stroke-width="3" stroke-linecap="round"/></g></g></g>';
   }
   function dogSVG(o) {
-    var K = "#100B0E", S = ' stroke="' + K + '" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"';
-    var farEar = o.ear === "flop" ? "" : '<path class="dg-ear" d="M64 54L67 22L85 48Z" fill="' + o.dark + '"' + S + '/>';
-    var ear = o.ear === "flop" ? '<path class="dg-ear" d="M82 52Q104 36 116 60Q120 84 106 88Q100 66 82 60Z" fill="' + o.dark + '"' + S + '/>'
-      : '<g class="dg-ear"><path d="M80 56L92 14L110 50Z" fill="' + o.base + '"' + S + '/><path d="M87 50L92 27L102 49Z" fill="' + o.dark + '"/></g>';
-    var scruff = o.scruff ? '<path d="M66 50L70 38L75 47L80 36L84 48Z" fill="' + o.base + '"' + S + '/>' : "";
-    var saddle = o.saddle ? '<path d="M118 94Q166 82 214 96Q226 106 220 120Q176 106 126 114Q114 104 118 94Z" fill="' + o.dark + '"/>' : "";
-    var tailTip = o.scruff ? '<path d="M240 74L250 62L248 76L258 70L250 82Z" fill="' + o.light + '"' + S + '/>' : "";
+    /* side view, facing left: far legs, tail, body, near legs, then neck and head on top */
+    var K = "#100B0E", S = ' stroke="' + K + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"';
+    function frontLeg(x, fill, cls) {
+      var upper = '<path d="M' + (x - 10) + ' 132 C' + (x - 11) + ' 150, ' + (x - 9) + ' 166, ' + (x - 8) + ' 174 C' + (x - 7) + ' 181, ' + (x + 7) + ' 181, ' + (x + 8) + ' 174 C' + (x + 9) + ' 164, ' + (x + 11) + ' 148, ' + (x + 10) + ' 132 Z" fill="' + fill + '"' + S + '/>';
+      var lower = '<g class="dg-shin--f"><path d="M' + (x - 7) + ' 170 L' + (x + 7) + ' 170 C' + (x + 7) + ' 186, ' + (x + 6) + ' 196, ' + (x + 6) + ' 202 C' + (x + 6) + ' 208, ' + (x + 2) + ' 210, ' + (x - 4) + ' 210 L' + (x - 13) + ' 210 C' + (x - 18) + ' 210, ' + (x - 18) + ' 205, ' + (x - 12) + ' 203 L' + (x - 6) + ' 201 C' + (x - 6) + ' 192, ' + (x - 7) + ' 182, ' + (x - 7) + ' 170 Z" fill="' + fill + '"' + S + '/>' +
+        '<path d="M' + (x - 12) + ' 210 v-3 M' + (x - 7) + ' 210 v-3" stroke="' + K + '" stroke-width="1.4"/></g>';
+      return '<g class="dg-leg ' + cls + '">' + lower + upper + '</g>';
+    }
+    function backLeg(x, fill, cls) {
+      var thigh = '<path d="M' + (x - 16) + ' 112 C' + (x + 8) + ' 106, ' + (x + 24) + ' 120, ' + (x + 20) + ' 142 C' + (x + 17) + ' 158, ' + (x + 10) + ' 168, ' + (x + 9) + ' 174 C' + (x + 8) + ' 181, ' + (x - 5) + ' 181, ' + (x - 5) + ' 174 C' + (x - 7) + ' 160, ' + (x - 18) + ' 146, ' + (x - 16) + ' 112 Z" fill="' + fill + '"' + S + '/>';
+      var lower = '<g class="dg-shin--b"><path d="M' + (x - 4) + ' 170 L' + (x + 8) + ' 170 C' + (x + 7) + ' 184, ' + (x + 3) + ' 194, ' + (x + 3) + ' 202 C' + (x + 3) + ' 208, ' + (x - 1) + ' 210, ' + (x - 6) + ' 210 L' + (x - 15) + ' 210 C' + (x - 20) + ' 210, ' + (x - 20) + ' 205, ' + (x - 14) + ' 203 L' + (x - 8) + ' 201 C' + (x - 7) + ' 192, ' + (x - 5) + ' 182, ' + (x - 4) + ' 170 Z" fill="' + fill + '"' + S + '/></g>';
+      return '<g class="dg-leg ' + cls + '">' + lower + thigh + '</g>';
+    }
+    var ear = o.ear === "flop"
+      ? '<path class="dg-ear" d="M66 46 C80 40, 92 46, 94 58 C96 72, 90 84, 84 88 C80 76, 74 64, 62 56 Z" fill="' + o.dark + '"' + S + '/>'
+      : '<g class="dg-ear"><path d="M64 46 L70 14 L88 42 Z" fill="' + o.base + '"' + S + '/><path d="M70 40 L72 24 L82 40 Z" fill="' + o.dark + '" opacity="0.7"/></g>';
+    var farEar = o.ear === "flop" ? "" : '<path class="dg-ear" d="M78 44 L90 18 L98 46 Z" fill="' + o.dark + '"' + S + '/>';
+    var saddle = o.saddle ? '<path d="M128 94 C158 86, 192 88, 214 98 C216 110, 202 114, 182 110 C160 106, 140 108, 126 106 Z" fill="' + o.dark + '"/>' : "";
+    var scruff = o.scruff ? '<path class="dg-scruff" d="M92 98 L96 86 L102 96 L108 84 L112 96 L118 88 L120 100 Z" fill="' + o.base + '"' + S + '/>' : "";
     return '<svg class="sst-over" viewBox="0 0 260 220" style="top:auto;bottom:0;height:100%" aria-hidden="true">' +
-      '<path class="dg-leg dg-leg--a" d="M188 150Q200 170 198 204Q198 210 192 210L182 210Q178 210 180 204Q182 182 176 160Z" fill="' + o.dark + '"' + S + '/>' +
-      '<path class="dg-leg dg-leg--b" d="M106 148L110 204Q110 210 104 210L96 210Q92 210 94 204L96 150Z" fill="' + o.dark + '"' + S + '/>' +
-      '<g class="dg-tail"><path d="M214 104Q240 100 248 76Q252 66 244 68Q240 90 212 94Z" fill="' + o.base + '"' + S + '/>' + tailTip + '</g>' +
-      '<path d="M86 112Q94 92 130 90Q178 86 214 96Q232 104 228 132Q224 156 196 160Q150 166 112 158Q88 150 86 112Z" fill="' + o.base + '"' + S + '/>' + saddle +
-      '<path d="M112 152Q150 162 196 154Q176 164 132 163Q118 162 112 152Z" fill="' + o.light + '"/>' +
-      '<path class="dg-leg dg-leg--b" d="M178 118Q212 114 220 144Q224 168 210 184L212 204Q212 211 204 211L188 211Q181 211 184 204L192 190Q176 170 174 144Z" fill="' + o.base + '"' + S + '/>' +
-      '<path d="M98 62Q120 68 124 102Q120 136 100 146Q80 138 78 114Q76 84 98 62Z" fill="' + o.base + '"' + S + '/>' +
-      '<path d="M82 110Q96 118 108 116Q104 132 96 140L92 132L86 140L84 128L78 132Q78 120 82 110Z" fill="' + o.light + '"/>' +
-      '<g class="dg-leg dg-leg--a"><path d="M94 136Q112 132 118 148L120 203Q120 211 112 211L96 211Q88 211 91 204L98 194Q90 168 94 136Z" fill="' + o.base + '"' + S + '/><path d="M103 211v-5M111 211v-5" stroke="' + K + '" stroke-width="1.6"/></g>' +
-      '<g class="dg-head">' + farEar +
-        '<path d="M50 62Q70 40 98 50Q116 62 110 88Q104 106 82 110Q58 112 48 98Q44 78 50 62Z" fill="' + o.base + '"' + S + '/>' + scruff +
-        '<path d="M52 74Q32 74 20 84Q12 92 16 101Q30 111 54 104Q60 90 52 74Z" fill="' + o.light + '"' + S + '/>' +
-        '<path d="M22 101Q32 105 42 100" fill="none" stroke="' + K + '" stroke-width="2" stroke-linecap="round"/>' +
-        '<ellipse cx="18" cy="88" rx="7" ry="5.6" fill="#1b1412"/><ellipse cx="16" cy="86" rx="2.2" ry="1.4" fill="#fff" opacity="0.45"/>' + ear +
-        '<g class="dg-eye"><ellipse cx="64" cy="73" rx="5" ry="5.8" fill="#1b1412"/><circle cx="62.4" cy="71" r="1.7" fill="#fff"/></g>' +
-        '<path class="dg-brow dg-brow--m" d="M54 65L73 60" fill="none" stroke="' + K + '" stroke-width="2.4" stroke-linecap="round"/>' +
-        '<path class="dg-brow dg-brow--u" d="M55 61Q63 56 73 59" fill="none" stroke="' + K + '" stroke-width="2.4" stroke-linecap="round"/>' +
+      frontLeg(124, o.dark, "dg-leg--ff") + backLeg(198, o.dark, "dg-leg--bf") +
+      '<g class="dg-upper">' +
+        '<g class="dg-tail"><path d="M222 100 C238 94, 250 82, 254 66 C256 58, 249 57, 247 64 C244 78, 234 88, 220 92 Z" fill="' + o.base + '"' + S + '/>' + (o.scruff ? '<path d="M250 70 l6 -10 l-1 9 l6 -3 l-6 8 z" fill="' + o.light + '"/>' : "") + '</g>' +
+        '<path d="M100 98 C120 86, 178 86, 210 92 C234 96, 240 120, 228 140 C220 152, 204 150, 190 146 C172 142, 152 150, 134 162 C118 170, 98 164, 92 148 C86 128, 88 106, 100 98 Z" fill="' + o.base + '"' + S + '/>' +
+        saddle +
+        '<path d="M134 160 C152 150, 172 143, 190 146 C178 152, 156 158, 140 166 Z" fill="' + o.light + '" opacity="0.85"/>' +
+        '<path d="M96 116 C92 132, 96 152, 108 162 C102 150, 100 134, 104 118 Z" fill="' + o.light + '"/>' +
+        '<path d="M112 100 C150 92, 190 92, 212 98" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.12"/>' +
+      '</g>' +
+      frontLeg(113, o.base, "dg-leg--fn") + backLeg(208, o.base, "dg-leg--bn") +
+      '<g class="dg-upper">' + scruff +
+        '<g class="dg-head">' +
+          '<path d="M122 108 C112 90, 100 76, 86 64 L66 84 C78 98, 88 116, 98 130 Z" fill="' + o.base + '"/>' +
+          '<path d="M118 100 C110 86, 100 74, 88 64 M70 86 C80 100, 88 114, 96 126" fill="none" stroke="' + K + '" stroke-width="2.4" stroke-linecap="round"/>' + farEar +
+          '<path d="M62 44 C82 38, 98 50, 96 68 C94 84, 82 92, 68 90 L40 90 C26 90, 16 86, 14 78 C12 70, 22 66, 36 64 C44 52, 52 46, 62 44 Z" fill="' + o.base + '"' + S + '/>' +
+          '<path d="M40 66 C30 66, 18 70, 15 77 C16 84, 26 88, 40 89 C48 82, 48 72, 40 66 Z" fill="' + o.light + '"/>' +
+          '<g class="dg-jaw"><path d="M20 86 C30 92, 44 94, 58 90" fill="none" stroke="' + K + '" stroke-width="2" stroke-linecap="round"/></g>' +
+          '<path class="dg-teeth" d="M24 86 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4" fill="#fff" stroke="' + K + '" stroke-width="1" stroke-linejoin="round"/>' +
+          '<ellipse cx="15" cy="74" rx="6.5" ry="5.4" fill="#1b1412"/><ellipse cx="13" cy="72" rx="2" ry="1.3" fill="#fff" opacity="0.45"/>' +
+          '<path d="M30 70 Q40 66 52 66" fill="none" stroke="' + K + '" stroke-width="1.2" opacity="0.35"/>' + ear +
+          '<g class="dg-eye"><ellipse cx="58" cy="62" rx="4.6" ry="5.2" fill="#1b1412"/><circle cx="56.6" cy="60.2" r="1.6" fill="#fff"/></g>' +
+          '<path class="dg-brow dg-brow--m" d="M48 55 L66 51" fill="none" stroke="' + K + '" stroke-width="2.3" stroke-linecap="round"/>' +
+          '<path class="dg-brow dg-brow--u" d="M49 52 Q57 47 66 50" fill="none" stroke="' + K + '" stroke-width="2.3" stroke-linecap="round"/>' +
+        '</g>' +
       '</g></svg>';
   }
   var SUN_SIZE = 190, PUP_SIZE = 120;
