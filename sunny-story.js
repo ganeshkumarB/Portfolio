@@ -777,7 +777,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   rafId = requestAnimationFrame(frame);
 
   /* ===================================================================== after the film: both in the corner, then Puppy goes home */
-  var HOME_LINE = "I'm going home. If you need me, turn me on in the accessibility settings.";
+  var HOME_LINE = "I'm heading home. Need me? You can turn me on anytime from Accessibility settings.";
   function afterStory() {
     var tries = 0, t = setInterval(function () {
       var S = win.Sunny;
