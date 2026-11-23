@@ -97,12 +97,12 @@
     sections.forEach(function (s) { navObserver.observe(s); });
   }
 
-  /* rail nav: local time in Chennai beside the utilities */
+  /* the hero's first line: where I am and the time there */
   var clock = $("#navClock");
   if (clock) {
     var tick = function () {
-      try { clock.textContent = "Chennai · " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }); }
-      catch (e) { clock.textContent = "Chennai"; }
+      try { clock.textContent = "Chennai, India · " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) + " IST"; }
+      catch (e) { clock.textContent = "Chennai, India"; }
     };
     tick(); setInterval(tick, 30000);
   }

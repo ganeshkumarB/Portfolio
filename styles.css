@@ -3590,3 +3590,41 @@ html.reduce-motion .tl__now::before { animation: none; }
 .wrow__peek--cv { display: block; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
 .wrow__peek--cv .cv { display: block; width: 100%; height: 100%; }
 @media (max-width: 760px) { .mz .cv { height: 66%; } }
+
+/* Hero, first line: who, then where and the time there */
+.hero__top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 8px; }
+.hero__top .hero__kicker { margin: 0; }
+.hero__where { display: inline-flex; align-items: center; gap: 7px; margin: 0; padding: 8px 14px 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.hero__where svg { flex: none; color: var(--ink); }
+/* the years, highlighted like the headline's last word */
+.hero__years { font-weight: 600; color: var(--ink); background: linear-gradient(transparent 62%, rgba(255, 213, 74, 0.55) 62%, rgba(255, 213, 74, 0.55) 92%, transparent 92%); padding: 0 2px; margin: 0 -2px; }
+:root[data-theme="dark"] .hero__years { background: linear-gradient(transparent 62%, rgba(255, 213, 74, 0.35) 62%, rgba(255, 213, 74, 0.35) 92%, transparent 92%); }
+@media (max-width: 560px) { .hero__top { gap: 8px; } .hero__where, .hero__top .hero__kicker { font-size: 11px; padding: 7px 12px 7px 10px; } }
+
+/* ============================================================
+   Work covers, style A (readable mini UI): the one screen that explains each case, with its real labels.
+   ============================================================ */
+.k-card { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+.k-card--on { stroke: var(--blue); stroke-width: 2.2; }
+.k-thick { stroke: #15161a; stroke-width: 2.4; }
+.k-hl { fill: var(--surface); }
+.k-chip { fill: var(--line); } .k-chipbg { fill: var(--surface); stroke: var(--line); }
+.k-ghostbg { fill: var(--surface); stroke: var(--line); stroke-dasharray: 4 4; }
+.k-before { opacity: 0.55; filter: grayscale(1); }
+.k-sun { fill: var(--sun); } .k-sunl { fill: #ffe9a6; } .k-blue { fill: var(--blue); } .k-bluel { fill: #c8dcff; } .k-greenf, .k-green { fill: #35b67c; } .k-greenl { fill: #dff5ea; } .k-red { fill: #ef5b6b; }
+.k-inkf { fill: var(--ink); } .k-knob { fill: #fff; } .k-bgl { fill: rgba(255,255,255,0.6); } .k-blush { fill: #ff9bb0; opacity: 0.7; } .k-glass { fill: rgba(77,141,255,0.12); stroke: #15161a; stroke-width: 3; }
+.k-sel { stroke: #15161a; stroke-width: 2; }
+.k-wire { fill: none; stroke: var(--muted); stroke-width: 1.5; opacity: 0.6; }
+.k-stroke { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.k-stroke--xl { stroke-width: 5; } .k-stroke--bg { stroke: var(--bg); }
+.k-fill-sun { fill: var(--sun); } .k-fill-card { fill: var(--card); }
+.k-axis { fill: none; stroke: var(--line); stroke-width: 1.5; }
+.k-starO { fill: none; stroke: var(--muted); stroke-width: 1.4; opacity: 0.6; }
+.k-t { font: 500 9.5px/1 var(--font-sans); fill: var(--ink); } .k-t--s { font-size: 8.5px; } .k-t--xs { font-size: 7.5px; } .k-t--b { font-weight: 600; } .k-t--lg { font-size: 15px; font-weight: 600; }
+.k-t--m { fill: var(--muted); } .k-t--bg { fill: #fff; } .k-t--dk { fill: #15161a; } .k-t--green { fill: #1f8a4c; } .k-t--blue { fill: #2f6fe0; }
+.k-eb { font: 500 7px/1 var(--font-mono); letter-spacing: 0.12em; fill: var(--muted); } .k-eb--blue { fill: var(--blue); } .k-eb--violet { fill: #8b5cf6; } .k-eb--green { fill: #1f8a4c; } .k-eb--sun { fill: #c98f00; }
+.k-aa { font: 600 64px/1 var(--font-serif); letter-spacing: -0.03em; fill: var(--ink); }
+.k-big { font: 600 22px/1 var(--font-serif); letter-spacing: -0.02em; fill: var(--ink); }
+.k-word { font: 600 76px/1 var(--font-serif); letter-spacing: -0.04em; fill: var(--ink); }
+.wrow__peek--cv { width: 340px; aspect-ratio: 16 / 10; padding: 6px; }
+.mz .cv.k { top: 2%; height: 74%; padding: 0 4%; box-sizing: border-box; }

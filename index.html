@@ -17,19 +17,19 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261320" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261320" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261320" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261321" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261321" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261321" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261320" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261320" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261321" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261321" /></noscript>
 </head>
 <body id="top">
-  <script src="sunny-story.js?v=20261320"></script>
-  <script src="sunny-loader.js?v=20261320"></script>
+  <script src="sunny-story.js?v=20261321"></script>
+  <script src="sunny-loader.js?v=20261321"></script>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
 
   <!-- ===== Hero ===== -->
@@ -51,7 +51,6 @@
         <a class="nav__link" href="#contact"><svg class="nav__ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg><span>Contact</span></a>
       </div>
       <div class="nav__utils">
-        <span class="nav__clock mono" id="navClock" aria-hidden="true">Chennai</span>
         <button class="nav__theme" id="themeToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false"><span class="nav__theme-icon">☀</span></button>
         <button type="button" class="nav__inspect mono" id="inspectToggle" aria-pressed="false" title="Inspect components (I)" aria-label="Inspect components">{ }</button>
       </div>
@@ -61,9 +60,12 @@
 
     <div class="hero__grid hero__grid--wrapped">
       <div class="hero__copy">
-        <p class="hero__kicker mono" data-intro style="--i:0"><span class="hero__kicker-dot" aria-hidden="true"></span>Ganeshkumar <span aria-hidden="true">·</span> Product Designer</p>
+        <div class="hero__top" data-intro style="--i:0">
+          <p class="hero__kicker mono"><span class="hero__kicker-dot" aria-hidden="true"></span>Ganeshkumar <span aria-hidden="true">·</span> Product Designer</p>
+          <p class="hero__where mono"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14.5s4.5-4.2 4.5-7.8a4.5 4.5 0 0 0-9 0c0 3.6 4.5 7.8 4.5 7.8z"/><circle cx="8" cy="6.6" r="1.6"/></svg><span id="navClock">Chennai, India</span></p>
+        </div>
         <h1 class="hero__title" id="heroTitle">I turn complex product problems into simple, thoughtful experiences.</h1>
-        <p class="hero__lede" data-intro style="--i:2">Senior Product Designer with 8 years of experience designing SaaS products, scalable design systems, and bridging design with engineering at Zoho SalesIQ.</p>
+        <p class="hero__lede" data-intro style="--i:2">Senior Product Designer with <strong class="hero__years">8 years of experience</strong> designing SaaS products, scalable design systems, and bridging design with engineering at Zoho SalesIQ.</p>
         <div class="hero__cta" data-intro style="--i:3">
           <a class="btn btn--primary" href="#work">Explore my work <span class="btn__ico" aria-hidden="true">→</span></a>
           <a class="btn btn--ghost" href="mailto:ganesh.rayanbalu@gmail.com">Get in touch <span class="btn__ico btn__ico--ext" aria-hidden="true">↗</span></a>
@@ -144,24 +146,24 @@
     <p class="work__hurry mono">In a hurry? Start with <a href="#case-zobot">Zobot</a> and the <a href="#case-design-system">Design system</a>. Two reads, about four minutes.</p>
     <p class="sec__label mono">02 / Selected work</p>
     <div class="section__head">
-      <h2 class="section__title">A few problems I’ve worked on.</h2>
+      <h2 class="section__title">Problems I have solved.</h2>
       <p class="section__intro">Products, systems, and experiences shaped around real user needs.</p>
     </div>
 
     <div class="work__list">
       <div class="work__mosaic">
       <a class="mz mz--a" id="case-zobot" href="case-zobot.html" data-reveal>
-        <svg class="cv" viewBox="110 40 710 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><rect class="cv-card" x="150" y="120" width="170" height="60" rx="12"/><circle class="cv-blue" cx="176" cy="150" r="6"/><rect class="cv-mut" x="192" y="145" width="104" height="10" rx="5.0"/><path class="cv-wire" d="M320 150 C 350 150, 350 190, 380 190"/><rect class="cv-card cv-card--on" x="380" y="135" width="210" height="110" rx="16"/><rect class="cv-ink" x="402" y="160" width="130" height="11" rx="5.5"/><rect class="cv-mut" x="402" y="180" width="90" height="8" rx="4.0"/><rect class="cv-chip" x="402" y="203" width="50" height="24" rx="12"/><rect class="cv-sun cv-move" x="460" y="203" width="50" height="24" rx="12"/><rect class="cv-chip" x="518" y="203" width="50" height="24" rx="12"/><path class="cv-wire" d="M590 170 C 620 170, 620 118, 650 118"/><path class="cv-wire" d="M590 214 C 620 214, 620 268, 650 268"/><rect class="cv-card" x="650" y="96" width="130" height="44" rx="12"/><circle class="cv-green" cx="672" cy="118" r="5"/><rect class="cv-mut" x="686" y="113" width="72" height="10" rx="5.0"/><rect class="cv-card" x="650" y="246" width="130" height="44" rx="12"/><circle class="cv-sun" cx="672" cy="268" r="5"/><rect class="cv-mut" x="686" y="263" width="72" height="10" rx="5.0"/></svg>
+        <svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-card" x="14" y="34" width="120" height="48" rx="8"/><text class="k-eb k-eb--blue" x="26" y="51" text-anchor="start">TRIGGER</text><text class="k-t" x="26" y="69" text-anchor="start">Visitor opens /pricing</text><path class="k-wire" d="M134 58 C 146 58, 146 112, 158 112"/><rect class="k-card k-card--on" x="158" y="74" width="128" height="86" rx="10"/><text class="k-eb k-eb--violet" x="170" y="92" text-anchor="start">QUESTION</text><text class="k-t k-t--b" x="170" y="111" text-anchor="start">How big is your team?</text><rect class="k-chip" x="170" y="124" width="34" height="18" rx="9.0"/><text class="k-t k-t--s" x="187.0" y="136.5" text-anchor="middle">1–10</text><rect class="k-sun" x="209" y="124" width="38" height="18" rx="9.0"/><text class="k-t k-t--s k-t--dk" x="228.0" y="136.5" text-anchor="middle">11–50</text><rect class="k-chip" x="252" y="124" width="28" height="18" rx="9.0"/><text class="k-t k-t--s" x="266.0" y="136.5" text-anchor="middle">50+</text><path class="k-wire" d="M286 100 C 298 100, 298 62, 310 62"/><path class="k-wire" d="M286 134 C 298 134, 298 176, 310 176"/><rect class="k-card" x="310" y="40" width="80" height="44" rx="8"/><text class="k-eb k-eb--green" x="320" y="56" text-anchor="start">ACTION</text><text class="k-t" x="320" y="73" text-anchor="start">Starter plan</text><rect class="k-card" x="310" y="154" width="80" height="44" rx="8"/><text class="k-eb k-eb--sun" x="320" y="170" text-anchor="start">HAND OFF</text><text class="k-t" x="320" y="187" text-anchor="start">Sales team</text></svg>
         <span class="work__start work__start--tile">Start here</span>
         <span class="mz__ov"><span class="mz__num mono">01</span><span class="mz__title">Zobot — Chatbot builder</span><span class="mz__tags mono">Complexity → Simplicity · No-code experience</span></span>
       </a>
       <a class="mz" id="case-design-system" href="case-design-system.html" data-reveal>
-        <svg class="cv" viewBox="0 0 400 252" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><text class="cv-aa" x="44" y="120">Aa</text><circle class="cv-inkf" cx="168" cy="58" r="11"/><circle class="cv-sun" cx="168" cy="90" r="11"/><circle class="cv-blue" cx="168" cy="122" r="11"/><path class="cv-wire" d="M184 90 H 206"/><rect class="cv-inkf cv-move" x="214" y="50" width="120" height="30" rx="15"/><rect class="cv-bgf" x="244" y="61" width="60" height="8" rx="4.0"/><rect class="cv-sun" x="214" y="96" width="46" height="26" rx="13"/><circle class="cv-knob" cx="247" cy="109" r="9"/><rect class="cv-card" x="270" y="96" width="64" height="26" rx="8"/></svg>
+        <svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text class="k-aa" x="28" y="92" text-anchor="start">Aa</text><text class="k-t k-t--m" x="30" y="116" text-anchor="start">Inter · 3 weights</text><rect class="k-inkf" x="150" y="40" width="96" height="30" rx="15"/><text class="k-t k-t--bg" x="198" y="59" text-anchor="middle">Primary</text><rect class="k-card" x="150" y="80" width="96" height="30" rx="15"/><text class="k-t" x="198" y="99" text-anchor="middle">Secondary</text><rect class="k-sun" x="258" y="44" width="40" height="22" rx="11"/><circle class="k-knob" cx="287" cy="55" r="8"/><rect class="k-card" x="258" y="84" width="112" height="26" rx="7"/><text class="k-t k-t--m" x="268" y="101" text-anchor="start">Search…</text><rect class="k-chip" x="150" y="126" width="62" height="18" rx="9.0"/><text class="k-t k-t--s" x="181.0" y="138.5" text-anchor="middle">color/ink</text><rect class="k-chip" x="218" y="126" width="62" height="18" rx="9.0"/><text class="k-t k-t--s" x="249.0" y="138.5" text-anchor="middle">radius/md</text><rect class="k-chip" x="286" y="126" width="56" height="18" rx="9.0"/><text class="k-t k-t--s" x="314.0" y="138.5" text-anchor="middle">space/4</text><text class="k-t k-t--m" x="150" y="170" text-anchor="start">147 variables · 26 components · 2 themes</text></svg>
         <span class="work__start work__start--tile">Start here</span>
         <span class="mz__ov"><span class="mz__num mono">02</span><span class="mz__title">Design System</span><span class="mz__tags mono">Tokens · Components · Design-to-code workflow</span></span>
       </a>
       <a class="mz" id="case-operator-console" href="case-operator-console.html" data-reveal>
-        <svg class="cv" viewBox="0 0 400 252" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><rect class="cv-card" x="44" y="36" width="110" height="124" rx="12"/><rect class="cv-hl" x="52" y="48" width="94" height="28" rx="8"/><circle class="cv-blue" cx="66" cy="62" r="6"/><rect class="cv-ink" x="78" y="58" width="56" height="8" rx="4.0"/><circle class="cv-green" cx="66" cy="96" r="6"/><rect class="cv-mut" x="78" y="92" width="52" height="8" rx="4.0"/><circle class="cv-sun" cx="66" cy="130" r="6"/><rect class="cv-mut" x="78" y="126" width="44" height="8" rx="4.0"/><rect class="cv-chip" x="176" y="44" width="140" height="32" rx="16"/><rect class="cv-blue cv-move" x="216" y="88" width="140" height="32" rx="16"/><rect class="cv-bgf" x="234" y="100" width="90" height="8" rx="4.0"/><rect class="cv-chip" x="176" y="132" width="52" height="26" rx="13"/><circle class="cv-dotm" cx="192" cy="145" r="3"/><circle class="cv-dotm" cx="202" cy="145" r="3"/><circle class="cv-dotm" cx="212" cy="145" r="3"/></svg>
+        <svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-card" x="14" y="30" width="106" height="170" rx="8"/><text class="k-eb" x="24" y="47" text-anchor="start">QUEUE</text><rect class="k-hl" x="22" y="56" width="90" height="30" rx="7"/><circle class="k-blue" cx="34" cy="71" r="5"/><text class="k-t k-t--s" x="44" y="74" text-anchor="start">Billing page</text><circle class="k-green" cx="34" cy="101" r="5"/><text class="k-t k-t--s k-t--m" x="44" y="104" text-anchor="start">Pricing</text><circle class="k-sun" cx="34" cy="127" r="5"/><text class="k-t k-t--s k-t--m" x="44" y="130" text-anchor="start">Returning visitor</text><rect class="k-card" x="128" y="30" width="150" height="170" rx="8"/><text class="k-eb" x="138" y="47" text-anchor="start">CONVERSATION</text><rect class="k-chipbg" x="138" y="58" width="120" height="30" rx="10"/><text class="k-t k-t--s" x="146" y="77" text-anchor="start">I can’t find billing.</text><rect class="k-blue" x="156" y="96" width="112" height="30" rx="10"/><text class="k-t k-t--s k-t--bg" x="164" y="115" text-anchor="start">Settings → Billing</text><rect class="k-card" x="138" y="160" width="130" height="26" rx="13"/><text class="k-t k-t--s k-t--m" x="148" y="177" text-anchor="start">Reply…</text><rect class="k-card" x="286" y="30" width="100" height="170" rx="8"/><text class="k-eb" x="296" y="47" text-anchor="start">VISITOR</text><circle class="k-sunl" cx="312" cy="74" r="12"/><text class="k-t k-t--s" x="296" y="106" text-anchor="start">On /pricing</text><text class="k-t k-t--s k-t--m" x="296" y="122" text-anchor="start">3rd visit</text><text class="k-t k-t--s k-t--m" x="296" y="138" text-anchor="start">Came from search</text></svg>
         
         <span class="mz__ov"><span class="mz__num mono">03</span><span class="mz__title">Operator Console</span><span class="mz__tags mono">Product experience · Workflow efficiency</span></span>
       </a>
@@ -172,28 +174,28 @@
           <span class="wrow__title">Reports Revamp</span>
           <span class="wrow__tags mono">Data · Insights · Information architecture</span>
           <span class="wrow__arr" aria-hidden="true">→</span>
-          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv cv--peek" viewBox="0 0 280 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><path class="cv-axis" d="M56 110 H 224"/><rect class="cv-mutf" x="70" y="80" width="22" height="30" rx="5"/><rect class="cv-mutf" x="104" y="58" width="22" height="52" rx="5"/><rect class="cv-mutf" x="138" y="70" width="22" height="40" rx="5"/><rect class="cv-sun cv-move" x="172" y="36" width="22" height="74" rx="5"/></svg></span>
+          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-card" x="24" y="36" width="110" height="62" rx="8"/><text class="k-t k-t--s k-t--m" x="36" y="56" text-anchor="start">Total chats</text><text class="k-big" x="36" y="82" text-anchor="start">12K</text><rect class="k-greenl" x="84" y="70" width="40" height="16" rx="8.0"/><text class="k-t k-t--xs k-t--green" x="104.0" y="81.5" text-anchor="middle">↑ 2.4%</text><rect class="k-card" x="24" y="108" width="110" height="62" rx="8"/><text class="k-t k-t--s k-t--m" x="36" y="128" text-anchor="start">Acceptance</text><text class="k-big" x="36" y="154" text-anchor="start">86%</text><rect class="k-card" x="146" y="36" width="230" height="134" rx="8"/><text class="k-t k-t--s k-t--b" x="158" y="56" text-anchor="start">Chats by time of day</text><rect class="k-bluel" x="166" y="126" width="16" height="30" rx="3"/><rect class="k-bluel" x="192" y="130" width="16" height="26" rx="3"/><rect class="k-bluel" x="218" y="106" width="16" height="50" rx="3"/><rect class="k-bluel" x="244" y="98" width="16" height="58" rx="3"/><rect class="k-bluel" x="270" y="90" width="16" height="66" rx="3"/><rect class="k-sun" x="296" y="76" width="16" height="80" rx="3"/><rect class="k-bluel" x="322" y="102" width="16" height="54" rx="3"/><rect class="k-bluel" x="348" y="116" width="16" height="40" rx="3"/><path class="k-axis" d="M160 156 H 366"/><text class="k-t k-t--m" x="200" y="200" text-anchor="middle">One place for every number</text></svg></span>
         </a>
         <a class="wrow" id="case-outbound" href="case-outbound.html" data-reveal>
           <span class="wrow__num mono">05</span>
           <span class="wrow__title">Campaigns &amp; Messaging</span>
           <span class="wrow__tags mono">Communication · Campaign workflow</span>
           <span class="wrow__arr" aria-hidden="true">→</span>
-          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv cv--peek" viewBox="0 0 280 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><rect class="cv-card" x="52" y="38" width="104" height="64" rx="12"/><rect class="cv-ink" x="66" y="54" width="60" height="8" rx="4.0"/><rect class="cv-mut" x="66" y="70" width="76" height="7" rx="3.5"/><rect class="cv-mut" x="66" y="84" width="50" height="7" rx="3.5"/><path class="cv-wire" d="M162 70 H 196"/><path class="cv-wire" d="M190 63 l7 7 -7 7"/><circle class="cv-blue" cx="220" cy="42" r="9"/><circle class="cv-sun cv-move" cx="220" cy="70" r="9"/><circle class="cv-inkf" cx="220" cy="98" r="9"/></svg></span>
+          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-card" x="16" y="50" width="112" height="116" rx="8"/><circle class="k-sun" cx="34" cy="72" r="10"/><text class="k-t k-t--xs k-t--dk" x="30" y="76" text-anchor="start">1</text><text class="k-t k-t--b" x="50" y="76" text-anchor="start">Write it</text><rect class="k-card" x="144" y="50" width="112" height="116" rx="8"/><circle class="k-chip" cx="162" cy="72" r="10"/><text class="k-t k-t--xs k-t--dk" x="158" y="76" text-anchor="start">2</text><text class="k-t k-t--b" x="178" y="76" text-anchor="start">Who gets it</text><rect class="k-card" x="272" y="50" width="112" height="116" rx="8"/><circle class="k-chip" cx="290" cy="72" r="10"/><text class="k-t k-t--xs k-t--dk" x="286" y="76" text-anchor="start">3</text><text class="k-t k-t--b" x="306" y="76" text-anchor="start">When</text><rect class="k-chip" x="30" y="92" width="84" height="6" rx="3.0"/><rect class="k-chip" x="30" y="104" width="70" height="6" rx="3.0"/><rect class="k-chip" x="30" y="116" width="78" height="6" rx="3.0"/><rect class="k-greenl" x="30" y="134" width="68" height="18" rx="9.0"/><text class="k-t k-t--xs k-t--green" x="64.0" y="146.5" text-anchor="middle">WhatsApp</text><rect class="k-chip" x="158" y="92" width="82" height="18" rx="9.0"/><text class="k-t k-t--s" x="199.0" y="104.5" text-anchor="middle">Visited pricing</text><rect class="k-chip" x="158" y="116" width="62" height="18" rx="9.0"/><text class="k-t k-t--s" x="189.0" y="128.5" text-anchor="middle">Returning</text><text class="k-t k-t--s k-t--m" x="158" y="152" text-anchor="start">Audience, from behaviour</text><rect class="k-bluel" x="286" y="92" width="80" height="18" rx="9.0"/><text class="k-t k-t--xs k-t--blue" x="326.0" y="104.5" text-anchor="middle">Mon 10:00 AM</text><rect class="k-chip" x="286" y="116" width="76" height="18" rx="9.0"/><text class="k-t k-t--s" x="324.0" y="128.5" text-anchor="middle">Once a week</text><path class="k-wire" d="M128 108 H 144"/><path class="k-wire" d="M256 108 H 272"/><text class="k-t k-t--m" x="200" y="205" text-anchor="middle">Write once, send to the right people</text></svg></span>
         </a>
         <a class="wrow" id="case-feedback" href="case-feedback.html" data-reveal>
           <span class="wrow__num mono">06</span>
           <span class="wrow__title">Survey &amp; Feedback</span>
           <span class="wrow__tags mono">User feedback · Experience design</span>
           <span class="wrow__arr" aria-hidden="true">→</span>
-          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv cv--peek" viewBox="0 0 280 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><polygon class="cv-sun" points="76.0,57.0 79.4,65.3 88.4,66.0 81.6,71.8 83.6,80.5 76.0,75.8 68.4,80.5 70.4,71.8 63.6,66.0 72.6,65.3" stroke-linejoin="round"/><polygon class="cv-sun" points="108.0,57.0 111.4,65.3 120.4,66.0 113.6,71.8 115.6,80.5 108.0,75.8 100.4,80.5 102.4,71.8 95.6,66.0 104.6,65.3" stroke-linejoin="round"/><polygon class="cv-sun" points="140.0,57.0 143.4,65.3 152.4,66.0 145.6,71.8 147.6,80.5 140.0,75.8 132.4,80.5 134.4,71.8 127.6,66.0 136.6,65.3" stroke-linejoin="round"/><polygon class="cv-sun" points="172.0,57.0 175.4,65.3 184.4,66.0 177.6,71.8 179.6,80.5 172.0,75.8 164.4,80.5 166.4,71.8 159.6,66.0 168.6,65.3" stroke-linejoin="round"/><polygon class="cv-starO" points="204.0,57.0 207.4,65.3 216.4,66.0 209.6,71.8 211.6,80.5 204.0,75.8 196.4,80.5 198.4,71.8 191.6,66.0 200.6,65.3" stroke-linejoin="round"/><rect class="cv-mut" x="100" y="102" width="80" height="7" rx="3.5"/></svg></span>
+          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-chipbg" x="30" y="30" width="200" height="70" rx="14"/><text class="k-t k-t--b" x="46" y="54" text-anchor="start">How was your chat?</text><circle class="k-sunl k-sel" cx="60" cy="78" r="11"/><circle class="k-inkf" cx="56.15" cy="76.35" r="1.1"/><circle class="k-inkf" cx="63.85" cy="76.35" r="1.1"/><path class="k-stroke" d="M55.6 82.95 Q60 79.1 64.4 82.95"/><circle class="k-card" cx="92" cy="78" r="11"/><circle class="k-inkf" cx="88.15" cy="76.35" r="1.1"/><circle class="k-inkf" cx="95.85" cy="76.35" r="1.1"/><path class="k-stroke" d="M87.6 81.3 H96.4"/><circle class="k-card" cx="124" cy="78" r="11"/><circle class="k-inkf" cx="120.15" cy="76.35" r="1.1"/><circle class="k-inkf" cx="127.85" cy="76.35" r="1.1"/><path class="k-stroke" d="M119.6 80.2 Q124 84.6 128.4 80.2"/><rect class="k-blue" x="150" y="116" width="222" height="50" rx="14"/><text class="k-t k-t--bg k-t--b" x="166" y="138" text-anchor="start">Sorry about that.</text><text class="k-t k-t--s k-t--bg" x="166" y="154" text-anchor="start">Connecting you to a person.</text><path class="k-wire" d="M62 94 C 62 140, 110 140, 148 140"/><text class="k-t k-t--m" x="30" y="200" text-anchor="start">Each rating gets its own reply</text></svg></span>
         </a>
         <a class="wrow" id="case-brand-configuration" href="case-brand-configuration.html" data-reveal>
           <span class="wrow__num mono">07</span>
           <span class="wrow__title">Brand Configuration</span>
           <span class="wrow__tags mono">Configuration · Self-service</span>
           <span class="wrow__arr" aria-hidden="true">→</span>
-          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv cv--peek" viewBox="0 0 280 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><circle class="cv-sun" cx="82" cy="70" r="28"/><path class="cv-wire cv-wire--ink" d="M72 70 a10 10 0 0 0 20 0"/><rect class="cv-blue" x="128" y="46" width="22" height="22" rx="6"/><rect class="cv-inkf" x="156" y="46" width="22" height="22" rx="6"/><rect class="cv-mutf" x="184" y="46" width="22" height="22" rx="6"/><rect class="cv-mut" x="128" y="80" width="78" height="8" rx="4.0"/><circle class="cv-blue cv-move" cx="214" cy="104" r="15"/><path class="cv-bubble" d="M207 100 h14 v8 h-9 l-5 4z"/></svg></span>
+          <span class="wrow__peek wrow__peek--cv" aria-hidden="true"><svg class="cv k" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect class="k-card" x="20" y="26" width="360" height="44" rx="8"/><circle class="k-sun" cx="44" cy="48" r="12"/><text class="k-t k-t--b" x="64" y="46" text-anchor="start">Northwind</text><text class="k-t k-t--s k-t--m" x="64" y="60" text-anchor="start">Business settings · set once</text><rect class="k-card" x="20" y="84" width="112" height="100" rx="8"/><text class="k-t k-t--b" x="32" y="106" text-anchor="start">Website</text><text class="k-t k-t--s k-t--m" x="32" y="122" text-anchor="start">Chat widget</text><rect class="k-sun" x="32" y="150" width="34" height="20" rx="10"/><circle class="k-knob" cx="56" cy="160" r="7"/><rect class="k-card" x="142" y="84" width="112" height="100" rx="8"/><text class="k-t k-t--b" x="154" y="106" text-anchor="start">Mobile app</text><text class="k-t k-t--s k-t--m" x="154" y="122" text-anchor="start">SDK</text><rect class="k-sun" x="154" y="150" width="34" height="20" rx="10"/><circle class="k-knob" cx="178" cy="160" r="7"/><rect class="k-card" x="264" y="84" width="112" height="100" rx="8"/><text class="k-t k-t--b" x="276" y="106" text-anchor="start">WhatsApp</text><text class="k-t k-t--s k-t--m" x="276" y="122" text-anchor="start">Business number</text><rect class="k-inkf" x="276" y="150" width="70" height="20" rx="10.0"/><text class="k-t k-t--s k-t--bg" x="311.0" y="163.5" text-anchor="middle">+ Set up</text></svg></span>
         </a>
       </div>
     </div>
@@ -686,13 +688,13 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261320"></script>
-  <script src="script.js?v=20261320"></script>
-  <script src="creative.js?v=20261320"></script>
-  <script src="sunny.js?v=20261320"></script>
-  <script src="sunny-config.js?v=20261320"></script>
-  <script src="ai/knowledge.js?v=20261320"></script>
-  <script src="sunny-ai.js?v=20261320"></script>
-  <script src="extras.js?v=20261320"></script>
+  <script src="prefs.js?v=20261321"></script>
+  <script src="script.js?v=20261321"></script>
+  <script src="creative.js?v=20261321"></script>
+  <script src="sunny.js?v=20261321"></script>
+  <script src="sunny-config.js?v=20261321"></script>
+  <script src="ai/knowledge.js?v=20261321"></script>
+  <script src="sunny-ai.js?v=20261321"></script>
+  <script src="extras.js?v=20261321"></script>
 </body>
 </html>
