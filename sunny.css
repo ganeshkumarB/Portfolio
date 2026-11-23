@@ -967,13 +967,13 @@ html:not(.has-sunny) .puppy { display: none !important; }
 /* beside Sunny the Ask button sits over the pup's upper right, so its small effects move to the upper left */
 .puppy.is-duo .p-fx--zzz, .puppy.is-duo .p-fx--q, .puppy.is-duo .p-fx--hearts, .puppy.is-duo .p-fx--notes, .puppy.is-duo .p-fx--sweat, .puppy.is-duo .p-fx--dream { transform: translateX(-172px); }
 
-/* ---------- Puppy tail: its own layer behind the body, pivoting where it meets the rump ---------- */
-.p-tail { transform-box: fill-box; transform-origin: 94.5% 61.1%; transition: transform 0.35s ease; animation: pp-tail-idle 2.8s ease-in-out infinite; }
-@keyframes pp-tail-idle { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
-@keyframes pp-tail-wag { from { transform: rotate(-16deg); } to { transform: rotate(18deg); } }
-@keyframes pp-tail-fast { from { transform: rotate(-24deg); } to { transform: rotate(26deg); } }
-@keyframes pp-tail-high { from { transform: rotate(4deg); } to { transform: rotate(26deg); } }
-@keyframes pp-tail-tremble { from { transform: rotate(-34deg); } to { transform: rotate(-29deg); } }
+/* ---------- Puppy tail: the illustration's own tail, cut out as a layer that pivots where it meets the rump ---------- */
+.p-tail { transform-box: fill-box; transform-origin: 38.93% 75.46%; transition: transform 0.35s ease; animation: pp-tail-idle 2.8s ease-in-out infinite; }
+@keyframes pp-tail-idle { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(3deg); } }
+@keyframes pp-tail-wag { from { transform: rotate(-9deg); } to { transform: rotate(10deg); } }
+@keyframes pp-tail-fast { from { transform: rotate(-12deg); } to { transform: rotate(13deg); } }
+@keyframes pp-tail-high { from { transform: rotate(3deg); } to { transform: rotate(14deg); } }
+@keyframes pp-tail-tremble { from { transform: rotate(-16deg); } to { transform: rotate(-13deg); } }
 /* pleased: a steady wag */
 .puppy[data-act="wag"] .p-tail, .puppy.is-near .p-tail, .puppy[data-emotion="happy"] .p-tail, .puppy[data-emotion="love"] .p-tail, .puppy[data-emotion="curious"] .p-tail,
 .puppy[data-act="sniff"] .p-tail, .puppy[data-act="paw"] .p-tail, .puppy[data-act="nudge"] .p-tail, .puppy[data-act="lick"] .p-tail, .puppy[data-act="listen"] .p-tail, .puppy[data-act="howl"] .p-tail { animation: pp-tail-wag 0.3s ease-in-out infinite alternate; }
@@ -986,11 +986,11 @@ html:not(.has-sunny) .puppy { display: none !important; }
 /* dizzy, chasing it: quick and uneven */
 .puppy[data-emotion="dizzy"] .p-tail, .puppy[data-act="tailchase"] .p-tail { animation: pp-tail-wag 0.22s ease-in-out infinite alternate; }
 /* unsure: still */
-.puppy[data-emotion="confused"] .p-tail { animation: none; transform: rotate(-6deg); }
+.puppy[data-emotion="confused"] .p-tail { animation: none; transform: rotate(-3deg); }
 /* low: tucked */
-.puppy[data-emotion="sad"] .p-tail, .puppy[data-emotion="shy"] .p-tail { animation: none; transform: rotate(-34deg); }
+.puppy[data-emotion="sad"] .p-tail, .puppy[data-emotion="shy"] .p-tail { animation: none; transform: rotate(-16deg); }
 .puppy[data-emotion="scared"] .p-tail { animation: pp-tail-tremble 0.12s linear infinite alternate; }
 /* resting: drooped */
-.puppy[data-emotion="sleepy"] .p-tail, .puppy[data-act="sleep"] .p-tail, .puppy[data-act="lie"] .p-tail, .puppy[data-act="yawn"] .p-tail, .puppy[data-act="sit"] .p-tail { animation: none; transform: rotate(-20deg); }
+.puppy[data-emotion="sleepy"] .p-tail, .puppy[data-act="sleep"] .p-tail, .puppy[data-act="lie"] .p-tail, .puppy[data-act="yawn"] .p-tail, .puppy[data-act="sit"] .p-tail { animation: none; transform: rotate(-10deg); }
 .puppy[data-act="sit"] .p-tail { animation: pp-tail-idle 1.6s ease-in-out infinite; }
 .puppy.is-dreaming .p-tail { animation: pp-tail-idle 1.2s ease-in-out infinite; }
