@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261312"
+VER = "20261313"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -254,6 +254,7 @@ NAV_SHORT = {
     "What AI does, what I decide": "Roles", "My workflow": "Workflow", "How I work with AI": "Practice", "AI in my design system": "Design system",
     "When AI gets it wrong": "Mistakes", "Rules I hold to": "Rules", "The prompts": "Prompts", "How to use them": "Using them",
     "The setup": "Setup", "AI draft, my final": "Draft vs final", "The timeline": "Timeline", "What is in the box": "In the box",
+    "Why a mascot": "Why", "What Sunny notices": "Senses", "Sound and voice": "Sound",
 }
 
 def section_links(content):

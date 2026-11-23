@@ -764,7 +764,7 @@
     setMode(global.Sunny && Sunny.mode ? Sunny.mode() : pref);
   }
   global.Puppy = {
-    setMode: setMode, mode: function () { return mode; },
+    setMode: setMode, mode: function () { return mode; }, art: art, /* the pup's SVG markup, for the mascot page's tiles */
     act: function (n, ms) { return act(n, PRI.direct, ms); }, emote: function (n, ms) { emote(n, ms); }, say: function (t, ms) { say(t, ms); },
     moment: function (n) { var m = MOMENTS[n]; return !!(m && mode === "together" && (!m.near || beside()) && m.go()); }, moments: ORDER.slice(), beside: beside,
     story: function () { if (mode === "together" && !storyOn) story(); }, skip: skipStory,

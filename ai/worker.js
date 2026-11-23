@@ -81,7 +81,7 @@ export function buildSystem(K) {
 const SYSTEM = buildSystem(K);
 
 /* ---------- request shaping ---------- */
-const PATH_RE = /^(index\.html(#[a-z-]+)?|#[a-z-]+|case-[a-z-]+\.html(#part-\d\d)?|hire\.html|assets\/Ganeshkumar-B-Resume\.pdf|how-i-use-ai\.html|prompts\.html|how-this-site-was-built\.html)$/;
+const PATH_RE = /^(index\.html(#[a-z-]+)?|#[a-z-]+|case-[a-z-]+\.html(#part-\d\d)?|hire\.html|assets\/Ganeshkumar-B-Resume\.pdf|how-i-use-ai\.html|prompts\.html|how-this-site-was-built\.html|meet-sunny\.html)$/;
 function allowedHref(h) {
   h = String(h).trim().replace(/^\//, "");
   if (h.startsWith("mailto:" + K.mail)) return h;
@@ -116,7 +116,7 @@ export function parseReply(text) {
   let suggest = null;
   reply = reply.replace(/(?:^|\n)\s*Next:\s*(.+?)\s*$/i, (m, q) => { suggest = [q.replace(/^["“]|["”]$/g, "").slice(0, 90)]; return ""; });
   /* bare paths the model may still write become the page's name in the sentence, plus an action */
-  reply = reply.replace(/\(?\/?((?:case-[a-z-]+|hire|how-i-use-ai|prompts|how-this-site-was-built)\.html(?:#[a-z0-9-]+)?)\)?/g, (m, p) => {
+  reply = reply.replace(/\(?\/?((?:case-[a-z-]+|hire|how-i-use-ai|prompts|how-this-site-was-built|meet-sunny)\.html(?:#[a-z0-9-]+)?)\)?/g, (m, p) => {
     const h = allowedHref(p);
     if (!h) return "";
     const path = h.split("#")[0];

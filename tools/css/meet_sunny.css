@@ -1,0 +1,39 @@
+/* ============================================================
+   Meet Sunny, the mascot (Figma: Case — Sunny)
+   Tiles hold the live mascot artwork in a fixed face or act.
+   ============================================================ */
+.sy-stage { position: relative; height: 420px; background: radial-gradient(60% 70% at 50% 55%, #fff1bf 0%, #fff8e3 45%, #fffaf0 100%); border-color: #f1e7c9; display: flex; align-items: flex-end; justify-content: center; gap: 48px; padding: 0 48px 42px; }
+.sy-live { position: relative; }
+.sy-live .sy-tile__art { display: block; width: 100%; height: 100%; }
+.sy-stage__sunny { width: 220px; height: 220px; }
+.sy-stage__puppy { width: 150px; height: 150px; margin-bottom: -8px; }
+.sy-bubble { position: absolute; left: -40px; bottom: calc(100% + 18px); max-width: 240px; width: max-content; padding: 10px 14px; border-radius: 14px 14px 14px 4px; background: #fff; color: var(--ink); font: 600 13px/1.4 var(--font-sans); box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.06); }
+.sy-bubble--puppy { left: auto; right: -30px; bottom: calc(100% + 30px); border-radius: 14px 14px 4px 14px; }
+.sy-tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 12px 12px; margin: 0; border: 1px solid var(--c2-line); border-radius: 12px; background: var(--c2-surface, #f6f6f7); text-align: left; cursor: pointer; font: inherit; color: var(--ink); transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, box-shadow 0.25s ease; }
+.sy-tile:hover, .sy-tile:focus-visible { transform: translateY(-2px); border-color: var(--c2-yellow, #ffc93c); box-shadow: 0 14px 30px -20px rgba(0, 0, 0, 0.35); outline: none; }
+.sy-tile:focus-visible { box-shadow: 0 0 0 3px rgba(255, 201, 60, 0.45); }
+.sy-tile__art { display: block; width: 100%; aspect-ratio: 1; margin-bottom: 6px; }
+.sy-tile__name { font: 600 12px/1.3 var(--font-sans); color: var(--ink); }
+.sy-tile__cap { font: 400 10.5px/1.35 var(--font-sans); color: var(--c2-muted); }
+.sy-tiles { display: grid; grid-template-columns: repeat(var(--n, 7), minmax(0, 1fr)); gap: 14px; }
+.sy-note { margin-top: 18px; color: var(--c2-muted); }
+.sy-sub { margin: 36px 0 2px; font: 600 16px/1.3 var(--font-sans); color: var(--ink); }
+.sy-sub__p { margin: 0 0 16px; color: var(--c2-muted); }
+.sy-modes-lbl { display: block; margin: 36px 0 12px; }
+.sy-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 26px; }
+.sy-pills + .c2-lbl { margin-top: 4px; }
+/* the mascot artwork inside a tile: static, filling the slot, paused until hovered */
+html body .sy-art .sunny, html body .sy-art .puppy { display: block !important; visibility: visible !important; position: static; width: 100%; height: 100%; right: auto; bottom: auto; z-index: auto; pointer-events: none; --pp: 100%; transition: none; }
+.sy-art .sunny__char, .sy-art .puppy__char { position: static; width: 100%; height: 100%; right: auto; bottom: auto; opacity: 1 !important; transform: none !important; translate: none !important; transition: none !important; cursor: inherit; animation: none !important; }
+.sy-art .sunny__svg, .sy-art .puppy__svg { width: 100%; height: 100%; transform: none !important; }
+.sy-tile .sunny__svg *, .sy-tile .puppy__svg * { animation-play-state: paused !important; }
+.sy-tile:hover .sunny__svg *, .sy-tile:hover .puppy__svg *, .sy-tile:focus-visible .sunny__svg *, .sy-tile:focus-visible .puppy__svg * { animation-play-state: running !important; }
+.sy-stage .sunny__svg *, .sy-stage .puppy__svg * { animation-play-state: running !important; }
+.sy-art .sunny__bubble, .sy-art .sunny__ask, .sy-art .sunny__nap, .sy-art .puppy__bubble, .sy-art .puppy__skip { display: none !important; }
+html.reduce-motion .sy-tile .sunny__svg *, html.reduce-motion .sy-tile .puppy__svg * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .sy-tile .sunny__svg *, .sy-tile .puppy__svg * { animation-play-state: paused !important; } }
+:root[data-theme="dark"] .sy-stage { background: radial-gradient(60% 70% at 50% 55%, #3a3220 0%, #23201a 45%, #1c1e24 100%); border-color: #2a2c33; }
+:root[data-theme="dark"] .sy-bubble { background: #f3f4f6; color: #15161a; }
+@media (max-width: 1080px) { .sy-tiles { --n: 4 !important; } .sy-stage { height: 360px; gap: 24px; padding: 0 24px 32px; } .sy-stage__sunny { width: 180px; height: 180px; } .sy-stage__puppy { width: 120px; height: 120px; } }
+@media (max-width: 720px) { .sy-tiles { --n: 3 !important; gap: 10px; } .sy-tile { padding: 8px; } .sy-stage { height: 280px; } .sy-stage__sunny { width: 140px; height: 140px; } .sy-stage__puppy { width: 96px; height: 96px; } .sy-bubble { max-width: 160px; font-size: 12px; } }
+@media (max-width: 480px) { .sy-tiles { --n: 2 !important; } }
