@@ -477,7 +477,7 @@
     var r = rect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     var dx = px - cx, dy = py - cy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 240);
     if (!asleep && !root.hasAttribute("data-act")) look(dx / d * k, dy / d * k * 0.8);
-    if (!asleep) { var f = facingLeft ? -1 : 1; root.style.setProperty("--hx", (f * dx / d * k * 14).toFixed(1) + "px"); root.style.setProperty("--hy", (dy / d * k * 9).toFixed(1) + "px"); root.style.setProperty("--hr", (f * dx / d * k * 4).toFixed(2) + "deg"); }
+    if (!asleep) { var f = facingLeft ? -1 : 1; root.style.setProperty("--hx", (f * dx / d * k * 8).toFixed(1) + "px"); root.style.setProperty("--hy", (dy / d * k * 6).toFixed(1) + "px"); root.style.setProperty("--hr", (f * dx / d * k * 2.5).toFixed(2) + "deg"); }
     var n = d < r.width * 1.2, now = Date.now();
     if (n !== near) {
       near = n; root.classList.toggle("is-near", n);
