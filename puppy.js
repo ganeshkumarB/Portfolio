@@ -92,7 +92,7 @@
   /* ---------- DOM and state ---------- */
   var root, charEl, bubble, svg, lookL, lookR, skipBtn, mode = "sunny";
   var actTimer = 0, sayTimer = 0, emoteTimer = 0, asleep = false, cur = null, lastBubble = 0, lastInput = Date.now(), lastAct = {}, recent = [];
-  var facingLeft = false, ox = 0, dragging = null, storyOn = false, dreaming = false;
+  var facingLeft = false, ox = 0, dragging = null, storyOn = false, dreaming = false, homing = false;
   /* the order the brief asks for: prefs/hide, reduced motion, drag, the visitor, the story, a shared moment, the section, a rare surprise, a noticeable idle, a minor idle */
   var PRI = { minor: 1, major: 2, rare: 3, section: 4, duo: 5, story: 6, event: 7, drag: 8, direct: 9 };
   var CONFIG = {
@@ -122,6 +122,8 @@
   function sense() { return global.Sunny && Sunny.sense ? Sunny.sense() : { reading: false, idle: true, askOpen: false, talking: false }; }
   function off() { return !root || root.classList.contains("is-off"); }
   function cue(n) { if (global.Sunny && Sunny.cue) Sunny.cue(n); }
+  /* Puppy alone: Sunny's engine decides what to do and say, and the pup plays it; the pup keeps only its own small body language */
+  function driven() { return mode === "puppy" && !!(global.Sunny && Sunny.drives && Sunny.drives()); }
   function isNight() { return document.documentElement.getAttribute("data-theme") === "dark"; }
 
   /* ---------- Speech ---------- */
@@ -136,7 +138,8 @@
   /* rationed, and never over Sunny's bubble */
   function speak(text, ms, force) {
     var now = Date.now(), s = sense();
-    if (s.askOpen || s.talking) return false;
+    if (s.askOpen || s.talking || homing) return false;
+    if (!force && driven()) return false; /* Sunny's lines come through instead */
     if (!force && (s.reading || proactive >= CONFIG.maxProactive)) return false;
     if (now - lastBubble < (force ? 3000 : CONFIG.bubbleGap)) return false;
     lastBubble = now; if (!force) proactive++;
@@ -173,6 +176,7 @@
     var now = Date.now();
     if (cur && now < cur.until && pri < cur.pri) return false;
     if (dragging && pri < PRI.drag) return false;
+    if (homing && pri < PRI.direct) return false;
     clearTimeout(actTimer); actToken++;
     root.removeAttribute("data-act"); void root.offsetWidth;
     root.setAttribute("data-act", name);
@@ -318,13 +322,13 @@
     return act(n, PRI.rare);
   }
   function tick() {
-    if (!root || off() || document.hidden || reduced || storyOn) return;
+    if (!root || off() || document.hidden || reduced || storyOn || homing) return;
     var now = Date.now(), s = sense();
     if (asleep) {
       if (!dreaming && Math.random() < 0.06) dream();
       return;
     }
-    if (mode === "puppy" && now - lastInput > CONFIG.sleepAfter && !s.askOpen) { act("sleep", PRI.major); speak(pick(LINES.sleep), 1600); return; }
+    if (mode === "puppy" && !driven() && now - lastInput > CONFIG.sleepAfter && !s.askOpen) { act("sleep", PRI.major); speak(pick(LINES.sleep), 1600); return; }
     if (dragging || (cur && now < cur.until) || root.hasAttribute("data-emotion")) return;
     if (mode === "together" && now > next.duo) {
       next.duo = now + rand(CONFIG.duo);
@@ -334,7 +338,7 @@
       next.rare = now + rand(CONFIG.rare);
       if (!s.reading && !s.askOpen && rareMoment(s)) return;
     }
-    if (now > next.major) {
+    if (now > next.major && !driven()) {
       next.major = now + rand(CONFIG.major) + (s.reading ? 10000 : 0);
       if (!s.askOpen) {
         var w = choose(s.reading ? POOL.majorQuiet : POOL.major, s.reading ? null : SECTION_BOOST[section]);
@@ -659,7 +663,7 @@
       else setTimeout(function () { wake("full"); }, 1500 + Math.random() * 1500);
     });
     S.on("say", function () {
-      if (mode !== "together" || asleep || storyOn) return;
+      if (mode !== "together" || asleep || storyOn || homing) return;
       if (cur && cur.pri >= PRI.duo) return;
       act("listen", PRI.duo); look(1, -0.4, 2600); if (Math.random() < 0.4) setTimeout(nod, 900);
       setTimeout(function () { if (root.getAttribute("data-act") === "listen" && Math.random() < 0.5) { act("tilt", PRI.duo); } else if (root.getAttribute("data-act") === "listen") { stopAct(); act("sniff", PRI.duo); } }, 3200);
@@ -736,11 +740,70 @@
     emote("happy", 1200);
   }
 
+  /* ---------- Going home: after the loading story, the pup says goodbye and trots into its doghouse on the left ---------- */
+  var HOUSE = '<svg viewBox="0 0 150 128" width="150" height="128" aria-hidden="true">' +
+    '<ellipse cx="75" cy="124" rx="66" ry="4" fill="#000" opacity="0.14"/>' +
+    '<path d="M20 60L75 18L130 60V122H20Z" fill="#ffc93c" stroke="#111" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M20 78H130M20 96H130M20 112H130" stroke="#111" stroke-width="1.6" opacity="0.18"/>' +
+    '<path d="M8 64L75 9L142 64L131 72L75 27L19 72Z" fill="#de364d" stroke="#111" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M30 58L75 21" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.35"/>' +
+    '<path class="ph-door" d="M52 122V90a23 23 0 0 1 46 0V122Z" fill="#2b1a10" stroke="#111" stroke-width="3" stroke-linejoin="round"/>' +
+    '<g class="ph-eyes"><circle cx="68" cy="100" r="2.4" fill="#fff"/><circle cx="82" cy="100" r="2.4" fill="#fff"/></g>' +
+    '<g transform="translate(62 44)"><path d="M4 3a3 3 0 1 1 3-2h12a3 3 0 1 1 3 2v4a3 3 0 1 1-3 2H7a3 3 0 1 1-3-2z" fill="#fff" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></g>' +
+    '<g class="ph-heart" transform="translate(112 30)"><path d="M0 4C0-1 7-2 8 3C9-2 16-1 16 4C16 9 8 13 8 15C8 13 0 9 0 4Z" fill="#de364d" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></g>' +
+    '</svg>';
+  var homeEl = null, homeToken = 0;
+  function clearHome(now) {
+    homeToken++; homing = false;
+    if (root) root.classList.remove("is-home");
+    if (!homeEl) return;
+    var el = homeEl; homeEl = null;
+    if (now) { if (el.parentNode) el.parentNode.removeChild(el); return; }
+    el.classList.add("is-out"); setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
+  }
+  function goHome(text, done) {
+    var fin = function () { if (done) { var d = done; done = null; d(); } };
+    if (!root || off() || storyOn || dragging) { fin(); return; }
+    clearHome(true);
+    var mine = ++homeToken, ok = function () { return homeToken === mine && !off(); };
+    homing = true; cancelMoment(); stopAct(); wake(false); hold(PRI.direct, 120000);
+    homeEl = document.createElement("div"); homeEl.className = "puppy-home"; homeEl.setAttribute("aria-hidden", "true"); homeEl.innerHTML = HOUSE;
+    document.body.appendChild(homeEl);
+    void homeEl.offsetWidth; homeEl.classList.add("is-on");
+    var house = homeEl;
+    face(true); look(-1, 0.1, 1600);
+    if (!reduced) { emote("happy", 1400); act("wag", PRI.direct, 1600); }
+    homing = false; say(text, 6400); homing = true;
+    setTimeout(function () {
+      if (!ok()) return;
+      var r = rect(), h = house.getBoundingClientRect(), dx = (h.left + h.width * 0.5) - (r.left + r.width * 0.5);
+      var dur = reduced ? 0 : Math.max(1400, Math.min(4200, Math.abs(dx) / 0.42));
+      homing = false; say(pick(["Bye for now!", "See you soon.", "Off I go."]), 1500); homing = true;
+      if (!reduced) act("run", PRI.direct, dur + 200);
+      moveTo(ox + dx, dur); face(true);
+      setTimeout(function () {
+        if (!ok()) return;
+        stopAct(); look(0, 0, 10);
+        root.classList.add("is-home"); /* into the doorway */
+        setTimeout(function () { if (ok()) house.classList.add("is-in"); }, 650);
+        setTimeout(function () {
+          if (!ok()) return;
+          house.classList.add("is-out");
+          setTimeout(function () { if (!ok()) return; if (house.parentNode) house.parentNode.removeChild(house); if (homeEl === house) homeEl = null; homing = false; cur = null; fin(); }, 750);
+        }, 3400);
+      }, dur + 80);
+    }, 6600);
+  }
+
   /* ---------- Modes ---------- */
   function setMode(m) {
     if (["sunny", "puppy", "together"].indexOf(m) < 0) m = "sunny";
     mode = m;
     if (!root) return;
+    if (homing || homeEl || root.classList.contains("is-home")) { /* a new choice calls the pup back from its walk home */
+      clearHome(m === "sunny"); cur = null; stopAct();
+      root.style.removeProperty("translate"); ox = 0; face(m === "puppy");
+    }
     if (root.getAttribute("data-mode") === m) return;
     root.setAttribute("data-mode", m);
     if (storyOn) skipStory();
@@ -765,7 +828,8 @@
   }
   global.Puppy = {
     setMode: setMode, mode: function () { return mode; }, art: art, /* the pup's SVG markup, for the mascot page's tiles */
-    act: function (n, ms) { return act(n, PRI.direct, ms); }, emote: function (n, ms) { emote(n, ms); }, say: function (t, ms) { say(t, ms); },
+    act: function (n, ms) { return act(n, PRI.direct, ms); }, emote: function (n, ms) { emote(n, ms); }, say: function (t, ms) { if (say(t, ms)) lastBubble = Date.now(); },
+    wake: function () { wake(false); }, look: function (dx, dy, ms) { look(dx, dy, ms || 1500); }, goHome: goHome,
     moment: function (n) { var m = MOMENTS[n]; return !!(m && mode === "together" && (!m.near || beside()) && m.go()); }, moments: ORDER.slice(), beside: beside,
     story: function () { if (mode === "together" && !storyOn) story(); }, skip: skipStory,
     forget: function () { try { localStorage.removeItem(MET); } catch (e) { /* ignore */ } },

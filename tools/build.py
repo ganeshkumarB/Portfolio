@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261313"
+VER = "20261314"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -204,6 +204,7 @@ def head(p):
   <link rel="stylesheet" href="sunny.css?v={VER}" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v={VER}" /></noscript>
 </head>
 <body class="is-ready cs-page c2-page">
+  <script src="sunny-story.js?v={VER}"></script>
   <script src="sunny-loader.js?v={VER}"></script>
 '''
 

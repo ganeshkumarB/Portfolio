@@ -721,6 +721,23 @@ html.no-sunny .puppy { display: none !important; }
 .puppy.is-talking .puppy__bubble { opacity: 1; transform: translateX(0) scale(1); }
 [data-theme="dark"] .puppy__bubble { background: #f3f4f6; color: #15161a; }
 
+/* going home: the doghouse rises at the bottom left, the pup trots over and slips through the doorway */
+.puppy-home { position: fixed; left: 14px; bottom: 0; width: 150px; height: 128px; z-index: 68; pointer-events: none; transform: translateY(110%); opacity: 0; transition: transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.35s ease; }
+.puppy-home svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.puppy-home.is-on { transform: none; opacity: 1; }
+.puppy-home.is-out { transform: translateY(110%); opacity: 0; transition: transform 0.6s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.5s ease 0.1s; }
+.puppy-home .ph-eyes { opacity: 0; transition: opacity 0.3s ease; }
+.puppy-home.is-in .ph-eyes { opacity: 1; animation: ph-blink 2.6s ease-in-out 0.6s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ph-blink { 0%, 44%, 52%, 100% { transform: none; } 48% { transform: scaleY(0.1); } }
+.puppy-home .ph-heart { opacity: 0; }
+.puppy-home.is-in .ph-heart { animation: ph-heart 1.6s ease-out 1 both; }
+@keyframes ph-heart { 0% { opacity: 0; translate: 0 8px; scale: 0.4; } 30% { opacity: 1; scale: 1.1; } 100% { opacity: 0; translate: 0 -22px; scale: 0.9; } }
+[data-theme="dark"] .puppy-home svg { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.4)); }
+.puppy.is-home .puppy__char { opacity: 0; transform: translateY(-4px) scale(0.42); transform-origin: 50% 100%; transition: opacity 0.55s ease 0.1s, transform 0.65s cubic-bezier(0.5, 0, 0.75, 0); }
+.puppy.is-home .puppy__bubble { opacity: 0; }
+@media (max-width: 720px) { .puppy-home { width: 112px; height: 96px; left: 8px; } }
+@media (prefers-reduced-motion: reduce) { .puppy-home, .puppy-home.is-out, .puppy.is-home .puppy__char { transition-duration: 0.01s; } .puppy-home.is-in .ph-eyes, .puppy-home.is-in .ph-heart { animation: none; } }
+
 /* hidden by default: effects and the alternate faces drawn over the illustration */
 .p-fx, .p-eye-happy, .p-eye-x, .p-lids, .p-brows, .p-blush, .p-tongue, .p-tear, .p-m, .p-m-patch { opacity: 0; transition: opacity 0.2s ease; }
 /* whole-figure moves use the 220 box; parts inside the scaled artwork pivot on their own centre */

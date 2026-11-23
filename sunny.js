@@ -217,6 +217,39 @@
     else if (global.Puppy) global.Puppy.setMode("sunny");
   }
 
+  /* ---------- Puppy alone: Sunny's brain keeps running and Puppy plays every part ---------- */
+  function pup() { var P = global.Puppy; return mode === "puppy" && P && P.el && P.mode && P.mode() === "puppy" ? P : null; }
+  function dogLine(t) { return String(t).replace(/\bSunny\b/g, "Puppy"); }
+  var PUP_EMO = { happy: "happy", surprised: "surprised", curious: "curious", wink: "mischievous", sleepy: "sleepy", shy: "shy", excited: "excited", dizzy: "dizzy", angry: "confused", sad: "sad", love: "love", cool: "proud", laugh: "happy", whoa: "surprised", bored: "sleepy", proud: "proud", blush: "shy", focused: "curious", relaxed: "happy", confused: "confused" };
+  /* Sunny's act -> [the pup's version, its own lines (or Sunny's), how long it holds the floor] */
+  var PUP_ACT = {
+    wave: ["wag", null, 2200], hop: ["hop", null, 800], peek: ["peek", null, 2800], stretch: ["stretch", null, 2200], dance: ["bounce", ["Dance break!", "Paws in the air!", "Tail to the beat."], 2000],
+    walk: ["sniff", ["Sniff sniff.", "Patrolling.", "Smells like a case study."], 2600], cycle: ["zoomies", ["Zoom!", "Can't stop. Won't stop."], 2600], swim: ["shake", ["Splash!", "Shake it off."], 1400],
+    drink: ["lick", ["Slurp.", "Water break."], 1800], drunk: ["spin", ["Round and round…", "The page is spinning. Or is that me?"], 1600], joker: ["tailchase", ["Almost got it!", "Ta-da! …it got away."], 2800],
+    smoke: ["sniff", ["Sniff. Fresh air."], 2600], beer: ["lick", ["Slurp. Cheers!"], 1800], sing: ["howl", ["Awoooo ♪", "♪ La la laaa ♪"], 2600], read: ["lie", ["Lying down. Still reading.", "Shh. Good part."], 8000],
+    yoga: ["stretch", ["Downward dog. Literally.", "Namaste."], 2200], skate: ["run", ["Wheee!", "Cruising."], 1000], fish: ["listen", ["Shh. Listening.", "Patience…"], 5000],
+    selfie: ["tilt", ["Say woof!", "Best side."], 2000], skip: ["bounce", ["Boing!", "Cardio!"], 2000], sleep: ["sleep", null, 0]
+  };
+  function pupAct(name, pri) {
+    var P = pup(), m = PUP_ACT[name];
+    if (!P || !m) return false;
+    if (pri == null) pri = PRI.event;
+    var now = Date.now();
+    if (state.cur && now < state.cur.until && pri < state.cur.pri) return false;
+    if (!P.act(m[0], m[2] || undefined)) return false;
+    clearTimeout(actTimer); actToken++;
+    busy = true; state.quietAct = pri <= PRI.ambient;
+    state.lastAct[name] = now;
+    state.recent.push(name); if (state.recent.length > 4) state.recent.shift();
+    var lines = m[1] || ACT_LINES[name];
+    if (lines && Math.random() < 0.8) { if (pri <= PRI.ambient) speak(pick(lines)); else say(pick(lines)); }
+    if (name === "sleep") { asleep = true; state.cur = { name: name, pri: PRI.sleep, until: Infinity }; emit("act", { name: name, pri: pri, ms: 0 }); return true; }
+    state.cur = { name: name, pri: pri, until: now + m[2] };
+    emit("act", { name: name, pri: pri, ms: m[2] });
+    actTimer = setTimeout(function () { busy = false; state.cur = null; }, m[2]);
+    return true;
+  }
+
   function build() {
     root = document.createElement("div");
     root.className = "sunny";
@@ -249,10 +282,14 @@
 
   /* ---------- Speech ---------- */
   /* say: show a bubble now. Used for replies to something the visitor did. */
-  function say(text, ms) {
-    if (mode === "puppy") return; /* Sunny is off stage; the panel still answers */
+  function say(text, ms, tries) {
     /* lines inside an ambient act stay silent while the visitor reads */
     if (state.quietAct && ctx.reading && !state.sayForce) return;
+    if (mode === "puppy") { /* Sunny is off stage: Puppy says it instead */
+      var P = pup();
+      if (!P) { if ((tries || 0) < 12) { var f = state.sayForce; setTimeout(function () { state.sayForce = f; say(text, ms, (tries || 0) + 1); state.sayForce = false; }, 500); } return; }
+      P.say(dogLine(text), ms); emit("say", text); return;
+    }
     clearTimeout(sayTimer);
     bubble.textContent = text;
     root.classList.add("is-talking");
@@ -406,9 +443,10 @@
   /* ---------- Emotions (faces) and mood (the longer-lived state behind them) ---------- */
   var EMOTIONS = { happy: 1800, surprised: 1200, curious: 2000, wink: 900, sleepy: 3000, shy: 1800, excited: 1500, dizzy: 1800, angry: 1500, sad: 2400, love: 2200, cool: 2600, laugh: 1600, whoa: 900, bored: 2400, proud: 2000, blush: 1700, focused: 2600, relaxed: 3000, confused: 1800 };
   function emote(name, ms, silent) {
-    if (!EMOTIONS[name] || mode === "puppy") return;
+    if (!EMOTIONS[name]) return;
     emit("emote", name);
     if (!silent) { if (name === "blush") smileSound(); else if (EMOTION_SFX[name]) cue(EMOTION_SFX[name]); }
+    if (mode === "puppy") { var P = pup(); if (P) P.emote(PUP_EMO[name] || "happy", ms || EMOTIONS[name]); return; }
     clearTimeout(emoteTimer);
     root.removeAttribute("data-emotion");
     void root.offsetWidth;
@@ -523,7 +561,8 @@
      Lines belonging to an ambient act go through speak() and are rationed. */
   function act(name, pri) {
     var a = ACTS[name];
-    if (!a || reduced || mode === "puppy") return false;
+    if (mode === "puppy") return reduced ? false : pupAct(name, pri);
+    if (!a || reduced) return false;
     if (pri == null) pri = PRI.event;
     var now = Date.now();
     if (state.cur && now < state.cur.until && pri < state.cur.pri) return false;
@@ -555,6 +594,7 @@
   function wake() {
     if (!asleep) return;
     asleep = false; stopAct(); cue("pop"); emit("wake");
+    if (mode === "puppy" && global.Puppy && global.Puppy.wake) global.Puppy.wake();
     setMood("happy", 12000);
     emote("surprised"); say(pick(["Huh? I'm awake!", "Was I snoring?", "Oh! Hi."]));
   }
@@ -719,13 +759,13 @@
   function glance() {
     state.lastAct.glance = Date.now();
     var gx = (Math.random() * 2 - 1).toFixed(2), gy = (Math.random() * 1.2 - 0.6).toFixed(2);
+    if (mode === "puppy") { var P = pup(); if (P && P.look) P.look(+gx, +gy, 800 + Math.random() * 600); return; }
     look.style.transform = "translate(" + gx * 5 + "px," + gy * 4 + "px)";
     setTimeout(function () { if (Date.now() - lastInput > 1000) look.style.transform = ""; }, 800 + Math.random() * 600);
   }
   function direct() {
     var now = Date.now();
     moodTick(now); senseTick(now);
-    if (mode === "puppy") return; /* sensing continues for the sidekick; Sunny itself rests */
     if (now < (state.hushUntil || 0)) return; /* hushed: the sidekick is running a scene */
     if (reduced || document.hidden || drag || root.classList.contains("is-carried")) return;
     var idleFor = now - lastInput;
@@ -1054,19 +1094,23 @@
     setMood: function (n, ms) { setMood(n, ms); },
     /* companions */
     mode: function () { return mode; },
-    setMode: function (m) {
+    /* opt.temp: for a moment only (the loading story's goodbye), the visitor's choice stays as it was */
+    setMode: function (m, opt) {
       if (MODES.indexOf(m) < 0) m = "sunny";
+      if (m !== mode && mode === "puppy") { stopAct(); asleep = false; }
       mode = m;
-      try { localStorage.setItem("pref:companion", m); } catch (e) { /* ignore */ }
+      if (!(opt && opt.temp)) { try { localStorage.setItem("pref:companion", m); } catch (e) { /* ignore */ } }
       applyMode(); emit("mode", m);
     },
     on: function (name, fn) { (listeners[name] = listeners[name] || []).push(fn); },
     off: function (name, fn) { var l = listeners[name]; if (l) listeners[name] = l.filter(function (f) { return f !== fn; }); },
     emit: emit,
     /* what Sunny senses right now, for the sidekick */
+    /* true while Sunny's engine is driving Puppy (Puppy alone) */
+    drives: function () { return mode === "puppy" && !reduced; },
     sense: function () { return { reading: ctx.reading, idle: ctx.idle, askOpen: ctx.askOpen, atBottom: ctx.atBottom, talking: !!root && root.classList.contains("is-talking"), asleep: asleep, busy: busy, mood: state.mood, lastInput: lastInput, section: ctx.section }; },
     /* turn the eyes: dx, dy in -1..1, back to the pointer after ms */
-    look: function (dx, dy, ms) { if (!look) return; look.style.transform = "translate(" + (dx * 5).toFixed(1) + "px," + (dy * 4).toFixed(1) + "px)"; setTimeout(function () { look.style.transform = ""; }, ms || 1500); },
+    look: function (dx, dy, ms) { if (mode === "puppy") { var P = pup(); if (P && P.look) P.look(dx, dy, ms || 1500); return; } if (!look) return; look.style.transform = "translate(" + (dx * 5).toFixed(1) + "px," + (dy * 4).toFixed(1) + "px)"; setTimeout(function () { look.style.transform = ""; }, ms || 1500); },
     config: CONFIG,
     debug: function () { return { state: state, ctx: ctx }; },
     acts: Object.keys(ACTS), emotions: Object.keys(EMOTIONS), moods: MOODS, sounds: Object.keys(SFX), el: null

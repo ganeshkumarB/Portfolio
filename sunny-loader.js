@@ -16,6 +16,8 @@
   "use strict";
   var doc = document, html = doc.documentElement;
   var force = /[?&]loader(=|&|$)/.test(location.search);
+  /* the first visit plays the longer story (sunny-story.js) instead; this short loader is for later visits */
+  if (!force && doc.querySelector(".sst")) { try { sessionStorage.setItem("sunny:loaded", "1"); } catch (e) { /* ignore */ } return; }
   try { if (!force && sessionStorage.getItem("sunny:loaded")) return; } catch (e) { /* no storage: play once per load */ }
   try { sessionStorage.setItem("sunny:loaded", "1"); } catch (e) { /* ignore */ }
 
