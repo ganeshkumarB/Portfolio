@@ -387,13 +387,19 @@
       lastInput = now; wake(false); stopAct(); cue("bark");
       if (taps.length >= 3) { emote("dizzy", 1800); act("lie", PRI.direct); say(pick(LINES.triple)); }
       else if (taps.length === 2) { emote("excited", 1800); act("spin", PRI.direct); say(pick(LINES.double)); if (mode === "together") sunnyReact("surprised", 1000); }
-      else { emote("happy", 1600); act("hop", PRI.direct); say(pick(LINES.click)); if (mode === "together" && Math.random() < 0.4) sunnyReact("laugh", 1200, pick(["He likes you.", "Careful, he never stops.", "Yes, he's always like this."])); }
+      else {
+        emote("happy", 1600); act("hop", PRI.direct);
+        /* a click opens the chat; Sunny (or Puppy alone) answers there */
+        var opened = global.Sunny && Sunny.openAsk && Sunny.openAsk();
+        if (!opened) say(pick(LINES.click));
+        if (!opened && mode === "together" && Math.random() < 0.4) sunnyReact("laugh", 1200, pick(["He likes you.", "Careful, he never stops.", "Yes, he's always like this."]));
+      }
     });
     svg.addEventListener("contextmenu", function (e) { e.preventDefault(); stopAct(); emote("confused", 1800); say(pick(LINES.right)); });
 
     /* drag the pup along the bottom edge */
     svg.addEventListener("pointerdown", function (e) {
-      if (e.button !== 0 || storyOn) return;
+      if (e.button !== 0 || storyOn || root.classList.contains("puppy--perch")) return; /* up on the hero perch the pup stays put */
       dragging = { x: e.clientX, start: ox, moved: false };
       try { svg.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointer */ }
       lastInput = Date.now();

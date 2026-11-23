@@ -371,7 +371,7 @@
     root = global.Sunny && Sunny.el;
     if (!root) return false;
     var charEl = root.querySelector(".sunny__char");
-    askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false" title="Ask Sunny (A)">Ask me</button>');
+    askBtn = el('<button type="button" class="sunny__ask" aria-label="Ask Sunny a question" aria-expanded="false"><span class="sunny__ask-ic" aria-hidden="true">✦</span><span class="sunny__ask-txt">Ask me</span><kbd class="sunny__ask-key" aria-hidden="true">A</kbd></button>');
     panel = el(
       '<div class="ask" hidden role="dialog" aria-label="Ask Sunny">' +
         '<div class="ask__head">' + AVA + '<span class="ask__who"><span class="ask__title">Ask Sunny</span><span class="ask__status' + (AI_ENDPOINT ? " is-ai" : "") + '"><span class="ask__status-txt">' + (AI_ENDPOINT ? "AI · answers about " + HIM + "’s work" : "scripted · from the site") + '</span><span class="ask__status-busy">thinking…</span></span></span>' +
@@ -399,11 +399,25 @@
       var off = false; try { off = localStorage.getItem("keys:shortcuts") === "off"; } catch (err) { /* ignore */ }
       if (!off && e.key.toLowerCase() === "a") { e.preventDefault(); setOpen(!open); }
     });
-    setTimeout(function () { if (!open) askBtn.classList.add("is-nudge"); }, 9000);
+    /* the tag shows while the pointer is on a companion (Sunny, Puppy, or the tag itself), then lingers a moment */
+    var hoverOff = 0;
+    function hover(on) {
+      clearTimeout(hoverOff);
+      if (on) root.classList.add("is-ask-hover");
+      else hoverOff = setTimeout(function () { root.classList.remove("is-ask-hover"); }, 450);
+    }
+    document.addEventListener("pointerover", function (e) {
+      if (e.pointerType && e.pointerType !== "mouse") return;
+      var t = e.target.closest && e.target.closest("body > .sunny .sunny__svg, body > .puppy .puppy__svg, .sunny__ask");
+      if (t) hover(true); else if (root.classList.contains("is-ask-hover")) hover(false);
+    }, { passive: true });
+    /* once, a while after arriving, the tag shows itself for a few seconds */
+    setTimeout(function () { if (!open) { askBtn.classList.add("is-nudge"); setTimeout(function () { askBtn.classList.remove("is-nudge"); }, 4200); } }, 9000);
     var how = document.getElementById("sunnyHow");
     if (how && AI_ENDPOINT) how.textContent = "Sunny is an AI. It answers about my work from a fixed set of facts, through my own server; the key never ships with the site. Nothing is stored.";
     global.SunnyAsk = {
       open: function () { setOpen(true); },
+      isOpen: function () { return open; },
       close: function () { setOpen(false); },
       clear: clearAll,
       ask: function (q) { setOpen(true); if (busy || !q) return; var pending = log.querySelector(".ask__chips"); if (pending) pending.remove(); add("you", q); respond(q); },

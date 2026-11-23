@@ -210,7 +210,8 @@
 })();
 
 
-/* Hero 18: Sunny peeks from behind the bridge card, ducks when you hover it, and glides to its corner once you scroll. */
+/* Hero 18: the companion peeks from behind the bridge card, ducks when you hover it, and flies to its corner once you scroll.
+   The companion is Sunny, or Puppy when the visitor chose Puppy alone (in Together, Sunny perches and Puppy keeps the corner). */
 (function () {
   "use strict";
   var card = document.getElementById("heroCard"), bridge = document.getElementById("bridge");
@@ -218,37 +219,67 @@
   var wide = window.matchMedia("(min-width: 1081px)");
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
   if (reduced) return;
-  var root = null, chr = null, mode = "dock", raf = 0, greeted = false;
+  var A = null, mode = "dock", raf = 0, greeted = false, flight = null;
 
+  function companion() { return window.Sunny && window.Sunny.mode ? window.Sunny.mode() : "sunny"; }
+  /* who perches: Sunny, or Puppy when it is alone */
+  function pick() {
+    if (companion() === "puppy") {
+      var p = document.querySelector("body > .puppy");
+      if (!p || p.classList.contains("is-off")) return null;
+      return { root: p, chr: p.querySelector(".puppy__char"), kind: "puppy", perch: "puppy--perch", landing: "puppy--landing" };
+    }
+    var s = document.querySelector("body > .sunny");
+    if (!s || !s.querySelector(".sunny__char")) return null;
+    return { root: s, chr: s.querySelector(".sunny__char"), kind: "sunny", perch: "sunny--perch", landing: "sunny--landing" };
+  }
+  function sunnyRoot() { return document.querySelector("body > .sunny"); }
+  /* Puppy on the perch: Sunny's corner (and its Ask tag) steps aside */
+  function mark() { var s = sunnyRoot(); if (s) s.classList.toggle("is-pup-perched", !!A && A.kind === "puppy" && mode === "hero"); }
   function place() {
-    if (!root || mode !== "hero") return;
-    var r = bridge.getBoundingClientRect();
+    if (!A || mode !== "hero") return;
+    var r = bridge.getBoundingClientRect(), root = A.root, chr = A.chr;
     var size = chr.offsetWidth || 150;
-    var cx = r.right - size - 36;            /* character box left */
-    var cy = r.top - size * 0.78;            /* chin on the card's top edge, eyes clear above it */
+    var cx = r.right - size - 36;                          /* character box left */
+    var cy = r.top - size * (A.kind === "puppy" ? 0.74 : 0.78); /* chin on the card's top edge, eyes clear above it */
     root.style.left = Math.round(cx + size - root.offsetWidth) + "px";
     root.style.top = Math.round(cy + size - root.offsetHeight) + "px";
     root.style.right = "auto"; root.style.bottom = "auto";
   }
+  function clearPos(root) { root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
+  /* let go of the current companion without a flight (the visitor switched companions) */
+  function release() {
+    if (!A) return;
+    if (flight) { try { flight.cancel(); } catch (e) { /* ignore */ } flight = null; }
+    A.root.classList.remove(A.perch, A.landing, "is-duck", "is-flying");
+    if (A.kind === "sunny") A.root.classList.remove("is-flip");
+    clearPos(A.root);
+    A = null; mode = "dock"; mark();
+  }
   function setMode(next) {
-    if (!root || next === mode) return;
+    if (!A || next === mode) return;
+    var root = A.root, chr = A.chr, kind = A.kind;
     var from = chr.getBoundingClientRect();
-    mode = next;
-    root.classList.add("sunny--landing");
-    if (next === "hero") { root.classList.add("sunny--perch"); place(); }
-    else { root.classList.remove("sunny--perch", "is-duck"); root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
+    mode = next; mark();
+    root.classList.add(A.landing);
+    if (next === "hero") { root.classList.add(A.perch); place(); }
+    else { root.classList.remove(A.perch, "is-duck"); clearPos(root); }
     var to = chr.getBoundingClientRect();
     var dx = from.left - to.left, dy = from.top - to.top;
     /* Superman: crouch, launch, a curved flight facing the direction of travel, level off, touch down, dust */
-    var S = window.Sunny, going = next === "dock";
-    root.classList.add("is-flying"); root.classList.toggle("is-flip", dx > 0); /* dx is old minus new: positive means we travel left */
+    var S = window.Sunny, P = window.Puppy, going = next === "dock", left = dx > 0; /* dx is old minus new: positive means we travel left */
+    root.classList.add("is-flying"); root.classList.toggle("is-flip", left);
     if (S) { S.emote("cool", 2200); if (S.sounds && S.sounds.indexOf("swoosh") > -1) S.sfx("swoosh"); }
     var land = function () {
-      root.classList.remove("sunny--landing", "is-flying", "is-flip");
+      flight = null;
+      root.classList.remove(A ? A.landing : "sunny--landing", "is-flying");
+      if (kind === "puppy") root.classList.add("is-flip"); /* alone, the pup faces the page */
+      else root.classList.remove("is-flip");
       dust();
+      if (kind === "puppy" && P && P.pant) P.pant(2400);
       if (S) {
         if (S.sounds && S.sounds.indexOf("land") > -1) S.sfx("land");
-        if (going) { S.emote("proud", 1800); S.say("Up, up and… down here.", 2600); }
+        if (going) { S.emote("proud", 1800); S.say(kind === "puppy" ? "Up, up and… paws down." : "Up, up and… down here.", 2600); }
         else { S.emote("curious", 1500); S.say("Back on my perch.", 2000); }
       }
     };
@@ -261,9 +292,11 @@
     var p0 = [sx, sy], p1 = [sx + (0 - sx) * 0.12, sy - lift], p2 = [(0 - sx) * -0.3, -lift * 0.75], p3 = [0, 0];
     function bez(t, a, b2, c, d) { var m = 1 - t; return m * m * m * a + 3 * m * m * t * b2 + 3 * m * t * t * c + t * t * t * d; }
     function lerp(a, b2, t) { return a + (b2 - a) * t; }
-    function pose(t) { /* lean back on take-off, tip into a horizontal cruise, level off for landing */
-      var dir = dx > 0 ? -1 : 1; /* face the way we go (the svg is mirrored when flying left) */
-      var r = t < 0.14 ? lerp(0, -22, t / 0.14) : t < 0.55 ? lerp(-22, 78, (t - 0.14) / 0.41) : t < 0.88 ? lerp(78, 14, (t - 0.55) / 0.33) : lerp(14, 0, (t - 0.88) / 0.12);
+    /* Sunny tips into a horizontal cruise; the pup flies nose first, body level, so its lean is smaller */
+    var back = kind === "puppy" ? -10 : -22, cruise = kind === "puppy" ? 22 : 78, settle = kind === "puppy" ? 6 : 14;
+    function pose(t) { /* lean back on take-off, tip into the cruise, level off for landing */
+      var dir = left ? -1 : 1; /* face the way we go */
+      var r = t < 0.14 ? lerp(0, back, t / 0.14) : t < 0.55 ? lerp(back, cruise, (t - 0.14) / 0.41) : t < 0.88 ? lerp(cruise, settle, (t - 0.55) / 0.33) : lerp(settle, 0, (t - 0.88) / 0.12);
       return r * dir;
     }
     var frames = [{ transform: "translate(" + sx + "px," + sy + "px) scale(1.06, 0.92)", offset: 0 }];
@@ -275,12 +308,13 @@
     }
     frames.push({ transform: "translateY(7px) scale(1.1, 0.88)", offset: 0.95 }, { transform: "translateY(-3px) scale(0.98, 1.03)", offset: 0.985 }, { transform: "none", offset: 1 });
     try {
-      chr.animate(frames, { duration: going ? 1700 : 1500, easing: "cubic-bezier(0.42, 0.02, 0.2, 1)" }).onfinish = land;
+      flight = chr.animate(frames, { duration: going ? 1700 : 1500, easing: "cubic-bezier(0.42, 0.02, 0.2, 1)" });
+      flight.onfinish = land;
     } catch (e) { land(); }
   }
   function tick() {
     raf = 0;
-    if (!root) return;
+    if (!A) return;
     if (!wide.matches) { setMode("dock"); return; }
     var top = bridge.getBoundingClientRect().top;
     if (mode === "hero" && top < 120) setMode("dock");
@@ -288,19 +322,31 @@
     place();
   }
   function schedule() { if (!raf) raf = setTimeout(tick, 16); }
-
-  function hook() {
-    root = document.querySelector(".sunny"); if (!root) return false;
-    chr = root.querySelector(".sunny__char"); if (!chr) return false;
-    mode = "dock";
+  /* start (or restart, after a companion switch) on the page as it is: no flight, just sit where we belong */
+  function attach() {
+    var n = pick();
+    if (!n) return false;
+    if (A && A.root === n.root) return true;
+    release(); A = n; mode = "dock";
     if (wide.matches && bridge.getBoundingClientRect().top > 180) {
-      root.classList.add("sunny--perch"); mode = "hero"; place();
-      setTimeout(function () { if (mode === "hero" && window.Sunny && !greeted) { greeted = true; window.Sunny.emote("curious"); window.Sunny.say("Boo. Hover the card, it tilts.", 3000); } }, 1400);
+      A.root.classList.add(A.perch); mode = "hero"; place(); mark();
+      if (A.kind === "puppy") A.root.classList.add("is-flip");
+      if (!greeted) setTimeout(function () { if (mode === "hero" && window.Sunny && !greeted) { greeted = true; window.Sunny.emote("curious"); window.Sunny.say("Boo. Hover the card, it tilts.", 3000); } }, 1400);
     }
+    return true;
+  }
+  function retry(n) { if (attach()) return; if (n > 0) setTimeout(function () { retry(n - 1); }, 150); }
+  var hooked = false;
+  function hook() {
+    if (!attach()) return false;
+    if (hooked) return true;
+    hooked = true;
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
-    bridge.addEventListener("mouseenter", function () { if (mode === "hero") { root.classList.add("is-duck"); if (window.Sunny) window.Sunny.emote("shy", 1600); } });
-    bridge.addEventListener("mouseleave", function () { root.classList.remove("is-duck"); });
+    bridge.addEventListener("mouseenter", function () { if (A && mode === "hero") { A.root.classList.add("is-duck"); if (window.Sunny) window.Sunny.emote("shy", 1600); } });
+    bridge.addEventListener("mouseleave", function () { if (A) A.root.classList.remove("is-duck"); });
+    /* a different companion chosen in the preferences: hand the perch over */
+    if (window.Sunny && window.Sunny.on) window.Sunny.on("mode", function () { release(); retry(40); });
     return true;
   }
   var tries = 0;

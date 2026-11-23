@@ -73,7 +73,7 @@ HERO = f'''  <section class="cs-hero" data-layer="Hero">
 
 WHY = grid([card("Notices you", "Reacts to scrolling, idling, leaving the tab, a right-click, or being picked up."),
             card("Knows the page", "Comments on the section you’re reading and points to the work behind it."),
-            card("Answers questions", "The Ask panel answers questions about my work, backed by a small knowledge file.")], 3)
+            card("Answers questions", "Click Sunny or Puppy, or press A, and the Ask panel answers questions about my work from a small knowledge file.")], 3)
 
 SENSES = cols([(None, "Drag and throw", "Pick Sunny up and let go; it lands, wobbles and has opinions."), (None, "Idle time", "Leave it alone and it gets bored, then sleepy, then naps."),
                (None, "Time of day", "Morning, evening and night change the greetings and the energy."), (None, "Reading", "Scrolling and section changes shape what it comments on.")], 4) + \
@@ -81,7 +81,7 @@ SENSES = cols([(None, "Drag and throw", "Pick Sunny up and let go; it lands, wob
                (None, "Keyboard", "Responds to keys and shortcuts on the site."), (None, "Nap button", "A small “zz” button lets visitors send Sunny to sleep.")], 4)
 
 GROUPS = "Everyday: wave, hop, peek, stretch, dance, walk, skip, sleep · Hobbies: cycle, swim, skate, fish, yoga, read, sing, selfie, joker · Off-duty: drink, beer, drunk, smoke"
-MODES = grid([card("Sunny", "Alone, full size."), card("Puppy", "Alone, 150px."), card("Together", "Puppy at 60% beside Sunny.")], 3)
+MODES = grid([card("Sunny", "Alone, full size."), card("Puppy", "Alone, 150px. Plays Sunny’s part, perch and cape included."), card("Together", "Puppy at 60% beside Sunny.")], 3)
 PUPPY_BODY = (f'<h3 class="sy-sub">Puppy’s faces</h3><p class="c2-p sy-sub__p">Default pose plus {len(P_EMOTIONS)} emotions.</p>' + tiles(PE_TILES)
               + f'<h3 class="sy-sub">Things Puppy does</h3><p class="c2-p sy-sub__p">{len(P_ACTS)} small dog acts. Hover a tile to play it, click to send it to the real pup.</p>' + tiles(PA_TILES)
               + '<p class="c2-lbl sy-modes-lbl">Companion modes</p>' + MODES)

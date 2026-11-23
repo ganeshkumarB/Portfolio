@@ -784,6 +784,8 @@
     else act(what, PRI.ambient);
   }
 
+  /* clicking a companion opens the chat (once open, further clicks are just play) */
+  function openAsk() { var A = global.SunnyAsk; if (!A || (A.isOpen && A.isOpen())) return false; A.open(); return true; }
   /* ---------- Interaction ---------- */
   var px = -1e4, py = -1e4, raf = 0, nearNow = false, taps = [], drag = null;
   function onPointer(e) {
@@ -819,6 +821,7 @@
       noticed(); stopAct(); emit("click", taps.length);
       if (taps.length >= 3) { smileSound(); setMood("dizzy", 8000); emote("angry", 0, true); say(pick(["Okay, okay! Personal space.", "Hey! Not a button.", "That tickles. Stop. Don't stop."])); }
       else if (taps.length === 2) { smileSound(); setMood("excited", 15000); emote("dizzy", 0, true); act("hop", PRI.direct); say(pick(["Whee!", "Again! Again!", "Woo!"])); }
+      else if (openAsk()) { setMood("happy", 20000); emote("blush"); } /* a click is a question waiting to happen: open the chat */
       else if ((tipTurn = !tipTurn)) { setMood("happy", 20000); emote("wink"); say("Tip: " + pick(TIPS), 4200); }
       else { setMood("happy", 20000); emote("blush"); say(pick(["Hey!", "Hi there!", "That tickles!", "Boop received.", "Oh! Hello.", "Aw, stop it."])); }
     });
@@ -1070,6 +1073,7 @@
     /* slide the character sideways for a moment (the stage is only as wide as Sunny, so this is the only way to step toward a friend) */
     shift: function (dx, ms) { if (!charEl) return; charEl.style.setProperty("--walk-ms", (ms || 700) + "ms"); charEl.style.setProperty("--shx", (dx || 0) + "px"); if (dx) { if (state.shiftFace == null) state.shiftFace = facingLeft; face(dx < 0); } else if (state.shiftFace != null) { face(state.shiftFace); state.shiftFace = null; } },
     wake: function () { if (root) wake(); },
+    openAsk: openAsk,
     /* no proactive lines or ambient acts for a while: the sidekick is running a scene */
     hush: function (ms) { state.hushUntil = Date.now() + (ms || 5000); },
     PRI: PRI,
