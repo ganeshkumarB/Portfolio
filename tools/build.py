@@ -206,14 +206,15 @@ def head(p):
   <script src="sunny-loader.js?v={VER}"></script>
 '''
 
-def footer(nxt, back_label="All work", back_href="index.html#work"):
+def footer(nxt, back_label="All work", back_href="index.html#work", prev=None):
+    prev_html = (f'<a class="cs-next__prev" href="{prev[0]}"><span class="cs-next__plbl">Previous case study</span><span class="cs-next__pname"><span aria-hidden="true">←</span> {esc(prev[1])}</span></a>' if prev else "")
     return f'''  <footer class="cs-next" data-layer="Next">
     <div class="cs-next__inner">
       <div class="cs-next__main">
         <span class="cs-next__lbl">{esc(nxt["label"])}</span>
         <a class="cs-next__title{" cs-next__title--long" if len(nxt["title"]) > 26 else ""}" href="{nxt["href"]}">{esc(nxt["title"])}<span class="cs-next__arrow" aria-hidden="true">→</span></a>
       </div>
-      <a class="cs-next__all" href="{back_href}"><span aria-hidden="true">←</span> {esc(back_label)}</a>
+      <div class="cs-next__side">{prev_html}<a class="cs-next__all" href="{back_href}"><span aria-hidden="true">←</span> {esc(back_label)}</a></div>
     </div>
   </footer>
 
@@ -298,7 +299,8 @@ def render(p):
     for s in p.get("pre", []): out += s
     out += '  <main class="cs-content" data-layer="Content">\n' + content + '\n  </main>\n'
     out += p.get("after", "")
-    out += footer(p["next"], p.get("back_label", "All work"), p.get("back_href", "index.html#work"))
+    pv = re.search(r'nav__dir--prev" href="([^"]+)" title="Previous: ([^"]+)"', p["nav"])  # the case before this one, from its own nav
+    out += footer(p["next"], p.get("back_label", "All work"), p.get("back_href", "index.html#work"), (pv.group(1), pv.group(2)) if pv else None)
     return out
 
 def build_css():
