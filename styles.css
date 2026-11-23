@@ -3641,3 +3641,9 @@ html.reduce-motion .tl__now::before { animation: none; }
 #case-operator-console .cv.k { top: 5%; height: 62%; }
 /* wide screens: the mosaic grows with the page, so the drawings grow too instead of leaving side space */
 @media (min-width: 1400px) { .work__mosaic { height: clamp(520px, 34vw, 660px); } }
+/* tighter: the Start here badge sits beside the case number, so the drawing can use the top of the tile */
+.mz__num .work__start { margin-left: 10px; padding: 3px 8px; font-size: 10px; }
+.mz .cv.k { top: 4%; height: 70%; padding: 0 2%; }
+.mz--a .cv.k { top: 4%; height: 74%; }
+#case-design-system .cv.k { top: 5%; height: 61%; }
+#case-operator-console .cv.k { top: 4%; height: 67%; }
