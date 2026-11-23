@@ -519,12 +519,15 @@ body.no-shortcuts .sunny__ask { padding-right: 10px; }
 @media (hover: none) { .sunny__ask { opacity: 1; transform: none; pointer-events: auto; } }
 .sunny.has-ask .sunny__ask, .sunny.is-carried .sunny__ask, .sunny.is-static .sunny__ask, .sunny.is-gone .sunny__ask { opacity: 0; pointer-events: none; }
 /* opened from a perched companion, the chat docks in the corner */
-.sunny.sunny--perch .ask, .sunny.is-pup-perched .ask { position: fixed; right: 20px; bottom: 24px; }
+/* opened while a companion is up on the hero perch, the chat docks low in the corner */
+.sunny.sunny--perch ~ .ask, .sunny.is-pup-perched ~ .ask { bottom: 24px; }
+html.no-sunny .ask { display: none !important; }
 .sunny.has-ask .sunny__bubble { display: none; }
 
 .ask {
-  position: absolute;
-  right: 8px;
+  position: fixed;
+  z-index: 75;
+  right: 20px;
   bottom: 176px;
   width: min(380px, calc(100vw - 24px));
   height: min(600px, calc(100vh - 230px));

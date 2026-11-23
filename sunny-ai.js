@@ -381,7 +381,7 @@
         '<div class="ask__foot"><form class="ask__form"><input class="ask__input" type="text" placeholder="Ask about ' + esc(HIM) + '’s work…" maxlength="240" autocomplete="off" aria-label="Your question" /><button type="submit" class="ask__send" aria-label="Send"><span class="ask__send-up" aria-hidden="true">↑</span><span class="ask__send-stop" aria-hidden="true">■</span></button></form>' +
         '<p class="ask__note">' + (AI_ENDPOINT ? "AI via " + HIM + "’s own server · can be wrong · nothing stored" : "Answers from the site · nothing stored") + '</p></div>' +
       "</div>");
-    root.appendChild(panel);
+    document.body.appendChild(panel); /* its own layer: a perched companion sits behind the hero card, the chat must not */
     charEl.appendChild(askBtn);
     log = panel.querySelector(".ask__log");
     input = panel.querySelector(".ask__input");
