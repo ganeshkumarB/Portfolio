@@ -3647,3 +3647,10 @@ html.reduce-motion .tl__now::before { animation: none; }
 .mz--a .cv.k { top: 4%; height: 74%; }
 #case-design-system .cv.k { top: 5%; height: 61%; }
 #case-operator-console .cv.k { top: 4%; height: 67%; }
+/* tighter again: a slimmer title block, so the drawings run closer to it */
+.mz .mz__ov { padding: 4px 18px 14px; gap: 3px; }
+.mz--a .mz__ov { padding: 4px 24px 18px; }
+.mz .cv.k { top: 3%; height: 74%; }
+.mz--a .cv.k { top: 3%; height: 79%; }
+#case-design-system .cv.k { top: 4%; height: 64%; }
+#case-operator-console .cv.k { top: 3%; height: 70%; }
