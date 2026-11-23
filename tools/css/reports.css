@@ -56,9 +56,9 @@
 /* incoming chats by hour: 24 bars */
 .rp-hours { position: relative; display: grid; grid-template-columns: repeat(24, 1fr); gap: 0.35em; align-items: end; height: 7em; padding-top: 1.6em; }
 .rp-hour { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 100%; }
-.rp-hour i { display: block; width: 100%; height: var(--h); border-radius: 0.25em 0.25em 0 0; background: #c8dcff; }
-.rp-hour.is-hi i { background: #93b8ff; }
-.rp-hour.is-on i { background: #2f6fe0; }
+.rp-hour i { display: block; width: 100%; height: var(--h); border-radius: 0.25em 0.25em 0 0; background: #fff0c2; }
+.rp-hour.is-hi i { background: #ffd970; }
+.rp-hour.is-on i { background: #15161a; }
 .rp-hour .rp-bar__tip { top: -1.7em; white-space: nowrap; }
 .rp-hours__axis { display: flex; justify-content: space-between; margin-top: 0.4em; font-size: 0.75em; color: #9a9ea8; }
 .rp-heat { display: grid; grid-template-columns: 3.2em 1fr; gap: 0.6em; align-items: stretch; }

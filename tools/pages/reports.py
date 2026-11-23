@@ -30,22 +30,22 @@ def _chart():
     for k, lab in enumerate(slots):
         x0 = 48 + k * gw
         on = lab == "4 PM"
-        if on: s.append(f'<rect x="{x0 - 5}" y="{base - 320 * scale - 8:.1f}" width="{3 * bw + 14}" height="{320 * scale + 8:.1f}" rx="6" fill="#f3f6ff"/>')
-        for n, (vals, col) in enumerate(((total, "#2bb59a"), (inc, "#4d8dff"), (outg, "#c084fc"))):
+        if on: s.append(f'<rect x="{x0 - 5}" y="{base - 320 * scale - 8:.1f}" width="{3 * bw + 14}" height="{320 * scale + 8:.1f}" rx="6" fill="#fff6d6"/>')
+        for n, (vals, col) in enumerate(((total, "#15161a"), (inc, "#ffc93c"), (outg, "#4d8dff"))):
             h = vals[k] * scale
             s.append(f'<rect x="{x0 + n * (bw + 2)}" y="{base - h:.1f}" width="{bw}" height="{h:.1f}" rx="3" fill="{col}"{"" if on else " opacity=\"0.85\""}/>')
         s.append(f'<text x="{x0 + 1.5 * bw + 2}" y="219" font-size="9" fill="{"#15161a" if on else "#9a9ea8"}" text-anchor="middle"{" font-weight=\"600\"" if on else ""}>{lab}</text>')
     s.append('<g transform="translate(320 2)"><rect width="128" height="70" rx="8" fill="#fff" stroke="#e6e7ea"/><text x="10" y="18" font-size="10" font-weight="600" fill="#15161a">09 Sep, 4 PM</text>'
-             '<circle cx="14" cy="33" r="3" fill="#2bb59a"/><text x="22" y="36" font-size="9" fill="#61656e">Total chats</text><text x="118" y="36" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">320</text>'
-             '<circle cx="14" cy="47" r="3" fill="#4d8dff"/><text x="22" y="50" font-size="9" fill="#61656e">Incoming chats</text><text x="118" y="50" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">145</text>'
-             '<circle cx="14" cy="61" r="3" fill="#c084fc"/><text x="22" y="64" font-size="9" fill="#61656e">Outgoing chats</text><text x="118" y="64" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">109</text></g>')
+             '<circle cx="14" cy="33" r="3" fill="#15161a"/><text x="22" y="36" font-size="9" fill="#61656e">Total chats</text><text x="118" y="36" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">320</text>'
+             '<circle cx="14" cy="47" r="3" fill="#ffc93c"/><text x="22" y="50" font-size="9" fill="#61656e">Incoming chats</text><text x="118" y="50" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">145</text>'
+             '<circle cx="14" cy="61" r="3" fill="#4d8dff"/><text x="22" y="64" font-size="9" fill="#61656e">Outgoing chats</text><text x="118" y="64" font-size="9" font-weight="600" fill="#15161a" text-anchor="end">109</text></g>')
     s.append('</svg>')
     return "".join(s)
 
 def _donut():
     """Chats by type: the KPI cards' 10K incoming and 2K outgoing, as a donut. Sample data."""
     import math
-    parts = [("Incoming", 10, "#4d8dff"), ("Outgoing", 2, "#c084fc")]
+    parts = [("Incoming", 10, "#ffc93c"), ("Outgoing", 2, "#4d8dff")]
     total = sum(p[1] for p in parts); r = 52; c = 2 * math.pi * r; off = 0
     arcs = []
     for name, v, col in parts:
@@ -83,7 +83,7 @@ def dashboard(small=False, heat=False):
       <div class="rp-main__head"><h4>Chats</h4><span class="rp-select">Today ⌄</span></div>
       <div class="rp-kpis">{kpis}</div>
       <div class="rp-charts">
-        <div class="rp-card rp-chart"><div class="rp-card__head"><h5>Chat volume by time of day</h5><div class="rp-legend"><span><i style="background:#2bb59a"></i>Total</span><span><i style="background:#4d8dff"></i>Incoming</span><span><i style="background:#c084fc"></i>Outgoing</span></div></div>{_chart()}</div>
+        <div class="rp-card rp-chart"><div class="rp-card__head"><h5>Chat volume by time of day</h5><div class="rp-legend"><span><i style="background:#15161a"></i>Total</span><span><i style="background:#ffc93c"></i>Incoming</span><span><i style="background:#4d8dff"></i>Outgoing</span></div></div>{_chart()}</div>
         <div class="rp-card rp-days"><div class="rp-card__head"><h5>Chats by type</h5><span class="rp-sub">Today</span></div>{_donut()}</div>
       </div>
       {('<div class="rp-card rp-heatcard"><div class="rp-card__head"><h5>Incoming chats by hour</h5><span class="rp-sub">Busiest at 3 PM</span></div>' + _hourly() + '</div>') if heat else ''}

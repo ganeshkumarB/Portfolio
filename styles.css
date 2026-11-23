@@ -3412,11 +3412,9 @@ html.reduce-motion .scf-hi { opacity: 1; }
    detail list on the right and a three-part footer
    ============================================================ */
 .pg__kinds { gap: 0; margin: -8px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.pg__kinds li { position: relative; gap: 6px; padding: 20px 20px 22px 0; box-shadow: inset 0 0 0 0 var(--sun); transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pg__kinds li { position: relative; gap: 6px; padding: 20px 20px 22px 0; }
 .pg__kinds li + li { padding-left: 20px; border-left: 1px solid var(--line); }
-.pg__kinds li:hover { box-shadow: inset 0 2px 0 0 var(--sun); }
-.pg__kind-n { font-size: 11px; letter-spacing: 0.08em; color: var(--muted); opacity: 0.6; margin-bottom: 4px; transition: color 0.25s ease, opacity 0.25s ease; }
-.pg__kinds li:hover .pg__kind-n { color: #c98f00; opacity: 1; }
+.pg__kind-n { font-size: 11px; letter-spacing: 0.08em; color: var(--muted); opacity: 0.6; margin-bottom: 4px; }
 .pg__kinds b { font-size: 17px; }
 .pg__kinds span:not(.pg__kind-n) { font-size: 14px; }
 
