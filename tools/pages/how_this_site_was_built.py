@@ -7,16 +7,16 @@ SETUP = ('<ol class="bl2-setup">' + "".join(
         ("asterisk", "02 · Build with Claude Code", "Turn the design into a working site, and iterate in the browser."),
         ("branch", "03 · Review, then upload", "Review, fix what doesn’t work, then commit and publish to GitHub Pages.")]) + '</ol>')
 
-def pair(before, after, title, text, alt_b, alt_a):
+def pair(before, after, title, text, alt_b, alt_a, h=900):
     return f'''<div class="bl2-pair">
-      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--draft">AI draft</span><div class="c2-frame bl2-pair__shot"><img src="{before}" alt="{esc(alt_b)}" width="1440" height="900" loading="lazy" /></div></div>
-      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--final">Final</span><div class="c2-frame bl2-pair__shot"><img src="{after}" alt="{esc(alt_a)}" width="1440" height="900" loading="lazy" /></div></div>
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--draft">AI draft</span><div class="c2-frame bl2-pair__shot"><img src="{before}" alt="{esc(alt_b)}" width="1440" height="{h}" loading="lazy" /></div></div>
+      <div class="bl2-pair__col"><span class="bl2-tag bl2-tag--final">Final</span><div class="c2-frame bl2-pair__shot"><img src="{after}" alt="{esc(alt_a)}" width="1440" height="{h}" loading="lazy" /></div></div>
       <div class="bl2-pair__note"><h3 class="c2-h3">{title}</h3><p class="c2-p">{text}</p></div>
     </div>'''
 
 PAIRS = (pair("assets/compare/home-before.webp", "assets/compare/home-after.webp", "Homepage",
               "The first pass had the structure. I refined the typography, spacing and visual rhythm to make it feel like my portfolio.",
-              "The first home page Claude built: plain text wordmark, no theme switch, a hero that said less.", "The shipped home page with the pendant mark, the inspector and the Figma v2 layout.")
+              "Claude’s first home page: a serif headline, a dark nav pill, the Figma-to-code card, and Sunny half in the water.", "The shipped home page: the rail nav, the Figma and Code Connect card, Sunny perched on it, and the metrics row.", h=1044)
          + pair("assets/compare/404-before.webp", "assets/compare/404-after.webp", "404 page",
                 "The first direction was functional. I simplified the composition and brought it back into the visual language of the site.",
                 "Claude’s first 404: a sensible card with a button.", "The shipped 404 with Sunny standing in as the zero under the pendant’s light.")
