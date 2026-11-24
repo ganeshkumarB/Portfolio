@@ -848,15 +848,39 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     if (!hold && Date.now() - T0 > MAX_MS) finish(false); /* a slow resource never holds the site back */
   }
   var timer = setInterval(tick, 100); tick();
+  /* into the site with Sunny: he leaves the scene and flies, in an arc, to his real place on the page (the hero perch or his
+     corner, wherever sunny.js has put him), shedding his weather clothes on the way; Puppy trots off; the scene fades behind them.
+     When he lands, the flying Sunny steps aside for the real one, at the same size in the same spot. */
+  var flying = false;
+  function handover() {
+    var Sn = win.Sunny, real = Sn && Sn.el, tgt = real && real.querySelector(".sunny__svg");
+    if (reduced || !A || !A.sun || !A.sunRoot || !tgt) return false;
+    var tr = tgt.getBoundingClientRect(), src = A.sunRoot.querySelector(".sunny__svg"), sr = src && src.getBoundingClientRect();
+    if (!sr || !tr.width || !sr.width || !win.Element.prototype.animate) return false;
+    cancelAnimationFrame(raf);
+    flying = true; real.style.visibility = "hidden";
+    var fly = doc.createElement("div"); fly.className = "sl-actor sl-fly";
+    fly.style.cssText = "position:fixed;left:" + sr.left + "px;top:" + sr.top + "px;width:" + sr.width + "px;height:" + sr.height + "px;z-index:2147483001;pointer-events:none;transform-origin:0 0;will-change:transform";
+    fly.appendChild(A.sunRoot); doc.body.appendChild(fly);
+    var dx = tr.left - sr.left, dy = tr.top - sr.top, k = tr.width / sr.width, ms = 1150;
+    fly.animate([{ transform: "none" }, { transform: "translate(" + (dx * 0.45).toFixed(1) + "px," + (dy * 0.45 - 90).toFixed(1) + "px) scale(" + ((1 + k) / 2).toFixed(3) + ")", offset: 0.5 },
+      { transform: "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" + k.toFixed(3) + ")" }], { duration: ms, easing: "cubic-bezier(0.45, 0, 0.25, 1)", fill: "forwards" });
+    var cos = fly.querySelector(".sl-cos"); if (cos) cos.animate([{ opacity: 1 }, { opacity: 0 }], { duration: ms * 0.7, delay: ms * 0.2, fill: "forwards" });
+    A.sunRoot.setAttribute("data-emotion", "excited");
+    if (A.pup) { var t0 = A.pup.el.style.transform; A.pup.el.animate([{ transform: t0 }, { transform: t0 + " translateX(-60px) translateY(-14px)", offset: 0.25 }, { transform: t0 + " translateX(-520px)" }], { duration: 900, easing: "cubic-bezier(0.55, 0, 0.75, 0.4)", fill: "forwards" }); }
+    setTimeout(function () { real.style.visibility = ""; if (fly.parentNode) fly.parentNode.removeChild(fly); flying = false; if (style.parentNode && !root.parentNode) style.parentNode.removeChild(style); }, ms + 30);
+    return true;
+  }
   function finish(skipped) {
     if (done) return; done = true; clearInterval(timer); clearTimeout(endTimer);
     sess("sunny:loader", "1");
+    handover();
     root.classList.add("is-out");
     setTimeout(function () {
       cancelAnimationFrame(raf);
       html.classList.remove("sl-on");
       if (root.parentNode) root.parentNode.removeChild(root);
-      if (style.parentNode) style.parentNode.removeChild(style);
+      if (style.parentNode && !flying) style.parentNode.removeChild(style); /* the flying Sunny still needs it */
       win.removeEventListener("keydown", onKey); win.removeEventListener("resize", onResize);
       A = null;
       if (pref("puppy:met") !== "1") { store("puppy:met", "1"); afterStory(); }
