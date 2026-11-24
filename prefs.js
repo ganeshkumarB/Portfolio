@@ -102,7 +102,7 @@
                 [["sunny", "Sunny", ART_SUN, "Answers your questions"], ["puppy", "Puppy", ART_PUP, "Plays, and still opens the chat"], ["together", "Together", ART_SUN + ART_PUP, "Puppy as Sunny’s sidekick"]].map(function (c) {
                   return '<button type="button" role="radio" aria-checked="false" tabindex="-1" data-val="' + c[0] + '"><span class="prefs__card-art" aria-hidden="true">' + c[2] + '</span><span class="prefs__card-name">' + c[1] + '</span><span class="prefs__card-note">' + c[3] + "</span></button>";
                 }).join("") + "</div></div>" +
-            '<div class="prefs__row prefs__row--btn"><a class="prefs__btn" data-act="story" href="?story">' + ICON.replay + '<span>Watch Sunny &amp; Puppy’s story again</span></a></div>') +
+            '<div class="prefs__row prefs__row--btn"><a class="prefs__btn" data-act="story" href="?story">' + ICON.replay + '<span>Watch Sunny &amp; Puppy’s story again</span></a><p class="prefs__hint prefs__hint--story">Its opening matches your weather. The city in your time zone is looked up on Open-Meteo; nothing else is sent, and the film never asks for your location.</p></div>') +
         '</div>' +
         '<div class="prefs__foot"><button type="button" class="prefs__reset">Reset all</button><span class="mono">Stored in this browser</span></div>' +
       "</div>";

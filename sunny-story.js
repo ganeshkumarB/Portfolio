@@ -49,6 +49,25 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .sst-rays i { position: absolute; left: 50%; top: 0; width: 120px; height: 1100px; margin-left: -60px; transform-origin: 50% 46%; background: linear-gradient(to bottom, rgba(255, 236, 190, 0), rgba(255, 236, 190, 0.5) 40%, rgba(255, 236, 190, 0)); filter: blur(14px); animation: sst-ray 7s ease-in-out infinite alternate; }
 .sst-rays i:nth-child(1) { transform: rotate(28deg); } .sst-rays i:nth-child(2) { transform: rotate(44deg); width: 70px; animation-delay: -2s; } .sst-rays i:nth-child(3) { transform: rotate(60deg); animation-delay: -4s; }
 @keyframes sst-ray { from { opacity: 0.55; } to { opacity: 1; } }
+/* the adaptive opening: moon, stars, and Sunny's outfit for the weather */
+.sst-moon { position: absolute; left: 1180px; top: 150px; width: 70px; height: 70px; margin: -35px 0 0 -35px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #fffdf2 0 55%, #f1ead2 72%); box-shadow: 0 0 60px 18px rgba(255, 248, 220, 0.25); opacity: var(--moon, 0); pointer-events: none; }
+.sst-stars { position: absolute; left: 0; top: 0; width: 1600px; height: 520px; opacity: var(--stars, 0); pointer-events: none; }
+.sst-stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; animation: sst-twinkle 3.2s ease-in-out infinite alternate; }
+@keyframes sst-twinkle { from { opacity: 0.25; } to { opacity: 1; } }
+.sunny .sst-cos { display: none; }
+.sunny.st-cos-on .sst-cos { display: inline; }
+.sunny.st-cos-on.st-cos-clear .s-cap { opacity: 1; }
+.sunny.st-cos-on.st-cos-clear .s-foot { fill: #ffffff; }
+.sunny.st-cos-on.st-cos-rain .s-foot, .sunny.st-cos-on.st-cos-storm .s-foot { fill: #2a3d66; }
+.sunny.st-cos-on.st-cos-snow .s-foot { fill: #6b4a30; }
+.sunny.st-cos-on.st-cos-snow .s-arm ellipse { fill: #de364d; }
+.sunny.st-cos-on.st-cos-night .s-foot { fill: #5b6170; }
+.sunny.st-cos-on.st-cos-wind .s-foot { fill: #2f3640; }
+.sunny.st-gust .s-sprout { animation: sst-gust 0.7s ease-in-out infinite alternate !important; }
+@keyframes sst-gust { from { transform: rotate(8deg); } to { transform: rotate(30deg); } }
+.sst-cos .cos-flap { transform-box: fill-box; transform-origin: 0 0; animation: sst-flap 0.42s ease-in-out infinite alternate; }
+@keyframes sst-flap { from { transform: skewY(-6deg); } to { transform: skewY(10deg) scaleX(1.15); } }
+.sst-pose.st-brace { transform: rotate(-7deg) translateX(-4px); transition-duration: 0.35s; }
 .sst-birds { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; opacity: var(--birds); pointer-events: none; }
 .sst-bird { position: absolute; width: 26px; height: 12px; animation: sst-fly 16s linear infinite; }
 .sst-bird svg { display: block; width: 100%; height: 100%; animation: sst-flap 0.42s ease-in-out infinite alternate; transform-origin: 50% 60%; }
@@ -60,6 +79,7 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .c-walk { fill: var(--walk); } .c-curb { fill: var(--curb); } .c-road { fill: var(--road); }
 .c-puddle { fill: var(--puddle); opacity: 0.5; } .c-post { fill: var(--post); } .c-box { fill: var(--box); } .c-boxd { fill: var(--boxD); }
 .c-bulb { fill: #ffe7a8; opacity: var(--lampOn); } .c-reflect, .c-pool { opacity: calc(var(--lampOn) * 0.75); }
+.sst-glow, .sst-cone { opacity: var(--lampOn, 1); }
 .sst-glow { position: absolute; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 214, 140, 0.55) 0%, rgba(255, 200, 120, 0.18) 32%, rgba(255, 200, 120, 0) 64%); mix-blend-mode: screen; pointer-events: none; }
 .sst-cone { position: absolute; width: 360px; height: 300px; margin-left: -180px; background: linear-gradient(to bottom, rgba(255, 216, 150, 0.2), rgba(255, 216, 150, 0.03) 85%, rgba(255, 216, 150, 0)); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); mix-blend-mode: screen; pointer-events: none; }
 .sst-spot { position: absolute; width: 900px; height: 520px; margin: -260px 0 0 -450px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 220, 160, 0.16), rgba(255, 220, 160, 0)); mix-blend-mode: screen; pointer-events: none; }
@@ -202,6 +222,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     <div class="sst-cloud" style="left:-200px;top:-200px;width:900px;height:260px"></div>
   </div>
   <div class="sst-rays"><i></i><i></i><i></i></div>
+  <div class="sst-stars" data-r="stars"></div>
+  <div class="sst-moon" data-r="moon"></div>
   <div class="sst-sun" data-r="sun" style="left:1270px;top:700px"></div>
   <div class="sst-birds"><div class="sst-bird" style="top:170px;animation-delay:-3s">${BIRD}</div><div class="sst-bird" style="top:205px;width:20px;animation-delay:-4.4s;animation-duration:19s">${BIRD}</div><div class="sst-bird" style="top:150px;width:18px;animation-delay:-9s;animation-duration:22s">${BIRD}</div></div>
   <div class="sst-layer sst-street" data-r="street">
@@ -395,6 +417,160 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     gold: { skyT: "#ffcd78", skyB: "#fff1cf", far: "#ebc699", mid: "#e2b78a", near: "#d8aa7f", nearDark: "#c89971", win: "#fff1cc", winOn: 0.1, walk: "#efd2aa", curb: "#e2c096", road: "#c8a17b", puddle: "#fff3cf", post: "#8e6d50", box: "#c99a68", boxD: "#b0845a", lampOn: 0, cloud: 0.12, cloudC: "#fff0d8", sun: 1, birds: 1, capC: "#3a2618", capS: "rgba(255,240,210,0.7)", uiC: "rgba(58,38,24,0.72)", uiT: "rgba(58,38,24,0.18)", grade: "rgba(255,200,110,0.18)", dogB: 1, refl: 0.08, mist: 0.3, mistC: "255,240,220" }
   };
   var PAL_T = [[0, "night"], [24, "night"], [40.3, "soft"], [40.31, "room"], [49.25, "room"], [49.26, "dawn"], [58, "gold"], [66, "gold"]];
+  /* ===================================================================== the adaptive opening
+     The first seconds of the film play in the visitor's own weather and time of day: rain, a storm, snow, wind, a
+     clear day or a clear night, with Sunny dressed for it. Around 5 to 8 seconds the sky turns and the rain sets in,
+     and the story goes on as it always does: the frightened puppy, the dogs, the umbrella, the room, the morning.
+     Weather comes from Open-Meteo (free, no key). The place is the one the browser already shares (only if the visitor
+     granted it before; the film never asks) or, by default, the city in the device's time zone, so no permission
+     prompt appears. Coordinates are rounded to about 1 km. Nothing is stored except a 45-minute cache in this browser.
+     Offline, on any error or after 1.6 s without an answer, the opening uses the local time alone.
+     For checking: ?story&weather=rain|storm|snow|wind|clear|cloudy&time=day|dusk|night, or &weather=offline. */
+  var WX = { kind: "clear", wind: false, tod: "day", src: "time", done: false };
+  var hour = new Date().getHours();
+  function todFromHour(h) { return h >= 20 || h < 5 ? "night" : (h >= 17.5 || h < 7) ? "dusk" : "day"; }
+  WX.tod = todFromHour(hour + new Date().getMinutes() / 60);
+  function kindFromCode(c) {
+    if (c >= 95) return "storm";
+    if ((c >= 71 && c <= 77) || c === 85 || c === 86) return "snow";
+    if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) return "rain";
+    if (c === 2 || c === 3 || c === 45 || c === 48) return "cloudy";
+    return "clear";
+  }
+  Object.keys(PAL).forEach(function (k) { PAL[k].stars = 0; PAL[k].moon = 0; });
+  function palFrom(base, over) { var o = {}; for (var k in PAL[base]) o[k] = PAL[base][k]; for (var j in over) o[j] = over[j]; return o; }
+  var DARK_UI = { capC: "#16263f", capS: "rgba(255,255,255,0.65)", uiC: "rgba(22,38,63,0.72)", uiT: "rgba(22,38,63,0.18)" };
+  PAL.day = palFrom("night", Object.assign({ skyT: "#6aaee8", skyB: "#d3e9fa", far: "#a2bad0", mid: "#93aec6", near: "#8aa6bf", nearDark: "#7b97b0", win: "#eef6fc", winOn: 0.25, walk: "#cdd2d9", curb: "#b9bfc8", road: "#8b939f", puddle: "#b4cde6", post: "#4a5566", box: "#b48a5e", boxD: "#9a7550", lampOn: 0, cloud: 0.55, cloudC: "#ffffff", sun: 1, birds: 1, grade: "rgba(255,232,170,0.10)", dogB: 1, refl: 0.08, mist: 0.15, mistC: "255,255,255" }, DARK_UI));
+  PAL.cloudy = palFrom("day", { skyT: "#8ea3b8", skyB: "#d5dde5", cloud: 0.95, cloudC: "#eef1f4", sun: 0.25, birds: 0.6, grade: "rgba(200,210,225,0.10)", mist: 0.35, mistC: "230,235,240" });
+  PAL.overcast = palFrom("night", { skyT: "#55647a", skyB: "#97a4b4", far: "#6b7a8d", mid: "#647386", near: "#5c6b7e", nearDark: "#526072", win: "#f2d08a", winOn: 0.5, walk: "#69737f", curb: "#78828f", road: "#424b57", puddle: "#8fa3bd", post: "#2f3743", box: "#6b5643", boxD: "#594736", lampOn: 0.55, cloud: 0.95, cloudC: "#7a8696", grade: "rgba(60,90,140,0.16)", dogB: 0.88, refl: 0.24, mist: 0.9, mistC: "190,200,215" });
+  PAL.stormday = palFrom("overcast", { skyT: "#333d4d", skyB: "#636f80", far: "#4c5869", mid: "#465263", near: "#414d5e", nearDark: "#3a4556", cloud: 1, cloudC: "#525d6c", lampOn: 0.8, dogB: 0.8 });
+  PAL.snowday = palFrom("day", { skyT: "#b6c4d4", skyB: "#e7edf4", far: "#a7b4c4", mid: "#9fadbf", near: "#98a7ba", nearDark: "#8b9aae", win: "#ffe2a6", winOn: 0.45, walk: "#f5f8fc", curb: "#e3e9f1", road: "#d2dbe6", puddle: "#ffffff", lampOn: 0.3, cloud: 0.85, cloudC: "#f2f5f9", sun: 0, birds: 0, grade: "rgba(200,220,255,0.14)", dogB: 0.95, refl: 0.04, mist: 0.6, mistC: "235,240,248" });
+  PAL.nightclear = palFrom("night", { cloud: 0.2, stars: 1, moon: 1, refl: 0.07, puddle: "#334d70", mist: 0.45, grade: "rgba(40,80,160,0.24)" });
+  PAL.snownight = palFrom("night", { walk: "#cad4e3", curb: "#b5c1d3", road: "#8592a8", puddle: "#e3e9f2", refl: 0.06, mist: 0.7, mistC: "200,210,230", cloud: 0.9, cloudC: "#3a4a64" });
+  PAL.duskclear = palFrom("dawn", { sun: 0.8, birds: 0.7, lampOn: 0.6, winOn: 0.6 });
+  function openingPalette(k, tod) {
+    if (tod === "night") return k === "snow" ? "snownight" : (k === "rain" || k === "storm") ? "night" : k === "cloudy" ? "night" : "nightclear";
+    if (k === "storm") return "stormday";
+    if (k === "rain") return "overcast";
+    if (k === "snow") return "snowday";
+    if (k === "cloudy") return "cloudy";
+    return tod === "dusk" ? "duskclear" : "day";
+  }
+  var TOD_WORD = (function () { var h = hour; return h >= 5 && h < 12 ? "morning" : h >= 12 && h < 17 ? "afternoon" : h >= 17 && h < 21 ? "evening" : "night"; })();
+  function applyWeather() {
+    var k = WX.kind, tod = WX.tod, night = tod === "night", wet = k === "rain" || k === "storm", windy = WX.wind || k === "storm";
+    /* the word for the time of day follows the light (from the weather service when it answered), not just the clock */
+    TOD_WORD = night ? "night" : tod === "dusk" ? (hour < 12 ? "morning" : "evening") : (hour >= 5 && hour < 12 ? "morning" : "afternoon");
+    var open = openingPalette(k, tod), rescue = night || tod === "dusk" ? "night" : "overcast";
+    PAL_T = [[0, open], [5.4, open], [7.8, rescue], [24, rescue], [40.3, "soft"], [40.31, "room"], [49.25, "room"], [49.26, "dawn"], [58, "gold"], [66, "gold"]];
+    RAIN = [[0, k === "storm" ? 1.55 : k === "rain" ? 1 : 0], [5.4, k === "storm" ? 1.55 : k === "rain" ? 1 : 0], [7.6, 1], [24, 1], [32, 0.78], [38, 0.5], [40.3, 0.38], [40.31, 0]];
+    WIND = [[0, windy ? 0.95 : 0.2], [5.6, windy ? 0.95 : 0.2], [7.6, 0.25], [13, 0.3], [21, 0.42], [30, 0.24], [40, 0.12]];
+    SNOW = [[0, k === "snow" ? 1 : 0], [5.4, k === "snow" ? 1 : 0], [7.4, 0]];
+    LEAF = [[0, WX.wind && k !== "snow" ? 1 : 0], [5.6, WX.wind && k !== "snow" ? 1 : 0], [7.4, 0]];
+    var sunUp = !night && (k === "clear" || k === "cloudy");
+    SUN_Y = [[0, tod === "dusk" ? 600 : 170], [5.4, tod === "dusk" ? 600 : 170], [7.6, 900], [49.25, 900], [49.26, 820], [66, 330, "out"]];
+    if (!sunUp) SUN_Y = [[49.26, 820], [66, 330, "out"]];
+    if (k === "storm") FLASH = [[2.1, 0], [2.17, 0.5], [2.27, 0.06], [2.38, 0.34], [2.7, 0], [4.7, 0], [4.76, 0.42], [4.9, 0]].concat(FLASH);
+    /* Sunny's first seconds: umbrella from the start in rain and storms, otherwise it comes out when the rain does */
+    var x0 = [[0, 120], [6, 700, "lin"]], s0 = [];
+    if (wet) { UMB_OPEN = [[0, 0.16], [0.35, 0.16], [0.95, 1, "back"]].concat(UMB_OPEN.slice(1)); }
+    else { UMB_VIS = [[0, 0], [5.95, 0], [6.0, 1], [30.88, 1], [30.9, 0]]; UMB_OPEN = [[0, 0.16], [6.0, 0.16], [6.6, 1, "back"]].concat(UMB_OPEN.slice(1)); }
+    if (k === "clear" && !night) { x0 = [[0, 120], [1.4, 120], [6, 700, "lin"]]; s0 = [[0, { act: "stretch", look: [0.3, -0.9] }], [1.4, { act: "walk", slow: 0 }], [2.2, { emo: "happy" }], [3.4, { emo: null }]]; }
+    else if (night && !wet && k !== "snow") { x0 = [[0, 120], [1.1, 120], [6, 700, "lin"]]; s0 = [[0, { act: null, reach: 1, look: [0, -0.6] }], [0.8, { reach: 0, look: [0.6, -0.9] }], [1.1, { act: "walk" }], [2.6, { look: [0.4, -0.4] }]]; }
+    else if (k === "snow") { s0 = [[0, { act: "walk", slow: 1 }], [1.0, { emo: "relaxed" }], [2.6, { emo: null, look: [0.2, 0.6] }], [3.6, { look: [0.4, -0.4] }]]; }
+    else if (WX.wind && !wet) { x0 = [[0, 120], [2.6, 330], [3.6, 345], [6, 700, "lin"]]; s0 = [[2.6, { brace: 1, emo: "whoa" }], [3.6, { brace: 0, emo: null }]]; }
+    if (k === "storm") s0 = s0.concat([[2.7, { tremble: 1, emo: "whoa" }], [3.2, { tremble: 0, emo: null }], [5.0, { tremble: 1 }], [5.4, { tremble: 0 }]]);
+    if (x0.length) SUNNY_X = x0.concat(SUNNY_X.filter(function (kf) { return kf[0] > 6; }));
+    if (s0.length) {
+      var merged = SUNNY_S.slice(0, 1).concat(s0, SUNNY_S.slice(1)); merged.sort(function (a, b) { return a[0] - b[0]; }); SUNNY_S = merged;
+    }
+    /* the words for the first seconds */
+    var cap = {
+      rain: "Just another rainy " + TOD_WORD + "…", storm: "A stormy " + TOD_WORD + "…", snow: "A snowy " + TOD_WORD + " walk…",
+      cloudy: night ? "A quiet night walk…" : "A grey, easy " + TOD_WORD + "…", clear: night ? "A quiet night walk…" : tod === "dusk" ? "A golden " + TOD_WORD + " walk…" : "A bright " + TOD_WORD + " walk…"
+    }[k];
+    if (WX.wind && k !== "storm" && k !== "snow") cap = "A windy " + TOD_WORD + "…";
+    CAPS[0] = [0.8, 5.0, cap];
+    var dress = { rain: "his raincoat", storm: "his storm jacket", snow: "his winter coat", clear: night ? "his hoodie" : "his cap", cloudy: night ? "his hoodie" : "his cap" }[k];
+    if (WX.wind && k !== "storm" && k !== "snow") dress = "his windbreaker";
+    var where = WX.src === "time" ? "" : { rain: "It’s raining near you", storm: "There’s a storm near you", snow: "It’s snowing near you", clear: night ? "It’s a clear night near you" : "It’s clear near you", cloudy: "It’s cloudy near you" }[k];
+    if (WX.wind && WX.src !== "time" && k !== "storm") where = "It’s windy near you";
+    LINES[0] = where ? where + ", so Sunny wore " + dress + "." : "A little walk, in your " + TOD_WORD + "…";
+    COSTUME = WX.wind && k !== "storm" && k !== "snow" && !wet ? "wind" : k === "cloudy" ? (night ? "night" : "clear") : k === "clear" ? (night ? "night" : "clear") : k;
+    if (k === "storm") CUES.push([2.55, "thunder"], [5.15, "thunder"]);
+    if (k === "clear" && !night) CUES.push([0.9, "birds"], [3.6, "birds"]);
+    if (night && !wet) CUES.push([1.6, "crickets"], [3.8, "crickets"]);
+    if (!wet) CUES.push([5.9, "thunderFar"]);
+  }
+  var SNOW = [[0, 0]], LEAF = [[0, 0]], COSTUME = "rain";
+  /* where and what the weather is: overrides for checking, then a fresh cache, then the browser's own answers */
+  function resolveWeather() {
+    var ow = qs.get("weather"), ot = qs.get("time");
+    function finish(kind, wind, tod, src) {
+      if (WX.done) return;
+      WX.kind = kind || WX.kind; WX.wind = !!wind; if (tod) WX.tod = tod; WX.src = src; WX.done = true;
+    }
+    if (ot) WX.tod = ot;
+    if (ow) { if (ow === "offline") return finish(null, false, ot, "time"); return finish(ow === "wind" ? "clear" : ow, ow === "wind" || qs.has("wind"), ot, "override"); }
+    try { var c = JSON.parse(localStorage.getItem("sunny:wx") || "null"); if (c && Date.now() - c.t < 45 * 60000) return finish(c.kind, c.wind, todFromHour(hour), "cache"); } catch (e) { /* ignore */ }
+    if (!win.fetch || (navigator.onLine === false)) return finish(null, false, null, "time");
+    function forecast(lat, lon, src) {
+      var ctl = win.AbortController ? new AbortController() : null; if (ctl) setTimeout(function () { ctl.abort(); }, 3500);
+      var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat.toFixed(2) + "&longitude=" + lon.toFixed(2) + "&current=weather_code,wind_speed_10m,wind_gusts_10m,is_day&timezone=auto";
+      return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) { return r.json(); }).then(function (j) {
+        var cur = j && j.current; if (!cur || cur.weather_code == null) throw new Error("no weather");
+        var kind = kindFromCode(cur.weather_code), wind = (cur.wind_speed_10m || 0) >= 30 || (cur.wind_gusts_10m || 0) >= 50;
+        var tod = cur.is_day === 0 ? "night" : todFromHour(hour) === "night" ? "dusk" : todFromHour(hour);
+        try { localStorage.setItem("sunny:wx", JSON.stringify({ t: Date.now(), kind: kind, wind: wind })); } catch (e) { /* ignore */ }
+        finish(kind, wind, tod, src);
+      });
+    }
+    function byTimeZone() {
+      var zone = ""; try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { /* ignore */ }
+      var city = zone.split("/").pop().replace(/_/g, " ");
+      if (!city || /^(UTC|GMT|Etc)/i.test(zone)) return Promise.reject(new Error("no city"));
+      return fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&name=" + encodeURIComponent(city)).then(function (r) { return r.json(); }).then(function (g) {
+        var hit = g && g.results && g.results[0]; if (!hit) throw new Error("no place");
+        return forecast(hit.latitude, hit.longitude, "zone");
+      });
+    }
+    var tried = false;
+    function fallback() { if (tried) return; tried = true; byTimeZone().catch(function () { finish(null, false, null, "time"); }); }
+    /* the browser's location, only when the visitor already allowed it for this site; the film never asks */
+    if (navigator.permissions && navigator.geolocation) {
+      navigator.permissions.query({ name: "geolocation" }).then(function (st) {
+        if (st.state !== "granted") return fallback();
+        navigator.geolocation.getCurrentPosition(function (pos) { forecast(pos.coords.latitude, pos.coords.longitude, "location").catch(fallback); }, fallback, { timeout: 2500, maximumAge: 30 * 60000 });
+      }, fallback);
+    } else fallback();
+  }
+  resolveWeather();
+  /* Sunny's outfits: layers added to his own drawing, so the face, colours and shape stay his */
+  function costumeSVG(kind) {
+    function P(r, a) { a = a * Math.PI / 180; return (110 + r * Math.cos(a)).toFixed(1) + " " + (125 + r * Math.sin(a)).toFixed(1); }
+    function hood(color, trim) { return '<path d="M' + P(77, -197) + " A77 77 0 1 1 " + P(77, 17) + " L" + P(64, 17) + " A64 64 0 1 0 " + P(64, -197) + ' Z" fill="' + color + '" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>' + (trim ? '<path d="M' + P(66, -190) + " A66 66 0 1 1 " + P(66, 10) + '" fill="none" stroke="' + trim + '" stroke-width="2" opacity="0.8"/>' : ""); }
+    function hem(y, color) { var a = Math.asin((y - 125) / 66) * 180 / Math.PI; return '<path d="M' + P(66.5, a) + " A66.5 66.5 0 0 1 " + P(66.5, 180 - a) + ' Z" fill="' + color + '" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>'; }
+    var o = "";
+    if (kind === "rain") o = hood("#4d8dff", "#9cc2ff") + hem(156, "#4d8dff") + '<path d="M110 156 V190" stroke="#111" stroke-width="2"/><circle cx="102" cy="166" r="2.6" fill="#ffd54a" stroke="#111" stroke-width="1.4"/><circle cx="102" cy="178" r="2.6" fill="#ffd54a" stroke="#111" stroke-width="1.4"/>';
+    if (kind === "storm") o = hood("#2a3d66", "#6f86b5") + hem(154, "#2a3d66") + '<path d="M' + P(66, 52) + " A66 66 0 0 1 " + P(66, 128) + '" fill="none" stroke="#ffd54a" stroke-width="5"/><path d="M110 154 V190" stroke="#0b1424" stroke-width="2"/>';
+    if (kind === "snow") o = '<path d="M' + P(68, -150) + " A68 68 0 0 1 " + P(68, -30) + ' Z" fill="#4d8dff" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/><path d="M' + P(67, -151) + " L" + P(67, -29) + '" stroke="#2f6fe0" stroke-width="8" stroke-linecap="round"/><path d="M' + P(67, -151) + " L" + P(67, -29) + '" stroke="#111" stroke-width="1.4" opacity="0.5"/>' +
+      hem(158, "#de364d") + '<path d="M60 170 Q110 182 160 170 M66 182 Q110 192 154 182" fill="none" stroke="#9e1f33" stroke-width="1.8" opacity="0.7"/>' +
+      '<path d="M56 150 Q110 166 164 150 L166 160 Q110 178 54 160 Z" fill="#f4efe6" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M74 157 l0 7 M90 161 l0 7 M106 163 l0 7 M122 162 l0 7 M138 159 l0 7 M152 155 l0 7" stroke="#de364d" stroke-width="3"/><path d="M140 160 q6 18 -2 30 l10 2 q8 -14 2 -32 z" fill="#f4efe6" stroke="#111" stroke-width="2" stroke-linejoin="round"/>';
+    if (kind === "night") o = hood("#4a5160", "#6b7385") + hem(154, "#4a5160") + '<rect x="86" y="164" width="48" height="16" rx="6" fill="#3d4350" stroke="#111" stroke-width="1.8"/><path d="M96 132 V150 M124 132 V150" stroke="#e8e8ea" stroke-width="2" stroke-linecap="round"/><circle cx="96" cy="152" r="2.4" fill="#e8e8ea"/><circle cx="124" cy="152" r="2.4" fill="#e8e8ea"/>';
+    if (kind === "wind") o = hem(154, "#2bb59a") + '<path d="M110 154 V190" stroke="#111" stroke-width="2"/><path d="M' + P(66, 26) + ' l12 -10 l-4 14 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M' + P(66, 154) + ' l-12 -10 l4 14 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path class="cos-flap" d="M168 176 l18 4 l-14 8 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/>';
+    return o;
+  }
+  function dressSunny(root) {
+    var svg = root.querySelector(".sunny__svg"), body = svg && svg.querySelector(".s-body"), sprout = body && body.querySelector(".s-sprout");
+    if (!body) return;
+    var g = doc.createElementNS("http://www.w3.org/2000/svg", "g"); g.setAttribute("class", "sst-cos");
+    g.innerHTML = costumeSVG(COSTUME);
+    body.insertBefore(g, sprout || null); /* under the sprout, so it still pokes out of the hood */
+    root.classList.add("st-cos-" + COSTUME);
+  }
+  /* stars for a clear night */
+  (function () { var h = ""; for (var i = 0; i < 46; i++) { var x = (i * 977) % 1600, y = 20 + (i * 613) % 470; h += '<i style="left:' + x + "px;top:" + y + "px;animation-delay:-" + (i % 7) * 0.45 + 's"></i>'; } R.stars.innerHTML = h; })();
+
   function hex(c) { var m = /^#(..)(..)(..)$/.exec(c); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : null; }
   function rgba(c) { var m = /rgba\(([\d.]+),([\d.]+),([\d.]+),([\d.]+)\)/.exec(c.replace(/\s/g, "")); return m ? [+m[1], +m[2], +m[3], +m[4]] : null; }
   function trip(c) { var m = /^([\d.]+),([\d.]+),([\d.]+)$/.exec(c); return m ? [+m[1], +m[2], +m[3]] : null; }
@@ -558,6 +734,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     }
     actor.lastFlip = flip;
   }
+  var snowNow = 0, leafNow = 0;
   var capIdx = -1, lineIdx = -1, clock = 0, lastRefl = -1, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 1, windNow = 0.2, heads = null;
   function render(tReal) {
     var t = reduced ? KEY_T[sceneOf(tReal)] : tReal;
@@ -581,7 +758,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     R.glows.style.opacity = inRoom ? 0 : 1;
     R.spot.style.opacity = track(SPOT, t);
     R.roomRain.style.opacity = inRoom ? track(WINDOW_RAIN, t) : 0;
-    rainNow = inRoom ? 0 : track(RAIN, t); windNow = track(WIND, t);
+    rainNow = inRoom ? 0 : track(RAIN, t); windNow = track(WIND, t); snowNow = inRoom ? 0 : track(SNOW, t); leafNow = inRoom ? 0 : track(LEAF, t);
     R.door.setAttribute("transform", "translate(296 0) scale(" + track(DOOR, t).toFixed(3) + " 1) translate(-296 0)");
     R.sun.style.top = track(SUN_Y, t).toFixed(1) + "px";
     R.grade.style.background = P.grade;
@@ -593,6 +770,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       var S = states(SUNNY_S, t), sx = track(SUNNY_X, t);
       place(A.sunny, sx, 13 / 220, track(SUNNY_OP, t));
       setAttr(A.sunnyRoot, "data-emotion", S.emo); setAttr(A.sunnyRoot, "data-act", S.act);
+      setCls(A.sunnyRoot, "st-cos-on", t < 40.31); setCls(A.sunnyRoot, "st-gust", windNow > 0.6 && t < 7.6);
+      setCls(A.sunny.pose, "st-brace", S.brace);
       setCls(A.sunnyRoot, "st-slow", S.slow); setCls(A.sunnyRoot, "st-hold", S.hold && track(UMB_VIS, t) > 0); setCls(A.sunnyRoot, "st-reach", S.reach); setCls(A.sunnyRoot, "st-hug", S.hug); setCls(A.sunnyRoot, "st-mend", S.mend);
       setCls(A.sunny.el, "has-mend", S.mend);
       setCls(A.sunny.pose, "st-sit", S.sit); setCls(A.sunny.pose, "st-bend", S.bend); setCls(A.sunny.pose, "st-tremble", S.tremble); setCls(A.sunny.pose, "st-breath", S.breath);
@@ -664,7 +843,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   }
 
   /* ===================================================================== rain */
-  var cv = R.rain, g2 = cv.getContext("2d"), drops = [], fx = [], drips = [], dripT = 0, stepT = 0;
+  var cv = R.rain, g2 = cv.getContext("2d"), drops = [], fx = [], drips = [], dripT = 0, stepT = 0, flakes = [], leaves = [], prints = [], printT = 0;
   var PUDDLES = [[470, 792, 112, 8], [900, 784, 78, 6], [1330, 790, 124, 8]];
   function newDrop(scatter) {
     var near = Math.random() < 0.3;
@@ -694,9 +873,27 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       if (q.y >= GY) { splash(q.x, GY, 0, 0.2); drips.splice(d, 1); continue; }
       g2.beginPath(); g2.ellipse(q.x, q.y, 1.3, 3.2, 0, 0, Math.PI * 2); g2.fill();
     }
+    /* snow: slow flakes that drift with the wind, and Sunny's footprints */
+    var wantF = Math.round(240 * snowNow);
+    while (flakes.length < wantF) flakes.push({ x: Math.random() * (W + 200) - 100, y: flakes.length < wantF * 0.6 ? Math.random() * H : -10, r: 1.2 + Math.random() * 2.6, v: 40 + Math.random() * 70, ph: Math.random() * 6 });
+    for (var f2 = flakes.length - 1; f2 >= 0; f2--) {
+      var fl = flakes[f2]; fl.y += fl.v * dt; fl.x += (Math.sin(fl.ph + clock * 1.4) * 14 - windNow * 60) * dt;
+      if (fl.y > GY + 30 + fl.r * 30) { if (flakes.length > wantF) { flakes.splice(f2, 1); continue; } fl.y = -10; fl.x = Math.random() * (W + 200) - 100; }
+      g2.fillStyle = "rgba(255,255,255," + (0.5 + fl.r * 0.12).toFixed(2) + ")"; g2.beginPath(); g2.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2); g2.fill();
+    }
+    if (snowNow > 0.3 && sunState.act === "walk" && sunState.op > 0.5) { printT -= dt; if (printT <= 0) { printT = sunState.slow ? 0.31 : 0.21; prints.push({ x: sunState.x + (prints.length % 2 ? 9 : -9), a: 1 }); } }
+    for (var pi = prints.length - 1; pi >= 0; pi--) { var pr = prints[pi]; if (snowNow < 0.9) pr.a -= dt * 0.8; if (pr.a <= 0) { prints.splice(pi, 1); continue; } g2.fillStyle = "rgba(120,135,160," + (0.35 * pr.a).toFixed(2) + ")"; g2.beginPath(); g2.ellipse(pr.x, GY + 4, 6, 2, 0, 0, Math.PI * 2); g2.fill(); }
+    /* wind: leaves and bits carried across the street */
+    var wantL = Math.round(16 * leafNow);
+    while (leaves.length < wantL) leaves.push({ x: W + Math.random() * 400, y: 300 + Math.random() * 480, v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: ["#c9772e", "#e0a33d", "#9b5a2a", "#7a9a3a"][(Math.random() * 4) | 0] });
+    for (var li2 = leaves.length - 1; li2 >= 0; li2--) {
+      var lf = leaves[li2]; lf.x -= lf.v * dt * (0.6 + windNow * 0.6); lf.y += Math.sin(clock * 2.2 + lf.rot) * 40 * dt + 12 * dt; lf.rot += lf.sp * dt;
+      if (lf.x < -60 || lf.y > GY + 20) { if (leaves.length > wantL) { leaves.splice(li2, 1); continue; } lf.x = W + Math.random() * 200; lf.y = 300 + Math.random() * 460; }
+      g2.save(); g2.translate(lf.x, lf.y); g2.rotate(lf.rot); g2.fillStyle = lf.c; g2.beginPath(); g2.ellipse(0, 0, 7, 3.2, 0, 0, Math.PI * 2); g2.fill(); g2.restore();
+    }
     if (heads && rainNow > 0.2) heads.forEach(function (h) { if (Math.random() < rainNow * dt * 9) splash(h[0] + (Math.random() * 2 - 1) * h[2], h[1] + Math.random() * 6, 0, 0.16); });
     stepT -= dt;
-    if (outdoor && rainNow > 0.15 && sunState.act === "walk" && sunState.op > 0.5 && stepT <= 0) { stepT = sunState.slow ? 0.31 : 0.21; for (var n = 0; n < 3; n++) splash(sunState.x + (Math.random() * 30 - 15), GY + 2, 1, 0.3); }
+    if (outdoor && rainNow > 0.15 && snowNow < 0.3 && sunState.act === "walk" && sunState.op > 0.5 && stepT <= 0) { stepT = sunState.slow ? 0.31 : 0.21; for (var n = 0; n < 3; n++) splash(sunState.x + (Math.random() * 30 - 15), GY + 2, 1, 0.3); }
     if (outdoor && Math.random() < rainNow * dt * 30) { var pd = PUDDLES[(Math.random() * 3) | 0]; fx.push({ k: "r", x: pd[0] + (Math.random() * 2 - 1) * pd[2] * 0.8, y: pd[1] + (Math.random() * 2 - 1) * pd[3] * 0.4, life: 0, max: 0.9 }); }
     for (var j = fx.length - 1; j >= 0; j--) {
       var f = fx[j]; f.life += dt; var u = f.life / f.max;
@@ -791,6 +988,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     thunder: function (at) { noise(0.4, "highpass", 900, 0.5, 0.05, at); noise(3.4, "lowpass", 220, 0.6, 0.32, (at || 0) + 0.1, 70, true); },
     creak: function (at) { voice({ at: at, f: [[0, 170], [0.3, 230], [0.6, 150]], am: 31, form: [[900, 6, 1], [1900, 8, 0.4]], vol: 0.04, dur: 0.65, a: 0.05, r: 0.2 }); },
     birds: function (at) { at = at || 0; [0, 0.16, 0.3, 0.9, 1.04].forEach(function (d, i) { voice({ at: at + d, type: "sine", f: [[0, 2600 + i * 120], [0.06, 3700], [0.1, 3000]], form: [[3200, 1, 1]], vol: 0.018, dur: 0.11, a: 0.005, r: 0.05 }); }); },
+    crickets: function (at) { at = at || 0; for (var i = 0; i < 6; i++) voice({ at: at + i * 0.16 + (i > 2 ? 0.5 : 0), type: "sine", f: [[0, 4200], [0.05, 4400]], am: 60, form: [[4300, 4, 1]], vol: 0.012, dur: 0.09, a: 0.005, r: 0.04 }); },
+    thunderFar: function (at) { noise(2.6, "lowpass", 160, 0.6, 0.12, at, 60, true); },
     step: function () { noise(0.06, "bandpass", outdoor ? 1300 : 700, 0.9, 0.045); if (outdoor && rainNow > 0.2) noise(0.09, "highpass", 3000, 0.7, 0.02, 0.02); },
     drop: function () { noise(0.025, "bandpass", 3400 + Math.random() * 1200, 3, 0.015); },
     breath: function () { voice({ type: "sine", f: [[0, 180], [0.9, 260]], form: [[400, 1, 0.6]], vol: 0.02, dur: 0.9, a: 0.3, r: 0.4 }); noise(0.9, "lowpass", 700, 0.6, 0.03, 0, 300); }
@@ -855,7 +1054,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var dt = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now; clock += dt;
     if (!started) {
       waitedFor += dt;
-      if (ready()) { try { A = buildActors(); } catch (e) { return finish(true); } started = true; if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; } }
+      if (ready() && (WX.done || waitedFor > 1.6)) { try { applyWeather(); lineIdx = -1; capIdx = -1; if (track(RAIN, 0) === 0) { drops.length = 0; fx.length = 0; } A = buildActors(); dressSunny(A.sunnyRoot); } catch (e) { return finish(true); } started = true; if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; } }
       else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
     }
     if (started && !paused && !done) {
@@ -863,7 +1062,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       if (tau >= T_END) finish(false);
     }
     try { render(tau); } catch (e) { return finish(true); }
-    rainStep(paused ? 0 : dt);
+    if (started) rainStep(paused ? 0 : dt); else g2.clearRect(0, 0, W, H);
     soundStep(tau, prevTau, 1); prevTau = tau;
     if (A && Math.random() < dt / 3.2 && !A.pupRoot.hasAttribute("data-emotion") && A.pupRoot.getAttribute("data-act") !== "sleep") { A.pupRoot.classList.add("is-blink"); setTimeout(function () { if (A) A.pupRoot.classList.remove("is-blink"); }, 110); }
     if (!done || story.parentNode) rafId = requestAnimationFrame(frame);

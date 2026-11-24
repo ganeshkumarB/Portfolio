@@ -3667,3 +3667,5 @@ html.reduce-motion .tl__now::before { animation: none; }
   .mz, .mz--a { aspect-ratio: 4 / 3.5; }
   .mz .cv.k, #case-design-system .cv.k, #case-operator-console .cv.k, .mz--a .cv.k { top: 4%; height: 60%; }
 }
+.prefs__row--btn { flex-direction: column; align-items: flex-start; gap: 8px; }
+.prefs__hint--story { margin: 0; max-width: 360px; font-size: 12px; }
