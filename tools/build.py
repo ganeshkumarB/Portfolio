@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261356"
+VER = "20261358"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -218,6 +218,7 @@ def footer(nxt, back_label="All work", back_href="index.html#work", prev=None):
   </footer>
 
   <script src="prefs.js?v={VER}"></script>
+  <script src="motion.js?v={VER}" defer></script>
   <script src="case.js?v={VER}"></script>
   <script src="sunny.js?v={VER}"></script>
   <script src="sunny-config.js?v={VER}"></script>
