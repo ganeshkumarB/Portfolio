@@ -532,10 +532,12 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     if (FLEXMAPS) return FLEXMAPS;
     function gs(x, c, w) { var d = (x - c) / w; return Math.exp(-d * d); }
     function ss(a, b, x) { var u = Math.max(0, Math.min(1, (x - a) / (b - a))); return u * u * (3 - 2 * u); }
+    /* each map covers the filter's whole area (-20..240): outside a map an SVG displacement reads "empty" as a big fixed shift and
+       copies bits of the drawing into the air (a floating sliver of ear above his head) */
     function map(fn) {
-      var N = 220, c = doc.createElement("canvas"); c.width = c.height = N; var x = c.getContext("2d"); if (!x) return null;
+      var N = 260, c = doc.createElement("canvas"); c.width = c.height = N; var x = c.getContext("2d"); if (!x) return null;
       var im = x.createImageData(N, N);
-      for (var j = 0; j < N; j++) for (var i = 0; i < N; i++) { var v = fn(i + 0.5, j + 0.5), k = (j * N + i) * 4; im.data[k] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[0]))); im.data[k + 1] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[1]))); im.data[k + 2] = 128; im.data[k + 3] = 255; }
+      for (var j = 0; j < N; j++) for (var i = 0; i < N; i++) { var v = fn(i - 20 + 0.5, j - 20 + 0.5), k = (j * N + i) * 4; im.data[k] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[0]))); im.data[k + 1] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[1]))); im.data[k + 2] = 128; im.data[k + 3] = 255; }
       x.putImageData(im, 0, 0); return c.toDataURL();
     }
     /* leg centres in the drawing's 220 box, measured from the art: near hind 72, far hind 98, near front 119, far front 149 */
@@ -555,7 +557,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     var NS = "http://www.w3.org/2000/svg", svg = pr.querySelector(".puppy__svg"), art = svg && svg.querySelector(".p-art"); if (!art) return null;
     var id = "sl-flex-" + (++uid), f = doc.createElementNS(NS, "filter");
     [["id", id], ["filterUnits", "userSpaceOnUse"], ["primitiveUnits", "userSpaceOnUse"], ["x", "-20"], ["y", "-20"], ["width", "260"], ["height", "260"], ["color-interpolation-filters", "sRGB"]].forEach(function (a) { f.setAttribute(a[0], a[1]); });
-    var img = function (h, r) { return '<feImage href="' + h + '" x="0" y="0" width="220" height="220" preserveAspectRatio="none" result="' + r + '"/>'; };
+    var img = function (h, r) { return '<feImage href="' + h + '" x="-20" y="-20" width="260" height="260" preserveAspectRatio="none" result="' + r + '"/>'; };
     var dmap = function (i, m, r) { return '<feDisplacementMap in="' + i + '" in2="' + m + '" scale="0" xChannelSelector="R" yChannelSelector="G"' + (r ? ' result="' + r + '"' : "") + "/>"; };
     f.innerHTML = img(m.swing, "m1") + img(m.spine, "m2") + img(m.tilt, "m3") + img(m.nod, "m4") + img(m.ears, "m5") +
       dmap("SourceGraphic", "m1", "a") + dmap("a", "m2", "b") + dmap("b", "m3", "c") + dmap("c", "m4", "d") + dmap("d", "m5");
