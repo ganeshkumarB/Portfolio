@@ -1,22 +1,28 @@
 /* Sunny & Puppy: the loading story. On a visitor's first visit, before the site,
-   a short film plays: a rainy evening, a frightened puppy, three bigger dogs, an
-   umbrella, a warm room, a sunrise. Then the curtain lifts, Sunny and Puppy are in
-   the corner together, and unless the visitor has chosen Puppy, Puppy says goodbye
-   and walks home into a little doghouse on the left.
+   a short film plays: one small story about Sunny and Puppy, told in the weather that is
+   really outside the visitor's window. Rain outside is a puddle walk under one umbrella;
+   sun is a wander after a butterfly; a dry night is a walk under the stars; snow is a
+   snowball; wind is a chase after a leaf; a thunderstorm is waited out together on the
+   porch. The weather picks the story and the time of day lights it, both settled before
+   anything is shown, and neither changes while it plays. Then the curtain lifts, Sunny
+   and Puppy are in the corner together, and unless the visitor has chosen Puppy, Puppy
+   says goodbye and walks home into a little doghouse on the left.
 
    It plays once per visitor (localStorage "sunny:story"); add ?story to the address
    to watch it again. Skip with the button or Escape. The page loads underneath and is
-   never held back: the film is the welcome, not a wait.
+   never held back: the button turns into "Enter site" the moment the page has really
+   finished loading, and when the story ends the curtain lifts (if the page is still
+   loading, the last scene goes on for a few seconds at most).
 
    Sunny and Puppy are the site's own artwork, drawn by sunny.js (Sunny.art) and puppy.js
-   (Puppy.art) and animated by their own face and act CSS in sunny.css. The street, the
-   room, the bigger dogs, the umbrella, the scarf and the rest are scenery drawn here.
-   Every sound is synthesised with Web Audio; sound is off unless the visitor has turned
-   Sunny's sound on, and the Sound button turns it on for the film.
+   (Puppy.art) and animated by their own face and act CSS in sunny.css; only clothes for
+   the weather are added on top. The street, the porch, the umbrella and the small props
+   are scenery drawn here. Every sound is synthesised with Web Audio; sound is off unless
+   the visitor has turned Sunny's sound on, and the Sound button turns it on for the film.
 
-   Loaded as the first script in <body>, synchronously, so the night scene is up before
-   the page paints. If the characters cannot be drawn within a few seconds the curtain
-   simply lifts. Reduced motion shows one still per scene, faster, without rain. */
+   Loaded as the first script in <body>, synchronously, so the curtain is up before the
+   page paints. If the characters cannot be drawn within a few seconds the curtain simply
+   lifts. Reduced motion shows a handful of stills from the same story, in the same weather. */
 (function () {
   "use strict";
   var doc = document, html = doc.documentElement, win = window;
@@ -30,7 +36,7 @@
   var reduced = (win.matchMedia && win.matchMedia("(prefers-reduced-motion: reduce)").matches) || pref("pref:motion") === "reduce";
   var dark = pref("theme") === "dark";
   if (dark) html.setAttribute("data-theme", "dark");
-  var W = 1600, H = 900, GY = 780, T_END = 66;
+  var W = 1600, H = 900, GY = 780, T_END = 26;
 
   /* ===================================================================== styles */
   var CSS = `
@@ -38,7 +44,6 @@ html.sl-on { overflow: hidden !important; }
 html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibility: hidden !important; }
 .sst { position: fixed; inset: 0; z-index: 2147483000; overflow: hidden; background: #08111f; color: #fff; font-family: "Inter", system-ui, sans-serif; transition: opacity 1.1s ease; -webkit-user-select: none; user-select: none; --font-d: "Space Grotesk", "Inter", sans-serif; --font-m: "JetBrains Mono", ui-monospace, monospace; }
 .sst.is-out { opacity: 0; pointer-events: none; }
-.sst-view { position: absolute; inset: 0; overflow: hidden; }
 .sst-world { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 0 0; will-change: transform; }
 .sst-layer { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; }
 .sst-sky { position: absolute; left: -500px; right: -500px; top: -1200px; height: 2100px; background: linear-gradient(to bottom, var(--skyT) 0%, var(--skyT) 52%, var(--skyB) 100%); }
@@ -93,10 +98,10 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .sst-pose.st-brace { transform: rotate(-7deg) translateX(-4px); transition-duration: 0.35s; }
 .sst-birds { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; opacity: var(--birds); pointer-events: none; }
 .sst-bird { position: absolute; width: 26px; height: 12px; animation: sst-fly 16s linear infinite; }
-.sst-bird svg { display: block; width: 100%; height: 100%; animation: sst-flap 0.42s ease-in-out infinite alternate; transform-origin: 50% 60%; }
+.sst-bird svg { display: block; width: 100%; height: 100%; animation: sst-wing 0.42s ease-in-out infinite alternate; transform-origin: 50% 60%; }
 @keyframes sst-fly { from { transform: translateX(-120px); } to { transform: translateX(1760px); } }
-@keyframes sst-flap { from { transform: scaleY(1); } to { transform: scaleY(0.35); } }
-.sst-street svg, .sst-room svg { position: absolute; left: 0; top: 0; overflow: visible; }
+@keyframes sst-wing { from { transform: scaleY(1); } to { transform: scaleY(0.35); } }
+.sst-street svg { position: absolute; left: 0; top: 0; overflow: visible; }
 .c-far { fill: var(--far); } .c-mid { fill: var(--mid); } .c-near { fill: var(--near); } .c-neard { fill: var(--nearDark); }
 .c-win { fill: var(--win); opacity: var(--winOn); } .c-wind { fill: var(--nearDark); opacity: 0.55; }
 .c-walk { fill: var(--walk); } .c-curb { fill: var(--curb); } .c-road { fill: var(--road); }
@@ -106,15 +111,8 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .sst.is-reduced .sst-smoke i { animation: none; opacity: 0.6; }
 .sst-glow { position: absolute; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 214, 140, 0.55) 0%, rgba(255, 200, 120, 0.18) 32%, rgba(255, 200, 120, 0) 64%); mix-blend-mode: screen; pointer-events: none; }
 .sst-cone { position: absolute; width: 360px; height: 300px; margin-left: -180px; background: linear-gradient(to bottom, rgba(255, 216, 150, 0.2), rgba(255, 216, 150, 0.03) 85%, rgba(255, 216, 150, 0)); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); mix-blend-mode: screen; pointer-events: none; }
-.sst-spot { position: absolute; width: 900px; height: 520px; margin: -260px 0 0 -450px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 220, 160, 0.16), rgba(255, 220, 160, 0)); mix-blend-mode: screen; pointer-events: none; }
 .sst-mist { position: absolute; left: -500px; width: 2600px; top: 560px; height: 300px; background: linear-gradient(to bottom, rgba(150, 172, 210, 0) 0%, rgba(var(--mistC), 0.24) 55%, rgba(var(--mistC), 0.07) 100%); pointer-events: none; animation: sst-mist 18s ease-in-out infinite alternate; }
 @keyframes sst-mist { from { transform: translateX(-40px); } to { transform: translateX(40px); } }
-.sst-room { position: absolute; left: 0; top: -900px; width: 1600px; height: 2700px; background: linear-gradient(to bottom, #efc08a 0, #f3c992 1500px, #f0c48d 1620px, #b9784a 1620px, #8f5a35 100%); opacity: 0; }
-.sst-room > svg { top: 900px; }
-.sst-room-rain { position: absolute; left: 212px; top: 1162px; width: 256px; height: 286px; background: repeating-linear-gradient(104deg, rgba(190, 210, 240, 0) 0 9px, rgba(190, 210, 240, 0.55) 9px 10px, rgba(190, 210, 240, 0) 10px 23px); background-size: 46px 140px; animation: sst-wrain 0.55s linear infinite; mix-blend-mode: screen; }
-@keyframes sst-wrain { to { background-position: -14px 140px; } }
-.sst-room-glow { position: absolute; left: 1160px; top: 1330px; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 196, 110, 0.5), rgba(255, 170, 90, 0.12) 40%, rgba(255, 170, 90, 0) 66%); mix-blend-mode: screen; animation: sst-flicker 3.2s ease-in-out infinite; }
-@keyframes sst-flicker { 0%, 100% { opacity: 1; } 40% { opacity: 0.92; } 46% { opacity: 0.97; } 70% { opacity: 0.9; } }
 .sst-actors { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; }
 .sst-actor { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
 .sst-flip { position: absolute; inset: 0; transition: transform 0.24s cubic-bezier(0.5, 0, 0.2, 1); }
@@ -133,16 +131,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sunny.st-mend .s-arm--r { animation: none !important; transform: rotate(38deg) !important; }
 .sst-pose.st-sit { transform: translateY(9px) scale(1.04, 0.95); }
 .sst-pose.st-bend { transform: rotate(9deg) translateY(4px); }
-.sst-pose.st-breath { animation: sst-breath 1.5s ease-in-out 1; }
-@keyframes sst-breath { 0%, 100% { transform: none; } 45% { transform: scale(1.06, 0.97) translateY(-3px); } 70% { transform: scale(0.98, 1.02); } }
 .sst-pose.st-tremble { animation: sst-tremble 0.16s linear infinite alternate; }
 @keyframes sst-tremble { from { transform: translateX(-1.2px); } to { transform: translateX(1.2px); } }
 .sst-pose.st-shiver { animation: sst-shiver 0.11s linear infinite alternate; }
 @keyframes sst-shiver { from { transform: translateX(-1px) scale(0.985, 0.99); } to { transform: translateX(1px) scale(0.985, 0.99); } }
-.sst-pose.st-creep { animation: sst-creep 0.9s ease-in-out infinite; }
-@keyframes sst-creep { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-.sst-pose.st-trot { animation: sst-trot 0.38s ease-in-out infinite alternate; }
-@keyframes sst-trot { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-5px) rotate(1.5deg); } }
 .sst-pose.st-lean { transform: rotate(6deg) translateX(4px); }
 /* turning around: a little hop and a squash as the body swings, the way a dog pivots on its back legs */
 .sst-pose.st-turn { animation: sst-turn 0.34s cubic-bezier(0.3, 0.7, 0.4, 1) 1 !important; }
@@ -151,76 +143,19 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-wet { opacity: 0; transition: opacity 1.2s ease; } .is-wet .sst-wet { opacity: 1; }
 .sst-drip { animation: sst-drip 1.1s ease-in infinite; } .sst-drip:nth-child(2) { animation-delay: 0.45s; } .sst-drip:nth-child(3) { animation-delay: 0.8s; }
 @keyframes sst-drip { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(18px); opacity: 0; } }
-.sst-scarf-g, .sst-scarf-w, .sst-mendscarf { opacity: 0; transition: opacity 0.5s ease; }
-.has-scarf-g .sst-scarf-g, .has-scarf-w .sst-scarf-w, .has-mend .sst-mendscarf { opacity: 1; }
-/* the street dogs: jointed legs that walk in diagonal pairs, a body that bobs with the stride, a head that leads */
-.sst-dog .sst-pose { transform-origin: 50% 100%; }
-.sst-dog .sst-over { filter: brightness(var(--dogB, 0.8)) saturate(0.9); }
-.sst-dog .sst-over * { transform-box: view-box; }
-.dg-upper { animation: dg-breathe 2.8s ease-in-out infinite; transform-origin: 160px 200px; }
-@keyframes dg-breathe { 0%, 100% { transform: none; } 50% { transform: translateY(-0.6px) scale(1.004, 1.012); } }
-.dg-head { transform-origin: 96px 104px; transition: transform 0.6s cubic-bezier(0.3, 1.2, 0.5, 1); }
-.dg-jaw { transform-origin: 60px 84px; transition: transform 0.3s ease; }
-.dg-ear { transform-origin: 76px 50px; transition: transform 0.35s ease; }
-.dg-tail { transform-origin: 226px 104px; transition: transform 0.6s ease; animation: dg-tailsway 2.6s ease-in-out infinite; }
-@keyframes dg-tailsway { 0%, 100% { rotate: -4deg; } 50% { rotate: 4deg; } }
-.dg-scruff { transform-origin: 100px 98px; transition: transform 0.4s ease; }
-.dg-teeth { opacity: 0; transition: opacity 0.25s ease; }
-.dg-brow--u { opacity: 0; } .dg-brow { transition: opacity 0.3s ease; }
-.dg-eye { transform-origin: 60px 64px; transition: transform 0.3s ease; }
-/* legs: thigh/upper leg swings from the shoulder or hip, the lower leg folds at the knee or hock while the paw is in the air */
-.dg-leg--fn, .dg-leg--ff { transform-origin: 113px 138px; } .dg-leg--ff { transform-origin: 124px 138px; }
-.dg-leg--bn { transform-origin: 206px 124px; } .dg-leg--bf { transform-origin: 196px 124px; }
-.dg-shin--f { transform-origin: 113px 174px; } .dg-leg--ff .dg-shin--f { transform-origin: 124px 174px; }
-.dg-shin--b { transform-origin: 208px 174px; } .dg-leg--bf .dg-shin--b { transform-origin: 198px 174px; }
-.st-walk .dg-leg { animation: dg-stride var(--gait, 0.62s) linear infinite; }
-.st-walk .dg-shin--f { animation: dg-knee var(--gait, 0.62s) linear infinite; }
-.st-walk .dg-shin--b { animation: dg-hock var(--gait, 0.62s) linear infinite; }
-.st-walk .dg-leg--ff, .st-walk .dg-leg--ff .dg-shin--f, .st-walk .dg-leg--bn, .st-walk .dg-leg--bn .dg-shin--b { animation-delay: calc(var(--gait, 0.62s) * -0.5); }
-@keyframes dg-stride { 0% { transform: rotate(17deg); } 60% { transform: rotate(-17deg); } 80% { transform: rotate(-2deg); } 100% { transform: rotate(17deg); } }
-@keyframes dg-knee { 0%, 58% { transform: none; } 72% { transform: rotate(-42deg); } 88% { transform: rotate(-12deg); } 100% { transform: none; } }
-@keyframes dg-hock { 0%, 58% { transform: none; } 72% { transform: rotate(30deg); } 90% { transform: rotate(6deg); } 100% { transform: none; } }
-.st-walk .dg-upper { animation: dg-bob calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
-@keyframes dg-bob { from { transform: translateY(0) rotate(0.4deg); } to { transform: translateY(-2.5px) rotate(-0.6deg); } }
-.st-walk .dg-head { animation: dg-nod calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
-@keyframes dg-nod { from { rotate: 0deg; } to { rotate: -3deg; } }
-.st-walk .dg-tail { animation: dg-tailwalk calc(var(--gait, 0.62s) / 2) ease-in-out infinite alternate; }
-@keyframes dg-tailwalk { from { rotate: -6deg; } to { rotate: 6deg; } }
-/* looming: head down and forward, hackles up, a lifted lip, a slow heave of the chest */
-.st-loom .dg-head { transform: rotate(-9deg) translate(-6px, 10px); }
-.st-loom .dg-scruff { transform: scaleY(1.6); }
-.st-loom .dg-teeth { opacity: 1; }
-.st-loom .dg-tail { transform: rotate(-18deg); animation: none; }
-.st-loom .dg-ear { transform: rotate(-6deg); }
-.st-loom .dg-upper { animation: dg-heave 1.4s ease-in-out infinite; }
-@keyframes dg-heave { 0%, 100% { transform: none; } 50% { transform: translateY(-1px) scale(1.01, 1.025); } }
-/* unsure: head up and back, ears flat, the tail dropping, weight shifting back */
-.st-hesitate .dg-head { transform: rotate(8deg) translate(6px, -4px); }
-.st-hesitate .dg-ear { transform: rotate(24deg); }
-.st-hesitate .dg-tail { transform: rotate(30deg); animation: none; }
-.st-hesitate .dg-brow--m, .st-leave .dg-brow--m { opacity: 0; } .st-hesitate .dg-brow--u, .st-leave .dg-brow--u { opacity: 1; }
-.st-hesitate .dg-eye { transform: scale(1.16); }
-.st-hesitate .dg-upper { animation: dg-shift 1.2s ease-in-out infinite; }
-@keyframes dg-shift { 0%, 100% { transform: none; } 50% { transform: translateX(4px) rotate(1deg); } }
-/* leaving: a quick trot, tail tucked, head low */
-.st-leave { --gait: 0.46s; }
-.st-leave .dg-tail { transform: rotate(48deg); animation: none; }
-.st-leave .dg-ear { transform: rotate(22deg); }
-.st-leave .dg-head { transform: rotate(5deg) translateY(5px); }
-.sst-towel .tw { animation: sst-rub 0.32s ease-in-out infinite alternate; }
-@keyframes sst-rub { from { transform: translateX(-7px) rotate(-3deg); } to { transform: translateX(7px) rotate(3deg); } }
+.sst-scarf-w { opacity: 0; }
+.has-scarf-w .sst-scarf-w { opacity: 1; }
 .sst-spark { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; opacity: 0; pointer-events: none; }
 .sst-spark.on { animation: sst-spark 0.9s ease-out 1; }
 @keyframes sst-spark { 0% { opacity: 0; transform: scale(0.3) rotate(0); } 30% { opacity: 1; transform: scale(1.1) rotate(25deg); } 100% { opacity: 0; transform: scale(0.6) rotate(60deg); } }
 .sst-rain { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; pointer-events: none; }
-.sst-dip { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .sst-grade { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; }
 .sst-flash { position: absolute; inset: 0; background: #e8efff; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
 .sst-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 55%, rgba(0, 0, 0, 0) 45%, rgba(4, 8, 16, 0.85) 100%); }
-.sst-cap { position: absolute; left: 6%; right: 6%; top: 13%; margin: 0; text-align: center; font: 300 clamp(20px, 2.4vw, 38px)/1.25 var(--font-d); letter-spacing: -0.01em; color: var(--capC, #f5f7fb); text-shadow: 0 2px 22px var(--capS, rgba(0, 0, 0, 0.45)); opacity: 0; }
-.sst-title { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-58%); text-align: center; opacity: 0; color: var(--capC, #3a2618); pointer-events: none; }
-.sst-title h1 { margin: 0; font: 600 clamp(28px, 4.4vw, 64px)/1 var(--font-d); letter-spacing: 0.22em; padding-left: 0.22em; color: inherit; }
-.sst-title p { margin: 18px 0 0; font: 400 clamp(14px, 1.4vw, 19px)/1.4 "Inter", system-ui, sans-serif; opacity: 0.8; color: inherit; }
+/* the title sits at the top, clear of the two of them */
+.sst-title { position: absolute; left: 0; right: 0; top: clamp(18px, 7vh, 64px); text-align: center; opacity: 0; color: var(--capC, #f5f7fb); text-shadow: 0 2px 22px var(--capS, rgba(0, 0, 0, 0.45)); pointer-events: none; }
+.sst-title h1 { margin: 0; font: 600 clamp(20px, 2.6vw, 38px)/1 var(--font-d); letter-spacing: 0.22em; padding-left: 0.22em; color: inherit; }
+.sst-title p { margin: 12px 0 0; font: 400 clamp(12px, 1.2vw, 16px)/1.4 "Inter", system-ui, sans-serif; opacity: 0.85; color: inherit; }
 .sst-ui { position: absolute; left: clamp(16px, 4vw, 48px); right: clamp(16px, 4vw, 48px); bottom: clamp(14px, 4vh, 36px); display: flex; align-items: center; gap: 14px; font: 500 11px/1 var(--font-m); letter-spacing: 0.08em; color: var(--uiC, rgba(255, 255, 255, 0.66)); }
 .sst-track { position: relative; width: 92px; height: 2px; border-radius: 2px; background: var(--uiT, rgba(255, 255, 255, 0.16)); flex: none; }
 .sst-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 2px; background: #ffc93c; }
@@ -230,9 +165,45 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-btn:hover, .sst-btn:focus-visible { color: var(--capC, #fff); outline: none; text-decoration: underline; text-underline-offset: 4px; }
 .sst-btn[aria-pressed="true"] { color: #ffc93c; }
 @media (max-width: 560px) { .sst-line { display: none; } .sst-ui { justify-content: space-between; } }
-.sst.is-reduced .sst-pose, .sst.is-reduced .sst-actor *, .sst.is-reduced .sst-room-rain, .sst.is-reduced .sst-bird, .sst.is-reduced .sst-mist { animation: none !important; transition-duration: 0.01s !important; }
+.sst.is-reduced .sst-pose, .sst.is-reduced .sst-actor *, .sst.is-reduced .sst-bird, .sst.is-reduced .sst-mist { animation: none !important; transition-duration: 0.01s !important; }
 .sst.is-reduced .sst-flip { transition: none; }
 .sst.is-still *, .sst.is-still .sst-flip, .sst.is-still .sst-pose { transition: none !important; }
+/* ---- the world stays behind the curtain until the weather is known, then fades up already in its weather ---- */
+.sst-view { opacity: 0; transition: opacity 0.7s ease; }
+.sst.is-ready .sst-view { opacity: 1; }
+.sst.is-still .sst-view { transition: none; }
+.sst-cloud { animation: sst-drift 46s ease-in-out infinite alternate; }
+.sst.is-windy .sst-cloud { animation-duration: 11s; }
+@keyframes sst-drift { from { translate: 40px 0; } to { translate: -90px 0; } }
+/* plants and window boxes move with the air: a little on a calm day, a lot in the wind */
+.sst-street .c-leaf, .sst-street .c-leaf2, .sst-street .c-bloomA, .sst-street .c-bloomB { animation: sst-sway 3.4s ease-in-out infinite alternate; }
+.sst-street .c-leaf2, .sst-street .c-bloomB { animation-delay: -1.3s; }
+@keyframes sst-sway { from { transform: translateX(-0.9px); } to { transform: translateX(0.9px); } }
+.sst.is-windy .sst-street .c-leaf, .sst.is-windy .sst-street .c-leaf2, .sst.is-windy .sst-street .c-bloomA, .sst.is-windy .sst-street .c-bloomB { animation: sst-swayw 0.8s ease-in-out infinite alternate; }
+@keyframes sst-swayw { from { transform: translate(-2px, 0.4px); } to { transform: translate(-6px, 1.2px); } }
+/* the porch: a striped roof over the door, a lantern, a lit pane, and the warm light they throw */
+.c-lan { fill: #ffd58a; stroke: var(--nearDark); stroke-width: 1.6; opacity: calc(0.3 + var(--porch, 0) * 0.7); }
+.c-doorwin { fill: var(--win); opacity: calc(var(--porch, 0) * 0.85); }
+.c-awnshade { fill: #000; opacity: 0.16; }
+.sst-porchglow { position: absolute; left: 340px; top: 690px; width: 560px; height: 440px; margin: -220px 0 0 -280px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 196, 120, 0.5), rgba(255, 180, 100, 0.16) 55%, rgba(255, 180, 100, 0)); mix-blend-mode: screen; opacity: var(--porch, 0); pointer-events: none; }
+/* the small things the stories are about */
+.sst-prop { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform, opacity; opacity: 0; }
+.sst-prop svg { display: block; overflow: visible; }
+.bf-l, .bf-r { transform-box: view-box; transform-origin: 18px 16px; animation: sst-bf 0.2s ease-in-out infinite alternate; }
+@keyframes sst-bf { from { transform: scaleX(1); } to { transform: scaleX(0.2); } }
+.sst-prop.is-rest .bf-l, .sst-prop.is-rest .bf-r { animation-duration: 1.2s; }
+.sst-glowdot svg { filter: drop-shadow(0 0 5px #ffe98a) drop-shadow(0 0 12px rgba(255, 233, 138, 0.75)); }
+.sst-shoot svg { filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)); }
+.sst-flies { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; pointer-events: none; opacity: 0; }
+.sst-flies i { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #fff3a8; box-shadow: 0 0 10px 4px rgba(255, 236, 130, 0.5); animation: sst-float 7s ease-in-out infinite alternate, sst-glim 1.9s ease-in-out infinite alternate; }
+@keyframes sst-float { from { transform: translate(0, 0); } 50% { transform: translate(26px, -30px); } to { transform: translate(-18px, -58px); } }
+@keyframes sst-glim { from { opacity: 0.2; } to { opacity: 1; } }
+.sst.is-reduced .sst-flies i, .sst.is-reduced .sst-cloud, .sst.is-reduced .sst-street *, .sst.is-reduced .bf-l, .sst.is-reduced .bf-r { animation: none !important; }
+/* sunlight: a warm wash falling across the street from the upper right, only when the sun is really out */
+.sst-sunwash { position: absolute; left: -500px; top: -300px; width: 2600px; height: 1500px; background: linear-gradient(118deg, rgba(255, 206, 130, 0) 34%, rgba(255, 206, 130, 0.2) 60%, rgba(255, 222, 160, 0.42) 100%); mix-blend-mode: screen; opacity: var(--rays, 0); pointer-events: none; }
+.sst-sunpool { position: absolute; left: 0; top: 742px; width: 1600px; height: 110px; background: radial-gradient(ellipse at 62% 40%, rgba(255, 226, 160, 0.5), rgba(255, 226, 160, 0) 62%); mix-blend-mode: screen; opacity: var(--rays, 0); pointer-events: none; }
+/* snow lies on every roof and ledge */
+.c-cap { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; opacity: var(--snowy, 0); }
 `;
 
   /* ===================================================================== scenery */
@@ -282,7 +253,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       <path d="M196 520v72M160 556h78M456 520v72M420 556h78" stroke="var(--nearDark)" stroke-width="4"/>
       <rect class="c-neard" x="288" y="632" width="84" height="128" rx="6"/>
       <rect x="296" y="640" width="68" height="120" rx="4" fill="#3a2a22" opacity="0.85"/>
-      <g data-r="door"><rect x="296" y="640" width="68" height="120" rx="4" class="c-near"/><rect x="304" y="650" width="52" height="46" rx="3" class="c-neard"/><circle cx="352" cy="706" r="3.5" fill="#c9a24a"/></g>
+      <g data-r="door"><rect x="296" y="640" width="68" height="120" rx="4" class="c-near"/><rect x="304" y="650" width="52" height="46" rx="3" class="c-neard"/><rect class="c-doorwin" x="308" y="654" width="44" height="38" rx="2"/><circle cx="352" cy="706" r="3.5" fill="#c9a24a"/></g>
       <rect class="c-curb" x="278" y="756" width="104" height="8" rx="2"/>
       <g data-r="details">
         <path class="c-awn" d="M148 506 H250 L244 524 Q237 531 230 524 Q223 531 216 524 Q209 531 202 524 Q195 531 188 524 Q181 531 174 524 Q167 531 160 524 Q155 529 150 524 Z"/>
@@ -297,6 +268,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
         <g data-r="bulbs"></g>
         <path class="c-cobble" data-r="cobble"/>
         <path class="c-hi" d="M-500 799 H2100"/>
+      </g>
+      <g data-r="porch">
+        <path class="c-awnshade" d="M214 623 Q342 627 470 623 L466 637 Q342 643 218 637 Z"/>
+        <path class="c-awn" d="M210 596 H474 L482 617 Q473.2 625 464.5 617 Q455.8 625 447.0 617 Q438.2 625 429.5 617 Q420.8 625 412.0 617 Q403.2 625 394.5 617 Q385.8 625 377.0 617 Q368.2 625 359.5 617 Q350.8 625 342.0 617 Q333.2 625 324.5 617 Q315.8 625 307.0 617 Q298.2 625 289.5 617 Q280.8 625 272.0 617 Q263.2 625 254.5 617 Q245.8 625 237.0 617 Q228.2 625 219.5 617 Q210.8 625 202.0 617 Z"/>
+        <path class="c-awn2" d="M210.0 596 L226.5 596 L219.5 617 Q210.8 625 202.0 617 Z M243.0 596 L259.5 596 L254.5 617 Q245.8 625 237.0 617 Z M276.0 596 L292.5 596 L289.5 617 Q280.8 625 272.0 617 Z M309.0 596 L325.5 596 L324.5 617 Q315.8 625 307.0 617 Z M342.0 596 L358.5 596 L359.5 617 Q350.8 625 342.0 617 Z M375.0 596 L391.5 596 L394.5 617 Q385.8 625 377.0 617 Z M408.0 596 L424.5 596 L429.5 617 Q420.8 625 412.0 617 Z M441.0 596 L457.5 596 L464.5 617 Q455.8 625 447.0 617 Z"/>
+        <path d="M350 623 q0 4 0 6" stroke="var(--nearDark)" stroke-width="2" fill="none"/><path class="c-lan" d="M344 629 q6 -3 12 0 l1 12 q-7 4 -14 0 Z"/>
       </g>
       <rect x="-500" y="680" width="2600" height="80" fill="url(#sst-ao)"/>
       <path class="c-neard" d="M1080 760V360H1800V760Z"/>
@@ -320,35 +297,15 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     </svg>
   </div>
   <div class="sst-mist" data-r="mist"></div>
-  <div class="sst-room" data-r="room">
-    <svg width="1600" height="900" viewBox="0 0 1600 900" aria-hidden="true">
-      <defs><linearGradient id="sst-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14213a"/><stop offset="1" stop-color="#2c4166"/></linearGradient></defs>
-      <rect x="-500" y="596" width="2600" height="10" fill="#d9a66e" opacity="0.7"/>
-      <rect x="196" y="246" width="288" height="318" rx="8" fill="#b57e4f"/>
-      <rect x="212" y="262" width="256" height="286" rx="4" fill="url(#sst-glass)"/>
-      <path d="M340 262v286M212 405h256" stroke="#b57e4f" stroke-width="8"/>
-      <path d="M170 236 q40 150 0 340 h48 q-26 -170 0 -340z" fill="#e9876a"/>
-      <path d="M510 236 q-40 150 0 340 h-48 q26 -170 0 -340z" fill="#e9876a"/>
-      <rect x="150" y="226" width="380" height="14" rx="6" fill="#9a6a42"/>
-      <g transform="translate(680 300)"><rect width="150" height="112" rx="6" fill="#8a5b38"/><rect x="10" y="10" width="130" height="92" rx="3" fill="#fff4dd"/><circle cx="75" cy="56" r="20" fill="#ffc93c" stroke="#111" stroke-width="2.5"/><path d="M75 36 c3 -9 -5 -12 -2 -20" fill="none" stroke="#111" stroke-width="2"/><circle cx="68" cy="54" r="2.4" fill="#111"/><circle cx="82" cy="54" r="2.4" fill="#111"/></g>
-      <g transform="translate(1160 0)"><rect x="-4" y="430" width="8" height="300" fill="#6b4a30"/><ellipse cx="0" cy="730" rx="48" ry="9" fill="#6b4a30"/><path d="M-70 430 L-46 340 H46 L70 430 Z" fill="#ffe3a6" stroke="#c99a5c" stroke-width="3"/></g>
-      <path d="M-500 720 H2100" stroke="#7d4c2c" stroke-width="3" opacity="0.5"/>
-      <path d="M-500 770 H2100 M-500 830 H2100 M-500 900 H2100" stroke="#7d4c2c" stroke-width="2" opacity="0.35"/>
-      <ellipse cx="740" cy="818" rx="400" ry="42" fill="#d9805a" opacity="0.9"/>
-      <ellipse cx="740" cy="818" rx="360" ry="34" fill="none" stroke="#f3b38b" stroke-width="4" opacity="0.7"/>
-      <g transform="translate(1340 770)"><ellipse cx="0" cy="10" rx="92" ry="22" fill="#a8693d"/><ellipse cx="0" cy="0" rx="80" ry="18" fill="#f1dfc4"/></g>
-    </svg>
-    <div class="sst-room-rain" data-r="roomRain"></div>
-    <div class="sst-room-glow"></div>
-  </div>
   <div class="sst-brush" data-r="brush"></div>
   <div class="sst-layer" data-r="glows">
     <div class="sst-smoke"><i></i><i></i><i></i></div>
     <div class="sst-cone" style="left:667px;top:466px"></div><div class="sst-cone" style="left:1213px;top:466px"></div>
     <div class="sst-glow" style="left:667px;top:470px"></div><div class="sst-glow" style="left:1213px;top:470px"></div>
-    <div class="sst-spot" data-r="spot" style="left:1230px;top:730px"></div>
+    <div class="sst-porchglow"></div><div class="sst-sunwash"></div><div class="sst-sunpool"></div>
   </div>
   <div class="sst-actors" data-r="actors"></div>
+  <div class="sst-flies" data-r="flies"></div>
   <div class="sst-fore" data-r="fore"><svg width="1600" height="900" viewBox="0 -56 1600 900" aria-hidden="true">
     <g class="c-fore"><ellipse cx="-40" cy="880" rx="150" ry="70"/><ellipse cx="90" cy="900" rx="120" ry="60"/><ellipse cx="200" cy="912" rx="90" ry="44"/><circle cx="20" cy="840" r="46"/><circle cx="-90" cy="830" r="52"/></g>
     <g class="c-fore2"><circle cx="40" cy="850" r="22"/><circle cx="120" cy="868" r="18"/></g>
@@ -361,18 +318,15 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 <div class="sst-grade" data-r="grade"></div>
 <div class="sst-flash" data-r="flash"></div>
 <div class="sst-vig" data-r="vig"></div>
-<div class="sst-dip" data-r="dipW" style="background:#1d120b"></div>
-<div class="sst-dip" data-r="dipG" style="background:#fff2d6"></div>
-<p class="sst-cap" data-r="cap" aria-live="polite"></p>
-<div class="sst-title" data-r="title"><h1>SUNNY &amp; PUPPY</h1><p>Some friendships begin with a little kindness.</p></div>
-<div class="sst-ui"><span class="sst-track"><span class="sst-fill" data-r="fill"></span></span><span class="sst-line" data-r="line"></span><button class="sst-btn" type="button" data-r="snd" aria-pressed="false">Sound</button><button class="sst-btn" type="button" data-r="skip">Skip →</button></div>`;
+<div class="sst-title" data-r="title"><h1>SUNNY &amp; PUPPY</h1><p data-r="sub"></p></div>
+<div class="sst-ui"><span class="sst-track"><span class="sst-fill" data-r="fill"></span></span><span class="sst-line" data-r="line">Looking out of the window…</span><button class="sst-btn" type="button" data-r="snd" aria-pressed="false">Sound</button><button class="sst-btn" type="button" data-r="skip">Skip →</button></div>`;
 
   /* ===================================================================== mount the curtain now */
   var style = doc.createElement("style"); style.textContent = CSS;
   var story = doc.createElement("div");
   story.className = "sst" + (reduced ? " is-reduced" : "");
   story.setAttribute("role", "img");
-  story.setAttribute("aria-label", "A short animated story: on a rainy evening Sunny finds a frightened puppy, stands up for him, takes him home, and the two become friends. Press Escape to skip.");
+  story.setAttribute("aria-label", "A short animated story about Sunny and Puppy. Press Escape to skip.");
   story.innerHTML = DOM;
   var body = doc.body || doc.currentScript.parentNode;
   body.insertBefore(style, body.firstChild);
@@ -424,6 +378,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       return { pts: pts, closed: closed };
     }
     var svg = R.street.querySelector("svg");
+    /* snow caps: a white line along every roof edge that is not a wall, shown only when it snows */
+    Array.prototype.forEach.call(svg.querySelectorAll("path.c-rim"), function (el) {
+      var p = parse(el.getAttribute("d") || ""), d = "";
+      for (var i = 0; i < p.pts.length - 1; i++) { var a = p.pts[i], b = p.pts[i + 1]; if (Math.abs(b[0] - a[0]) > 6) d += "M" + (Math.min(a[0], b[0]) === a[0] ? a[0] + 3 : a[0] - 3) + " " + (a[1] - 2) + " L" + (Math.min(a[0], b[0]) === a[0] ? b[0] - 3 : b[0] + 3) + " " + (b[1] - 2) + " "; }
+      var cap = document.createElementNS("http://www.w3.org/2000/svg", "path"); cap.setAttribute("class", "c-cap"); cap.setAttribute("d", d + "M0 0"); el.parentNode.insertBefore(cap, el.nextSibling);
+    });
     Array.prototype.forEach.call(svg.querySelectorAll("path"), function (el) {
       var d = el.getAttribute("d") || ""; if (!/^[MLHVZ\d\s.,-]+$/.test(d) || (d.match(/M/g) || []).length > 1 || el.closest("[data-r=details]")) return; /* single absolute straight-edged shapes only */
       var p = parse(d); if (p.pts.length < 2) return;
@@ -483,83 +443,14 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   }
   function states(list, t) { var s = {}; for (var i = 0; i < list.length && list[i][0] <= t; i++) { var o = list[i][1]; for (var k in o) s[k] = o[k]; } return s; }
   function smooth(a, b, t) { var u = Math.max(0, Math.min(1, (t - a) / (b - a))); return u * u * (3 - 2 * u); }
-  function winw(t, a, b, f) { f = f || 0.7; return smooth(a, a + f, t) * (1 - smooth(b - f, b, t)); }
 
-  var BANDS_T = [0, 6, 13, 21, 30, 40, 49, 56, 66], TITLE_AT = 63.4;
-  var LINES = ["A little walk in the rain…", "Sunny noticed someone…", "Someone needed help.", "Sunny decided to stay.", "A new friendship begins…", "A little warmth goes a long way.", "Finding a companion…", "Almost home…"];
-  var CAPS = [[0.8, 5.4, "Just another rainy evening…"], [7.0, 12.4, "…until Sunny noticed someone."], [14.2, 20.4, "The little puppy needed help."], [22.0, 29.4, "Sunny wasn’t going to leave him behind."],
-    [31.0, 39.4, "Sometimes, all you need is someone who stays."], [41.4, 48.4, "A little warmth changed everything."], [50.4, 55.6, "And Sunny found a friend."], [57.4, 60.6, "Yesterday, they were strangers."], [61.2, 66, "Today, neither is alone."]];
-  var SUNNY_X = [[0, 120], [6, 700, "lin"], [8.2, 700], [11.8, 880], [15.8, 880], [16.9, 832], [22.2, 832], [24.4, 1300], [40.30, 1300], [40.31, 700], [44.4, 700], [45.3, 930], [46.6, 930], [47.4, 640], [47.9, 640], [49.0, 1020], [49.25, 1020], [49.26, 334], [50.0, 334], [53.2, 760, "lin"], [54.8, 760], [56.0, 960, "lin"], [66, 960]];
-  var SUNNY_OP = [[0, 1], [49.25, 1], [49.26, 0], [49.95, 0], [50.25, 1]];
-  var SUNNY_S = [
-    [0, { act: "walk", slow: 1, hold: 1, emo: null, flip: false, look: [0.2, -0.2] }], [1.8, { look: [0.5, -0.5] }], [3.4, { look: [-0.4, -0.3] }], [4.6, { look: [0.3, 0] }],
-    [6.0, { act: null }], [6.4, { look: [1, 0.35] }], [6.7, { emo: "curious" }], [8.2, { act: "walk", emo: null }], [11.8, { act: null, look: [1, 0.45] }],
-    [13.6, { look: [1, -0.1] }], [15.0, { emo: "whoa" }], [15.8, { tremble: 1 }], [17.2, { emo: "confused" }], [20.2, { emo: null }],
-    [21.0, { tremble: 0, breath: 1 }], [22.0, { breath: 0, emo: "focused" }], [22.2, { act: "walk", slow: 0 }], [24.4, { act: null, look: [1, 0] }],
-    [28.0, { emo: null }], [28.8, { emo: "relaxed" }], [30.0, { emo: null, flip: true }], [30.9, { hold: 0, look: [1, 0.5] }],
-    [31.2, { reach: 1 }], [33.0, { reach: 0 }], [33.3, { bend: 1, look: [1, 0.9] }], [33.9, { bend: 0 }], [34.2, { sit: 1, look: [1, 0.5] }], [37.6, { look: [1, 0.2] }], [38.8, { emo: "blush" }],
-    [40.31, { sit: 0, emo: null, flip: true, reach: 1, act: null, look: [1, 0.6] }], [42.6, { reach: 0, emo: "laugh" }], [43.4, { emo: null, reach: 1, look: [1, 0.8] }], [44.0, { reach: 0 }],
-    [44.4, { flip: false, act: "walk" }], [45.3, { act: null, sit: 1, mend: 1, look: [0, 0.8] }], [46.6, { sit: 0, mend: 0, flip: true, act: "walk" }], [47.4, { act: null, reach: 1, look: [1, 0.4] }], [47.6, { emo: "happy" }],
-    [47.9, { reach: 0, flip: false, act: "walk", emo: null, look: [0.4, 0] }], [49.0, { act: null }],
-    [49.26, { flip: false, act: null, look: [0.4, -0.5] }], [50.0, { act: "walk", slow: 1 }], [53.2, { act: null }], [53.3, { flip: true, look: [1, 0.3] }], [53.5, { emo: "happy" }], [53.9, { reach: 1 }],
-    [54.6, { reach: 0, flip: false, emo: null }], [54.8, { act: "walk" }], [56.0, { act: null, look: [-0.6, 0.4] }], [56.3, { sit: 1 }], [57.4, { hug: 1, emo: "relaxed" }], [61.6, { emo: "sleepy" }]
-  ];
-  var UMB_ROT = [[0, -14], [15.9, -14], [16.7, 162], [24.3, 162], [24.75, 64, "back"], [30.4, 64], [30.85, -14]];
-  var UMB_OPEN = [[0, 1], [15.9, 1], [16.6, 0.16], [24.35, 0.16], [24.8, 1, "back"]];
-  var UMB_VIS = [[0, 1], [30.88, 1], [30.9, 0]];
-  var PUP_X = [[0, 1185], [16.4, 1185], [17.4, 1166], [19.0, 1166], [19.8, 1152], [31.5, 1152], [32.4, 1112], [34.6, 1112], [36.0, 1168], [37.4, 1168], [38.4, 1198], [40.30, 1198], [40.31, 590], [44.0, 590], [44.8, 540],
-    [47.9, 540], [49.0, 880], [49.25, 880], [49.26, 334], [51.0, 334], [53.2, 640, "lin"], [53.9, 640], [54.6, 702], [54.8, 702], [56.0, 846, "lin"], [56.5, 846], [57.3, 862], [66, 862]];
-  var PUP_OP = [[0, 1], [49.25, 1], [49.26, 0], [50.9, 0], [51.2, 1]];
-  var PUP_S = [
-    [0, { emo: "sad", shiver: 1, wet: 1, scarf: "g", flip: true, look: [0, 0.6], act: null }], [6.9, { look: [-1, 0.1] }], [9.2, { emo: "scared", look: [-1, 0.2] }],
-    [13.6, { flip: false, look: [1, 0] }], [17.4, { look: [1, -0.2] }], [22.6, { look: [-0.3, 0] }], [23.6, { look: [1, 0] }], [24.7, { emo: "surprised" }], [25.6, { emo: "scared" }], [27.6, { emo: "sad" }],
-    [30.4, { look: [1, -0.3] }], [31.2, { emo: "scared" }], [32.4, { emo: "sad", look: [1, 0.1] }], [33.6, { look: [1, 0.7] }], [34.4, { emo: "curious" }], [34.6, { creep: 1 }], [36.0, { creep: 0, emo: null, act: "sniff" }],
-    [37.4, { act: null, look: [1, -0.5], shiver: 0 }], [37.5, { creep: 1 }], [38.4, { creep: 0 }], [38.9, { emo: "happy" }], [39.3, { emo: null, act: "wag" }],
-    [40.31, { emo: "shy", act: null, flip: false, scarf: "", look: [1, -0.3] }], [41.8, { emo: "happy" }], [42.5, { emo: null, act: "shake" }], [43.5, { act: null, wet: 0, look: [-0.6, 0.6] }],
-    [44.0, { trot: 1 }], [44.8, { trot: 0, act: "sniff" }], [44.9, { emo: "happy" }], [46.4, { act: null, emo: null, look: [1, -0.3] }], [47.5, { scarf: "w", emo: "love" }], [47.9, { emo: "happy", act: "run" }], [49.0, { act: null }],
-    [49.26, { emo: null, act: null, flip: false }], [51.0, { act: "run", emo: "happy" }], [53.2, { act: null, emo: null, look: [1, 0] }], [53.9, { act: "run", emo: "excited" }], [54.6, { act: null, emo: "happy" }],
-    [54.8, { trot: 1, emo: null }], [56.0, { trot: 0 }], [56.5, { creep: 1 }], [57.3, { creep: 0, lean: 1, rest: 1 }], [57.6, { emo: "sleepy" }], [61.6, { emo: null, act: "sleep" }]
-  ];
-  var DOG_X = [
-    [[0, 1900], [13.0, 1900], [15.4, 1330], [22.6, 1330], [24.0, 1525], [24.8, 1525], [25.4, 1570], [26.6, 1570], [29.0, 2160, "in"]],
-    [[0, 2000], [13.4, 2000], [15.8, 1442], [22.7, 1442], [24.1, 1650], [24.9, 1650], [25.5, 1690], [26.9, 1690], [29.4, 2260, "in"]],
-    [[0, 2100], [13.8, 2100], [16.2, 1560], [22.8, 1560], [24.2, 1780], [25.0, 1780], [25.6, 1810], [27.2, 1810], [29.7, 2360, "in"]]
-  ];
-  var DOG_S = [[[0, { walk: 1, flip: false }], [15.4, { walk: 0, loom: 1 }], [22.6, { walk: 1 }], [23.0, { loom: 0, hesitate: 1 }], [24.0, { walk: 0 }], [26.6, { hesitate: 0, walk: 1, flip: true, leave: 1 }]],
-    [[0, { walk: 1, flip: false }], [15.8, { walk: 0, loom: 1 }], [22.7, { walk: 1 }], [23.1, { loom: 0, hesitate: 1 }], [24.1, { walk: 0 }], [26.9, { hesitate: 0, walk: 1, flip: true, leave: 1 }]],
-    [[0, { walk: 1, flip: false }], [16.2, { walk: 0, loom: 1 }], [22.8, { walk: 1 }], [23.2, { loom: 0, hesitate: 1 }], [24.2, { walk: 0 }], [27.2, { hesitate: 0, walk: 1, flip: true, leave: 1 }]]];
-  var CAM = [[0, 540, 520, 1.0], [6, 760, 520, 1.0], [8.2, 900, 520, 1.03], [12.5, 1000, 525, 1.06], [13.0, 1010, 525, 1.06], [15.6, 1180, 520, 1.0], [21, 1150, 520, 1.03], [24.4, 1260, 545, 1.12], [29.5, 1250, 555, 1.18],
-    [30.5, 1222, 590, 1.3], [40.30, 1215, 605, 1.4], [40.31, 760, 540, 1.06], [49.25, 820, 530, 1.0], [49.26, 470, 520, 1.0], [53.2, 700, 525, 1.04], [56.0, 860, 545, 1.14], [66, 905, 575, 1.3]];
-  var CAMX = CAM.map(function (c) { return [c[0], c[1]]; }), CAMY = CAM.map(function (c) { return [c[0], c[2]]; }), CAMZ = CAM.map(function (c) { return [c[0], c[3]]; });
-  var RAIN = [[0, 1], [24, 1], [32, 0.78], [38, 0.5], [40.3, 0.38], [40.31, 0]];
-  var WINDOW_RAIN = [[40.3, 0.5], [45, 0.32], [49.2, 0.12]];
-  var WIND = [[0, 0.22], [13, 0.3], [21, 0.42], [30, 0.24], [40, 0.12]];
-  var SPOT = [[0, 0], [20, 0], [24, 0.8], [38, 1], [40.3, 0]];
-  var VIG = [[0, 0.6], [13, 0.68], [24, 0.85], [38, 0.7], [40.3, 0.42], [49.25, 0.42], [49.26, 0.36], [66, 0.2]];
-  var DOOR = [[49.26, 1], [49.7, 1], [50.0, 0.16], [52.2, 0.16], [52.8, 1]];
-  var SUN_Y = [[49.26, 820], [66, 330, "out"]];
-  var DIP_W = [[39.6, 0], [40.15, 1], [40.5, 1], [41.2, 0]];
-  var DIP_G = [[48.6, 0], [49.15, 1], [49.45, 1], [50.2, 0]];
-  var FLASH = [[13.05, 0], [13.12, 0.32], [13.22, 0.04], [13.32, 0.2], [13.6, 0]];
-  var KEY_T = [3.5, 11.6, 19.0, 25.8, 38.9, 47.6, 54.2, 64.6];
+  /* five beats: arrive, Sunny finds something to do, Puppy turns up, the two of them together, the quiet end */
+  var BANDS_T = [0, 4.5, 10, 16, 22, 26], TITLE_AT = 22.6, KEY_T = [3, 7.5, 13.5, 19.5, 25], CAMX, CAMY, CAMZ;
 
   var PAL = {
     night: { skyT: "#07101d", skyB: "#1b2f4b", far: "#12213a", mid: "#172a44", near: "#1c3050", nearDark: "#15253d", win: "#f2c46d", winOn: 0.8, walk: "#22314a", curb: "#2c3c57", road: "#131d2c", puddle: "#4a6c98", post: "#0d1522", box: "#4a3a2c", boxD: "#3a2d22", lampOn: 1, cloud: 0.85, cloudC: "#22324c", sun: 0, birds: 0, capC: "#f5f7fb", capS: "rgba(0,0,0,0.5)", uiC: "rgba(255,255,255,0.66)", uiT: "rgba(255,255,255,0.16)", grade: "rgba(40,80,160,0.30)", dogB: 0.74, refl: 0.28, mist: 1, mistC: "150,172,210" },
-    soft: { skyT: "#141f35", skyB: "#3b4b67", far: "#1f3049", mid: "#25374f", near: "#2b3e59", nearDark: "#21334c", win: "#f6cc7a", winOn: 0.9, walk: "#33425a", curb: "#3d4d66", road: "#1e293a", puddle: "#5f7aa2", post: "#16202f", box: "#5a4634", boxD: "#463628", lampOn: 0.95, cloud: 0.65, cloudC: "#33435e", sun: 0, birds: 0, capC: "#f7f4ee", capS: "rgba(0,0,0,0.45)", uiC: "rgba(255,255,255,0.7)", uiT: "rgba(255,255,255,0.18)", grade: "rgba(170,120,80,0.16)", dogB: 0.82, refl: 0.24, mist: 0.7, mistC: "150,172,210" },
-    room: { skyT: "#07101d", skyB: "#1b2f4b", far: "#12213a", mid: "#172a44", near: "#1c3050", nearDark: "#15253d", win: "#f2c46d", winOn: 0.8, walk: "#22314a", curb: "#2c3c57", road: "#131d2c", puddle: "#4a6c98", post: "#0d1522", box: "#4a3a2c", boxD: "#3a2d22", lampOn: 0, cloud: 0, cloudC: "#22324c", sun: 0, birds: 0, capC: "#3a2214", capS: "rgba(255,220,170,0.6)", uiC: "rgba(58,34,20,0.7)", uiT: "rgba(58,34,20,0.18)", grade: "rgba(255,150,70,0.22)", dogB: 1, refl: 0.07, mist: 0, mistC: "150,172,210" },
-    dawn: { skyT: "#f0a77e", skyB: "#ffe0b2", far: "#d8a882", mid: "#cd9a76", near: "#c38d6b", nearDark: "#b17f61", win: "#ffe7b8", winOn: 0.25, walk: "#e0bd96", curb: "#d2ab85", road: "#b78f6e", puddle: "#ffe3b4", post: "#7c5f47", box: "#b98a5c", boxD: "#a2774f", lampOn: 0.3, cloud: 0.3, cloudC: "#ffd7b5", sun: 0.55, birds: 0.8, capC: "#3a2618", capS: "rgba(255,236,200,0.6)", uiC: "rgba(58,38,24,0.7)", uiT: "rgba(58,38,24,0.18)", grade: "rgba(255,170,100,0.16)", dogB: 0.95, refl: 0.15, mist: 0.55, mistC: "255,236,214" },
-    gold: { skyT: "#ffcd78", skyB: "#fff1cf", far: "#ebc699", mid: "#e2b78a", near: "#d8aa7f", nearDark: "#c89971", win: "#fff1cc", winOn: 0.1, walk: "#efd2aa", curb: "#e2c096", road: "#c8a17b", puddle: "#fff3cf", post: "#8e6d50", box: "#c99a68", boxD: "#b0845a", lampOn: 0, cloud: 0.12, cloudC: "#fff0d8", sun: 1, birds: 1, capC: "#3a2618", capS: "rgba(255,240,210,0.7)", uiC: "rgba(58,38,24,0.72)", uiT: "rgba(58,38,24,0.18)", grade: "rgba(255,200,110,0.18)", dogB: 1, refl: 0.08, mist: 0.3, mistC: "255,240,220" }
+    dawn: { skyT: "#f0a77e", skyB: "#ffe0b2", far: "#d8a882", mid: "#cd9a76", near: "#c38d6b", nearDark: "#b17f61", win: "#ffe7b8", winOn: 0.25, walk: "#e0bd96", curb: "#d2ab85", road: "#b78f6e", puddle: "#ffe3b4", post: "#7c5f47", box: "#b98a5c", boxD: "#a2774f", lampOn: 0.3, cloud: 0.3, cloudC: "#ffd7b5", sun: 0.55, birds: 0.8, capC: "#3a2618", capS: "rgba(255,236,200,0.6)", uiC: "rgba(58,38,24,0.7)", uiT: "rgba(58,38,24,0.18)", grade: "rgba(255,170,100,0.16)", dogB: 0.95, refl: 0.15, mist: 0.55, mistC: "255,236,214" }
   };
-  var PAL_T = [[0, "night"], [24, "night"], [40.3, "soft"], [40.31, "room"], [49.25, "room"], [49.26, "dawn"], [58, "gold"], [66, "gold"]];
-  /* ===================================================================== the adaptive opening
-     The first seconds of the film play in the visitor's own weather and time of day: rain, a storm, snow, wind, a
-     clear day or a clear night, with Sunny dressed for it. Around 5 to 8 seconds the sky turns and the rain sets in,
-     and the story goes on as it always does: the frightened puppy, the dogs, the umbrella, the room, the morning.
-     Weather comes from Open-Meteo (free, no key). The place is the one the browser already shares (only if the visitor
-     granted it before; the film never asks) or, by default, the city in the device's time zone, so no permission
-     prompt appears. Coordinates are rounded to about 1 km. Nothing is stored except a 45-minute cache in this browser.
-     Offline, on any error or after 1.6 s without an answer, the opening uses the local time alone.
-     For checking: ?story&weather=rain|storm|snow|wind|clear|cloudy&time=day|dusk|night, or &weather=offline. */
   var WX = { kind: "clear", wind: false, tod: "day", src: "time", done: false };
   var hour = new Date().getHours();
   function todFromHour(h) { return h >= 20 || h < 5 ? "night" : (h >= 17.5 || h < 7) ? "dusk" : "day"; }
@@ -591,61 +482,262 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   PAL.stormday.rimC = "rgba(200,214,235,0.26)"; PAL.stormday.charB = 0.9; PAL.stormday.charS = 0.9;
   PAL.snowday.rimC = "rgba(255,255,255,0.5)"; PAL.snowday.charB = 1.0;
   PAL.nightclear.rimC = "rgba(214,226,255,0.36)"; PAL.snownight.rimC = "rgba(220,230,255,0.36)";
-  function openingPalette(k, tod) {
-    if (tod === "night") return k === "snow" ? "snownight" : (k === "rain" || k === "storm") ? "night" : k === "cloudy" ? "night" : "nightclear";
-    if (k === "storm") return "stormday";
-    if (k === "rain") return "overcast";
-    if (k === "snow") return "snowday";
-    if (k === "cloudy") return "cloudy";
-    return tod === "dusk" ? "duskclear" : "day";
+
+  function hex(c) { var m = /^#(..)(..)(..)$/.exec(c); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : null; }
+  function rgba(c) { var m = /rgba\(([\d.]+),([\d.]+),([\d.]+),([\d.]+)\)/.exec(c.replace(/\s/g, "")); return m ? [+m[1], +m[2], +m[3], +m[4]] : null; }
+  function trip(c) { var m = /^([\d.]+),([\d.]+),([\d.]+)$/.exec(c); return m ? [+m[1], +m[2], +m[3]] : null; }
+  function mix(a, b, u) {
+    if (typeof a === "number") return a + (b - a) * u;
+    var A = hex(a), B = hex(b);
+    if (A && B) return "rgb(" + Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u) + ")";
+    A = rgba(a); B = rgba(b);
+    if (A && B) return "rgba(" + Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u) + "," + (A[3] + (B[3] - A[3]) * u).toFixed(3) + ")";
+    A = trip(a); B = trip(b);
+    if (A && B) return Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u);
+    return u < 0.5 ? a : b;
   }
-  var TOD_WORD = (function () { var h = hour; return h >= 5 && h < 12 ? "morning" : h >= 12 && h < 17 ? "afternoon" : h >= 17 && h < 21 ? "evening" : "night"; })();
-  function applyWeather() {
-    var k = WX.kind, tod = WX.tod, night = tod === "night", wet = k === "rain" || k === "storm", windy = WX.wind || k === "storm";
-    /* the word for the time of day follows the light (from the weather service when it answered), not just the clock */
-    TOD_WORD = night ? "night" : tod === "dusk" ? (hour < 12 ? "morning" : "evening") : (hour >= 5 && hour < 12 ? "morning" : "afternoon");
-    var open = openingPalette(k, tod), rescue = night || tod === "dusk" ? "night" : "overcast";
-    PAL_T = [[0, open], [5.4, open], [7.8, rescue], [24, rescue], [40.3, "soft"], [40.31, "room"], [49.25, "room"], [49.26, "dawn"], [58, "gold"], [66, "gold"]];
-    RAIN = [[0, k === "storm" ? 1.55 : k === "rain" ? 1 : 0], [5.4, k === "storm" ? 1.55 : k === "rain" ? 1 : 0], [7.6, 1], [24, 1], [32, 0.78], [38, 0.5], [40.3, 0.38], [40.31, 0]];
-    WIND = [[0, windy ? 0.95 : 0.2], [5.6, windy ? 0.95 : 0.2], [7.6, 0.25], [13, 0.3], [21, 0.42], [30, 0.24], [40, 0.12]];
-    SNOW = [[0, k === "snow" ? 1 : 0], [5.4, k === "snow" ? 1 : 0], [7.4, 0]];
-    LEAF = [[0, WX.wind && k !== "snow" ? 1 : 0], [5.6, WX.wind && k !== "snow" ? 1 : 0], [7.4, 0]];
-    var sunUp = !night && (k === "clear" || k === "cloudy");
-    SUN_Y = [[0, tod === "dusk" ? 600 : 170], [5.4, tod === "dusk" ? 600 : 170], [7.6, 900], [49.25, 900], [49.26, 820], [66, 330, "out"]];
-    if (!sunUp) SUN_Y = [[49.26, 820], [66, 330, "out"]];
-    if (k === "storm") FLASH = [[2.1, 0], [2.17, 0.5], [2.27, 0.06], [2.38, 0.34], [2.7, 0], [4.7, 0], [4.76, 0.42], [4.9, 0]].concat(FLASH);
-    /* Sunny's first seconds: umbrella from the start in rain and storms, otherwise it comes out when the rain does */
-    var x0 = [[0, 120], [6, 700, "lin"]], s0 = [];
-    if (wet) { UMB_OPEN = [[0, 0.16], [0.35, 0.16], [0.95, 1, "back"]].concat(UMB_OPEN.slice(1)); }
-    else { UMB_VIS = [[0, 0], [5.95, 0], [6.0, 1], [30.88, 1], [30.9, 0]]; UMB_OPEN = [[0, 0.16], [6.0, 0.16], [6.6, 1, "back"]].concat(UMB_OPEN.slice(1)); }
-    if (k === "clear" && !night) { x0 = [[0, 120], [1.4, 120], [6, 700, "lin"]]; s0 = [[0, { act: "stretch", look: [0.3, -0.9] }], [1.4, { act: "walk", slow: 0 }], [2.2, { emo: "happy" }], [3.4, { emo: null }]]; }
-    else if (night && !wet && k !== "snow") { x0 = [[0, 120], [1.1, 120], [6, 700, "lin"]]; s0 = [[0, { act: null, reach: 1, look: [0, -0.6] }], [0.8, { reach: 0, look: [0.6, -0.9] }], [1.1, { act: "walk" }], [2.6, { look: [0.4, -0.4] }]]; }
-    else if (k === "snow") { s0 = [[0, { act: "walk", slow: 1 }], [1.0, { emo: "relaxed" }], [2.6, { emo: null, look: [0.2, 0.6] }], [3.6, { look: [0.4, -0.4] }]]; }
-    else if (WX.wind && !wet) { x0 = [[0, 120], [2.6, 330], [3.6, 345], [6, 700, "lin"]]; s0 = [[2.6, { brace: 1, emo: "whoa" }], [3.6, { brace: 0, emo: null }]]; }
-    if (k === "storm") s0 = s0.concat([[2.7, { tremble: 1, emo: "whoa" }], [3.2, { tremble: 0, emo: null }], [5.0, { tremble: 1 }], [5.4, { tremble: 0 }]]);
-    if (x0.length) SUNNY_X = x0.concat(SUNNY_X.filter(function (kf) { return kf[0] > 6; }));
-    if (s0.length) {
-      var merged = SUNNY_S.slice(0, 1).concat(s0, SUNNY_S.slice(1)); merged.sort(function (a, b) { return a[0] - b[0]; }); SUNNY_S = merged;
+  PAL.mild = palFrom("day", { skyT: "#7fa6c9", skyB: "#dfe8ee", cloud: 0.8, sun: 0.35, birds: 0.7, grade: "rgba(235,215,180,0.12)" });
+  PAL.nightcloud = palFrom("nightclear", { cloud: 0.7, stars: 0.4, moon: 0.75 });
+  PAL.stormnight = palFrom("night", { cloud: 1, cloudC: "#1d2b42", mist: 1 });
+  PAL.day.rays = 0.9; PAL.duskclear.rays = 1; PAL.mild.rays = 0.35; PAL.cloudy.rays = 0.15;
+  PAL.stormday.porch = 1; PAL.stormnight.porch = 1; PAL.snowday.snowy = 1; PAL.snownight.snowy = 1;
+  Object.keys(PAL).forEach(function (k) {
+    var p = PAL[k];
+    if (p.snowy == null) p.snowy = 0;
+    if (p.rays == null) p.rays = 0;
+    if (p.porch == null) p.porch = p.lampOn > 0.05 ? Math.max(0.3, p.lampOn) : 0;          /* the porch lantern: lit whenever the street lamps are */
+    if (p.vig == null) p.vig = p.lampOn > 0.7 ? 0.62 : p.lampOn > 0.25 ? 0.46 : 0.26;
+  });
+
+  /* ===================================================================== today's story
+     One complete little story for the weather outside, in that weather and that light from the first frame to the
+     last: a sunny wander with a butterfly, a rainy puddle walk, a quiet night under the stars, a snow day, a windy
+     chase after a leaf, or a storm waited out on the porch. The weather picks the story; the time of day only lights
+     it (rain at noon is a grey day, not a night). The story is chosen once, before the scene is shown, and nothing
+     about it changes while it plays: the same street, the same outfit, the same sky.
+     Weather comes from Open-Meteo (free, no key). The place is the one the browser already shares (only if the visitor
+     granted it before; the film never asks) or, by default, the city in the device's time zone, so no permission
+     prompt appears. Coordinates are rounded to about 1 km. Nothing is stored except a 45-minute cache in this browser.
+     Offline, on any error, or after 2.4 s without an answer, the story is a plain walk lit by the local time, and the
+     film does not claim to know the weather.
+     For checking: ?story&weather=rain|storm|snow|wind|clear|cloudy&time=day|dusk|night, or &weather=offline. */
+  var COSTUME = "clear", ST = null, SCENE = null;
+  function hop(a, b, h) { return [[a, 0], [(a + b) / 2, -h, "out"], [b, 0, "in"]]; }
+  function hops() { var o = [[0, 0]]; for (var i = 0; i < arguments.length; i++) o = o.concat(hop.apply(null, arguments[i])); return o; }
+  /* where things sit on the characters, in street coordinates: f is true when the character faces left */
+  function sHand(x, f) { return [x + (f ? -1 : 1) * 66, GY - 96]; }   /* Sunny's raised hand */
+  function sTop(x, f) { return [x + (f ? -1 : 1) * 6, GY - 152]; }    /* the tip of his sprout */
+  function pNose(x, f) { return [x + (f ? -1 : 1) * 28, GY - 50]; }   /* Puppy's nose */
+  function pHead(x, f) { return [x + (f ? -1 : 1) * 5, GY - 92]; }   /* the top of Puppy's head */
+  var K = ' stroke="#111" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"';
+  var PROP = {
+    butterfly: '<svg viewBox="0 0 36 30" width="36" height="30"><g class="bf-l"><path d="M18 15C13 2 2 1 3 11C3 17 11 17 18 15C10 16 5 22 9 26C13 29 17 22 18 16Z" fill="#ff8a9e"' + K + '/><circle cx="8" cy="9" r="2.2" fill="#fff" opacity="0.8"/></g>' +
+      '<g class="bf-r"><path d="M18 15C23 2 34 1 33 11C33 17 25 17 18 15C26 16 31 22 27 26C23 29 19 22 18 16Z" fill="#ff8a9e"' + K + '/><circle cx="28" cy="9" r="2.2" fill="#fff" opacity="0.8"/></g>' +
+      '<path d="M18 9V24" stroke="#111" stroke-width="2.6" stroke-linecap="round"/><path d="M18 10q-3 -5 -6 -6M18 10q3 -5 6 -6" fill="none" stroke="#111" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    leaf: '<svg viewBox="0 0 32 20" width="32" height="20"><path d="M2 10C9 0 22 0 30 10C22 20 9 20 2 10Z" fill="#e0932f"' + K + '/><path d="M2 10H25M11 10l4 -4M17 10l4 -4M11 10l4 4M17 10l4 4" fill="none" stroke="#8a4f17" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    ball: '<svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#fff"' + K + '/><path d="M6 15a7 7 0 0 0 11 2" fill="none" stroke="#b9c9e2" stroke-width="2" stroke-linecap="round"/></svg>',
+    glow: '<svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="3" fill="#fff7b0"/></svg>',
+    star: '<svg viewBox="0 0 170 8" width="170" height="8"><defs><linearGradient id="sst-ss"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><rect x="0" y="3" width="164" height="2" rx="1" fill="url(#sst-ss)"/><circle cx="165" cy="4" r="3.2" fill="#fff"/></svg>'
+  };
+  var STORIES = {
+    /* a bright (or simply dry) day: Sunny meets a butterfly, Puppy bounds in after it, and it picks its own perches */
+    day: function () {
+      var nose = pNose(1090, true), top = sTop(946, false);
+      return {
+        sub: "Small wonders are better shared.", amb: "birds",
+        label: "Sunny is out for a walk and meets a butterfly. Puppy bounds in to chase it, the butterfly lands on Puppy’s nose, then on Sunny’s sprout, and the two friends sit down together.",
+        SX: [[0, 560], [1.5, 560], [4.2, 760, "lin"], [5.0, 760], [6.2, 832, "lin"], [14.0, 832], [15.4, 946, "lin"]],
+        SY: hops([6.9, 7.4, 34]),
+        SS: [[0, { act: "stretch", flip: false, look: [0.3, -0.9] }], [1.5, { act: "walk", look: [0.5, -0.2] }], [2.4, { emo: "happy" }], [3.4, { emo: null, look: [1, -0.5] }], [4.2, { act: null }], [4.4, { emo: "curious" }],
+          [5.0, { act: "walk", slow: 1, emo: null }], [6.2, { act: null }], [6.4, { reach: 1, look: [1, -0.7] }], [7.5, { reach: 0, emo: "laugh" }], [8.6, { emo: null, look: [1, -0.4] }], [9.6, { look: [1, 0.2], emo: "happy" }], [10.8, { emo: null }],
+          [11.4, { look: [1, -0.3] }], [12.6, { look: [1, 0.2] }], [13.7, { emo: "whoa" }], [14.0, { emo: null, act: "walk" }], [15.4, { act: null, bend: 1, look: [1, 0.6] }], [16.2, { emo: "blush" }],
+          [17.3, { bend: 0, emo: "whoa", look: [0.8, -0.6] }], [18.2, { emo: null, look: [0.4, -0.9] }], [19.4, { look: [0, -1], emo: "whoa" }], [20.2, { emo: "laugh" }], [21.4, { emo: "happy", sit: 1, look: [1, 0.3] }], [22.4, { reach: 1 }], [23.6, { emo: "relaxed" }]],
+        PX: [[0, 1480], [8.8, 1480], [11.0, 1090, "out"], [21.6, 1090], [22.6, 1050]],
+        PY: hops([11.3, 11.8, 46], [17.15, 17.45, 10], [19.8, 20.2, 22], [20.5, 20.9, 18]),
+        PS: [[0, { flip: true, emo: "excited", look: [-1, -0.4] }], [11.0, { emo: "happy", look: [-0.6, -0.8] }], [11.9, { emo: null, look: [-0.5, -1] }], [12.4, { act: "tilt", emo: "curious" }], [13.4, { act: null }], [13.6, { emo: "surprised", look: [-1, 0.5] }], [15.2, { emo: "shy" }],
+          [17.15, { emo: null, act: "sneeze" }], [17.8, { act: null, look: [-0.6, -0.9] }], [19.5, { emo: "happy", act: "wag", look: [-1, -0.6] }], [21.6, { act: null, creep: 1 }], [22.6, { creep: 0, lean: 1 }], [23.6, { emo: "love" }]],
+        CAM: [[0, 650, 650, 1.9], [4.4, 820, 648, 1.85], [9, 905, 650, 1.75], [11.5, 962, 650, 1.8], [15.6, 1012, 655, 2.05], [19.5, 1004, 642, 1.95], [26, 1006, 646, 2.06]],
+        props: [{ svg: PROP.butterfly, w: 36, h: 30, cls: "sst-bf", wob: [9, 7, 5.2],
+          X: [[0, 1260], [2.4, 1260], [4.4, 940], [6.4, 905], [7.0, 952], [8.2, 1012], [9.6, 980], [11.2, 1062], [12.2, 1034], [13.6, nose[0]], [17.2, nose[0]], [18.0, 1040], [18.8, 986], [19.4, top[0]]],
+          Y: [[0, 520], [2.4, 520], [4.4, 640], [6.4, 656], [7.0, 590], [8.2, 640], [9.6, 610], [11.2, 668], [12.2, 585], [13.6, nose[1] - 10], [17.2, nose[1] - 10], [18.0, 612], [18.8, 584], [19.4, top[1] - 12], [21.4, top[1] - 12], [21.9, top[1] + 2]],
+          OP: [[0, 0], [2.2, 0], [2.6, 1]], WOB: [[0, 1], [13.2, 1], [13.6, 0], [17.2, 0], [17.4, 1], [19.0, 1], [19.4, 0]] }],
+        SPARKS: [[13.65, nose[0], nose[1] - 22], [19.45, top[0], top[1] - 24]],
+        CUES: [[0.6, "birds"], [4.4, "hmm"], [7.0, "swoosh"], [9.4, "yips"], [11.3, "barkHappy"], [13.6, "ting"], [16.2, "aww"], [17.2, "sniff"], [19.4, "ding"], [19.9, "barkHappy"], [22.8, "bell"]],
+        KEY: [3.2, 7.1, 13.9, 19.6, 25]
+      };
+    },
+    /* rain from the first frame: puddle jumping, a soaked puppy who does not trust the puddle, one umbrella for two */
+    rain: function () {
+      return {
+        sub: "One umbrella is plenty for two.",
+        label: "It is raining. Sunny, in a raincoat with an umbrella, jumps in a puddle. Puppy arrives soaked and unsure of the puddle, so Sunny walks over and shares the umbrella, and they carry on through the rain together.",
+        SX: [[0, 540], [3.4, 760, "lin"], [4.4, 760], [5.2, 832, "lin"], [5.7, 832], [6.2, 900, "lin"], [11.6, 900], [13.0, 1004, "lin"], [16.6, 1004], [21.8, 1296, "lin"]],
+        SY: hops([5.7, 6.2, 62], [7.0, 7.5, 50], [8.0, 8.5, 40]),
+        SS: [[0, { act: "walk", slow: 1, hold: 1, flip: false, look: [0.3, -0.5] }], [2.0, { look: [0.6, 0.3] }], [3.4, { act: null, look: [1, 0.8] }], [3.7, { emo: "curious" }], [4.4, { act: "walk", emo: null }], [5.2, { act: null, bend: 1 }], [5.7, { bend: 0, emo: "happy" }], [6.2, { emo: "laugh" }],
+          [9.0, { emo: "happy" }], [9.7, { emo: "curious", look: [1, 0.1] }], [10.8, { emo: "sad", look: [1, 0.3] }], [11.6, { act: "walk", emo: null }], [13.0, { act: null, look: [1, 0.6] }], [13.6, { emo: "relaxed" }], [15.4, { emo: "happy" }],
+          [16.6, { act: "walk", emo: null, look: [0.6, 0.4] }], [19.0, { look: [1, 0.5], emo: "happy" }], [20.8, { emo: "laugh" }], [21.8, { act: null, look: [1, 0.5] }], [22.6, { emo: "relaxed" }]],
+        UR: [[0, -14], [12.8, -14], [13.5, 14], [16.6, 14], [17.2, 2], [21.8, 2], [22.4, 14]], UV: [[0, 1]],
+        PX: [[0, 1470], [7.8, 1470], [9.6, 1150, "lin"], [10.2, 1150], [11.0, 1080], [11.6, 1080], [12.0, 1112], [16.6, 1112], [21.8, 1404, "lin"], [22.3, 1404], [22.9, 1398]],
+        PY: hops([20.4, 20.8, 30]),
+        PS: [[0, { flip: true, wet: 1, emo: "sad", look: [-1, 0.2] }], [9.6, { shiver: 1, look: [-1, 0.5] }], [10.2, { creep: 1, shiver: 0 }], [11.0, { creep: 0, act: "sniff", look: [-1, 0.9] }], [11.6, { act: null, emo: "scared" }], [12.0, { shiver: 1, emo: "sad", look: [-1, -0.2] }],
+          [13.5, { look: [-1, -0.8], emo: "surprised" }], [14.3, { emo: null, act: "shake", shiver: 0 }], [15.1, { act: null, wet: 0, emo: "happy", look: [-1, -0.6] }], [15.6, { act: "wag" }], [16.6, { act: null, flip: false, emo: null, look: [0.6, 0] }],
+          [18.4, { look: [-1, -0.7], emo: "happy" }], [19.6, { look: [1, 0.3], emo: "excited" }], [21.8, { emo: "happy" }], [22.3, { flip: true, creep: 1 }], [22.9, { creep: 0, lean: 1, look: [-1, -0.6] }], [24, { emo: "love" }]],
+        CAM: [[0, 640, 650, 1.9], [3.4, 800, 650, 1.85], [6.2, 900, 646, 1.95], [9.2, 985, 650, 1.7], [13.5, 1062, 652, 2.0], [16.6, 1070, 650, 1.9], [21.8, 1345, 650, 1.85], [26, 1345, 650, 2.0]],
+        FX: [[6.2, "splash", 900, GY + 4, 18], [7.5, "splash", 900, GY + 4, 14], [8.5, "splash", 900, GY + 4, 10], [14.5, "spray", 1112, GY - 60, 14], [20.8, "splash", 1332, GY + 6, 10]],
+        CUES: [[3.7, "hmm"], [6.2, "splosh"], [7.5, "splosh"], [8.5, "splosh"], [9.6, "whimper"], [11.6, "whine"], [13.5, "pop"], [14.3, "shake"], [15.2, "barkHappy"], [16.0, "aww"], [20.8, "splosh"], [20.95, "yips"], [22.8, "bell"]],
+        KEY: [3.0, 5.95, 12.4, 15.3, 25]
+      };
+    },
+    /* a dry night: a quiet walk, the stars, one shooting star, fireflies, and a nap under the street lamp */
+    night: function () {
+      var hand = sHand(800, false);
+      return {
+        sub: "Quiet nights, good company.", amb: "crickets",
+        label: "At night Sunny, in a hoodie, walks with Puppy under the street lamps. They stop to look at the stars, a shooting star goes by, fireflies come out, one rests on Sunny’s hand, and the two sit down together until Puppy falls asleep.",
+        SX: [[0, 520], [4.6, 800, "lin"]],
+        SS: [[0, { act: "walk", slow: 1, flip: false, look: [0.6, 0.2] }], [2.4, { look: [0.3, -0.6] }], [4.6, { act: null, look: [0.2, -1] }], [4.9, { emo: "curious" }], [5.8, { reach: 1, emo: null }], [7.4, { reach: 0 }], [8.2, { emo: "whoa" }], [9.0, { emo: "happy" }],
+          [10.2, { emo: null, look: [1, 0.3] }], [11.0, { look: [0.9, -0.2] }], [12.5, { reach: 1, look: [1, -0.5] }], [13.0, { emo: "happy" }], [14.0, { bend: 1, look: [1, 0.4] }], [15.3, { bend: 0, reach: 0, emo: null, look: [0.6, -0.9] }],
+          [17.2, { sit: 1, look: [1, 0.3] }], [18.0, { reach: 1, emo: "relaxed" }], [19.6, { look: [0.3, -0.8] }], [22.0, { look: [1, 0.4] }], [23.6, { emo: "sleepy" }]],
+        PX: [[0, 640], [4.6, 920, "lin"], [16.0, 920], [17.0, 902]],
+        PY: hops([8.5, 8.9, 26], [11.8, 12.2, 34]),
+        PS: [[0, { flip: false, look: [0.6, 0.1] }], [2.4, { look: [-1, -0.4], emo: "happy" }], [3.4, { look: [0.6, 0], emo: null }], [4.9, { flip: true, look: [-1, -0.4] }], [6.2, { look: [-0.3, -1], emo: "curious" }], [8.3, { emo: "excited" }], [9.0, { act: "howl", emo: null }],
+          [10.2, { act: null, look: [-0.6, -0.5] }], [11.2, { emo: "curious", look: [0.5, -0.6] }], [12.4, { look: [-1, -0.8] }], [14.2, { act: "sniff", emo: null }], [15.3, { act: null, look: [-0.5, -1], emo: "happy" }], [16.0, { creep: 1 }], [17.0, { creep: 0 }],
+          [17.6, { lean: 1, rest: 1 }], [20, { emo: "sleepy" }], [23.6, { emo: null, act: "sleep" }]],
+        CAM: [[0, 660, 650, 1.85], [4.6, 862, 650, 1.85], [6.0, 885, 588, 1.42], [9.6, 885, 588, 1.42], [11.4, 870, 648, 1.85], [15.3, 866, 642, 1.8], [18, 850, 650, 2.0], [26, 850, 648, 2.08]],
+        FLIES: [[0, 0], [10.0, 0], [12.4, 1]],
+        props: [{ svg: PROP.star, w: 170, h: 8, cls: "sst-shoot", sky: 1, rot: 15, X: [[0, 470], [8.0, 470], [8.9, 890, "out"]], Y: [[0, 300], [8.0, 300], [8.9, 412, "out"]], OP: [[0, 0], [7.95, 0], [8.1, 1], [8.65, 1], [8.95, 0]] },
+          { svg: PROP.glow, w: 16, h: 16, cls: "sst-glowdot", wob: [7, 6, 2.6],
+            X: [[0, 1020], [10.8, 1020], [11.8, 965], [12.8, hand[0]], [14.0, hand[0] + 10], [15.3, hand[0] + 10], [17.4, 880], [26, 905]],
+            Y: [[0, 706], [10.8, 706], [11.8, 665], [12.8, hand[1] - 6], [14.0, hand[1] + 4], [15.3, hand[1] + 4], [17.4, 600], [26, 520]],
+            OP: [[0, 0], [10.6, 0], [11.0, 1], [20, 1], [24, 0.5]], WOB: [[0, 1], [12.5, 1], [12.8, 0], [15.3, 0], [15.6, 1]] }],
+        SPARKS: [[8.9, 880, 420]],
+        CUES: [[0.8, "crickets"], [4.9, "hmm"], [8.05, "ting"], [8.3, "gasp"], [9.05, "howl"], [12.8, "ding"], [14.3, "sniff"], [17.8, "pupSigh"], [22.8, "bell"], [23.8, "sleep"]],
+        KEY: [3.0, 8.4, 13.4, 19.4, 25]
+      };
+    },
+    /* snow: a flake on the glove, a snowball, a puppy who catches it with his whole face, and a lot of running about */
+    snow: function () {
+      var hand = sHand(780, false), nose = pNose(880, true);
+      return {
+        sub: "Cold day, warm company.",
+        label: "It is snowing. Sunny, in a winter coat, scarf and gloves, makes a snowball and tosses it to Puppy, who jumps and catches it in a puff of snow. They play in the snow and then sit together and watch it fall.",
+        SX: [[0, 540], [4.0, 780, "lin"]],
+        SY: hops([15.0, 15.4, 30], [16.0, 16.4, 30]),
+        SS: [[0, { act: "walk", slow: 1, flip: false, look: [0.3, -0.8] }], [1.2, { emo: "relaxed" }], [3.0, { emo: null }], [4.0, { act: null }], [4.3, { reach: 1, look: [1, -0.7] }], [5.2, { emo: "happy" }], [5.8, { reach: 0, emo: null, look: [0.6, 0.9] }], [6.0, { bend: 1 }],
+          [7.2, { bend: 0, mend: 1, look: [0.4, 0.7], emo: "focused" }], [8.4, { emo: null }], [9.0, { look: [1, 0.1], emo: "happy" }], [10.4, { mend: 0, reach: 1, emo: null }], [11.75, { reach: 0 }], [12.6, { emo: "laugh" }], [14.2, { emo: "happy", look: [1, 0.2] }],
+          [14.9, { flip: true, look: [-1, 0.2] }], [16.2, { flip: false, look: [1, 0.2] }], [17.4, { emo: null }], [18.0, { look: [0.3, -0.9], emo: "relaxed" }], [19.7, { look: [1, 0.3], emo: null }], [20.7, { emo: "laugh" }], [21.6, { sit: 1, emo: "happy" }], [22.2, { reach: 1 }], [24, { emo: "relaxed" }]],
+        PX: [[0, 1470], [8.0, 1470], [10.0, 1060, "out"], [14.2, 1060], [15.5, 640], [15.9, 640], [17.3, 880]],
+        PY: hops([8.4, 8.8, 24], [9.0, 9.4, 24], [9.6, 10.0, 18], [10.8, 11.2, 26], [12.2, 12.8, 56], [20.55, 20.85, 12]),
+        PS: [[0, { flip: true, scarf: "w", emo: "excited", look: [-1, -0.2] }], [10.0, { emo: "happy", act: "wag", look: [-1, -0.6] }], [11.6, { act: null, look: [-0.7, -1], emo: "excited" }], [12.6, { emo: "surprised" }], [13.2, { emo: null, act: "shake" }], [13.9, { act: null, emo: "happy" }],
+          [14.2, { emo: "excited", look: [-1, 0] }], [15.5, { flip: false, look: [1, 0] }], [17.3, { flip: true, emo: "happy", look: [-1, -0.6] }], [18.2, { look: [-0.3, -1], emo: null }], [19.6, { emo: "surprised", look: [-0.8, 0.5] }], [20.55, { emo: null, act: "sneeze" }],
+          [21.0, { act: null, emo: "happy", look: [-1, -0.6] }], [22.0, { lean: 1 }], [24, { emo: "love" }]],
+        CAM: [[0, 650, 650, 1.9], [4, 822, 650, 1.9], [8.6, 905, 650, 1.7], [12.4, 930, 640, 1.8], [15.4, 765, 650, 1.65], [17.4, 832, 650, 1.85], [26, 832, 648, 2.05]],
+        props: [{ svg: PROP.ball, w: 24, h: 24, cls: "sst-ball",
+          X: [[0, 782], [10.4, 782], [10.8, hand[0]], [11.6, hand[0]], [12.5, 1024, "lin"]], Y: [[0, GY - 34], [10.4, GY - 34], [10.8, hand[1] - 4], [11.6, hand[1] - 4], [12.05, 540, "out"], [12.5, 668, "in"]],
+          OP: [[0, 0], [7.1, 0], [7.4, 1], [12.48, 1], [12.52, 0]], R: [[0, 0], [11.6, 0], [12.5, 300, "lin"]] }],
+        SPARKS: [[4.9, hand[0], hand[1] - 10], [7.5, 782, GY - 44], [19.6, nose[0], nose[1] - 8]],
+        FX: [[12.5, "puff", 1026, 668, 16], [13.4, "puff", 1060, GY - 70, 10], [20.6, "puff", nose[0], nose[1], 6]],
+        CUES: [[4.9, "ting"], [7.5, "pop"], [9.0, "barkHappy"], [10.9, "yips"], [11.6, "swoosh"], [12.5, "puff"], [13.2, "shake"], [14.3, "barkHappy"], [16.4, "arf"], [19.6, "ting"], [20.6, "sniff"], [22.8, "bell"]],
+        KEY: [3.0, 7.8, 12.45, 19.4, 25]
+      };
+    },
+    /* wind: one leaf that will not be caught, a puppy who catches it anyway, and a gust that takes it back */
+    wind: function () {
+      var mouth = pNose(658, false), hand = sHand(760, true), head = pHead(658, false);
+      return {
+        sub: "Catch what the wind brings.",
+        label: "It is windy. Sunny, in a windbreaker, tries to catch a leaf that keeps slipping away. Puppy runs in, chases the leaf down and brings it back, a gust carries it off again, and another leaf lands on Puppy’s head.",
+        SX: [[0, 560], [2.4, 684, "lin"], [3.4, 674], [4.2, 760, "lin"]],
+        SY: hops([5.7, 6.2, 48], [6.8, 7.3, 48], [20.0, 20.4, 36]),
+        SS: [[0, { act: "walk", slow: 1, flip: false, look: [0.5, -0.2] }], [2.4, { act: null, brace: 1, emo: "whoa" }], [3.4, { brace: 0, emo: null, act: "walk" }], [4.2, { act: null, look: [1, -0.5] }], [5.0, { emo: "curious" }], [5.6, { reach: 1, emo: null, look: [1, -0.7] }], [6.3, { reach: 0 }],
+          [6.5, { flip: true, look: [-1, -0.6] }], [6.8, { reach: 1 }], [7.4, { reach: 0, emo: "laugh" }], [7.8, { flip: false, look: [0.7, -0.8] }], [8.8, { emo: "happy", look: [1, 0] }], [10.2, { emo: null, look: [1, -0.3] }], [11.0, { flip: true, look: [-1, 0.2], emo: "happy" }],
+          [12.6, { emo: "laugh" }], [13.6, { emo: "happy", look: [-1, 0.4] }], [14.8, { bend: 1, emo: "blush" }], [15.6, { bend: 0, reach: 1, emo: "happy", look: [-1, -0.5] }], [16.6, { brace: 1, emo: "whoa" }], [17.1, { reach: 0, look: [-1, -0.8] }], [17.8, { brace: 0 }],
+          [18.6, { emo: null, look: [-1, 0.3] }], [19.0, { emo: "laugh" }], [20.0, { reach: 1, look: [-0.3, -1] }], [20.6, { reach: 0, emo: "happy" }], [22.3, { emo: "laugh", look: [-1, 0.2] }], [23.2, { sit: 1, emo: "happy" }], [23.8, { reach: 1 }]],
+        PX: [[0, 1480], [8.4, 1480], [10.0, 1000, "out"], [10.8, 1000], [11.7, 610], [13.0, 610], [14.4, 658]],
+        PY: hops([10.2, 10.7, 60], [11.6, 12.0, 30], [19.6, 20.0, 40], [20.8, 21.2, 36]),
+        PS: [[0, { flip: true, emo: "excited", look: [-1, -0.5] }], [10.8, { look: [-1, -0.2] }], [12.0, { emo: "happy", look: [-0.5, 0.9] }], [12.4, { act: "wag" }], [12.8, { flip: false, look: [1, -0.4] }], [13.0, { act: null }], [14.4, { act: "wag", look: [1, -0.6] }], [15.6, { act: null }],
+          [16.6, { emo: "surprised" }], [17.0, { flip: true, look: [-1, -0.6] }], [18.4, { flip: false, look: [1, -0.4], emo: null }], [19.0, { emo: "happy" }], [19.6, { emo: "excited", look: [0.3, -1] }], [21.3, { emo: null, look: [0.5, -0.8] }], [22.2, { emo: "surprised", look: [0, -1] }],
+          [23.0, { emo: "happy", look: [1, -0.5] }], [23.6, { lean: 1 }]],
+        CAM: [[0, 660, 650, 1.9], [4.2, 800, 648, 1.85], [8.6, 862, 645, 1.7], [10.4, 900, 645, 1.7], [11.8, 700, 650, 1.75], [14.6, 712, 652, 2.0], [17.2, 700, 640, 1.8], [19, 712, 645, 1.8], [22.4, 712, 650, 2.0], [26, 712, 648, 2.06]],
+        LEAF: [[0, 1], [2.2, 1], [2.5, 2.4], [3.6, 1], [16.4, 1], [16.7, 2.6], [17.8, 1], [19.0, 2], [22.0, 2], [23.5, 1]],
+        WINDT: [[0, 0.85], [2.2, 0.85], [2.5, 1.2], [3.6, 0.85], [16.4, 0.85], [16.7, 1.25], [17.8, 0.85]],
+        props: [{ svg: PROP.leaf, w: 32, h: 20, cls: "sst-leaf", wob: [8, 9, 4.1], spin: 260,
+          X: [[0, 1300], [4.4, 1300], [5.5, 880], [5.9, 850], [6.4, 690], [7.0, 662], [7.6, 800], [8.4, 900], [9.6, 940], [10.3, 965], [10.6, 930], [11.3, 690], [11.9, 598], [12.9, 598], [13.2, 646], [14.4, mouth[0] + 6], [15.2, mouth[0] + 6], [15.7, hand[0]], [16.6, hand[0]], [17.0, 560], [18.2, 240], [18.3, 1010], [20.8, 1010], [22.2, head[0]]],
+          Y: [[0, 560], [4.4, 560], [5.5, 640], [5.9, 600], [6.4, 612], [7.0, 640], [7.6, 585], [8.4, 545], [9.6, 570], [10.3, 665], [10.6, 640], [11.3, 660], [11.9, GY - 8], [12.9, GY - 8], [13.2, mouth[1] + 4], [14.4, mouth[1] + 4], [15.2, mouth[1] + 4], [15.7, hand[1] - 6], [16.6, hand[1] - 6], [17.0, 560], [18.2, 470], [18.3, 480], [20.8, 480], [22.2, head[1] - 6]],
+          OP: [[0, 0], [4.3, 0], [4.6, 1], [17.6, 1], [18.2, 0], [20.8, 0], [21.0, 1]],
+          WOB: [[0, 1], [11.6, 1], [11.9, 0], [16.6, 0], [16.8, 1], [21.9, 1], [22.2, 0]] }],
+        SPARKS: [[12.0, 598, GY - 30], [22.25, head[0], head[1] - 18]],
+        CUES: [[2.4, "gust"], [5.0, "hmm"], [5.7, "swoosh"], [6.8, "swoosh"], [9.2, "yips"], [10.3, "barkHappy"], [12.2, "barkHappy"], [14.9, "aww"], [16.6, "gust"], [19.7, "yips"], [22.2, "pop"], [22.8, "bell"]],
+        KEY: [2.8, 5.95, 12.2, 15.9, 25]
+      };
+    },
+    /* a thunderstorm: one flash, a frightened puppy, an arm around him, and the storm waited out together on the porch */
+    storm: function () {
+      return {
+        sub: "Storms are smaller together.", shelter: true,
+        label: "A thunderstorm. Sunny, in a storm jacket with an umbrella, is walking with Puppy when lightning flashes and Puppy is frightened. Sunny crouches down, puts an arm around him, then leads him to the warm, lit porch, where they sit together while the rain goes on.",
+        SX: [[0, 1010], [3.0, 870, "lin"], [12.2, 870], [17.0, 400, "lin"]],
+        SS: [[0, { act: "walk", slow: 1, hold: 1, flip: true, look: [-0.6, 0.2] }], [3.0, { act: null, tremble: 1, emo: "whoa" }], [3.6, { tremble: 0, emo: null, look: [-1, 0.6] }], [4.6, { emo: "sad" }], [5.6, { sit: 1, emo: null }], [6.2, { reach: 1 }], [8.2, { emo: "relaxed" }],
+          [9.7, { look: [-0.4, -0.6] }], [10.3, { look: [-1, 0.6] }], [11.4, { sit: 0, reach: 0, emo: null, look: [-1, -0.1] }], [12.2, { act: "walk" }], [14.4, { look: [-1, 0.5] }], [15.6, { look: [-1, 0] }], [17.0, { act: null, look: [-1, 0.5] }],
+          [18.2, { sit: 1 }], [19.2, { reach: 1, emo: "relaxed" }], [19.7, { look: [0.6, -0.5] }], [20.6, { look: [-1, 0.5] }], [21.2, { emo: "happy" }], [23.6, { emo: "relaxed" }]],
+        UR: [[0, -10], [6.0, -10], [6.6, 14], [11.4, 14], [12.0, -10]], UO: [[0, 1], [16.6, 1], [17.2, 0.14]], UV: [[0, 1], [17.2, 1], [17.5, 0]], /* under the porch roof the umbrella is folded and put away */
+        PX: [[0, 910], [3.0, 770, "lin"], [12.2, 770], [17.0, 296, "lin"]],
+        PY: hops([3.05, 3.35, 22], [9.65, 9.85, 8]),
+        PS: [[0, { flip: true, wet: 1, look: [-0.6, 0.2] }], [3.05, { emo: "scared", look: [0.3, -0.8] }], [3.4, { shiver: 1 }], [3.6, { flip: false, look: [1, -0.4] }], [6.4, { emo: "sad", look: [1, -0.6] }], [8.4, { shiver: 0 }], [8.8, { emo: "shy" }],
+          [9.65, { emo: "scared", shiver: 1, look: [0.2, -0.8] }], [10.4, { shiver: 0, emo: "sad", look: [1, -0.6] }], [11.0, { emo: "shy" }], [11.8, { emo: null }], [12.2, { flip: true, look: [-0.6, 0.1] }], [14.4, { look: [1, -0.6] }], [15.6, { look: [-0.6, 0] }],
+          [17.5, { act: "shake" }], [18.3, { act: null, wet: 0, flip: false, look: [1, -0.5] }], [19.4, { lean: 1 }], [19.7, { look: [0.6, -0.7] }], [20.5, { look: [1, -0.6], emo: "shy" }], [21.2, { emo: "love" }], [22.0, { act: "wag" }],
+          [23.6, { act: null, emo: "sleepy", rest: 1 }]],
+        CAM: [[0, 930, 650, 1.85], [3.0, 832, 650, 1.85], [6.2, 826, 656, 2.1], [11.4, 826, 654, 2.0], [12.4, 780, 650, 1.75], [17.0, 372, 655, 1.85], [19.4, 362, 662, 2.1], [26, 362, 662, 2.18]],
+        FLASH: [[2.9, 0], [2.96, 0.5], [3.06, 0.06], [3.16, 0.32], [3.5, 0], [9.5, 0], [9.56, 0.24], [9.7, 0.04], [9.78, 0.14], [10.0, 0], [19.5, 0], [19.56, 0.13], [19.8, 0]],
+        WARM: [[0, 0], [14.5, 0], [17.2, 1]],
+        FX: [[17.7, "spray", 296, GY - 60, 14]],
+        CUES: [[3.45, "thunder"], [3.5, "whimperFear"], [5.0, "whimper"], [6.4, "breath"], [8.6, "whine"], [10.1, "thunderFar"], [10.2, "whimper"], [11.0, "aww"], [17.5, "shake"], [20.1, "thunderFar"], [21.2, "pupSigh"], [22.8, "bell"]],
+        KEY: [2.4, 3.3, 8.6, 15.0, 25]
+      };
     }
-    /* the words for the first seconds */
-    var cap = {
-      rain: "Just another rainy " + TOD_WORD + "…", storm: "A stormy " + TOD_WORD + "…", snow: "A snowy " + TOD_WORD + " walk…",
-      cloudy: night ? "A quiet night walk…" : "A grey, easy " + TOD_WORD + "…", clear: night ? "A quiet night walk…" : tod === "dusk" ? "A golden " + TOD_WORD + " walk…" : "A bright " + TOD_WORD + " walk…"
-    }[k];
-    if (WX.wind && k !== "storm" && k !== "snow") cap = "A windy " + TOD_WORD + "…";
-    CAPS[0] = [0.8, 5.0, cap];
-    var dress = { rain: "his raincoat", storm: "his storm jacket", snow: "his winter coat", clear: night ? "his hoodie" : "his cap", cloudy: night ? "his hoodie" : "his cap" }[k];
-    if (WX.wind && k !== "storm" && k !== "snow") dress = "his windbreaker";
-    var where = WX.src === "time" ? "" : { rain: "It’s raining near you", storm: "There’s a storm near you", snow: "It’s snowing near you", clear: night ? "It’s a clear night near you" : "It’s clear near you", cloudy: "It’s cloudy near you" }[k];
-    if (WX.wind && WX.src !== "time" && k !== "storm") where = "It’s windy near you";
-    LINES[0] = where ? where + ", so Sunny wore " + dress + "." : "A little walk, in your " + TOD_WORD + "…";
-    COSTUME = WX.wind && k !== "storm" && k !== "snow" && !wet ? "wind" : k === "cloudy" ? (night ? "night" : "clear") : k === "clear" ? (night ? "night" : "clear") : k;
-    if (k === "storm") CUES.push([2.55, "thunder"], [5.15, "thunder"]);
-    if (k === "clear" && !night) CUES.push([0.9, "birds"], [3.6, "birds"]);
-    if (night && !wet) CUES.push([1.6, "crickets"], [3.8, "crickets"]);
-    if (!wet) CUES.push([5.9, "thunderFar"]);
+  };
+  function mixPal(a, b, u, ui) {
+    var o = {}; for (var k in a) o[k] = mix(a[k], b[k], u);
+    ["capC", "capS", "uiC", "uiT"].forEach(function (k) { o[k] = ui[k]; });
+    return o;
   }
-  var SNOW = [[0, 0]], LEAF = [[0, 0]], COSTUME = "rain";
+  /* weather picks the story, time of day picks the light; both are settled here, once */
+  function pickScene() {
+    var k = WX.kind, tod = WX.tod, known = WX.src !== "time", night = tod === "night";
+    var name = !known ? (night ? "night" : "day") : k === "storm" ? "storm" : k === "snow" ? "snow" : k === "rain" ? "rain" : WX.wind ? "wind" : night ? "night" : "day";
+    var light, darkP;
+    if (name === "storm") { light = "stormday"; darkP = "stormnight"; }
+    else if (name === "snow") { light = "snowday"; darkP = "snownight"; }
+    else if (name === "rain") { light = "overcast"; darkP = "night"; }
+    else if (!known) { light = "mild"; darkP = "nightcloud"; }
+    else if (k === "cloudy") { light = "cloudy"; darkP = "nightcloud"; }
+    else { light = "day"; darkP = "nightclear"; }
+    var P = night ? PAL[darkP] : tod === "dusk" ? (light === "day" ? PAL.duskclear : mixPal(PAL[light], PAL[darkP], 0.5, PAL[darkP])) : PAL[light];
+    COSTUME = name === "day" ? "clear" : name;
+    var word = night ? "night" : tod === "dusk" ? (hour < 12 ? "morning" : "evening") : (hour >= 5 && hour < 12 ? "morning" : "afternoon");
+    var said = { storm: "There’s a storm near you", snow: "It’s snowing near you", rain: "It’s raining near you", wind: "It’s windy near you", night: k === "cloudy" ? "It’s a cloudy night near you" : "It’s a clear night near you", day: k === "cloudy" ? "It’s cloudy near you" : "It’s clear near you" }[name];
+    var dress = { storm: "his storm jacket", snow: "his winter coat", rain: "his raincoat", wind: "his windbreaker", night: "his hoodie", day: "his cap" }[name];
+    var windy = name === "storm" ? 0.95 : name === "wind" ? 0.85 : WX.wind && known ? 0.8 : name === "snow" ? 0.14 : 0.2;
+    SCENE = { name: name, P: P, known: known, rain: name === "storm" ? 1.5 : name === "rain" ? 1 : 0, snow: name === "snow" ? 1 : 0, wind: windy,
+      note: known ? said + ", so Sunny wore " + dress + "." : "A little walk, in your " + word + "…",
+      sun: tod === "dusk" ? [1180, 470] : [1150, 330], moon: [1040, 385] };
+    var o = STORIES[name](), d = { SY: [[0, 0]], PY: [[0, 0]], UR: [[0, -14]], UO: [[0, 1]], UV: [[0, 0]], FLASH: [[0, 0]], WARM: [[0, 0]], LEAF: [[0, 0]], FLIES: [[0, 0]], WINDT: [[0, windy]], props: [], SPARKS: [], FX: [], CUES: [], amb: null, shelter: false };
+    for (var key in d) if (o[key] == null) o[key] = d[key];
+    ST = o; KEY_T = o.KEY;
+    CAMX = o.CAM.map(function (c) { return [c[0], c[1]]; }); CAMY = o.CAM.map(function (c) { return [c[0], c[2]]; }); CAMZ = o.CAM.map(function (c) { return [c[0], c[3]]; });
+  }
+  /* dress the set once: the palette, the sun or moon, the note at the bottom, the words for screen readers */
+  function applyScene() {
+    var P = SCENE.P;
+    for (var k in P) setVar(k, P[k]);
+    R.grade.style.background = P.grade; R.vig.style.opacity = P.vig; R.mist.style.opacity = P.mist;
+    R.sun.style.left = SCENE.sun[0] + "px"; R.sun.style.top = SCENE.sun[1] + "px";
+    R.moon.style.left = SCENE.moon[0] + "px"; R.moon.style.top = SCENE.moon[1] + "px";
+    R.line.textContent = SCENE.note; R.sub.textContent = ST.sub;
+    story.classList.toggle("is-windy", SCENE.wind > 0.6);
+    story.setAttribute("aria-label", "A short animated story. " + ST.label + " Press Escape to skip.");
+    if (ST.FLIES.length > 1) { var h = ""; for (var i = 0; i < 14; i++) h += '<i style="left:' + (640 + (i * 137) % 470) + "px;top:" + (590 + (i * 71) % 170) + "px;animation-delay:-" + (i * 0.83).toFixed(2) + "s,-" + (i * 0.37).toFixed(2) + 's"></i>'; R.flies.innerHTML = h; }
+  }
   /* where and what the weather is: overrides for checking, then a fresh cache, then the browser's own answers */
   function resolveWeather() {
     var ow = qs.get("weather"), ot = qs.get("time");
@@ -699,7 +791,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (kind === "snow") o = '<path d="M' + P(68, -150) + " A68 68 0 0 1 " + P(68, -30) + ' Z" fill="#4d8dff" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/><path d="M' + P(67, -151) + " L" + P(67, -29) + '" stroke="#2f6fe0" stroke-width="8" stroke-linecap="round"/><path d="M' + P(67, -151) + " L" + P(67, -29) + '" stroke="#111" stroke-width="1.4" opacity="0.5"/>' +
       hem(158, "#de364d") + '<path d="M60 170 Q110 182 160 170 M66 182 Q110 192 154 182" fill="none" stroke="#9e1f33" stroke-width="1.8" opacity="0.7"/>' +
       '<path d="M56 150 Q110 166 164 150 L166 160 Q110 178 54 160 Z" fill="#f4efe6" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M74 157 l0 7 M90 161 l0 7 M106 163 l0 7 M122 162 l0 7 M138 159 l0 7 M152 155 l0 7" stroke="#de364d" stroke-width="3"/><path d="M140 160 q6 18 -2 30 l10 2 q8 -14 2 -32 z" fill="#f4efe6" stroke="#111" stroke-width="2" stroke-linejoin="round"/>';
-    if (kind === "night") o = hood("#4a5160", "#6b7385") + hem(154, "#4a5160") + '<rect x="86" y="164" width="48" height="16" rx="6" fill="#3d4350" stroke="#111" stroke-width="1.8"/><path d="M96 132 V150 M124 132 V150" stroke="#e8e8ea" stroke-width="2" stroke-linecap="round"/><circle cx="96" cy="152" r="2.4" fill="#e8e8ea"/><circle cx="124" cy="152" r="2.4" fill="#e8e8ea"/>';
+    if (kind === "night") o = hood("#4a5160", "#6b7385") + hem(154, "#4a5160") + '<rect x="88" y="171" width="44" height="13" rx="6" fill="#3d4350" stroke="#111" stroke-width="1.8"/><path d="M101 156 V164 M119 156 V164" stroke="#e8e8ea" stroke-width="2" stroke-linecap="round"/><circle cx="101" cy="166" r="2.4" fill="#e8e8ea"/><circle cx="119" cy="166" r="2.4" fill="#e8e8ea"/>';
     if (kind === "wind") o = hem(154, "#2bb59a") + '<path d="M110 154 V190" stroke="#111" stroke-width="2"/><path d="M' + P(66, 26) + ' l12 -10 l-4 14 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M' + P(66, 154) + ' l-12 -10 l4 14 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path class="cos-flap" d="M168 176 l18 4 l-14 8 z" fill="#2bb59a" stroke="#111" stroke-width="2" stroke-linejoin="round"/>';
     return o;
   }
@@ -714,28 +806,6 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   /* stars for a clear night */
   (function () { var h = ""; for (var i = 0; i < 46; i++) { var x = (i * 977) % 1600, y = 20 + (i * 613) % 470; h += '<i style="left:' + x + "px;top:" + y + "px;animation-delay:-" + (i % 7) * 0.45 + 's"></i>'; } R.stars.innerHTML = h; })();
 
-  function hex(c) { var m = /^#(..)(..)(..)$/.exec(c); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : null; }
-  function rgba(c) { var m = /rgba\(([\d.]+),([\d.]+),([\d.]+),([\d.]+)\)/.exec(c.replace(/\s/g, "")); return m ? [+m[1], +m[2], +m[3], +m[4]] : null; }
-  function trip(c) { var m = /^([\d.]+),([\d.]+),([\d.]+)$/.exec(c); return m ? [+m[1], +m[2], +m[3]] : null; }
-  function mix(a, b, u) {
-    if (typeof a === "number") return a + (b - a) * u;
-    var A = hex(a), B = hex(b);
-    if (A && B) return "rgb(" + Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u) + ")";
-    A = rgba(a); B = rgba(b);
-    if (A && B) return "rgba(" + Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u) + "," + (A[3] + (B[3] - A[3]) * u).toFixed(3) + ")";
-    A = trip(a); B = trip(b);
-    if (A && B) return Math.round(A[0] + (B[0] - A[0]) * u) + "," + Math.round(A[1] + (B[1] - A[1]) * u) + "," + Math.round(A[2] + (B[2] - A[2]) * u);
-    return u < 0.5 ? a : b;
-  }
-  function palette(t) {
-    var i = 0; while (i < PAL_T.length - 1 && PAL_T[i + 1][0] <= t) i++;
-    var a = PAL_T[i], b = PAL_T[Math.min(i + 1, PAL_T.length - 1)];
-    var u = b[0] > a[0] ? ease("io", Math.max(0, Math.min(1, (t - a[0]) / (b[0] - a[0])))) : 0;
-    var A = PAL[a[1]], B = PAL[b[1]], out = {};
-    for (var k in A) out[k] = mix(A[k], B[k], u);
-    return out;
-  }
-
   /* ===================================================================== actors (built once the art is ready) */
   var A = null, uid = 0;
   function uniq(svg) { var p = "sst" + (++uid) + "-"; return svg.replace(/id="([\w-]+)"/g, 'id="' + p + '$1"').replace(/url\(#([\w-]+)\)/g, "url(#" + p + "$1)").replace(/href="#([\w-]+)"/g, 'href="#' + p + '$1"'); }
@@ -746,53 +816,6 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       '<path d="M-86 -150Q-40 -178 0 -180" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.35"/>' +
       '<path d="M0 -188L-56 -129M0 -188L0 -129M0 -188L56 -129" stroke="#111" stroke-width="1.6" opacity="0.35"/><path d="M0 -188V-198" stroke="#111" stroke-width="3" stroke-linecap="round"/></g></g></g>';
   }
-  function dogSVG(o) {
-    /* side view, facing left: far legs, tail, body, near legs, then neck and head on top */
-    var K = "#100B0E", S = ' stroke="' + K + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"';
-    function frontLeg(x, fill, cls) {
-      var upper = '<path d="M' + (x - 10) + ' 132 C' + (x - 11) + ' 150, ' + (x - 9) + ' 166, ' + (x - 8) + ' 174 C' + (x - 7) + ' 181, ' + (x + 7) + ' 181, ' + (x + 8) + ' 174 C' + (x + 9) + ' 164, ' + (x + 11) + ' 148, ' + (x + 10) + ' 132 Z" fill="' + fill + '"' + S + '/>';
-      var lower = '<g class="dg-shin--f"><path d="M' + (x - 7) + ' 170 L' + (x + 7) + ' 170 C' + (x + 7) + ' 186, ' + (x + 6) + ' 196, ' + (x + 6) + ' 202 C' + (x + 6) + ' 208, ' + (x + 2) + ' 210, ' + (x - 4) + ' 210 L' + (x - 13) + ' 210 C' + (x - 18) + ' 210, ' + (x - 18) + ' 205, ' + (x - 12) + ' 203 L' + (x - 6) + ' 201 C' + (x - 6) + ' 192, ' + (x - 7) + ' 182, ' + (x - 7) + ' 170 Z" fill="' + fill + '"' + S + '/>' +
-        '<path d="M' + (x - 12) + ' 210 v-3 M' + (x - 7) + ' 210 v-3" stroke="' + K + '" stroke-width="1.4"/></g>';
-      return '<g class="dg-leg ' + cls + '">' + lower + upper + '</g>';
-    }
-    function backLeg(x, fill, cls) {
-      var thigh = '<path d="M' + (x - 16) + ' 112 C' + (x + 8) + ' 106, ' + (x + 24) + ' 120, ' + (x + 20) + ' 142 C' + (x + 17) + ' 158, ' + (x + 10) + ' 168, ' + (x + 9) + ' 174 C' + (x + 8) + ' 181, ' + (x - 5) + ' 181, ' + (x - 5) + ' 174 C' + (x - 7) + ' 160, ' + (x - 18) + ' 146, ' + (x - 16) + ' 112 Z" fill="' + fill + '"' + S + '/>';
-      var lower = '<g class="dg-shin--b"><path d="M' + (x - 4) + ' 170 L' + (x + 8) + ' 170 C' + (x + 7) + ' 184, ' + (x + 3) + ' 194, ' + (x + 3) + ' 202 C' + (x + 3) + ' 208, ' + (x - 1) + ' 210, ' + (x - 6) + ' 210 L' + (x - 15) + ' 210 C' + (x - 20) + ' 210, ' + (x - 20) + ' 205, ' + (x - 14) + ' 203 L' + (x - 8) + ' 201 C' + (x - 7) + ' 192, ' + (x - 5) + ' 182, ' + (x - 4) + ' 170 Z" fill="' + fill + '"' + S + '/></g>';
-      return '<g class="dg-leg ' + cls + '">' + lower + thigh + '</g>';
-    }
-    var ear = o.ear === "flop"
-      ? '<path class="dg-ear" d="M66 46 C80 40, 92 46, 94 58 C96 72, 90 84, 84 88 C80 76, 74 64, 62 56 Z" fill="' + o.dark + '"' + S + '/>'
-      : '<g class="dg-ear"><path d="M64 46 L70 14 L88 42 Z" fill="' + o.base + '"' + S + '/><path d="M70 40 L72 24 L82 40 Z" fill="' + o.dark + '" opacity="0.7"/></g>';
-    var farEar = o.ear === "flop" ? "" : '<path class="dg-ear" d="M78 44 L90 18 L98 46 Z" fill="' + o.dark + '"' + S + '/>';
-    var saddle = o.saddle ? '<path d="M128 94 C158 86, 192 88, 214 98 C216 110, 202 114, 182 110 C160 106, 140 108, 126 106 Z" fill="' + o.dark + '"/>' : "";
-    var scruff = o.scruff ? '<path class="dg-scruff" d="M92 98 L96 86 L102 96 L108 84 L112 96 L118 88 L120 100 Z" fill="' + o.base + '"' + S + '/>' : "";
-    return '<svg class="sst-over" viewBox="0 0 260 220" style="top:auto;bottom:0;height:100%" aria-hidden="true">' +
-      frontLeg(124, o.dark, "dg-leg--ff") + backLeg(198, o.dark, "dg-leg--bf") +
-      '<g class="dg-upper">' +
-        '<g class="dg-tail"><path d="M222 100 C238 94, 250 82, 254 66 C256 58, 249 57, 247 64 C244 78, 234 88, 220 92 Z" fill="' + o.base + '"' + S + '/>' + (o.scruff ? '<path d="M250 70 l6 -10 l-1 9 l6 -3 l-6 8 z" fill="' + o.light + '"/>' : "") + '</g>' +
-        '<path d="M100 98 C120 86, 178 86, 210 92 C234 96, 240 120, 228 140 C220 152, 204 150, 190 146 C172 142, 152 150, 134 162 C118 170, 98 164, 92 148 C86 128, 88 106, 100 98 Z" fill="' + o.base + '"' + S + '/>' +
-        saddle +
-        '<path d="M134 160 C152 150, 172 143, 190 146 C178 152, 156 158, 140 166 Z" fill="' + o.light + '" opacity="0.85"/>' +
-        '<path d="M96 116 C92 132, 96 152, 108 162 C102 150, 100 134, 104 118 Z" fill="' + o.light + '"/>' +
-        '<path d="M112 100 C150 92, 190 92, 212 98" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.12"/>' +
-      '</g>' +
-      frontLeg(113, o.base, "dg-leg--fn") + backLeg(208, o.base, "dg-leg--bn") +
-      '<g class="dg-upper">' + scruff +
-        '<g class="dg-head">' +
-          '<path d="M122 108 C112 90, 100 76, 86 64 L66 84 C78 98, 88 116, 98 130 Z" fill="' + o.base + '"/>' +
-          '<path d="M118 100 C110 86, 100 74, 88 64 M70 86 C80 100, 88 114, 96 126" fill="none" stroke="' + K + '" stroke-width="2.4" stroke-linecap="round"/>' + farEar +
-          '<path d="M62 44 C82 38, 98 50, 96 68 C94 84, 82 92, 68 90 L40 90 C26 90, 16 86, 14 78 C12 70, 22 66, 36 64 C44 52, 52 46, 62 44 Z" fill="' + o.base + '"' + S + '/>' +
-          '<path d="M40 66 C30 66, 18 70, 15 77 C16 84, 26 88, 40 89 C48 82, 48 72, 40 66 Z" fill="' + o.light + '"/>' +
-          '<g class="dg-jaw"><path d="M20 86 C30 92, 44 94, 58 90" fill="none" stroke="' + K + '" stroke-width="2" stroke-linecap="round"/></g>' +
-          '<path class="dg-teeth" d="M24 86 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4" fill="#fff" stroke="' + K + '" stroke-width="1" stroke-linejoin="round"/>' +
-          '<ellipse cx="15" cy="74" rx="6.5" ry="5.4" fill="#1b1412"/><ellipse cx="13" cy="72" rx="2" ry="1.3" fill="#fff" opacity="0.45"/>' +
-          '<path d="M30 70 Q40 66 52 66" fill="none" stroke="' + K + '" stroke-width="1.2" opacity="0.35"/>' + ear +
-          '<g class="dg-eye"><ellipse cx="58" cy="62" rx="4.6" ry="5.2" fill="#1b1412"/><circle cx="56.6" cy="60.2" r="1.6" fill="#fff"/></g>' +
-          '<path class="dg-brow dg-brow--m" d="M48 55 L66 51" fill="none" stroke="' + K + '" stroke-width="2.3" stroke-linecap="round"/>' +
-          '<path class="dg-brow dg-brow--u" d="M49 52 Q57 47 66 50" fill="none" stroke="' + K + '" stroke-width="2.3" stroke-linecap="round"/>' +
-        '</g>' +
-      '</g></svg>';
-  }
   var SUN_SIZE = 190, PUP_SIZE = 120;
   function buildActors() {
     function makeActor(cls, size, inner, over) {
@@ -802,30 +825,25 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       actorsEl.appendChild(a);
       return { el: a, flip: a.querySelector(".sst-flip"), pose: a.querySelector(".sst-pose"), size: size, last: {} };
     }
-    function prop(cls, w, h, svg) { var e = doc.createElement("div"); e.className = "sst-actor " + cls; e.style.width = w + "px"; e.style.height = h + "px"; e.innerHTML = svg; actorsEl.appendChild(e); return { el: e, w: w, h: h, last: {} }; }
     var sunny = makeActor("sst-sunny", SUN_SIZE, '<div class="sunny is-in"><div class="sunny__char">' + uniq(win.Sunny.art()) + "</div></div>",
-      '<svg class="sst-over" viewBox="0 0 220 220" aria-hidden="true"><g class="sst-mendscarf"><path d="M76 164q34 -10 68 0l2 11q-36 -8 -72 0z" fill="#de364d" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M100 167l3 3M108 166l3 3M116 166l3 3M124 167l3 3" stroke="#fff" stroke-width="1.5" opacity="0.85"/></g>' +
-      '<g class="sst-umb" transform="translate(184 140)">' + umbrella() + "</g></svg>");
+      '<svg class="sst-over" viewBox="0 0 220 220" aria-hidden="true"><g class="sst-umb" transform="translate(184 140)">' + umbrella() + "</g></svg>");
     var pup = makeActor("sst-pup", PUP_SIZE, '<div class="puppy is-in"><div class="puppy__char">' + uniq(win.Puppy.art()) + "</div></div>",
       '<svg class="sst-over" viewBox="0 0 220 220" aria-hidden="true">' +
-      '<g class="sst-scarf-g"><path d="M92 199q16 -7 34 -3q14 3 26 -2l5 5l-4 3l6 4l-5 2q-15 5 -30 1q-16 -4 -32 2z" fill="#de364d" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M106 200q10 -2 20 1" stroke="#9e1f33" stroke-width="2" fill="none"/></g>' +
-      '<g class="sst-scarf-w"><path d="M84 116Q128 133 178 117L180 127Q128 144 82 126Z" fill="#de364d" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M146 128q6 16 -1 30l11 2q6 -16 -1 -31z" fill="#de364d" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><circle cx="150" cy="130" r="5.5" fill="#c92a42" stroke="#111" stroke-width="2"/><path d="M160 121l4 2M167 119l4 2" stroke="#fff" stroke-width="1.4" opacity="0.85"/></g>' +
+      '<g class="sst-scarf-w"><path d="M84 116Q128 133 178 117L180 127Q128 144 82 126Z" fill="#de364d" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M146 128q6 16 -1 30l11 2q6 -16 -1 -31z" fill="#de364d" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><circle cx="150" cy="130" r="5.5" fill="#c92a42" stroke="#111" stroke-width="2"/></g>' +
       '<g class="sst-wet"><path d="M112 60q8 -8 18 -6M150 70q6 -6 14 -4M100 150q6 -4 12 -2" fill="none" stroke="#dfe7f5" stroke-width="2.2" stroke-linecap="round" opacity="0.5"/>' +
       '<g fill="#a9c3ec"><path class="sst-drip" d="M128 126c-2.4 3.4 -2.4 5.4 0 5.4c2.4 0 2.4 -2 0 -5.4z"/><path class="sst-drip" d="M96 98c-2 3 -2 4.8 0 4.8c2 0 2 -1.8 0 -4.8z"/><path class="sst-drip" d="M170 112c-2 3 -2 4.8 0 4.8c2 0 2 -1.8 0 -4.8z"/></g></g></svg>');
-    function dog(scale, o) { var a = makeActor("sst-dog", 250 * scale, dogSVG(o)); a.el.style.height = 212 * scale + "px"; a.h = 212 * scale; return a; }
-    var dogs = [dog(1.0, { base: "#8b5e3c", dark: "#5e3d26", light: "#d9b48a", ear: "flop", scruff: 1 }), dog(0.92, { base: "#6f727b", dark: "#4a4d55", light: "#c9ccd2", ear: "point", scruff: 1 }), dog(1.12, { base: "#b5793f", dark: "#2a2421", light: "#e1b685", ear: "point", saddle: 1 })];
-    var planted = prop("sst-planted", SUN_SIZE, SUN_SIZE, '<svg class="sst-over" viewBox="0 0 220 220" aria-hidden="true"><g transform="translate(110 216)"><g transform="rotate(-24)">' + umbrella().replace('<g class="u-root"><g class="u-tilt">', "<g><g>") + "</g></g></svg>");
-    var biscuit = prop("sst-biscuit", 40, 18, '<svg viewBox="0 0 40 18" width="40" height="18" aria-hidden="true"><path d="M7 5a4 4 0 1 1 3 -3h20a4 4 0 1 1 3 3v8a4 4 0 1 1 -3 3h-20a4 4 0 1 1 -3 -3z" fill="#e8b06a" stroke="#111" stroke-width="1.8"/></svg>');
-    var bowls = prop("sst-bowls", 130, 34, '<svg viewBox="0 0 130 34" width="130" height="34" aria-hidden="true"><path d="M4 12h52l-6 20h-40z" fill="#de364d" stroke="#111" stroke-width="2"/><ellipse cx="30" cy="12" rx="26" ry="5" fill="#9a5a2a" stroke="#111" stroke-width="2"/><path d="M72 12h52l-6 20h-40z" fill="#4d8dff" stroke="#111" stroke-width="2"/><ellipse cx="98" cy="12" rx="26" ry="5" fill="#bfe0ff" stroke="#111" stroke-width="2"/></svg>');
-    var towel = prop("sst-towel", 140, 90, '<svg viewBox="0 0 140 90" width="140" height="90" aria-hidden="true"><g class="tw"><path d="M14 40Q70 2 126 40L132 76Q119 66 108 82Q96 64 84 80Q70 62 56 80Q44 64 32 82Q21 66 8 76Z" fill="#f6efe3" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 60Q70 40 124 60" stroke="#7fb0f5" stroke-width="6" fill="none" opacity="0.85"/><path d="M40 22Q70 10 100 22" stroke="#fff" stroke-width="5" fill="none" opacity="0.6" stroke-linecap="round"/></g></svg>');
+    /* the story's own small things: a butterfly, a leaf, a snowball, a firefly, a shooting star */
+    var props = ST.props.map(function (p) {
+      var e = doc.createElement("div"); e.className = "sst-prop " + (p.cls || ""); e.style.width = p.w + "px"; e.style.height = p.h + "px"; e.style.margin = -p.h / 2 + "px 0 0 " + -p.w / 2 + "px"; e.innerHTML = p.svg;
+      if (p.sky) world.insertBefore(e, R.street); else { actorsEl.appendChild(e); e.style.zIndex = 6; }
+      return { el: e, p: p, last: "" };
+    });
     var SPARK = '<svg viewBox="0 0 34 34" width="34" height="34"><path d="M17 2L20 14L32 17L20 20L17 32L14 20L2 17L14 14Z" fill="#FFC93C" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg>';
-    var sparks = [[33.9, "biscuit"], [44.0, "bowls"], [46.0, "mend"], [47.5, "neck"]].map(function (s) { var e = doc.createElement("div"); e.className = "sst-spark"; e.innerHTML = SPARK; actorsEl.appendChild(e); return { t: s[0], at: s[1], el: e, on: false }; });
+    var sparks = ST.SPARKS.map(function (s) { var e = doc.createElement("div"); e.className = "sst-spark"; e.innerHTML = SPARK; e.style.left = s[1] + "px"; e.style.top = s[2] + "px"; e.style.zIndex = 20; actorsEl.appendChild(e); return { t: s[0], el: e, on: false }; });
     function cshadow() { var e = doc.createElement("div"); e.className = "sst-cshadow"; actorsEl.insertBefore(e, actorsEl.firstChild); return e; }
-    dogs.forEach(function (d) { d.shadow = cshadow(); });
-    var pupShadow = cshadow();
-    [dogs[2], dogs[1], dogs[0], biscuit, bowls, pup, planted, towel, sunny].forEach(function (a, i) { a.el.style.zIndex = i + 1; });
-    sparks.forEach(function (s) { s.el.style.zIndex = 20; });
-    return { pupShadow: pupShadow, sunny: sunny, pup: pup, dogs: dogs, planted: planted, biscuit: biscuit, bowls: bowls, towel: towel, sparks: sparks,
+    var pupShadow = cshadow(), sunShadow = cshadow();
+    pup.el.style.zIndex = 2; sunny.el.style.zIndex = 3;
+    return { pupShadow: pupShadow, sunShadow: sunShadow, sunny: sunny, pup: pup, props: props, sparks: sparks,
       sunnyRoot: sunny.el.querySelector(".sunny"), sunnyLook: sunny.el.querySelector(".s-look"), pupRoot: pup.el.querySelector(".puppy"), pupLooks: pup.el.querySelectorAll(".p-look"),
       umbTilt: sunny.el.querySelector(".u-tilt"), umbCan: sunny.el.querySelector(".u-can"), umbG: sunny.el.querySelector(".sst-umb") };
   }
@@ -835,19 +853,16 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   function setVar(k, v) { if (cssCache[k] !== v) { cssCache[k] = v; story.style.setProperty("--" + k, v); } }
   function setCls(el, cls, on) { if (el.classList.contains(cls) !== !!on) el.classList.toggle(cls, !!on); }
   function setAttr(el, k, v) { if (v) { if (el.getAttribute(k) !== v) el.setAttribute(k, v); } else if (el.hasAttribute(k)) el.removeAttribute(k); }
-  function place(a, x, footFrac, op, w, h) {
-    w = w || a.size; h = h || a.size;
-    var tf = "translate3d(" + (x - w / 2).toFixed(1) + "px," + (GY - h + h * footFrac).toFixed(1) + "px,0)";
+  function place(a, x, footFrac, dy) {
+    var tf = "translate3d(" + (x - a.size / 2).toFixed(1) + "px," + (GY - a.size + a.size * footFrac + (dy || 0)).toFixed(1) + "px,0)";
     if (a.last.tf !== tf) { a.last.tf = tf; a.el.style.transform = tf; }
-    var o = op == null ? 1 : +op.toFixed(3);
-    if (a.last.op !== o) { a.last.op = o; a.el.style.opacity = o; a.el.style.visibility = o <= 0.001 ? "hidden" : "visible"; }
   }
-  /* a soft contact shadow on the ground under a character */
-  function shadowAt(el, x, op, sc) {
+  /* a soft contact shadow on the ground under a character; it shrinks and fades as the character leaves the ground */
+  function shadowAt(el, x, lift, sc) {
     if (!el) return;
-    var tf = "translate3d(" + x.toFixed(1) + "px," + (GY + 2) + "px,0) scale(" + sc.toFixed(2) + ",1)";
+    var k = Math.max(0.45, 1 + lift / 160), tf = "translate3d(" + x.toFixed(1) + "px," + (GY + 2) + "px,0) scale(" + (sc * k).toFixed(2) + ",1)";
     if (el._tf !== tf) { el._tf = tf; el.style.transform = tf; }
-    var o = (op == null ? 1 : op).toFixed(2); if (el._op !== o) { el._op = o; el.style.opacity = o; }
+    var o = k.toFixed(2); if (el._op !== o) { el._op = o; el.style.opacity = o; }
   }
   function lookAt(el, dx, dy, flipped, kx, ky, many) {
     var v = "translate(" + ((flipped ? -1 : 1) * dx * kx).toFixed(1) + "px," + (dy * ky).toFixed(1) + "px)";
@@ -860,7 +875,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   function gaitOn() { return G.amt > 0.15; }
   function gait(pose, px, Q) {
     var dtg = clock - G.t; G.t = clock;
-    if (G.x === null || Math.abs(px - G.x) > 90 || dtg <= 0 || dtg > 0.25) { G.x = px; return; } /* a scene cut, not a step */
+    if (G.x === null || Math.abs(px - G.x) > 90 || dtg <= 0 || dtg > 0.25) { G.x = px; return; } /* a jump in time, not a step */
     var dx = px - G.x; G.x = px;
     var speed = Math.abs(dx) / dtg;
     G.amt += ((reduced ? 0 : Math.min(1, speed / 150)) - G.amt) * Math.min(1, dtg * 7);
@@ -887,143 +902,140 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     }
     actor.lastFlip = flip;
   }
-  var snowNow = 0, leafNow = 0;
-  var capIdx = -1, lineIdx = -1, clock = 0, lastRefl = -1, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 1, windNow = 0.2, heads = null;
+  var SHELTER = [214, 470, 600]; /* the porch roof: left, right, and the height the rain stops at */
+  var clock = 0, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 0, windNow = 0.2, snowNow = 0, leafNow = 0, heads = null, reflSet = false;
   function render(tReal) {
-    var t = reduced ? KEY_T[sceneOf(tReal)] : tReal;
-    var P = palette(t);
-    for (var k in P) setVar(k, P[k]);
-    /* the camera, with a little handheld drift */
+    var t = reduced ? KEY_T[sceneOf(Math.min(tReal, T_END - 0.01))] : tReal;
+    /* the camera stays close on the two of them, with a little handheld drift */
     var vw = story.clientWidth, vh = story.clientHeight;
     var cx = track(CAMX, t), cy = track(CAMY, t), z = track(CAMZ, t);
-    if (!reduced) { cx += Math.sin(clock * 0.21) * 5; cy += Math.sin(clock * 0.27 + 1) * 3.5; }
-    var fit = Math.min(Math.max(vw / W, vh / H), vw / 760), s = fit * z;
+    if (!reduced) { cx += Math.sin(clock * 0.21) * 4; cy += Math.sin(clock * 0.27 + 1) * 2.5; }
+    var fit = Math.min(Math.max(vw / W, vh / H), vw / 760), s = Math.min(fit * z, vw / 460); /* never so close that the pair cannot share a narrow screen */
     var tx = vw / 2 - cx * s, ty = vh / 2 - cy * s;
     if (W * s >= vw) tx = Math.min(0, Math.max(vw - W * s, tx)); else tx = (vw - W * s) / 2;
     if (H * s >= vh) ty = Math.min(0, Math.max(vh - H * s, ty)); else ty = (vh - H * s) * 0.5;
     world.style.transform = "translate3d(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px,0) scale(" + s.toFixed(4) + ")";
-    /* depth: the far skyline and clouds lag behind the camera */
+    /* depth: the far skyline and clouds lag behind the camera, the foreground runs ahead of it */
     R.far.setAttribute("transform", "translate(" + ((cx - 800) * 0.3).toFixed(1) + " 0)");
     R.mid.setAttribute("transform", "translate(" + ((cx - 800) * 0.12).toFixed(1) + " 0)");
     R.clouds.style.transform = "translateX(" + ((cx - 800) * 0.45).toFixed(1) + "px)";
-    var inRoom = t >= 40.31 && t < 49.26; outdoor = inRoom ? 0 : 1;
-    R.room.style.opacity = inRoom ? 1 : 0; R.street.style.visibility = inRoom ? "hidden" : "visible";
-    R.glows.style.opacity = inRoom ? 0 : 1;
-    R.fore.style.opacity = inRoom ? 0 : 1;
     R.fore.style.transform = "translate3d(" + (-(cx - 800) * 0.22).toFixed(1) + "px,0,0)";
-    R.spot.style.opacity = track(SPOT, t);
-    R.roomRain.style.opacity = inRoom ? track(WINDOW_RAIN, t) : 0;
-    rainNow = inRoom ? 0 : track(RAIN, t); windNow = track(WIND, t); snowNow = inRoom ? 0 : track(SNOW, t); leafNow = inRoom ? 0 : track(LEAF, t);
-    R.door.setAttribute("transform", "translate(296 0) scale(" + track(DOOR, t).toFixed(3) + " 1) translate(-296 0)");
-    R.sun.style.top = track(SUN_Y, t).toFixed(1) + "px";
-    R.grade.style.background = P.grade;
-    R.vig.style.opacity = track(VIG, t);
-    R.dipW.style.opacity = track(DIP_W, t); R.dipG.style.opacity = track(DIP_G, t);
-    R.mist.style.opacity = inRoom ? 0 : P.mist;
-    R.flash.style.opacity = reduced ? 0 : track(FLASH, tReal);
-    if (A) {
-      var S = states(SUNNY_S, t), sx = track(SUNNY_X, t);
-      place(A.sunny, sx, 13 / 220, track(SUNNY_OP, t));
-      setAttr(A.sunnyRoot, "data-emotion", S.emo); setAttr(A.sunnyRoot, "data-act", S.act);
-      setCls(A.sunnyRoot, "st-cos-on", t < 40.31); setCls(A.sunnyRoot, "st-gust", windNow > 0.6 && t < 7.6);
-      setCls(A.sunny.pose, "st-brace", S.brace);
-      setCls(A.sunnyRoot, "st-slow", S.slow); setCls(A.sunnyRoot, "st-hold", S.hold && track(UMB_VIS, t) > 0); setCls(A.sunnyRoot, "st-reach", S.reach); setCls(A.sunnyRoot, "st-hug", S.hug); setCls(A.sunnyRoot, "st-mend", S.mend);
-      setCls(A.sunny.el, "has-mend", S.mend);
-      setCls(A.sunny.pose, "st-sit", S.sit); setCls(A.sunny.pose, "st-bend", S.bend); setCls(A.sunny.pose, "st-tremble", S.tremble); setCls(A.sunny.pose, "st-breath", S.breath);
-      turned(A.sunny, S.flip); setCls(A.sunny.flip, "is-flipped", S.flip);
-      lookAt(A.sunnyLook, (S.look || [0, 0])[0], (S.look || [0, 0])[1], S.flip, 5, 4);
-      var sway = reduced ? 0 : Math.sin(clock * 1.3) * 2.4 * (0.4 + windNow), uo = track(UMB_OPEN, t), uv = track(UMB_VIS, t), ur = track(UMB_ROT, t);
-      A.umbTilt.setAttribute("transform", "rotate(" + (ur + sway).toFixed(2) + ")");
-      A.umbCan.setAttribute("transform", "scale(" + uo.toFixed(3) + " 1)");
-      A.umbG.style.opacity = uv;
-      var Q = states(PUP_S, t), px = track(PUP_X, t);
-      place(A.pup, px, 17 / 220, track(PUP_OP, t));
-      shadowAt(A.pupShadow, px + (Q.flip ? 4 : -4), track(PUP_OP, t), 0.85);
-      /* walking and running are drawn from the real speed below, not from a fixed loop */
-      setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act === "run" ? null : Q.act);
-      setCls(A.pupRoot, "st-rest", Q.rest);
-      setCls(A.pup.el, "is-wet", Q.wet); setCls(A.pup.el, "has-scarf-g", Q.scarf === "g"); setCls(A.pup.el, "has-scarf-w", Q.scarf === "w");
-      setCls(A.pup.pose, "st-shiver", Q.shiver && !gaitOn()); setCls(A.pup.pose, "st-lean", Q.lean);
-      gait(A.pup.pose, px, Q);
-      turned(A.pup, Q.flip); setCls(A.pup.flip, "is-flipped", Q.flip);
-      lookAt(A.pupLooks, (Q.look || [0, 0])[0], (Q.look || [0, 0])[1], Q.flip, 22, 16, true);
-      for (var d = 0; d < 3; d++) {
-        var D = states(DOG_S[d], t), dg = A.dogs[d], dx = track(DOG_X[d], t);
-        var dop = t < 30.5 && !inRoom ? Math.min(1, Math.max(0, (2260 - dx) / 220)) : 0;
-        place(dg, dx, 8 / 220, dop, dg.size, dg.h); shadowAt(dg.shadow, dx + 14 * (dg.size / 250), dop, dg.size / 120);
-        setCls(dg.pose, "st-walk", D.walk); setCls(dg.pose, "st-loom", D.loom); setCls(dg.pose, "st-hesitate", D.hesitate); setCls(dg.pose, "st-leave", D.leave); turned(dg, D.flip); setCls(dg.flip, "is-flipped", D.flip);
-      }
-      var ra = Math.round(P.refl * 100) / 100;
-      if (ra !== lastRefl) {
-        lastRefl = ra;
-        [[A.sunny, 22], [A.pup, 19], [A.dogs[0], 15], [A.dogs[1], 14], [A.dogs[2], 17], [A.planted, 8]].forEach(function (r) {
-          var v = ra > 0.01 ? "below -" + r[1] + "px linear-gradient(transparent 52%, rgba(255,255,255," + ra + "))" : "none";
-          r[0].el.style.webkitBoxReflect = v; r[0].el.style.boxReflect = v;
-        });
-      }
-      sunState = { x: sx, act: S.act, slow: S.slow, op: track(SUNNY_OP, t) };
-      umbRim = null;
-      if (uv > 0.5 && uo > 0.75 && !inRoom) {
-        var rr = ur * Math.PI / 180, kk = SUN_SIZE / 220, left = sx - SUN_SIZE / 2, top = GY - SUN_SIZE + SUN_SIZE * 13 / 220;
-        umbRim = [-1, 1].map(function (side) {
-          var lx = side * 112 * uo, ly = -128, vx = 184 + lx * Math.cos(rr) - ly * Math.sin(rr), vy = 140 + lx * Math.sin(rr) + ly * Math.cos(rr);
-          if (S.flip) vx = 220 - vx; return [left + vx * kk, top + vy * kk];
-        });
-      }
-      /* heads in the open rain, for the splashes: Sunny when his umbrella is down, Puppy unless the umbrella covers him */
-      heads = [];
-      if (!inRoom) {
-        if (!(uv > 0.5 && uo > 0.75) && track(SUNNY_OP, t) > 0.5) heads.push([sx, GY - 150, 38]);
-        if (!(t >= 30.9 && t < 40.3) && track(PUP_OP, t) > 0.5) heads.push([px + (Q.flip ? -6 : 6), GY - 98, 20]);
-      }
-      place(A.planted, px + 52, 4 / 220, t >= 30.9 && t < 40.3 ? 1 : 0, SUN_SIZE, SUN_SIZE);
-      place(A.biscuit, 1192, 0.2, t >= 33.8 && t < 36.8 ? (t < 36.2 ? 1 : 1 - (t - 36.2) / 0.6) : 0, 40, 18);
-      place(A.bowls, 506, 0.25, inRoom && t >= 44.0 ? 1 : 0, 130, 34);
-      place(A.towel, px + 10, -0.5, inRoom && t >= 40.6 && t < 42.4 ? 1 : 0, 140, 90);
-      A.sparks.forEach(function (sp) {
-        var on = t >= sp.t && t < sp.t + 0.9;
-        if (on && !sp.on) {
-          var x = sp.at === "biscuit" ? 1192 : sp.at === "bowls" ? 506 : sp.at === "mend" ? 930 : px + 18, y = sp.at === "biscuit" ? GY - 18 : sp.at === "bowls" ? GY - 30 : sp.at === "mend" ? GY - 70 : GY - 62;
-          sp.el.style.left = x + "px"; sp.el.style.top = y + "px"; sp.el.classList.remove("on"); void sp.el.offsetWidth; sp.el.classList.add("on");
-        }
-        if (!on && sp.on) sp.el.classList.remove("on");
-        sp.on = on;
+    rainNow = SCENE.rain; snowNow = SCENE.snow; windNow = track(ST.WINDT, t); leafNow = track(ST.LEAF, t);
+    R.flash.style.opacity = reduced ? 0 : track(ST.FLASH, tReal);
+    R.flies.style.opacity = track(ST.FLIES, t);
+    var warm = track(ST.WARM, t); /* stepping into the porch light warms the rim on the characters */
+    setVar("rimC", warm > 0.01 ? mix(SCENE.P.rimC, "rgba(255,190,120,0.55)", warm) : SCENE.P.rimC);
+    setVar("charB", +(SCENE.P.charB + (1.02 - SCENE.P.charB) * warm).toFixed(3));
+    if (!A) return;
+    var S = states(ST.SS, t), sx = track(ST.SX, t), sy = track(ST.SY, t);
+    place(A.sunny, sx, 13 / 220, sy); shadowAt(A.sunShadow, sx, sy, 1.3);
+    setAttr(A.sunnyRoot, "data-emotion", S.emo); setAttr(A.sunnyRoot, "data-act", S.act);
+    setCls(A.sunnyRoot, "st-cos-on", true); setCls(A.sunnyRoot, "st-gust", windNow > 0.6);
+    var uo = track(ST.UO, t), uv = track(ST.UV, t), ur = track(ST.UR, t);
+    setCls(A.sunnyRoot, "st-slow", S.slow); setCls(A.sunnyRoot, "st-hold", S.hold && uv > 0); setCls(A.sunnyRoot, "st-reach", S.reach); setCls(A.sunnyRoot, "st-hug", S.hug); setCls(A.sunnyRoot, "st-mend", S.mend);
+    setCls(A.sunny.pose, "st-brace", S.brace); setCls(A.sunny.pose, "st-sit", S.sit); setCls(A.sunny.pose, "st-bend", S.bend); setCls(A.sunny.pose, "st-tremble", S.tremble);
+    turned(A.sunny, S.flip); setCls(A.sunny.flip, "is-flipped", S.flip);
+    lookAt(A.sunnyLook, (S.look || [0, 0])[0], (S.look || [0, 0])[1], S.flip, 5, 4);
+    var sway = reduced ? 0 : Math.sin(clock * 1.3) * 2.4 * (0.4 + windNow);
+    A.umbTilt.setAttribute("transform", "rotate(" + (ur + sway).toFixed(2) + ")");
+    A.umbCan.setAttribute("transform", "scale(" + uo.toFixed(3) + " 1)");
+    A.umbG.style.opacity = uv;
+    var Q = states(ST.PS, t), px = track(ST.PX, t), py = track(ST.PY, t);
+    place(A.pup, px, 17 / 220, py); shadowAt(A.pupShadow, px + (Q.flip ? 4 : -4), py, 0.85);
+    /* walking and running are drawn from the real speed in gait(), not from a fixed loop */
+    setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act);
+    setCls(A.pupRoot, "st-rest", Q.rest);
+    setCls(A.pup.el, "is-wet", Q.wet); setCls(A.pup.el, "has-scarf-w", Q.scarf === "w");
+    setCls(A.pup.pose, "st-shiver", Q.shiver && !gaitOn()); setCls(A.pup.pose, "st-lean", Q.lean);
+    gait(A.pup.pose, px, Q);
+    turned(A.pup, Q.flip); setCls(A.pup.flip, "is-flipped", Q.flip);
+    lookAt(A.pupLooks, (Q.look || [0, 0])[0], (Q.look || [0, 0])[1], Q.flip, 22, 16, true);
+    if (!reflSet) { /* wet ground mirrors them a little */
+      reflSet = true; var ra = Math.round(SCENE.P.refl * 100) / 100;
+      [[A.sunny, 22], [A.pup, 19]].forEach(function (r) { var v = ra > 0.01 ? "below -" + r[1] + "px linear-gradient(transparent 52%, rgba(255,255,255," + ra + "))" : "none"; r[0].el.style.webkitBoxReflect = v; r[0].el.style.boxReflect = v; });
+    }
+    sunState = { x: sx, act: S.act, slow: S.slow };
+    /* the umbrella's rim, for the drips, and who is standing in the open rain, for the splashes on their heads */
+    umbRim = null;
+    if (uv > 0.5 && uo > 0.75) {
+      var rr = ur * Math.PI / 180, kk = SUN_SIZE / 220, left = sx - SUN_SIZE / 2, top = GY - SUN_SIZE + SUN_SIZE * 13 / 220 + sy;
+      umbRim = [-1, 1].map(function (side) {
+        var lx = side * 112 * uo, ly = -128, vx = 184 + lx * Math.cos(rr) - ly * Math.sin(rr), vy = 140 + lx * Math.sin(rr) + ly * Math.cos(rr);
+        if (S.flip) vx = 220 - vx; return [left + vx * kk, top + vy * kk];
       });
     }
-    var ci = -1, ca = 0;
-    for (var c = 0; c < CAPS.length; c++) { var w = winw(tReal, CAPS[c][0], CAPS[c][1], 0.8); if (w > 0.001) { ci = c; ca = w; } }
-    if (ci !== capIdx && ci >= 0) { capIdx = ci; R.cap.textContent = CAPS[ci][2]; }
-    R.cap.style.opacity = A ? (ci >= 0 ? ca : 0) * (1 - smooth(TITLE_AT, TITLE_AT + 0.8, tReal)) : 0;
+    function covered(x) { return (ST.shelter && x > SHELTER[0] && x < SHELTER[1]) || (umbRim && x > Math.min(umbRim[0][0], umbRim[1][0]) - 6 && x < Math.max(umbRim[0][0], umbRim[1][0]) + 6); }
+    heads = [];
+    if (!covered(sx)) heads.push([sx, GY - 150 + sy, 38]);
+    if (!covered(px)) heads.push([px + (Q.flip ? -6 : 6), GY - 98 + py, 20]);
+    for (var i = 0; i < A.props.length; i++) {
+      var pr = A.props[i], p = pr.p, x = track(p.X, t), y = track(p.Y, t), o = track(p.OP, t), w = p.WOB ? track(p.WOB, t) : (p.wob ? 1 : 0), rot = p.rot || 0;
+      if (p.wob && w > 0 && !reduced) { x += Math.sin(clock * p.wob[2]) * p.wob[0] * w; y += Math.sin(clock * p.wob[2] * 1.7 + 1) * p.wob[1] * w; }
+      if (p.R) rot += track(p.R, t);
+      if (p.spin) rot += reduced ? 20 : (w > 0 ? (clock * p.spin) % 360 : 12);
+      var tf = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0) rotate(" + rot.toFixed(1) + "deg)|" + o.toFixed(2) + "|" + (w > 0 ? 1 : 0);
+      if (pr.last !== tf) { pr.last = tf; pr.el.style.transform = tf.split("|")[0]; pr.el.style.opacity = o.toFixed(2); pr.el.style.visibility = o <= 0.01 ? "hidden" : "visible"; setCls(pr.el, "is-rest", w <= 0); }
+    }
+    A.sparks.forEach(function (sp) {
+      var on = t >= sp.t && t < sp.t + 0.9 && !reduced;
+      if (on && !sp.on) { sp.el.classList.remove("on"); void sp.el.offsetWidth; sp.el.classList.add("on"); }
+      if (!on && sp.on) sp.el.classList.remove("on");
+      sp.on = on;
+    });
     R.title.style.opacity = smooth(TITLE_AT, TITLE_AT + 1.2, tReal);
-    var li = sceneOf(tReal); if (li !== lineIdx) { lineIdx = li; R.line.textContent = LINES[li]; }
     R.fill.style.width = Math.min(100, tReal / T_END * 100).toFixed(1) + "%";
   }
 
-  /* ===================================================================== rain */
-  var cv = R.rain, g2 = cv.getContext("2d"), drops = [], fx = [], drips = [], dripT = 0, stepT = 0, flakes = [], leaves = [], prints = [], printT = 0;
+  /* ===================================================================== rain, snow, leaves and splashes */
+  var cv = R.rain, g2 = cv.getContext("2d"), drops = [], fx = [], drips = [], dripT = 0, eaveT = 0, stepT = 0, flakes = [], leaves = [], prints = [], printT = 0;
   var PUDDLES = [[470, 792, 112, 8], [900, 784, 78, 6], [1330, 790, 124, 8]];
+  var LEAF_C = ["#c9772e", "#e0a33d", "#9b5a2a", "#7a9a3a"];
   function newDrop(scatter) {
     var near = Math.random() < 0.3;
     return { near: near, x: Math.random() * (W + 300) - 150, y: scatter ? Math.random() * H : -20 - Math.random() * 220, v: near ? 1350 + Math.random() * 450 : 820 + Math.random() * 320,
       l: near ? 24 + Math.random() * 16 : 10 + Math.random() * 9, a: near ? 0.26 + Math.random() * 0.2 : 0.1 + Math.random() * 0.12, w: near ? 1.7 : 0.9, floor: near ? GY + 20 + Math.random() * 110 : GY - 30 + Math.random() * 60 };
   }
+  function newFlake(scatter) { return { x: Math.random() * (W + 200) - 100, y: scatter ? Math.random() * H : -10, r: 1.2 + Math.random() * 2.6, v: 40 + Math.random() * 70, ph: Math.random() * 6 }; }
+  function leafY() { return Math.random() < 0.55 ? 430 + Math.random() * 160 : 744 + Math.random() * 34; } /* above their heads or along the ground, never across their faces */
+  function newLeaf(scatter) { return { x: scatter ? Math.random() * W : W + Math.random() * 400, y: leafY(), v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: LEAF_C[(Math.random() * 4) | 0] }; }
+  /* the weather is already there on the first frame: the air starts full of it */
+  function prefill() {
+    drops.length = 0; fx.length = 0; flakes.length = 0; leaves.length = 0;
+    var i, n = Math.round(300 * SCENE.rain); for (i = 0; i < n; i++) drops.push(newDrop(true));
+    n = Math.round(200 * SCENE.snow); for (i = 0; i < n; i++) flakes.push(newFlake(true));
+    n = Math.round(14 * track(ST.LEAF, 0)); for (i = 0; i < n; i++) leaves.push(newLeaf(true));
+  }
   function splash(x, y, big, max) { fx.push({ k: "s", x: x, y: y, life: 0, max: max || (big ? 0.26 : 0.18), big: big }); }
+  /* a burst of drops or snow thrown up by a jump, a shake or a catch */
+  function burst(kind, x, y, n) {
+    if (reduced) return;
+    for (var i = 0; i < n; i++) {
+      var a = -Math.PI / 2 + (Math.random() - 0.5) * (kind === "spray" ? 5 : 2.2), sp = (kind === "puff" ? 60 : 150) + Math.random() * (kind === "puff" ? 90 : 190);
+      fx.push({ k: "p", x: x + (Math.random() - 0.5) * 20, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, g: kind === "puff" ? 220 : 900, r: kind === "puff" ? 2 + Math.random() * 3 : 1.4 + Math.random() * 1.6,
+        c: kind === "puff" ? "255,255,255" : "205,225,250", life: 0, max: kind === "puff" ? 0.7 + Math.random() * 0.4 : 0.45 + Math.random() * 0.3 });
+    }
+    if (kind === "splash") { splash(x - 16, GY + 3, 1, 0.4); splash(x + 16, GY + 3, 1, 0.4); fx.push({ k: "r", x: x, y: GY + 6, life: 0, max: 1 }); }
+  }
   function rainStep(dt) {
     g2.clearRect(0, 0, W, H);
-    if (reduced) return;
-    var want = Math.round(460 * rainNow);
-    while (drops.length < want) drops.push(newDrop(drops.length < want * 0.5));
+    if (reduced) dt = 0; /* a still: the weather hangs in the air */
+    var want = Math.round(300 * rainNow);
+    while (drops.length < want) drops.push(newDrop(false));
     g2.lineCap = "round";
-    var slant = 0.16 + windNow * 0.5 + Math.sin(clock * 0.35) * 0.05;
+    var slant = 0.16 + windNow * 0.5 + Math.sin(clock * 0.35) * 0.05, roofed = ST && ST.shelter;
     for (var i = drops.length - 1; i >= 0; i--) {
       var p = drops[i];
       p.y += p.v * dt; p.x -= p.v * dt * slant;
+      if (roofed && p.y >= SHELTER[2] && p.y < SHELTER[2] + 60 && p.x > SHELTER[0] && p.x < SHELTER[1]) { if (dt && Math.random() < 0.5) splash(p.x, SHELTER[2], 0); if (dt) drops[i] = newDrop(false); continue; } /* the porch roof keeps the rain off */
+      if (roofed && p.y > SHELTER[2] && p.x > SHELTER[0] && p.x < SHELTER[1]) continue;
       if (p.y >= p.floor) { if (Math.random() < (p.near ? 0.8 : 0.35)) splash(p.x, p.floor, p.near); if (drops.length > want) { drops.splice(i, 1); continue; } drops[i] = newDrop(false); continue; }
       g2.strokeStyle = "rgba(205,220,245," + p.a + ")"; g2.lineWidth = p.w;
       g2.beginPath(); g2.moveTo(p.x, p.y); g2.lineTo(p.x + p.l * slant, p.y - p.l); g2.stroke();
     }
     dripT -= dt;
-    if (umbRim && rainNow > 0.1 && dripT <= 0) { dripT = 0.09 + Math.random() * 0.12; var e = umbRim[Math.random() < 0.5 ? 0 : 1]; drips.push({ x: e[0] + (Math.random() * 6 - 3), y: e[1] + 2, v: 60 }); }
+    if (dt && umbRim && rainNow > 0.1 && dripT <= 0) { dripT = 0.09 + Math.random() * 0.12; var e = umbRim[Math.random() < 0.5 ? 0 : 1]; drips.push({ x: e[0] + (Math.random() * 6 - 3), y: e[1] + 2, v: 60 }); }
+    eaveT -= dt;
+    if (dt && roofed && rainNow > 0.1 && eaveT <= 0) { eaveT = 0.16 + Math.random() * 0.2; drips.push({ x: Math.random() < 0.5 ? SHELTER[0] + 6 + Math.random() * 14 : SHELTER[1] - 6 - Math.random() * 14, y: 628, v: 40 }); }
     g2.fillStyle = "rgba(200,218,246,0.7)";
     for (var d = drips.length - 1; d >= 0; d--) {
       var q = drips[d]; q.v += 1600 * dt; q.y += q.v * dt;
@@ -1031,31 +1043,32 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       g2.beginPath(); g2.ellipse(q.x, q.y, 1.3, 3.2, 0, 0, Math.PI * 2); g2.fill();
     }
     /* snow: slow flakes that drift with the wind, and Sunny's footprints */
-    var wantF = Math.round(240 * snowNow);
-    while (flakes.length < wantF) flakes.push({ x: Math.random() * (W + 200) - 100, y: flakes.length < wantF * 0.6 ? Math.random() * H : -10, r: 1.2 + Math.random() * 2.6, v: 40 + Math.random() * 70, ph: Math.random() * 6 });
+    var wantF = Math.round(200 * snowNow);
+    while (flakes.length < wantF) flakes.push(newFlake(false));
     for (var f2 = flakes.length - 1; f2 >= 0; f2--) {
       var fl = flakes[f2]; fl.y += fl.v * dt; fl.x += (Math.sin(fl.ph + clock * 1.4) * 14 - windNow * 60) * dt;
       if (fl.y > GY + 30 + fl.r * 30) { if (flakes.length > wantF) { flakes.splice(f2, 1); continue; } fl.y = -10; fl.x = Math.random() * (W + 200) - 100; }
       g2.fillStyle = "rgba(255,255,255," + (0.5 + fl.r * 0.12).toFixed(2) + ")"; g2.beginPath(); g2.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2); g2.fill();
     }
-    if (snowNow > 0.3 && sunState.act === "walk" && sunState.op > 0.5) { printT -= dt; if (printT <= 0) { printT = sunState.slow ? 0.31 : 0.21; prints.push({ x: sunState.x + (prints.length % 2 ? 9 : -9), a: 1 }); } }
-    for (var pi = prints.length - 1; pi >= 0; pi--) { var pr = prints[pi]; if (snowNow < 0.9) pr.a -= dt * 0.8; if (pr.a <= 0) { prints.splice(pi, 1); continue; } g2.fillStyle = "rgba(120,135,160," + (0.35 * pr.a).toFixed(2) + ")"; g2.beginPath(); g2.ellipse(pr.x, GY + 4, 6, 2, 0, 0, Math.PI * 2); g2.fill(); }
-    /* wind: leaves and bits carried across the street */
-    var wantL = Math.round(16 * leafNow);
-    while (leaves.length < wantL) leaves.push({ x: W + Math.random() * 400, y: 300 + Math.random() * 480, v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: ["#c9772e", "#e0a33d", "#9b5a2a", "#7a9a3a"][(Math.random() * 4) | 0] });
+    if (dt && snowNow > 0.3 && sunState.act === "walk") { printT -= dt; if (printT <= 0) { printT = sunState.slow ? 0.31 : 0.21; prints.push({ x: sunState.x + (prints.length % 2 ? 9 : -9), a: 1 }); if (prints.length > 40) prints.shift(); } }
+    for (var pi = prints.length - 1; pi >= 0; pi--) { var pr = prints[pi]; g2.fillStyle = "rgba(120,135,160," + (0.35 * pr.a).toFixed(2) + ")"; g2.beginPath(); g2.ellipse(pr.x, GY + 4, 6, 2, 0, 0, Math.PI * 2); g2.fill(); }
+    /* wind: leaves carried across the street */
+    var wantL = Math.round(14 * leafNow);
+    while (leaves.length < wantL) leaves.push(newLeaf(false));
     for (var li2 = leaves.length - 1; li2 >= 0; li2--) {
-      var lf = leaves[li2]; lf.x -= lf.v * dt * (0.6 + windNow * 0.6); lf.y += Math.sin(clock * 2.2 + lf.rot) * 40 * dt + 12 * dt; lf.rot += lf.sp * dt;
-      if (lf.x < -60 || lf.y > GY + 20) { if (leaves.length > wantL) { leaves.splice(li2, 1); continue; } lf.x = W + Math.random() * 200; lf.y = 300 + Math.random() * 460; }
+      var lf = leaves[li2]; lf.x -= lf.v * dt * (0.6 + windNow * 0.6); lf.y += Math.sin(clock * 2.2 + lf.rot) * 26 * dt; lf.rot += lf.sp * dt;
+      if (lf.x < -60 || lf.y > GY + 30) { if (leaves.length > wantL) { leaves.splice(li2, 1); continue; } lf.x = W + Math.random() * 200; lf.y = leafY(); }
       g2.save(); g2.translate(lf.x, lf.y); g2.rotate(lf.rot); g2.fillStyle = lf.c; g2.beginPath(); g2.ellipse(0, 0, 7, 3.2, 0, 0, Math.PI * 2); g2.fill(); g2.restore();
     }
-    if (heads && rainNow > 0.2) heads.forEach(function (h) { if (Math.random() < rainNow * dt * 9) splash(h[0] + (Math.random() * 2 - 1) * h[2], h[1] + Math.random() * 6, 0, 0.16); });
+    if (dt && heads && rainNow > 0.2) heads.forEach(function (h) { if (Math.random() < rainNow * dt * 9) splash(h[0] + (Math.random() * 2 - 1) * h[2], h[1] + Math.random() * 6, 0, 0.16); });
     stepT -= dt;
-    if (outdoor && rainNow > 0.15 && snowNow < 0.3 && sunState.act === "walk" && sunState.op > 0.5 && stepT <= 0) { stepT = sunState.slow ? 0.31 : 0.21; for (var n = 0; n < 3; n++) splash(sunState.x + (Math.random() * 30 - 15), GY + 2, 1, 0.3); }
-    if (outdoor && Math.random() < rainNow * dt * 30) { var pd = PUDDLES[(Math.random() * 3) | 0]; fx.push({ k: "r", x: pd[0] + (Math.random() * 2 - 1) * pd[2] * 0.8, y: pd[1] + (Math.random() * 2 - 1) * pd[3] * 0.4, life: 0, max: 0.9 }); }
+    if (dt && rainNow > 0.15 && sunState.act === "walk" && stepT <= 0) { stepT = sunState.slow ? 0.31 : 0.21; for (var n = 0; n < 3; n++) splash(sunState.x + (Math.random() * 30 - 15), GY + 2, 1, 0.3); }
+    if (Math.random() < rainNow * dt * 30) { var pd = PUDDLES[(Math.random() * 3) | 0]; fx.push({ k: "r", x: pd[0] + (Math.random() * 2 - 1) * pd[2] * 0.8, y: pd[1] + (Math.random() * 2 - 1) * pd[3] * 0.4, life: 0, max: 0.9 }); }
     for (var j = fx.length - 1; j >= 0; j--) {
       var f = fx[j]; f.life += dt; var u = f.life / f.max;
       if (u >= 1) { fx.splice(j, 1); continue; }
       if (f.k === "s") { var sz = f.big ? 1.6 : 1; g2.lineWidth = f.big ? 1.3 : 0.9; g2.strokeStyle = "rgba(210,225,248," + (0.45 * (1 - u)) + ")"; g2.beginPath(); g2.moveTo(f.x - (4 + u * 6) * sz, f.y - u * 7 * sz); g2.lineTo(f.x - 1, f.y); g2.moveTo(f.x + (4 + u * 6) * sz, f.y - u * 7 * sz); g2.lineTo(f.x + 1, f.y); g2.stroke(); }
+      else if (f.k === "p") { f.vy += f.g * dt; f.x += f.vx * dt; f.y += f.vy * dt; g2.fillStyle = "rgba(" + f.c + "," + (0.85 * (1 - u)).toFixed(2) + ")"; g2.beginPath(); g2.arc(f.x, f.y, f.r, 0, Math.PI * 2); g2.fill(); }
       else { g2.lineWidth = 1; g2.strokeStyle = "rgba(220,232,250," + (0.45 * (1 - u)) + ")"; g2.beginPath(); g2.ellipse(f.x, f.y, 4 + u * 26, 1 + u * 3.4, 0, 0, Math.PI * 2); g2.stroke(); }
     }
   }
@@ -1125,58 +1138,48 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       var tg = ac.createGain(); tg.gain.setValueAtTime(0.0001, t); tg.gain.exponentialRampToValueAtTime(o.vol * 0.6, t + 0.01); tg.gain.exponentialRampToValueAtTime(0.0001, t + d * 0.6);
       th.connect(tg); tg.connect(master); th.start(t); th.stop(t + d);
     },
-    barkScared: function (at) { SND.bark(at, { f: [640, 1020, 560], dur: 0.13, vol: 0.085, rasp: 6, form: [[1100, 5, 1], [2300, 7, 0.55], [3600, 8, 0.25]] }); },
     barkHappy: function (at) { SND.bark(at, { f: [520, 820, 430], dur: 0.17, vol: 0.1, rasp: 9, form: [[900, 5, 1], [1900, 7, 0.6], [3200, 8, 0.25]] }); },
     yips: function (at) { at = at || 0; SND.barkHappy(at); SND.barkHappy(at + 0.22); SND.bark(at + 0.46, { f: [760, 1150, 820], dur: 0.11, vol: 0.075, rasp: 5, form: [[1200, 5, 1], [2500, 7, 0.55], [3800, 8, 0.2]] }); noise(0.18, "bandpass", 1300, 0.9, 0.02, at + 0.62); },
     arf: function (at) { SND.bark(at, { f: [480, 700, 380], dur: 0.2, vol: 0.09, rasp: 12, form: [[850, 5, 1], [1800, 7, 0.6], [3000, 8, 0.25]] }); },
     paw: function (run) { if (!live()) return; noise(0.03, "bandpass", run ? 1100 : 1500, 1, run ? 0.016 : 0.011); if (outdoor && rainNow > 0.2) noise(0.05, "highpass", 2600, 0.7, 0.012, 0.01); },
     pant: function (at, n, fast) { at = at || 0; n = n || 7; var gap = fast ? 0.15 : 0.2; for (var i = 0; i < n; i++) noise(0.1, "bandpass", i % 2 ? 1100 : 1500, 0.9, i % 2 ? 0.02 : 0.03, at + i * gap); },
     sniff: function (at) { at = at || 0; for (var i = 0; i < 3; i++) noise(0.045, "highpass", 2400, 0.8, 0.035, at + i * 0.09); },
-    crunch: function (at) { at = at || 0; for (var i = 0; i < 6; i++) noise(0.03, "highpass", 1700 + Math.random() * 900, 0.6, 0.03, at + i * 0.13 + Math.random() * 0.04); },
     sigh: function (at) { noise(0.85, "lowpass", 1300, 0.7, 0.05, at, 380); voice({ at: (at || 0) + 0.05, type: "sine", f: [[0, 430], [0.7, 300]], form: [[600, 1, 0.5]], vol: 0.025, dur: 0.75, a: 0.15, r: 0.4 }); },
     sleep: function (at) { noise(1.2, "lowpass", 520, 0.6, 0.035, at, 300); noise(1.4, "lowpass", 380, 0.6, 0.022, (at || 0) + 1.3, 260); },
     shake: function (at) { at = at || 0; for (var i = 0; i < 9; i++) noise(0.05, "bandpass", 1800, 0.8, 0.03, at + i * 0.055); },
-    rub: function (at) { at = at || 0; for (var i = 0; i < 8; i++) noise(0.14, "bandpass", 2100, 0.6, 0.028, at + i * 0.17); },
-    growl: function (at, dur) { dur = dur || 1.6; voice({ at: at, f: [[0, 82], [dur * 0.5, 96], [dur, 78]], am: 23, form: [[480, 1.2, 1.1], [900, 2, 0.45]], low: [380, 0.8], vol: 0.13, dur: dur, a: 0.3, r: 0.5 }); noise(dur, "lowpass", 360, 0.7, 0.04, at, null, true); },
-    bigBark: function (at) { SND.bark(at, { f: [190, 280, 140], dur: 0.3, vol: 0.16, rasp: 22, form: [[480, 4, 1], [950, 5, 0.7], [2300, 6, 0.3]] }); SND.bark((at || 0) + 0.34, { f: [170, 250, 130], dur: 0.26, vol: 0.12, rasp: 22, form: [[460, 4, 1], [920, 5, 0.7], [2200, 6, 0.3]] }); },
-    huff: function (at) { noise(0.35, "bandpass", 650, 0.8, 0.06, at, 380); },
-    yelp: function (at) { voice({ at: at, f: [[0, 300], [0.08, 460], [0.16, 400]], form: [[800, 3, 1], [1700, 4, 0.4]], vol: 0.1, dur: 0.18, a: 0.006, r: 0.08 }); },
-    paws: function (at, n, soft) { at = at || 0; for (var i = 0; i < (n || 8); i++) noise(0.05, "bandpass", 900, 0.8, soft ? 0.015 : 0.028, at + i * 0.25 + (i % 2) * 0.06); },
     thunder: function (at) { noise(0.4, "highpass", 900, 0.5, 0.05, at); noise(3.4, "lowpass", 220, 0.6, 0.32, (at || 0) + 0.1, 70, true); },
-    creak: function (at) { voice({ at: at, f: [[0, 170], [0.3, 230], [0.6, 150]], am: 31, form: [[900, 6, 1], [1900, 8, 0.4]], vol: 0.04, dur: 0.65, a: 0.05, r: 0.2 }); },
     birds: function (at) { at = at || 0; [0, 0.16, 0.3, 0.9, 1.04].forEach(function (d, i) { voice({ at: at + d, type: "sine", f: [[0, 2600 + i * 120], [0.06, 3700], [0.1, 3000]], form: [[3200, 1, 1]], vol: 0.018, dur: 0.11, a: 0.005, r: 0.05 }); }); },
     crickets: function (at) { at = at || 0; for (var i = 0; i < 6; i++) voice({ at: at + i * 0.16 + (i > 2 ? 0.5 : 0), type: "sine", f: [[0, 4200], [0.05, 4400]], am: 60, form: [[4300, 4, 1]], vol: 0.012, dur: 0.09, a: 0.005, r: 0.04 }); },
     thunderFar: function (at) { noise(2.6, "lowpass", 160, 0.6, 0.12, at, 60, true); },
+    splosh: function (at) { noise(0.32, "bandpass", 700, 0.7, 0.11, at, 2400); noise(0.5, "highpass", 2600, 0.6, 0.035, (at || 0) + 0.06); },
+    puff: function (at) { noise(0.22, "lowpass", 900, 0.7, 0.07, at, 300); },
+    gust: function (at) { noise(1.7, "bandpass", 260, 0.6, 0.2, at, 820, true); },
+    howl: function (at) { voice({ at: at, type: "triangle", f: [[0, 520], [0.25, 780], [0.9, 820], [1.2, 640]], vib: [5, 10], form: [[1100, 3, 1], [2400, 4, 0.3]], vol: 0.06, dur: 1.25, a: 0.12, r: 0.35, breath: 0.008 }); },
     step: function () { noise(0.06, "bandpass", outdoor ? 1300 : 700, 0.9, 0.045); if (outdoor && rainNow > 0.2) noise(0.09, "highpass", 3000, 0.7, 0.02, 0.02); },
     drop: function () { noise(0.025, "bandpass", 3400 + Math.random() * 1200, 3, 0.015); },
     breath: function () { voice({ type: "sine", f: [[0, 180], [0.9, 260]], form: [[400, 1, 0.6]], vol: 0.02, dur: 0.9, a: 0.3, r: 0.4 }); noise(0.9, "lowpass", 700, 0.6, 0.03, 0, 300); }
   };
   var SUNNY_CUES = { hmm: 1, gasp: 1, swoosh: 1, pop: 1, sigh: 1, tick: 1, aww: 1, ting: 1, ding: 1, bell: 1 };
-  var CUES = [[6.5, "hmm"], [8.6, "whimper"], [10.6, "whimper"], [13.15, "thunder"], [13.4, "paws"], [15.0, "gasp"], [15.6, "growl"], [16.3, "swoosh"], [16.6, "whimperFear"], [17.5, "barkScared"], [17.78, "barkScared"], [18.4, "bigBark"], [19.1, "whimperFear"], [20.1, "growlShort"],
-    [21.4, "breath"], [23.1, "huff"], [24.6, "pop"], [24.82, "yelp"], [25.4, "huff"], [26.7, "pawsAway"], [28.9, "sigh"], [31.6, "whimper"], [33.8, "tick"], [35.2, "sniff"], [36.2, "crunch"], [37.6, "whine"], [38.9, "aww"], [39.3, "barkHappy"],
-    [40.8, "rub"], [42.6, "shake"], [44.2, "tick"], [44.9, "arf"], [45.0, "crunch"], [46.0, "ting"], [47.5, "yips"], [48.1, "pant"], [49.9, "creak"], [50.5, "birds"], [51.2, "arf"], [51.4, "pant"], [53.0, "birds"], [53.5, "ding"], [53.95, "yips"], [54.5, "pantFast"], [57.6, "pupSigh"], [61.6, "sleep"], [63.6, "bell"]];
   function cue(n) {
     if (!live()) return;
     if (SUNNY_CUES[n]) { try { if (win.Sunny && win.Sunny.sfx) win.Sunny.sfx(n); } catch (e) { /* optional */ } return; }
-    if (n === "growlShort") return SND.growl(0, 0.9);
-    if (n === "pawsAway") return SND.paws(0, 10, true);
-    if (n === "pantFast") return SND.pant(0, 9, true);
     if (n === "pupSigh") return SND.sigh();
     if (SND[n]) SND[n]();
   }
-  var lastStep = 0, sleepAt = 0;
-  function soundStep(t, prevT, rate) {
-    if (!live()) return;
-    var now = ac.currentTime;
-    beds.hiss.gain.setTargetAtTime(outdoor ? 0.06 * rainNow : 0.012 * track(WINDOW_RAIN, t) * 2, now, 0.5);
-    beds.patter.gain.setTargetAtTime(outdoor ? 0.09 * rainNow : 0.02 * track(WINDOW_RAIN, t) * 2, now, 0.5);
-    beds.wind.gain.setTargetAtTime(outdoor ? (0.05 + windNow * 0.12) * (0.4 + rainNow) : 0, now, 0.8);
-    beds.pad.gain.setTargetAtTime(t > 44 ? 0.05 * smooth(44, 50, t) : 0, now, 1.2);
-    if (t > prevT && t - prevT < 1) CUES.forEach(function (c) { if (c[0] > prevT && c[0] <= t) cue(c[1]); });
+  var lastStep = 0, sleepAt = 0, ambAt = 0;
+  function soundStep(t, prevT) {
+    if (!live() || !ST) return;
+    var now = ac.currentTime, r = Math.min(1.3, rainNow);
+    beds.hiss.gain.setTargetAtTime(0.06 * r, now, 0.5);
+    beds.patter.gain.setTargetAtTime(0.09 * r, now, 0.5);
+    beds.wind.gain.setTargetAtTime(windNow > 0.5 ? 0.05 + windNow * 0.1 : 0.012 + r * 0.03, now, 0.8);
+    beds.pad.gain.setTargetAtTime(0.045 * smooth(15, 21, t), now, 1.2);
+    if (t > prevT && t - prevT < 1) ST.CUES.forEach(function (c) { if (c[0] > prevT && c[0] <= t) cue(c[1]); });
     if (umbRim && rainNow > 0.2 && Math.random() < 0.5) SND.drop();
-    if (sunState.act === "walk" && sunState.op > 0.5 && clock - lastStep > (sunState.slow ? 0.31 : 0.21) / Math.max(1, rate)) { lastStep = clock; SND.step(); }
-    if (states(PUP_S, t).act === "sleep" && clock - sleepAt > 3) { sleepAt = clock; SND.sleep(); }
-    if (t >= 56 && t > prevT && Math.floor(t * 1.25) !== Math.floor(prevT * 1.25) && t < 63) { var notes = [523, 659, 784, 659, 587, 523, 659, 784]; voice({ type: "triangle", f: [[0, notes[Math.floor(t * 1.25) % notes.length]]], form: [[1800, 0.5, 1]], vol: 0.02, dur: 0.7, a: 0.01, r: 0.6 }); }
+    if (sunState.act === "walk" && clock - lastStep > (sunState.slow ? 0.31 : 0.21)) { lastStep = clock; SND.step(); }
+    if (states(ST.PS, t).act === "sleep" && clock - sleepAt > 3) { sleepAt = clock; SND.sleep(); }
+    if (ST.amb && clock - ambAt > 5.2) { ambAt = clock; SND[ST.amb](); }
+    if (t >= 20 && t < 25.6 && t > prevT && Math.floor(t * 1.25) !== Math.floor(prevT * 1.25)) { var notes = [523, 659, 784, 659, 587, 523, 659, 784]; voice({ type: "triangle", f: [[0, notes[Math.floor(t * 1.25) % notes.length]]], form: [[1800, 0.5, 1]], vol: 0.02, dur: 0.7, a: 0.01, r: 0.6 }); }
   }
   function setSound(on) {
     soundOn = on; R.snd.setAttribute("aria-pressed", String(on)); R.snd.textContent = on ? "Sound on" : "Sound";
@@ -1189,10 +1192,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   R.snd.setAttribute("aria-pressed", String(soundOn)); R.snd.textContent = soundOn ? "Sound on" : "Sound";
 
   /* ===================================================================== run */
-  var tau = 0, prevTau = 0, done = false, started = false, paused = false, waitedFor = 0, rafId = 0;
+  var tau = 0, prevTau = 0, done = false, started = false, paused = false, waitedFor = 0, rafId = 0, held = 0, loaded = false;
   var at = qs.get("story-at"); /* a frozen moment, for checking the film */
   var from = +qs.get("story-from") || 0; /* play from a given second, for checking the film */
-  if (at != null) { story.classList.add("is-still"); paused = true; }
+  if (at != null) { story.classList.add("is-still"); paused = true; win.SunnyStoryAt = function (t) { tau = prevTau = +t; }; } /* step through stills while checking */
   var stylesheetOk = function () { var l = doc.querySelector('link[href*="sunny.css"]'); return !!l && l.media !== "print" && !!l.sheet; };
   function needPuppy() {
     if (win.Puppy || doc.querySelector("script[data-puppy]")) return;
@@ -1209,18 +1212,29 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   var last = 0;
   function frame(now) {
     var dt = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now; clock += dt;
+    /* the page behind the curtain: when it has really finished loading, the button says so */
+    if (!loaded && doc.readyState === "complete") { loaded = true; R.skip.textContent = "Enter site →"; }
     if (!started) {
       waitedFor += dt;
-      if (ready() && (WX.done || waitedFor > 1.6)) { try { applyWeather(); lineIdx = -1; capIdx = -1; if (track(RAIN, 0) === 0) { drops.length = 0; fx.length = 0; } A = buildActors(); dressSunny(A.sunnyRoot); } catch (e) { return finish(true); } started = true; if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; } }
-      else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
+      /* the weather is settled first (or given up on after 2.4 s); only then is the scene built and shown */
+      if (ready() && (WX.done || waitedFor > 2.4)) {
+        try { WX.done = true; pickScene(); applyScene(); A = buildActors(); dressSunny(A.sunnyRoot); prefill(); } catch (e) { return finish(true); }
+        started = true;
+        if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; }
+        try { render(tau); } catch (e2) { return finish(true); }
+        story.classList.add("is-ready");
+      } else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
     }
     if (started && !paused && !done) {
+      var before = tau;
       tau = Math.min(T_END, tau + dt * (reduced ? 2.6 : 1));
-      if (tau >= T_END) finish(false);
+      ST.FX.forEach(function (f) { if (f[0] > before && f[0] <= tau) burst(f[1], f[2], f[3], f[4]); });
+      /* the story has been told: the curtain lifts as soon as the page behind it is ready. Until then the last
+         scene simply goes on (the same weather, the two of them together), never longer than a few seconds */
+      if (tau >= T_END) { held += dt; if (loaded || held > 8) finish(false); }
     }
-    try { render(tau); } catch (e) { return finish(true); }
-    if (started) rainStep(paused ? 0 : dt); else g2.clearRect(0, 0, W, H);
-    soundStep(tau, prevTau, 1); prevTau = tau;
+    if (started) { try { render(tau); } catch (e3) { return finish(true); } rainStep(paused ? 0 : dt); }
+    soundStep(tau, prevTau); prevTau = tau;
     if (A && Math.random() < dt / 3.2 && !A.pupRoot.hasAttribute("data-emotion") && A.pupRoot.getAttribute("data-act") !== "sleep") { A.pupRoot.classList.add("is-blink"); setTimeout(function () { if (A) A.pupRoot.classList.remove("is-blink"); }, 110); }
     if (!done || story.parentNode) rafId = requestAnimationFrame(frame);
   }
