@@ -476,7 +476,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       A.sun = makeActor("sl-sun", SUN, '<div class="sunny is-in" data-emotion="happy"><div class="sunny__char">' + uniq(win.Sunny.art()) + "</div></div>");
       actors.appendChild(A.pup.el); actors.appendChild(A.sun.el);
       A.pupRoot = A.pup.el.querySelector(".puppy"); A.sunRoot = A.sun.el.querySelector(".sunny");
-      retail(A.pupRoot); lids(A.pupRoot);
+      retail(A.pupRoot); lids(A.pupRoot); if (!reduced) A.flex = flexBody(A.pupRoot);
       if (S.costume === "snow") A.pupRoot.classList.add("sl-scarfed");
       dress(A.sunRoot, S.costume);
       if (S.kind === "snow") A.sunRoot.classList.add("sl-push");
@@ -496,8 +496,12 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
      (and its pale shading) over the real one. Here only the plume swings (cut just outside the hip's ink line, with a margin that
      tucks under it), and it swings BEHIND a still body that keeps the hip and its outline. The tail keeps its exact shape and its
      own wag (it keeps the class p-tail, so sunny.css drives it with the same pivot); the site's own pieces are hidden. */
-  var PLUME = "M-30 560 200 598 216 656 262 688 300 712 330 752 346 760 303 844 290 936 299 1040 200 1042 120 1040 -30 1040 Z";
-  var PLUME_CUT = "M-30 560 200 598 216 656 262 688 300 712 306 733 263 844 250 936 259 1040 200 1042 120 1040 -30 1040 Z";
+  /* both cuts follow the art itself (measured from its pixels): from the top they run down the open gap between the tail and his
+     back, so the tail's own outline swings with it; from where they meet (y 800) they hug the left side of the ink line between
+     tail and hip, so that line stays on the still hip and covers the joint. PLUME adds a margin that stays inside the gap above
+     and tucks under the hip below. */
+  var PLUME_CUT = "M-30 560 200 598 216 656 264 650 279 670 266 690 292 700 299 710 306 720 318 730 336 740 336 750 332 760 328 770 328 780 323 790 323 798 306 812 304 820 301 828 295 836 289 844 283 852 280 860 274 868 271 876 268 884 265 892 265 900 262 908 262 916 259 924 259 932 253 940 259 956 259 972 259 996 259 1004 250 1012 246 1044 200 1042 120 1040 -30 1040 Z";
+  var PLUME = "M-30 560 200 598 216 656 300 650 320 670 305 690 310 700 320 710 330 720 345 730 360 740 360 750 355 760 345 770 335 780 330 790 330 800 336 812 334 828 325 844 313 860 301 876 295 892 292 908 289 924 283 940 289 972 289 1004 280 1012 270 1044 200 1042 120 1040 -30 1040 Z";
   function retail(pr) {
     var NS = "http://www.w3.org/2000/svg", fit = pr.querySelector(".p-fit"), part = fit && fit.querySelector("use"); if (!part) return;
     var href = part.getAttribute("href"), n = ++uid, first = null;
@@ -518,6 +522,44 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     var at = pr.querySelector(".p-lids"); if (!at) return;
     var g = doc.createElementNS("http://www.w3.org/2000/svg", "g"); g.setAttribute("class", "sl-eyes"); g.innerHTML = LIDS;
     at.parentNode.insertBefore(g, at); /* above the eyes, under the site's own smile lines */
+  }
+  /* Puppy's legs and body, flexible like a dog's. The art is one flat drawing whose legs run into the body with no line between, so
+     they are not cut out (that is what made seams); the drawing is bent instead, with two SVG displacement maps: one swings the
+     legs in diagonal pairs (near hind + far front against far hind + near front, a trot), weighted from the top of the leg (0) to
+     the paw (1); one lifts and drops the middle of the back. Smooth maps, so nothing tears; animate() sets how much, each frame. */
+  var FLEXMAPS = null;
+  function flexMaps() {
+    if (FLEXMAPS) return FLEXMAPS;
+    function gs(x, c, w) { var d = (x - c) / w; return Math.exp(-d * d); }
+    function ss(a, b, x) { var u = Math.max(0, Math.min(1, (x - a) / (b - a))); return u * u * (3 - 2 * u); }
+    function map(fn) {
+      var N = 220, c = doc.createElement("canvas"); c.width = c.height = N; var x = c.getContext("2d"); if (!x) return null;
+      var im = x.createImageData(N, N);
+      for (var j = 0; j < N; j++) for (var i = 0; i < N; i++) { var v = fn(i + 0.5, j + 0.5), k = (j * N + i) * 4; im.data[k] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[0]))); im.data[k + 1] = 128 + Math.round(127 * Math.max(-1, Math.min(1, v[1]))); im.data[k + 2] = 128; im.data[k + 3] = 255; }
+      x.putImageData(im, 0, 0); return c.toDataURL();
+    }
+    /* leg centres in the drawing's 220 box, measured from the art: near hind 72, far hind 98, near front 119, far front 149 */
+    var swing = map(function (x, y) { return [(gs(x, 72.5, 13) - gs(x, 97.6, 6) - gs(x, 119, 12) + gs(x, 149, 12)) * ss(160, 196, y), 0]; });
+    var spine = map(function (x, y) { return [0, gs(x, 110, 38) * gs(y, 125, 30)]; });
+    FLEXMAPS = swing && spine ? { swing: swing, spine: spine } : false;
+    return FLEXMAPS;
+  }
+  function flexBody(pr) {
+    var m = flexMaps(); if (!m) return null;
+    var NS = "http://www.w3.org/2000/svg", svg = pr.querySelector(".puppy__svg"), art = svg && svg.querySelector(".p-art"); if (!art) return null;
+    var id = "sl-flex-" + (++uid), f = doc.createElementNS(NS, "filter");
+    [["id", id], ["filterUnits", "userSpaceOnUse"], ["primitiveUnits", "userSpaceOnUse"], ["x", "-20"], ["y", "-20"], ["width", "260"], ["height", "260"], ["color-interpolation-filters", "sRGB"]].forEach(function (a) { f.setAttribute(a[0], a[1]); });
+    f.innerHTML = '<feImage href="' + m.swing + '" x="0" y="0" width="220" height="220" preserveAspectRatio="none" result="m1"/><feImage href="' + m.spine + '" x="0" y="0" width="220" height="220" preserveAspectRatio="none" result="m2"/>' +
+      '<feDisplacementMap in="SourceGraphic" in2="m1" scale="0" xChannelSelector="R" yChannelSelector="G" result="a"/><feDisplacementMap in="a" in2="m2" scale="0" xChannelSelector="R" yChannelSelector="G"/>';
+    (svg.querySelector("defs") || svg.insertBefore(doc.createElementNS(NS, "defs"), svg.firstChild)).appendChild(f);
+    art.setAttribute("filter", "url(#" + id + ")");
+    var dm = f.querySelectorAll("feDisplacementMap");
+    return { legs: dm[0], spine: dm[1], l: 0, s: 0 };
+  }
+  function setFlex(legs, spine) {
+    var F = A && A.flex; if (!F) return;
+    if (Math.abs(legs - F.l) > 0.05) { F.l = legs; F.legs.setAttribute("scale", legs.toFixed(2)); }
+    if (Math.abs(spine - F.s) > 0.05) { F.s = spine; F.spine.setAttribute("scale", spine.toFixed(2)); }
   }
   function dress(rootEl, kind) {
     if (!kind) return;
@@ -561,7 +603,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   function animate(t) {
     if (!A) return;
     var k = S.kind, pdx = 0, pdy = 0, prot = 0, psx = 1, psy = 1, sdx = 0, sdy = 0, srot = 0, ssx = 1, ssy = 1, u, ph;
-    var breathe = Math.sin(t * 2.1) * 0.012;
+    var breathe = Math.sin(t * 2.1) * 0.012, legs = 0, spine = 2 * Math.sin(t * 2.1); /* Puppy's legs and back (see flexBody) */
     if (k === "clear") {
       /* the ball bounces between them; Puppy pounces when it comes his way, Sunny bumps it back */
       var Pd = 1.25; ph = (t % (2 * Pd)) / Pd; var toSun = ph < 1, f = toSun ? ph : ph - 1;
@@ -569,12 +611,15 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       place(A.props.ball, bx, by, bx * 2.2); shadow(A.props.ballShadow, bx, GY - 34 - by, 70);
       u = ((t + Pd * 0.15) % (2 * Pd)) / (Pd * 0.55); pdy = hopY(u, 34); if (squash(u)) { psy = 1 - 0.05 * squash(u); psx = 1 + 0.04 * squash(u); }
       prot = 3 * Math.sin(Math.PI * Math.min(1, Math.max(0, u)));
+      if (u > 0 && u < 1) { legs = 13 * Math.sin(2 * Math.PI * u); spine = -6 * Math.sin(Math.PI * u); } /* legs paddle and the back stretches in the pounce */
+      else if (u >= 1 && u < 1.25) spine = 7 * Math.sin((u - 1) / 0.25 * Math.PI); /* and gives on landing */
       u = ((t + Pd * 1.15) % (2 * Pd)) / (Pd * 0.5); sdy = hopY(u, 18);
       look(A.pupRoot, -3 * Math.max(0, -by + GY - 34) / 150, -8 * Math.max(0, -by + GY - 34) / 150);
     } else if (k === "cloudy") {
       /* tug of war: they lean back in turn and the rope goes with them */
       var pull = Math.sin(t * 2.3), d = 9 * pull;
       pdx = d; sdx = d; prot = -2.5 - 2 * pull; srot = 2.5 - 2 * pull;
+      legs = 7 * pull; spine = 3 + 3 * pull; /* legs braced, digging in as he pulls */
       var p0 = [PX - PUP / 2 + 0.745 * PUP + d, GY - PUP * PFOOT + 0.53 * PUP], p1 = [SX - SUN / 2 + 0.2 * SUN + d, GY - SUN * SFOOT + 0.6 * SUN];
       var mx = (p0[0] + p1[0]) / 2, my = (p0[1] + p1[1]) / 2 + 12 + 4 * Math.cos(t * 4.6), path = "M" + p0[0].toFixed(1) + " " + p0[1].toFixed(1) + " Q" + mx.toFixed(1) + " " + my.toFixed(1) + " " + p1[0].toFixed(1) + " " + p1[1].toFixed(1);
       var rp = A.props.rope; rp.querySelector(".sl-rope").setAttribute("d", path); rp.querySelector(".sl-rope-o").setAttribute("d", path);
@@ -585,6 +630,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       var Pr = 1.7;
       u = (t % Pr) / (Pr * 0.42); sdy = hopY(u, 58); if (squash(u)) { ssy = 1 - 0.06 * squash(u); ssx = 1 + 0.05 * squash(u); }
       var u2 = ((t - 0.12 + Pr) % Pr) / (Pr * 0.42); pdy = hopY(u2, 70); if (squash(u2)) { psy = 1 - 0.07 * squash(u2); psx = 1 + 0.05 * squash(u2); }
+      if (u2 > 0 && u2 < 1) { legs = 12 * Math.sin(2 * Math.PI * u2); spine = -7 * Math.sin(Math.PI * u2); } else if (squash(u2)) spine = 8 * squash(u2);
       var n = Math.floor(t / Pr); if (u >= 1 && lastLand.s !== n) { lastLand.s = n; splashAt(SX, GY + 4, 1); } if (u2 >= 1 && lastLand.p !== n) { lastLand.p = n; splashAt(PX + 10, GY + 4, 0.9); }
     } else if (k === "snow") {
       /* Sunny rolls the big snowball; Puppy bounds about beside it */
@@ -592,12 +638,14 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       place(A.props.snow, 812 + sdx, GY - 80, (t * 40) % 360 * 0 + sdx * 0.8); A.props.snow.querySelector(".sl-spin").style.transform = "rotate(" + (-t * 30 % 360).toFixed(1) + "deg)";
       shadow(A.props.snowShadow, 812 + sdx, 0, 170);
       var Ps = 0.9; u = (t % Ps) / (Ps * 0.7); pdy = hopY(u, 30); pdx = -40 + 40 * Math.sin(t * Math.PI / (Ps * 2)); prot = 4 * Math.cos(t * Math.PI / (Ps * 2));
+      legs = 12 * Math.sin(t * 2 * Math.PI / (Ps * 0.5)); spine = 5 * Math.sin(t * 4 * Math.PI / (Ps * 0.5)); /* bounding: a quick trot, the back rippling */
       var ns = Math.floor(t / Ps); if (u >= 1 && lastLand.p !== ns) { lastLand.p = ns; prints.push({ x: PX + pdx - 20, y: GY + 6, a: 1 }, { x: PX + pdx + 24, y: GY + 10, a: 1 }); if (prints.length > 24) prints.splice(0, 2); }
     } else if (k === "wind") {
       /* the leaves: one dances round Sunny's raised hand, the other teases Puppy, who jumps for it */
       var hx = SX - SUN / 2 + 0.83 * SUN, hy = GY - SUN * SFOOT + 0.2 * SUN;
       place(A.props.leaf1, hx + 40 * Math.cos(t * 1.7), hy - 30 + 24 * Math.sin(t * 3.4), 30 * Math.sin(t * 2.4));
       var Pw = 2.2; u = (t % Pw) / (Pw * 0.38); pdy = hopY(u, 64); if (squash(u)) { psy = 1 - 0.06 * squash(u); }
+      if (u > 0 && u < 1) { legs = 14 * Math.sin(2 * Math.PI * u); spine = -7 * Math.sin(Math.PI * u); } else if (squash(u)) spine = 8 * squash(u); /* reaching for the leaf */
       place(A.props.leaf2, PX + 30 + 30 * Math.sin(t * 1.1), GY - PUP - 40 + 22 * Math.sin(t * 2.2) + Math.min(0, pdy * 0.3), 40 * Math.sin(t * 1.9));
       look(A.pupRoot, -3, -10); sdy = Math.sin(t * 2.6) * 4; srot = Math.sin(t * 1.3) * 2;
     } else if (k === "storm") {
@@ -606,9 +654,10 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       place(A.props.ball, yx, GY - 26, null); A.props.ball.querySelector(".sl-spin").style.transform = "rotate(" + ((yx - 808) * 2).toFixed(1) + "deg)";
       ssy = 0.95; ssx = 1.04; sdy = 8; srot = Math.sin(t * 1.5) * 2;
       var near = Math.max(0, -Math.sin(t * 1.5)); prot = 5 * near; pdx = 14 * near; pdy = -8 * Math.max(0, Math.sin(t * 3 + 1)) * near;
+      legs = -9 * near * Math.sin(t * 6); spine = 2 + 4 * near; /* pawing at the yarn */
       look(A.pupRoot, 3 * near, 8 * near);
     }
-    if (A.pup) { setActor(A.pup, PX + pdx, PFOOT, pdy, prot, psx, psy * (1 + breathe)); shadow(A.pShadow, PX + pdx + 8, -pdy, 170); }
+    if (A.pup) { setActor(A.pup, PX + pdx, PFOOT, pdy, prot, psx, psy * (1 + breathe)); shadow(A.pShadow, PX + pdx + 8, -pdy, 170); setFlex(legs, spine); }
     if (A.sun) { setActor(A.sun, SX + sdx, SFOOT, sdy, srot, ssx, ssy * (1 - breathe * 0.6)); shadow(A.sShadow, SX + sdx, -sdy, 150); }
     /* now and then Sunny laughs, and Puppy blinks */
     if (A.sunRoot && t > nextLaugh) { nextLaugh = t + 6 + (t * 7 % 3); A.sunRoot.setAttribute("data-emotion", "laugh"); setTimeout(function () { if (A && A.sunRoot) A.sunRoot.setAttribute("data-emotion", "happy"); }, 1600); }
