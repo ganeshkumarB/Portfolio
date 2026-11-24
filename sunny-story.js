@@ -86,26 +86,21 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .sl-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(to top, rgba(10, 12, 24, 0.6), rgba(10, 12, 24, 0.22) 50%, rgba(10, 12, 24, 0)); }
 .sl-ui { position: absolute; left: 50%; bottom: max(28px, 6vh); width: min(380px, calc(100vw - 40px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sl-ui .sl-row, .sl-ui .sl-bar { align-self: stretch; }
-.sl-wx { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 10px; border-radius: 999px; background: rgba(14, 14, 24, 0.55); border: 1px solid rgba(255, 255, 255, 0.18); font-size: 13px; line-height: 1.3; letter-spacing: 0.01em; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.sl-wx svg { width: 18px; height: 18px; flex: none; }
-.sl-row { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 8px; font-size: 14px; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
-.sl-pct { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; color: rgba(255, 255, 255, 0.85); font-variant-numeric: tabular-nums; }
-.sl-bar { height: 6px; border-radius: 6px; background: rgba(255, 255, 255, 0.28); border: 1.5px solid #111; overflow: hidden; }
-.sl-bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ffc93c, #ffe48a); transform-origin: 0 50%; transform: scaleX(0); transition: transform 0.35s ease-out; }
+.sl-cap { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; line-height: 1.4; letter-spacing: 0.01em; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
+.sl-cap svg { width: 18px; height: 18px; flex: none; }
+.sl-dot { opacity: 0.5; }
+.sl-pct { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; opacity: 0.8; font-variant-numeric: tabular-nums; }
 .sl-skip { position: absolute; top: max(16px, 3vh); right: max(16px, 3vw); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(14, 14, 24, 0.5); color: #fff; font: 500 13px/1 "Inter", system-ui, sans-serif; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .sl-skip:hover { background: rgba(14, 14, 24, 0.75); }
 .sl-skip:focus-visible { outline: 2px solid #ffc93c; outline-offset: 2px; }
 .sl.is-light { color: #15161a; }
 .sl.is-light .sl-scrim { display: none; }
-.sl.is-light .sl-wx { background: rgba(255, 255, 255, 0.85); border-color: #e6e7ea; }
-.sl.is-light .sl-row { color: #15161a; text-shadow: none; }
-.sl.is-light .sl-pct { color: #61656e; }
-.sl.is-light .sl-bar { background: #f0f0ee; }
+.sl.is-light .sl-cap { color: #15161a; text-shadow: none; }
+.sl.is-light .sl-pct { color: #61656e; opacity: 1; }
 .sl.is-light .sl-skip { color: #15161a; background: rgba(255, 255, 255, 0.85); border-color: #e6e7ea; }
 .sl.is-light .sl-skip:hover { background: #fff; }
 .sl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 640px) { .sl-ui { bottom: max(28px, 5vh); } .sl-wx { font-size: 12.5px; } }
+@media (max-width: 640px) { .sl-ui { bottom: max(28px, 5vh); } .sl-cap { font-size: 13px; flex-wrap: wrap; justify-content: center; } }
 .sl.is-still *, .sl.is-still .sl-cam { animation: none !important; transition: none !important; }
 `;
   var style = doc.createElement("style"); style.textContent = CSS; (doc.head || html).appendChild(style);
@@ -113,9 +108,9 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     '<canvas class="sl-fx" data-r="fx" aria-hidden="true"></canvas>' +
     '<div class="sl-scrim" aria-hidden="true"></div>' +
     '<button type="button" class="sl-skip" data-r="skip">Skip <span aria-hidden="true">→</span></button>' +
-    '<div class="sl-ui"><span class="sl-wx" data-r="wx"><span data-r="icon" aria-hidden="true"></span><span data-r="note">Checking the sky near you…</span></span>' +
-    '<div class="sl-row"><span data-r="label">Loading the site</span><span class="sl-pct" data-r="pct" aria-hidden="true">0%</span></div>' +
-    '<div class="sl-bar" role="progressbar" aria-label="Loading the site" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-r="bar"><i data-r="fill"></i></div></div>' +
+    /* the loading itself is the sun rising in the disc; underneath, one quiet line: the weather and how far along it is */
+    '<div class="sl-ui"><p class="sl-cap"><span data-r="icon" aria-hidden="true"></span><span data-r="note">Checking the sky near you…</span><span class="sl-dot" aria-hidden="true">·</span><span class="sl-pct" data-r="pct" aria-hidden="true">0%</span></p>' +
+    '<div class="sl-sr" role="progressbar" aria-label="Loading the site" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-r="bar"><span data-r="label">Loading the site</span></div></div>' +
     '<p class="sl-sr" aria-live="polite" data-r="live"></p>';
   var root = doc.createElement("div"); root.className = "sl"; root.setAttribute("role", "region"); root.setAttribute("aria-label", "Loading");
   root.innerHTML = DOM;
@@ -383,7 +378,11 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     bg += '<rect x="-700" y="-1100" width="3000" height="3100" fill="' + LT.bg + '"/>';
     if (dark && (k === "clear" || k === "snow" || k === "wind")) bg += stars(34);
     if (dark && k !== "storm") bg += '<ellipse cx="' + cx + '" cy="600" rx="560" ry="330" fill="url(#slw-pool)"/>'; /* a pool of light, so Puppy never melts into the dark */
-    bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + op + '"/>';
+    /* the sun rises: the disc starts pale and fills with its weather colour from the bottom up as the site really loads (rise()) */
+    bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + (op * 0.3).toFixed(3) + '"/>' +
+      '<clipPath id="slw-rise"><path class="sl-rise" d="M0 2000 Z"/></clipPath>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + op + '" clip-path="url(#slw-rise)"/>' +
+      '<path class="sl-wave" d="" fill="none" stroke="' + mixc(col, "#111111", k === "storm" || dark ? 0.0 : 0.18) + '" stroke-opacity="' + (k === "storm" || dark ? 0.55 : 0.6) + '" stroke-width="4" stroke-linecap="round" clip-path="url(#slw-disc)"/>';
     if (k === "clear" && dark) bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '"' + line(2, "#fff3c4") + ' opacity="0.35"/>';
     /* what is in the disc */
     var inner = "";
@@ -487,6 +486,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     ["ball", "rope", "leaf1", "leaf2"].forEach(function (n) { if (A.props[n]) actors.appendChild(A.props[n]); });
     if (S.kind === "storm") { A.flash = R.cam.querySelector(".w-flash"); A.bolt = R.cam.querySelector(".w-bolt"); }
     layout();
+    A.rise = R.cam.querySelector(".sl-rise"); A.wave = R.cam.querySelector(".sl-wave"); risen = reduced ? shown : Math.min(shown, 0.04); rise(clock);
     animate(reduced ? 0.6 : 0);
     R.world.classList.add("is-on");
     if (!reduced) { R.cam.classList.add("is-push"); seed(); raf = requestAnimationFrame(frame); }
@@ -570,6 +570,15 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   function setFlex(legs, spine, tilt, nod, ears) {
     var F = A && A.flex; if (!F) return;
     [legs, spine, tilt || 0, nod || 0, ears || 0].forEach(function (v, i) { if (Math.abs(v - F.v[i]) > 0.05) { F.v[i] = v; F.el[i].setAttribute("scale", v.toFixed(2)); } });
+  }
+  /* the level in the disc eases up toward the real progress; a soft wave rides on top, calm at the start and once it is full */
+  var risen = 0;
+  function rise(t) {
+    if (!A || !A.rise) return;
+    var cx = DC[0], cy = DC[1], r = DC[2], lvl = cy + r - 2 * r * risen, amp = reduced ? 0 : 7 * Math.sin(Math.PI * Math.min(1, risen)), d = "M" + (cx - r - 20) + " " + lvl.toFixed(1), w = "";
+    for (var x = cx - r - 20; x <= cx + r + 20; x += 16) { var y = lvl + amp * Math.sin(x / 34 + t * 2.2) + amp * 0.4 * Math.sin(x / 13 - t * 3.1); d += " L" + x + " " + y.toFixed(1); w += (w ? " L" : "M") + x + " " + y.toFixed(1); }
+    A.rise.setAttribute("d", d + " L" + (cx + r + 20) + " " + (cy + r + 20) + " L" + (cx - r - 20) + " " + (cy + r + 20) + " Z");
+    if (A.wave) A.wave.setAttribute("d", risen > 0.015 && risen < 0.985 ? w : "");
   }
   function dress(rootEl, kind) {
     if (!kind) return;
@@ -753,6 +762,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     if (doc.hidden) { lastT = 0; return; }
     var dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0; lastT = now; clock += dt;
     animate(clock);
+    risen += (shown - risen) * Math.min(1, dt * 4.5); rise(clock); /* the sun rises at the pace the site really loads */
     if (!g) return;
     g.clearRect(0, 0, vw, vh);
     var slant = (S.wx > 0.1 ? 1 : -1) * Math.min(0.5, 0.08 + S.wind * 0.4), i, p, s = cam.s;
@@ -829,9 +839,9 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     var sum = 0, tot = 0; for (var k in P) { sum += P[k] * WT[k]; tot += WT[k]; }
     shown = Math.max(shown, sum / tot);
     var pct = Math.round(shown * 100);
-    if (pct !== lastPct) { lastPct = pct; R.fill.style.transform = "scaleX(" + shown.toFixed(3) + ")"; R.pct.textContent = pct + "%"; R.bar.setAttribute("aria-valuenow", String(pct)); }
+    if (pct !== lastPct) { lastPct = pct; if (reduced) { risen = shown; rise(0); } R.pct.textContent = pct + "%"; R.bar.setAttribute("aria-valuenow", String(pct)); }
     var all = P.dom && P.res === 1 && P.wx && P.art;
-    if (all && !endTimer) { R.label.textContent = hold ? "Loaded (held for checking)" : "Ready"; if (!hold) endTimer = setTimeout(function () { finish(false); }, 380); } /* time for the bar to reach the end */
+    if (all && !endTimer) { R.label.textContent = hold ? "Loaded (held for checking)" : "Ready"; if (!hold) endTimer = setTimeout(function () { finish(false); }, reduced ? 200 : 650); } /* time for the sun to finish rising */
     if (!hold && Date.now() - T0 > 10000) finish(false); /* a slow resource never holds the site back */
   }
   var timer = setInterval(tick, 100); tick();

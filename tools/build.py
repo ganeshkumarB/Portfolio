@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261351"
+VER = "20261352"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
