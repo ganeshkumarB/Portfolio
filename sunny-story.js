@@ -213,15 +213,17 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-title { position: absolute; left: 0; right: 0; top: clamp(18px, 7vh, 64px); text-align: center; opacity: 0; color: var(--capC, #f5f7fb); text-shadow: 0 2px 22px var(--capS, rgba(0, 0, 0, 0.45)); pointer-events: none; }
 .sst-title h1 { margin: 0; font: 600 clamp(20px, 2.6vw, 38px)/1 var(--font-d); letter-spacing: 0.22em; padding-left: 0.22em; color: inherit; }
 .sst-title p { margin: 12px 0 0; font: 400 clamp(12px, 1.2vw, 16px)/1.4 "Inter", system-ui, sans-serif; opacity: 0.85; color: inherit; }
-.sst-ui { position: absolute; left: clamp(16px, 4vw, 48px); right: clamp(16px, 4vw, 48px); bottom: clamp(14px, 4vh, 36px); display: flex; align-items: center; gap: 14px; font: 500 11px/1 var(--font-m); letter-spacing: 0.08em; color: var(--uiC, rgba(255, 255, 255, 0.66)); }
-.sst-track { position: relative; width: 92px; height: 2px; border-radius: 2px; background: var(--uiT, rgba(255, 255, 255, 0.16)); flex: none; }
+.sst-ui { position: absolute; left: clamp(16px, 4vw, 48px); right: clamp(16px, 4vw, 48px); bottom: clamp(14px, 4vh, 36px); display: flex; align-items: center; gap: 14px; font: 500 11px/1 var(--font-m); letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.9); isolation: isolate; }
+.sst-ui::before { content: ""; position: absolute; z-index: -1; left: calc(-1 * clamp(16px, 4vw, 48px)); right: calc(-1 * clamp(16px, 4vw, 48px)); bottom: calc(-1 * clamp(14px, 4vh, 36px)); height: 120px; background: linear-gradient(to top, rgba(6, 10, 18, 0.62), rgba(6, 10, 18, 0)); pointer-events: none; } /* readable over any ground */
+.sst-track { position: relative; width: 92px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.28); flex: none; }
 .sst-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 2px; background: #ffc93c; }
 .sst-fill::after { content: ""; position: absolute; right: -3px; top: -2px; width: 6px; height: 6px; border-radius: 50%; background: #ffe7a8; box-shadow: 0 0 10px 3px rgba(255, 201, 60, 0.6); }
 .sst-line { flex: 1; font: 400 12px/1.3 "Inter", system-ui, sans-serif; letter-spacing: 0; }
 .sst-btn { padding: 8px 2px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-transform: uppercase; cursor: pointer; }
-.sst-btn:hover, .sst-btn:focus-visible { color: var(--capC, #fff); outline: none; text-decoration: underline; text-underline-offset: 4px; }
+.sst-btn:hover, .sst-btn:focus-visible { color: #fff; outline: none; text-decoration: underline; text-underline-offset: 4px; }
+.sst-btn:focus-visible { outline: 2px solid #ffc93c; outline-offset: 3px; border-radius: 4px; }
 .sst-btn[aria-pressed="true"] { color: #ffc93c; }
-@media (max-width: 560px) { .sst-line { display: none; } .sst-ui { justify-content: space-between; } }
+@media (max-width: 560px) { .sst-ui { flex-wrap: wrap; justify-content: space-between; row-gap: 10px; } .sst-line { order: -1; flex: 0 0 100%; font-size: 12px; } } /* on a phone the weather note gets its own line */
 .sst.is-reduced .sst-pose, .sst.is-reduced .sst-actor *, .sst.is-reduced .sst-bird, .sst.is-reduced .sst-mist { animation: none !important; transition-duration: 0.01s !important; }
 .sst.is-reduced .sst-flip { transition: none; }
 .sst.is-still *, .sst.is-still .sst-flip, .sst.is-still .sst-pose { transition: none !important; }
@@ -257,7 +259,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 @keyframes sst-glim { from { opacity: 0.2; } to { opacity: 1; } }
 .sst.is-reduced .sst-flies i, .sst.is-reduced .sst-cloud, .sst.is-reduced .sst-street *, .sst.is-reduced .bf-l, .sst.is-reduced .bf-r { animation: none !important; }
 /* sunlight: a warm wash falling across the street from the upper right, only when the sun is really out */
-.sst-sunwash { position: absolute; left: -500px; top: -300px; width: 2600px; height: 1500px; background: linear-gradient(118deg, rgba(255, 206, 130, 0) 34%, rgba(255, 206, 130, 0.2) 60%, rgba(255, 222, 160, 0.42) 100%); mix-blend-mode: screen; opacity: var(--rays, 0); pointer-events: none; }
+.sst-sunwash { position: absolute; left: -500px; top: -300px; width: 2600px; height: 1500px; background: linear-gradient(118deg, rgba(255, 200, 120, 0) 30%, rgba(255, 200, 120, 0.22) 60%, rgba(255, 214, 150, 0.42) 100%); mix-blend-mode: soft-light; opacity: var(--rays, 0); pointer-events: none; } /* warms the light from the sun's side without washing the frame out */
 .sst-sunpool { position: absolute; left: 0; top: 742px; width: 1600px; height: 110px; background: radial-gradient(ellipse at 62% 40%, rgba(255, 226, 160, 0.5), rgba(255, 226, 160, 0) 62%); mix-blend-mode: screen; opacity: var(--rays, 0); pointer-events: none; }
 /* snow lies on every roof and ledge */
 .c-cap { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; opacity: var(--snowy, 0); }
@@ -314,6 +316,21 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-pbird svg { animation: sst-wing 0.28s ease-in-out infinite alternate; transform-origin: 50% 60%; }
 .sst-pbird.is-rest svg { animation: none; }
 .sst-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* fog lies on the ground in front of their feet, never higher than an ankle */
+.sst-groundfog { position: absolute; left: -500px; top: 770px; width: 2600px; height: 70px; pointer-events: none; opacity: calc(var(--fog, 0) * 0.55); background: linear-gradient(to bottom, rgba(var(--mistC), 0), rgba(var(--mistC), 0.75) 45%, rgba(var(--mistC), 0.2)); filter: blur(6px); animation: sst-fogdrift 24s ease-in-out infinite alternate; }
+.sst.is-reduced .sst-groundfog { animation: none; }
+/* cast shadows: soft, falling away from the sun */
+.sst-cast { position: absolute; left: 0; top: 0; width: 160px; height: 20px; margin: -10px 0 0 -80px; border-radius: 50%; background: radial-gradient(closest-side, rgba(28, 30, 48, 0.3), rgba(28, 30, 48, 0)); pointer-events: none; opacity: 0; }
+/* wet ground: the pavement holds a soft sheen of the sky */
+.sst-sheen { position: absolute; left: -500px; top: 758px; width: 2600px; height: 50px; pointer-events: none; opacity: var(--wetg, 0); mix-blend-mode: screen;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, color-mix(in srgb, var(--skyB) 42%, transparent) 30%, rgba(255, 255, 255, 0) 70%), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 46px, rgba(255, 255, 255, 0.05) 46px 52px, rgba(255, 255, 255, 0) 52px 130px); }
+/* lightning lights the cloud from inside */
+.sst-sky, .sst-clouds { filter: brightness(calc(1 + var(--flashK, 0) * 1.5)); }
+/* wind moves the string lights too */
+.sst.is-windy [data-r=bulbs], .sst.is-windy [data-r=lights] { animation: sst-lights 1.1s ease-in-out infinite alternate; }
+@keyframes sst-lights { from { transform: translate(calc(-1px * var(--wsgn, 1)), 0); } to { transform: translate(calc(-6px * var(--wsgn, 1)), 2px); } }
+.sst-dog.is-far { filter: brightness(var(--charB, 1)) saturate(0.7) blur(0.6px); }
+.sst.is-reduced [data-r=bulbs], .sst.is-reduced [data-r=lights] { animation: none !important; }
 .sst.is-reduced .sst-tree, .sst.is-reduced .sst-blades, .sst.is-reduced .sst-fogs i, .sst.is-reduced .sst-dog * { animation: none !important; }
 `;
 
@@ -430,7 +447,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     <div class="sst-smoke"><i></i><i></i><i></i></div>
     <div class="sst-cone" style="left:667px;top:466px"></div><div class="sst-cone" style="left:1213px;top:466px"></div>
     <div class="sst-glow" style="left:667px;top:470px"></div><div class="sst-glow" style="left:1213px;top:470px"></div>
-    <div class="sst-porchglow"></div><div class="sst-sunwash"></div><div class="sst-sunpool"></div>
+    <div class="sst-porchglow"></div><div class="sst-sunwash"></div><div class="sst-sunpool"></div><div class="sst-sheen"></div>
   </div>
   <div class="sst-actors" data-r="actors"></div>
   <div class="sst-flies" data-r="flies"></div>
@@ -440,6 +457,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     <g class="c-fore"><rect x="1474" y="836" width="30" height="56" rx="10"/><rect x="1466" y="828" width="46" height="12" rx="5"/><rect x="1462" y="852" width="54" height="10" rx="4"/><ellipse cx="1640" cy="880" rx="170" ry="72"/><ellipse cx="1560" cy="906" rx="110" ry="50"/><circle cx="1700" cy="828" r="56"/></g>
     <g class="c-fore2"><circle cx="1606" cy="852" r="22"/><circle cx="1668" cy="846" r="18"/></g>
   </svg></div>
+  <div class="sst-groundfog"></div>
   <canvas class="sst-rain" data-r="rain" width="1600" height="900"></canvas>
 </div></div>
 <div class="sst-paper" data-r="paper"></div>
@@ -454,9 +472,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   var style = doc.createElement("style"); style.textContent = CSS;
   var story = doc.createElement("div");
   story.className = "sst" + (reduced ? " is-reduced" : "");
-  story.setAttribute("role", "img");
-  story.setAttribute("aria-label", "A short animated story about Sunny and Puppy. Press Escape to skip.");
+  story.setAttribute("role", "region");
+  story.setAttribute("aria-label", "Sunny and Puppy, a short animated story. Press Escape to skip.");
   story.innerHTML = DOM;
+  var VIEW = story.querySelector(".sst-view"); VIEW.setAttribute("role", "img"); VIEW.setAttribute("aria-label", "A short animated story about Sunny and Puppy."); /* only the picture is an image; the buttons stay reachable */
   var body = doc.body || doc.currentScript.parentNode;
   body.insertBefore(style, body.firstChild);
   body.insertBefore(story, style.nextSibling);
@@ -585,7 +604,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   Object.keys(PAL).forEach(function (k) { var l = LIGHT[k] || [1, 1, "rgba(255,255,255,0.2)"]; PAL[k].charB = l[0]; PAL[k].charS = l[1]; PAL[k].rimC = l[2]; });
   function palFrom(base, over) { var o = {}; for (var k in PAL[base]) o[k] = PAL[base][k]; for (var j in over) o[j] = over[j]; return o; }
   var DARK_UI = { capC: "#16263f", capS: "rgba(255,255,255,0.65)", uiC: "rgba(22,38,63,0.72)", uiT: "rgba(22,38,63,0.18)" };
-  PAL.day = palFrom("night", Object.assign({ skyT: "#4f98da", skyB: "#cde4f6", far: "#9fb8cf", mid: "#7f9cb8", near: "#6c8cab", nearDark: "#5b7a98", win: "#f3f0dc", winOn: 0.3, walk: "#d9d2c4", curb: "#bdb4a4", road: "#7b838d", puddle: "#b4cde6", post: "#3d4756", box: "#b48a5e", boxD: "#9a7550", lampOn: 0, cloud: 0.6, cloudC: "#ffffff", sun: 1, birds: 1, grade: "rgba(255,206,140,0.18)", dogB: 1, refl: 0.08, mist: 0.08, mistC: "255,246,230" }, DARK_UI));
+  PAL.day = palFrom("night", Object.assign({ skyT: "#4f98da", skyB: "#cde4f6", far: "#a9c2d8", mid: "#7590ae", near: "#537191", nearDark: "#435e7c", win: "#f3f0dc", winOn: 0.3, walk: "#e2d6c0", curb: "#c2b49c", road: "#6d7783", puddle: "#b4cde6", post: "#3d4756", box: "#b48a5e", boxD: "#9a7550", lampOn: 0, cloud: 0.6, cloudC: "#ffffff", sun: 1, birds: 1, grade: "rgba(255,206,140,0.18)", dogB: 1, refl: 0.08, mist: 0.08, mistC: "255,246,230" }, DARK_UI));
   PAL.cloudy = palFrom("day", { skyT: "#8ea3b8", skyB: "#d5dde5", cloud: 0.95, cloudC: "#eef1f4", sun: 0.25, birds: 0.6, grade: "rgba(200,210,225,0.10)", mist: 0.35, mistC: "230,235,240" });
   PAL.overcast = palFrom("night", { skyT: "#55647a", skyB: "#97a4b4", far: "#6b7a8d", mid: "#647386", near: "#5c6b7e", nearDark: "#526072", win: "#f2d08a", winOn: 0.5, walk: "#69737f", curb: "#78828f", road: "#424b57", puddle: "#8fa3bd", post: "#2f3743", box: "#6b5643", boxD: "#594736", lampOn: 0.55, cloud: 0.95, cloudC: "#7a8696", grade: "rgba(60,90,140,0.16)", dogB: 0.88, refl: 0.24, mist: 0.9, mistC: "190,200,215" });
   PAL.stormday = palFrom("overcast", { skyT: "#333d4d", skyB: "#636f80", far: "#4c5869", mid: "#465263", near: "#414d5e", nearDark: "#3a4556", cloud: 1, cloudC: "#525d6c", lampOn: 0.8, dogB: 0.8 });
@@ -881,12 +900,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     /* ---------- the camera: wide and still for loneliness, closer as they connect ---------- */
     var c10 = (P10[0] + P10[1]) / 2;
     o.CAM = [[0, BOX, 700, 2.4], [3.4, BOX - 10, 696, 2.35], [4.4, BOX - 60, 680, 1.9], [6.4, 1250, 650, 1.35], [9.0, 1240, 650, 1.35],
-      [9.7, 1200, 690, 1.8], [12.2, 1200, 690, 1.8], [13.6, 1320, 680, 1.7], [15.0, 1330, 665, 1.62], [17.9, 1330, 665, 1.62],
-      [18.4, 1380, 690, 2.35], [19.5, 1378, 690, 2.3], [21.4, S + 40, 670, 1.6], [23.6, S - 300, 645, 1.0], [31.0, S - 300, 645, 1.0], [33.0, S - 600, 660, 1.5],
-      [34.9, S - 215, 652, 1.7], [38.2, S - 215, 652, 1.7], [38.9, S - 100, 690, 2.35], [40.6, S - 100, 690, 2.35], [41.3, S - 215, 652, 1.7]];
+      [9.7, 1200, 690, 1.8], [12.2, 1200, 690, 1.8], [13.6, 1320, 680, 1.7], [15.0, 1330, 665, 1.62], [18.0, 1330, 665, 1.62],
+      [18.02, 1380, 690, 2.35], [19.5, 1378, 690, 2.3], /* a cut to his face, not a zoom */ [21.4, S + 40, 670, 1.6], [23.6, S - 300, 645, 1.0], [31.0, S - 300, 645, 1.0], [33.0, S - 600, 660, 1.5],
+      [34.9, S - 215, 652, 1.7], [38.3, S - 215, 652, 1.7], [38.32, S - 100, 690, 2.35], [40.6, S - 100, 690, 2.35], [40.62, S - 215, 652, 1.7]]; /* cut in to his eyes, cut back out */
     if (calm) o.CAM.push([47.6, S - 190, 662, 1.85], [48.4, c10, 690, 2.3], [53.0, c10, 690, 2.55], [53.8, S - 160, 662, 1.75], [56.6, S - 120, 660, 1.6]);
     else o.CAM.push([44.2, S - 80, 652, 1.6], [47.4, S - 470, 655, 1.65], [48.4, c10, 690, 2.3], [53.0, c10, 690, 2.55], [53.9, S - 260, 652, 1.2], [56.8, S - 160, 650, 1.15]);
-    o.CAM.push([57.6, S - 300, 645, 1.0], [T_END, S - 290, 648, 1.08]);
+    o.CAM.push([57.6, S - 300, 645, 1.0], [58.4, S - 300, 645, 1.0], [T_END, S - 140, 668, 1.36]);
     o.DRIFT = calm ? [[0, 0]] : [[0, 0], [41.0, 0], [41.8, 1], [47.0, 1], [47.8, 0]]; /* handheld energy only while they play */
     /* ---------- sound ---------- */
     o.CUES = [[0.3, "sleep"], [3.3, "sniff"], [4.6, "dogBark"], [5.1, "boing"], [5.9, "boing"], [6.6, "boing"], [6.7, "dogBark2"], [7.5, "boing"], [8.1, "dogBark"], [8.4, "boing"], [9.1, "boing"], [9.9, "dogBark2"], [10.0, "boing"], [11.0, "boing"],
@@ -928,9 +947,9 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
      film plays the light follows the place's clock, and a fresh reading eases in over six seconds, but only where it
      cannot contradict the story already on screen (rain does not start in a dry story, snow does not melt halfway
      through a snowball fight); anything bigger is kept for the next visit. Scenes and feelings never change.
-     For checking: &weather=clear|partly|cloudy|drizzle|rain|heavy|storm|hail|snow|blizzard|fog|wind|heat|cold|offline,
+     For checking: &weather=clear|partly|cloudy|drizzle|rain|heavy|storm|hail|snow|blizzard|fog|wind|heat|cold|frost|clearing|offline,
      &time=sunrise|morning|midday|afternoon|sunset|evening|night|latenight, &wind=DEGREES, &lat=..&lon=.. (the real
-     weather there), &loc=denied|unavailable|timeout|prompt, &api=fail, &stale=1, &refresh=SECONDS[:weather], and
+     weather there), &loc=denied|unavailable|timeout|prompt, &api=fail, &net=fail, &stale=1, &refresh=SECONDS[:weather], and
      SunnyStory.weather() in the console. */
   var WX = { done: false, src: "time", loc: "none", rec: null, err: null, fetchedAt: 0, pending: null, last: null };
   var hour = new Date().getHours();
@@ -946,14 +965,20 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (off != null && c.time) { var obs = Date.parse(c.time + "Z") - off * 1000; if (isFinite(obs) && Date.now() - obs > STALE_MAX) throw new Error("stale reading"); }
     return { code: c.weather_code, temp: num(c.temperature_2m), feels: num(c.apparent_temperature), cloud: num(c.cloud_cover), precip: num(c.precipitation), rain: num(c.rain), showers: num(c.showers), snow: num(c.snowfall),
       wind: num(c.wind_speed_10m), gust: num(c.wind_gusts_10m), dir: num(c.wind_direction_10m), isDay: c.is_day, offset: off, tz: j.timezone || "",
-      sunrise: mins(d.sunrise && d.sunrise[0]), sunset: mins(d.sunset && d.sunset[0]), src: src };
+      sunrise: mins(d.sunrise && d.sunrise[0]), sunset: mins(d.sunset && d.sunset[0]), recent: recentRain(j.hourly, c.time), src: src };
+  }
+  /* rain in the last three hours (up to the current hour), for "clearing after rain"; null when the service did not say */
+  function recentRain(h, now) {
+    if (!h || !h.time || !h.precipitation) return null;
+    var sum = 0, seen = false; for (var i = 0; i < h.time.length; i++) if (h.time[i] <= now && h.precipitation[i] != null) { sum += h.precipitation[i]; seen = true; }
+    return seen ? sum : null;
   }
   /* test readings for ?weather=, shaped like the service's */
   function synth(name) {
     var b = { code: 0, temp: 18, feels: 18, cloud: 8, precip: 0, rain: 0, showers: 0, snow: 0, wind: 8, gust: 14, dir: qs.has("wind") && isFinite(parseFloat(qs.get("wind"))) ? parseFloat(qs.get("wind")) : 80, isDay: 1, offset: null, sunrise: null, sunset: null, src: "override" };
     var o = { clear: {}, partly: { code: 2, cloud: 55 }, cloudy: { code: 3, cloud: 95 }, overcast: { code: 3, cloud: 100 }, drizzle: { code: 53, cloud: 100, precip: 0.1, rain: 0.1 }, rain: { code: 63, cloud: 100, precip: 0.6, rain: 0.6 },
       heavy: { code: 65, cloud: 100, precip: 2.4, rain: 2.4 }, storm: { code: 95, cloud: 100, precip: 1.4, wind: 36, gust: 64 }, hail: { code: 96, cloud: 100, precip: 1.6, wind: 34, gust: 60 }, snow: { code: 73, cloud: 100, temp: -2, feels: -6, snow: 0.4 },
-      blizzard: { code: 75, cloud: 100, temp: -7, feels: -15, snow: 0.9, wind: 46, gust: 72 }, fog: { code: 45, cloud: 100, temp: 9, feels: 8 }, wind: { code: 1, cloud: 30, wind: 42, gust: 63 }, heat: { code: 0, cloud: 4, temp: 41, feels: 45 }, cold: { code: 1, cloud: 20, temp: -3, feels: -8 } }[name];
+      blizzard: { code: 75, cloud: 100, temp: -7, feels: -15, snow: 0.9, wind: 46, gust: 72 }, fog: { code: 45, cloud: 100, temp: 9, feels: 8 }, wind: { code: 1, cloud: 30, wind: 42, gust: 63 }, heat: { code: 0, cloud: 4, temp: 41, feels: 45 }, cold: { code: 1, cloud: 20, temp: 2, feels: -1 }, frost: { code: 0, cloud: 5, temp: -4, feels: -8 }, clearing: { code: 2, cloud: 45, recent: 1.4 } }[name];
     if (!o) return null;
     for (var k in o) b[k] = o[k];
     return b;
@@ -999,6 +1024,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     } else if (c === 45 || c === 48) { cl.kind = "fog"; cl.sub = "fog"; }
     else if (sp >= 30 || gu >= 50) { cl.kind = "wind"; cl.sub = "wind"; }
     if (cl.kind === "clear") cl.sub = c === 3 || cl.cloud >= 0.85 ? "overcast" : c === 2 || cl.cloud >= 0.3 ? "partly" : "fair";
+    if (cl.kind === "clear" && rec.recent != null && rec.recent >= 0.3 && !(rec.precip > 0)) cl.clearing = true; /* dry now, wet an hour ago */
+    if ((cl.kind === "clear" || cl.kind === "wind") && cl.temp != null && cl.temp <= 0) cl.frost = true;
     if ((cl.kind === "clear" || cl.kind === "wind") && cl.feels != null && cl.feels >= 38 && !cl.dark) cl.heat = true; /* heat: shade, water, slow paws */
     if ((cl.kind === "clear" || cl.kind === "wind" || cl.kind === "fog") && cl.temp != null && cl.temp <= 3) cl.cold = true; /* cold and dry: winter clothes */
     return cl;
@@ -1025,6 +1052,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (cl.known && (v === "clear" || v === "wind")) { /* the real cloud cover: more cloud, less sun, fewer stars */
       var cc = cl.cloud;
       P.cloud = Math.max(P.cloud, 0.12 + 0.8 * cc); P.sun = P.sun * (1 - 0.75 * cc); P.rays = P.rays * (1 - cc); P.stars = P.stars * (1 - cc); P.moon = P.moon * (1 - 0.6 * cc);
+      if (cl.frost) P.snowy = 0.32;                            /* white rims on roofs and frost on the grass */
+      if (cl.clearing) P.refl = Math.max(P.refl, 0.2);         /* puddles mirror the sky again */
     }
     return P;
   }
@@ -1032,7 +1061,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     return { P: lightFor(cl, v), sun: SUNPOS[cl.phase] || SUNPOS.midday, heat: cl.heat ? 1 : 0, wx: cl.wx,
       rain: v === "storm" ? Math.max(1.2, cl.rain) : v === "rain" ? Math.max(0.4, cl.rain) : 0,
       snow: v === "snow" ? Math.max(0.45, cl.snow) : 0,
-      wind: v === "storm" ? Math.max(0.8, cl.wind) : v === "wind" ? Math.max(0.75, cl.wind) : cl.wind };
+      wind: v === "storm" ? Math.max(0.8, cl.wind) : v === "wind" ? Math.max(0.75, cl.wind) : cl.wind,
+      /* a sun-cast shadow only when the sun is really out; wet ground only when it is really wet */
+      cast: cl.dark ? 0 : (v === "clear" || v === "wind") ? (cl.known ? Math.max(0, 1 - cl.cloud * 1.05) : 0.3) * (cl.phase === "sunrise" || cl.phase === "sunset" ? 0.7 : 1) : 0, /* full cloud: no sun shadow at all */
+      wetg: v === "storm" ? 1 : v === "rain" ? 0.55 + 0.35 * Math.min(1, cl.rain) : cl.clearing ? 0.6 : v === "fog" ? 0.3 : 0 };
   }
   function costumeFor(cl, v) { return v === "fog" ? (cl.cold ? "snow" : "night") : v === "clear" || v === "wind" ? (cl.cold ? "snow" : v === "wind" ? "wind" : cl.dark ? "night" : "clear") : v; }
   var DRESS = { rain: "his raincoat", storm: "his storm jacket", snow: "his winter coat", wind: "his windbreaker", night: "his hoodie", clear: "his cap" };
@@ -1040,7 +1072,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (!cl.known) return "A little walk, in your " + { sunrise: "morning", morning: "morning", midday: "afternoon", afternoon: "afternoon", sunset: "evening", evening: "evening", night: "night", latenight: "night" }[cl.phase] + "…";
     var said = { storm: cl.sub === "hail" ? "There’s a hailstorm near you" : "There’s a storm near you", snow: cl.sub === "blizzard" ? "There’s a blizzard near you" : "It’s snowing near you",
       rain: cl.sub === "drizzle" ? "It’s drizzling near you" : cl.sub === "heavy" ? "It’s pouring near you" : "It’s raining near you", fog: "It’s foggy near you", wind: "It’s windy near you",
-      clear: cl.heat ? "It’s hot near you" : cl.cold ? "It’s cold near you" : cl.sub === "overcast" ? (cl.dark ? "It’s a cloudy night near you" : "It’s cloudy near you") : cl.sub === "partly" ? (cl.dark ? "It’s a partly cloudy night near you" : "It’s partly cloudy near you") : cl.dark ? "It’s a clear night near you" : "It’s clear near you" }[v === cl.kind ? v : cl.kind];
+      clear: cl.heat ? "It’s hot near you" : cl.clearing ? "The rain has just stopped near you" : cl.frost ? "It’s frosty near you" : cl.cold ? "It’s cold near you" : cl.sub === "overcast" ? (cl.phase === "evening" ? "It’s a cloudy evening near you" : cl.dark ? "It’s a cloudy night near you" : "It’s cloudy near you") : cl.sub === "partly" ? (cl.phase === "evening" ? "It’s a partly cloudy evening near you" : cl.dark ? "It’s a partly cloudy night near you" : "It’s partly cloudy near you") : cl.phase === "evening" ? "It’s a clear evening near you" : cl.dark ? "It’s a clear night near you" : "It’s clear near you" }[v === cl.kind ? v : cl.kind];
     var deg = cl.temp == null ? "" : ", " + Math.round(UNIT_F ? cl.temp * 9 / 5 + 32 : cl.temp) + (UNIT_F ? "°F" : "°C");
     return said + deg + (costumeFor(cl, v) === COSTUME ? ", so Sunny wore " + DRESS[COSTUME] : "") + ".";
   }
@@ -1051,7 +1083,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     for (var k in P) setVar(k, P[k]);
     R.grade.style.background = P.grade; R.vig.style.opacity = P.vig; R.mist.style.opacity = P.mist;
     R.sun.style.left = e.sun[0].toFixed(0) + "px"; R.sun.style.top = e.sun[1].toFixed(0) + "px";
-    setVar("wsgn", e.wx > 0.1 ? -1 : 1); setVar("heat", e.heat.toFixed(2));
+    setVar("wsgn", e.wx > 0.1 ? -1 : 1); setVar("heat", e.heat.toFixed(2)); setVar("wetg", e.wetg.toFixed(2));
     story.classList.toggle("is-windy", e.wind > 0.6); story.classList.toggle("is-heat", e.heat > 0.5);
   }
   function envTo(e) { ENV.from = ENV.cur; ENV.to = e; ENV.t0 = clock; ENV.dur = reduced ? 0.01 : 6; }
@@ -1059,7 +1091,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (!ENV.to) return;
     var u = Math.min(1, (clock - ENV.t0) / ENV.dur), k = u * u * (3 - 2 * u), a = ENV.from, b = ENV.to, e = { P: {} };
     for (var p in b.P) e.P[p] = mix(a.P[p], b.P[p], k);
-    ["rain", "snow", "wind", "wx", "heat"].forEach(function (q) { e[q] = a[q] + (b[q] - a[q]) * k; });
+    ["rain", "snow", "wind", "wx", "heat", "cast", "wetg"].forEach(function (q) { e[q] = a[q] + (b[q] - a[q]) * k; });
     e.sun = [a.sun[0] + (b.sun[0] - a.sun[0]) * k, a.sun[1] + (b.sun[1] - a.sun[1]) * k];
     ENV.cur = e; applyEnv(e);
     if (u >= 1) { ENV.cur = b; ENV.to = null; }
@@ -1102,12 +1134,13 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     R.line.textContent = SCENE.note;
     R.sub.textContent = SCENE.name === "clear" && !SCENE.night ? "Nobody should have to play alone." : "Nobody should be left out in the " + (SCENE.night ? "dark." : SCENE.name === "clear" ? "sun." : SCENE.name + ".");
     story.classList.toggle("is-fog", SCENE.name === "fog");
-    var where = !cl.known ? "in the park" : SCENE.name !== "clear" ? ST.label : cl.heat ? "on a hot day in the park" : cl.dark ? (cl.cloud > 0.6 ? "on a cloudy night in the park" : "on a quiet night in the park") : cl.sub === "overcast" ? "on a grey day in the park" : cl.cold ? "on a cold day in the park" : "on a bright day in the park"; /* never claims weather it does not know */
-    story.setAttribute("aria-label", "A short animated story, The Lonely Pup, " + where + ". Puppy is left behind by three pups and sits alone. Sunny notices him, comes part of the way and waits; " + ST.offer + ". Puppy slowly trusts him, they play, and they end the day side by side. Press Escape to skip.");
+    var where = !cl.known ? "in the park" : SCENE.name !== "clear" ? ST.label : cl.heat ? "on a hot day in the park" : cl.clearing ? "in the park just after the rain" : cl.frost ? "on a frosty day in the park" : cl.dark ? (cl.cloud > 0.6 ? "on a cloudy night in the park" : "on a quiet night in the park") : cl.sub === "overcast" ? "on a grey day in the park" : cl.cold ? "on a cold day in the park" : "on a bright day in the park"; /* never claims weather it does not know */
+    VIEW.setAttribute("aria-label", "A short animated story, The Lonely Pup, " + where + ". Puppy is left behind by three pups and sits alone. Sunny notices him, comes part of the way and waits; " + ST.offer + ". Puppy slowly trusts him, they play, and they end the day side by side. Press Escape to skip.");
     if (ST.FLIES.length > 1) { var h = ""; for (var i = 0; i < 14; i++) h += '<i style="left:' + (ST.S - 520 + (i * 137) % 640) + "px;top:" + (560 + (i * 71) % 190) + "px;animation-delay:-" + (i * 0.83).toFixed(2) + "s,-" + (i * 0.37).toFixed(2) + 's"></i>'; R.flies.innerHTML = h; }
   }
   /* ---- where, and the reading: one request chain, shared by the first answer and every refresh ---- */
   function fetchJSON(url, ms) {
+    if (qs.get("net") === "fail") return Promise.reject(new Error("network failure (test)"));
     var ctl = win.AbortController ? new AbortController() : null, t = ctl ? setTimeout(function () { ctl.abort(); }, ms) : 0;
     return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) { clearTimeout(t); if (!r.ok) throw new Error("http " + r.status); return r.json(); }, function (e) { clearTimeout(t); throw e; });
   }
@@ -1149,7 +1182,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   function forecast(L) {
     if (qs.get("api") === "fail") return Promise.reject(new Error("weather service failed (test)"));
     var url = "https://api.open-meteo.com/v1/forecast?latitude=" + L.lat.toFixed(2) + "&longitude=" + L.lon.toFixed(2) +
-      "&current=weather_code,temperature_2m,apparent_temperature,cloud_cover,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day&daily=sunrise,sunset&forecast_days=1&timezone=auto";
+      "&current=weather_code,temperature_2m,apparent_temperature,cloud_cover,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day&hourly=precipitation&past_hours=3&forecast_hours=1&daily=sunrise,sunset&forecast_days=1&timezone=auto";
     return fetchJSON(url, 4000).then(function (j) { if (j && j.error) throw new Error(j.reason || "weather service error"); return readRec(j, L.src); });
   }
   var inflight = null;
@@ -1278,9 +1311,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       '<g class="sst-wet"><path d="M112 60q8 -8 18 -6M150 70q6 -6 14 -4M100 150q6 -4 12 -2" fill="none" stroke="#dfe7f5" stroke-width="2.2" stroke-linecap="round" opacity="0.5"/>' +
       '<g fill="#a9c3ec"><path class="sst-drip" d="M128 126c-2.4 3.4 -2.4 5.4 0 5.4c2.4 0 2.4 -2 0 -5.4z"/><path class="sst-drip" d="M96 98c-2 3 -2 4.8 0 4.8c2 0 2 -1.8 0 -4.8z"/><path class="sst-drip" d="M170 112c-2 3 -2 4.8 0 4.8c2 0 2 -1.8 0 -4.8z"/></g></g></svg>');
     function cshadow() { var e = doc.createElement("div"); e.className = "sst-cshadow"; actorsEl.insertBefore(e, actorsEl.firstChild); return e; }
+    function cast() { var e = doc.createElement("div"); e.className = "sst-cast"; actorsEl.insertBefore(e, actorsEl.firstChild); return e; }
     /* the three pups: the street dogs of the old film, drawn friendly (soft brows, no teeth, tails up) */
     var dogs = ST.dogs.map(function (d) {
-      var a = makeActor("sst-dog", 250 * d.scale, dogSVG(d)); a.h = 212 * d.scale; a.el.style.height = a.h + "px"; a.el.style.zIndex = 1; a.d = d; a.shadow = cshadow(); return a;
+      var a = makeActor("sst-dog", 250 * d.scale, dogSVG(d)); a.h = 212 * d.scale; a.el.style.height = a.h + "px"; a.el.style.zIndex = 1; a.d = d; a.shadow = cshadow(); a.cast = cast(); return a;
     });
     /* the story's own small things */
     var props = ST.props.map(function (p) {
@@ -1290,9 +1324,9 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     });
     var SPARK = '<svg viewBox="0 0 34 34" width="34" height="34"><path d="M17 2L20 14L32 17L20 20L17 32L14 20L2 17L14 14Z" fill="#FFC93C" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg>';
     var sparks = ST.SPARKS.map(function (s) { var e = doc.createElement("div"); e.className = "sst-spark"; e.innerHTML = SPARK; e.style.left = s[1] + "px"; e.style.top = s[2] + "px"; e.style.zIndex = 20; actorsEl.appendChild(e); return { t: s[0], el: e, on: false }; });
-    var pupShadow = cshadow(), sunShadow = cshadow();
+    var pupShadow = cshadow(), sunShadow = cshadow(), pupCast = cast(), sunCast = cast();
     pup.el.style.zIndex = 2; sunny.el.style.zIndex = 3;
-    return { pupShadow: pupShadow, sunShadow: sunShadow, sunny: sunny, pup: pup, dogs: dogs, props: props, sparks: sparks,
+    return { pupShadow: pupShadow, sunShadow: sunShadow, pupCast: pupCast, sunCast: sunCast, sunny: sunny, pup: pup, dogs: dogs, props: props, sparks: sparks,
       sunnyRoot: sunny.el.querySelector(".sunny"), sunnyLook: sunny.el.querySelector(".s-look"), pupRoot: pup.el.querySelector(".puppy"), pupLooks: pup.el.querySelectorAll(".p-look"),
       umbTilt: sunny.el.querySelector(".u-tilt"), umbCan: sunny.el.querySelector(".u-can"), umbG: sunny.el.querySelector(".sst-umb") };
   }
@@ -1337,7 +1371,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     G.amt += ((reduced ? 0 : Math.min(1, speed / 150)) - G.amt) * Math.min(1, dtg * 7);
     var stride = Q.creep ? 13 : speed > 230 ? 40 : 27; /* px per step: short when sneaking, long when running */
     G.phase += Math.abs(dx) / stride * Math.PI;
-    var a = G.amt, s = Math.sin(G.phase), mood = Q.low ? 0.45 : Q.emo === "excited" || Q.emo === "happy" ? 1.25 : 1;
+    var a = G.amt, s = Math.sin(G.phase), mood = (Q.low ? 0.45 : Q.emo === "excited" || Q.emo === "happy" ? 1.25 : 1) * (ENV.cur && ENV.cur.heat > 0.5 ? 0.6 : 1); /* heat takes the bounce out of him */
     var bob = -Math.abs(s) * (Q.creep ? 1.4 : 2 + 4.5 * a) * a * mood;
     var lean = (Q.creep ? 4 : 2.5 + 1.5 * a) * a;
     var sway = Math.sin(G.phase) * 1.8 * a;
@@ -1357,6 +1391,16 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       clearTimeout(actor.turnT); actor.turnT = setTimeout(function () { p.classList.remove("st-turn"); }, 360);
     }
     actor.lastFlip = flip;
+  }
+  /* the shadow the sun casts: it falls away from the sun, long when the sun is low, short at midday, none under cloud */
+  function castAt(el, x, lift, w, op) {
+    if (!el) return;
+    var E = ENV.cur, k = (E.cast || 0) * (op == null ? 1 : op) * Math.max(0, 1 + Math.min(0, lift) / 90);
+    var sx = E.sun ? E.sun[0] : 820, sy = E.sun ? E.sun[1] : 150, low = Math.max(0, Math.min(1, (sy - 140) / 320));
+    var dx = Math.max(-1, Math.min(1, (x - sx) / 600)), len = 1 + low * 1.4;
+    var tf = "translate3d(" + (x + dx * w * 0.45 * len).toFixed(1) + "px," + (GY + 3) + "px,0) scale(" + (w / 160 * (0.9 + len * 0.6)).toFixed(2) + "," + (1 - low * 0.25).toFixed(2) + ")";
+    if (el._tf !== tf) { el._tf = tf; el.style.transform = tf; }
+    var o = k.toFixed(2); if (el._op !== o) { el._op = o; el.style.opacity = o; }
   }
   /* rain stops at a roof: the porch, the park bench, the tree, or an umbrella set down on the ground */
   function shelterAt(x, y, t) {
@@ -1387,7 +1431,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     envTick();
     var E = ENV.cur; rainNow = E.rain; snowNow = E.snow; windNow = Math.min(1.3, E.wind + track(ST.WINDT, t)); driftX = E.wx;
     leafNow = Math.max(track(ST.LEAF, t), E.wind > 0.55 ? (E.wind - 0.55) * 2 : 0); /* a real gale brings leaves into any story */
-    R.flash.style.opacity = reduced ? 0 : track(ST.FLASH, tReal);
+    var fl = reduced ? 0 : track(ST.FLASH, tReal); R.flash.style.opacity = (fl * 0.55).toFixed(3); setVar("flashK", fl.toFixed(3)); /* most of the light is in the clouds */
     R.flies.style.opacity = track(ST.FLIES, t);
     /* the scene, for screen readers: one short line each time a new one begins */
     var sc = sceneOf(t);
@@ -1397,7 +1441,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     floatAmt += ((S.float && !reduced ? 1 : 0) - floatAmt) * Math.min(1, dtc * 5);
     if (floatAmt > 0.01) sy -= floatAmt * (9 + Math.sin(clock * 3.1) * 4);
     NOW.S = S;
-    place(A.sunny, sx, 13 / 220, sy, t >= 27.6 ? 1 : 0); shadowAt(A.sunShadow, sx, sy, 1.3, t >= 27.6 ? 1 : 0);
+    place(A.sunny, sx, 13 / 220, sy, t >= 27.6 ? 1 : 0); shadowAt(A.sunShadow, sx, sy, 1.3, t >= 27.6 ? 1 : 0); castAt(A.sunCast, sx, sy, 150, t >= 27.6 ? 1 : 0);
     setAttr(A.sunnyRoot, "data-emotion", S.emo); setAttr(A.sunnyRoot, "data-act", S.act);
     setCls(A.sunnyRoot, "st-cos-on", true); setCls(A.sunnyRoot, "st-gust", windNow > 0.6);
     var uo = track(ST.UO, t), uv = track(ST.UV, t), ur = track(ST.UR, t);
@@ -1411,7 +1455,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     A.umbG.style.opacity = uv;
     var Q = snapAt(ST.PS, t), px = track(ST.PX, t), py = track(ST.PY, t);
     NOW.Q = Q;
-    place(A.pup, px, 17 / 220, py); shadowAt(A.pupShadow, px + (Q.flip ? 4 : -4), py, 0.85);
+    place(A.pup, px, 17 / 220, py); shadowAt(A.pupShadow, px + (Q.flip ? 4 : -4), py, 0.85); castAt(A.pupCast, px, py, 100);
     A.pup.el.style.zIndex = Q.front ? 4 : 2;
     /* walking and running are drawn from the real speed in gait(), not from a fixed loop */
     setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act);
@@ -1424,7 +1468,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     /* the three pups */
     for (var d = 0; d < A.dogs.length; d++) {
       var dg = A.dogs[d], D = states(dg.d.S, t), dx = track(dg.d.X, t), dy = track(dg.d.Y, t), dop = Math.max(0, Math.min(1, (2060 - dx) / 200));
-      place(dg, dx, 8 / 220, dy, dop); shadowAt(dg.shadow, dx + 10 * dg.d.scale * (D.flip ? -1 : 1), dy, dg.size / 120, dop);
+      place(dg, dx, 8 / 220, dy, dop); shadowAt(dg.shadow, dx + 10 * dg.d.scale * (D.flip ? -1 : 1), dy, dg.size / 120, dop); castAt(dg.cast, dx, dy, dg.size * 0.8, dop);
+      setCls(dg.el, "is-far", t > 52); /* back at the far end of the park: softer, hazier */
       setCls(dg.pose, "st-play", D.play && !D.run); setCls(dg.pose, "st-walk", D.run); setCls(dg.pose, "st-run", D.run);
       turned(dg, D.flip); setCls(dg.flip, "is-flipped", D.flip);
     }
@@ -1476,7 +1521,11 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     return { near: near, x: Math.random() * (W + 300) - 150, y: scatter ? Math.random() * H : -20 - Math.random() * 220, v: near ? 1350 + Math.random() * 450 : 820 + Math.random() * 320,
       l: near ? 24 + Math.random() * 16 : 10 + Math.random() * 9, a: near ? 0.26 + Math.random() * 0.2 : 0.1 + Math.random() * 0.12, w: near ? 1.7 : 0.9, floor: near ? GY + 20 + Math.random() * 110 : GY - 30 + Math.random() * 60 };
   }
-  function newFlake(scatter) { return { x: Math.random() * (W + 200) - 100, y: scatter ? Math.random() * H : -10, r: 1.2 + Math.random() * 2.6, v: 40 + Math.random() * 70, ph: Math.random() * 6 }; }
+  function newFlake(scatter) {
+    var d = Math.random(), near = d < 0.12, far = d > 0.6; /* depth: near flakes are big, soft and quick; far ones tiny and slow */
+    return { x: Math.random() * (W + 200) - 100, y: scatter ? Math.random() * H : -10, r: near ? 3.6 + Math.random() * 2 : far ? 0.8 + Math.random() * 0.8 : 1.4 + Math.random() * 1.6,
+      v: near ? 110 + Math.random() * 50 : far ? 24 + Math.random() * 22 : 40 + Math.random() * 50, a: near ? 0.38 : far ? 0.5 : 0.75, ph: Math.random() * 6 };
+  }
   function leafY() { return Math.random() < 0.55 ? 430 + Math.random() * 160 : 744 + Math.random() * 34; } /* above their heads or along the ground, never across their faces */
   function leafSign() { return driftX > 0.1 ? 1 : -1; }
   function newLeaf(scatter) { return { x: scatter ? Math.random() * W : leafSign() > 0 ? -60 - Math.random() * 400 : W + Math.random() * 400, y: leafY(), v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: LEAF_C[(Math.random() * 4) | 0] }; }
@@ -1535,7 +1584,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     for (var f2 = flakes.length - 1; f2 >= 0; f2--) {
       var fl = flakes[f2]; fl.y += fl.v * dt; fl.x += (Math.sin(fl.ph + clock * 1.4) * 14 + windNow * 60 * driftX) * dt;
       if (fl.y > GY + 30 + fl.r * 30) { if (flakes.length > wantF) { flakes.splice(f2, 1); continue; } fl.y = -10; fl.x = Math.random() * (W + 200) - 100; }
-      g2.fillStyle = "rgba(255,255,255," + (0.5 + fl.r * 0.12).toFixed(2) + ")"; g2.beginPath(); g2.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2); g2.fill();
+      g2.fillStyle = "rgba(255,255,255," + (fl.a || 0.7) + ")"; g2.beginPath(); g2.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2); g2.fill();
     }
     if (dt && snowNow > 0.3 && sunState.act === "walk") { printT -= dt; if (printT <= 0) { printT = sunState.slow ? 0.31 : 0.21; prints.push({ x: sunState.x + (prints.length % 2 ? 9 : -9), a: 1, s: 1 }); } }
     while (prints.length > 90) prints.shift();
@@ -1692,9 +1741,9 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   win.SunnyStory = { state: function () { var sc = sceneOf(tau); return { t: +tau.toFixed(2), scene: sc + 1, title: SCENES[sc][0], climate: SCENE && SCENE.name, night: SCENE && SCENE.night, puppy: NOW.Q && NOW.Q.name, puppyFace: NOW.Q && NOW.Q.emo, sunny: NOW.S && NOW.S.name, sunnyFace: NOW.S && NOW.S.emo, ended: done }; }, scenes: function () { return SCENES.map(function (s, i) { return { n: i + 1, title: s[0], start: AT[i], seconds: s[1] }; }); },
     /* runs the story's own clock forward (for checking when a hidden tab has paused the frames); returns each scene change it passed */
     weather: function () { var c = SCENE && SCENE.cl, e = ENV.cur; return { source: WX.src, location: WX.loc, error: WX.err, ageMinutes: WX.fetchedAt ? +((Date.now() - WX.fetchedAt) / 60000).toFixed(1) : null, reading: WX.rec,
-      climate: c && { kind: c.kind, sub: c.sub, phase: c.phase, dark: c.dark, heat: c.heat, cold: c.cold, cloud: +c.cloud.toFixed(2), wind: +c.wind.toFixed(2), blowsRight: c.wx > 0.1, temp: c.temp }, story: SCENE && SCENE.name, costume: COSTUME,
+      climate: c && { kind: c.kind, sub: c.sub, phase: c.phase, dark: c.dark, heat: c.heat, cold: c.cold, frost: !!c.frost, clearing: !!c.clearing, cloud: +c.cloud.toFixed(2), wind: +c.wind.toFixed(2), blowsRight: c.wx > 0.1, temp: c.temp }, story: SCENE && SCENE.name, costume: COSTUME,
       now: e && { rain: +e.rain.toFixed(2), snow: +e.snow.toFixed(2), wind: +e.wind.toFixed(2), wx: +e.wx.toFixed(2), easing: !!ENV.to }, lastUpdate: WX.last, keptForNextVisit: WX.pending && { kind: WX.pending.kind, sub: WX.pending.sub }, note: R.line.textContent }; },
-    fastForward: function (sec) { var seen = [], last = -1; for (var x = 0; x < sec && !done; x += 0.05) { advance(0.05); var sc = sceneOf(tau); if (sc !== last) { last = sc; seen.push(sc + 1); } } try { render(tau); } catch (e) { /* ignore */ } return { scenes: seen, t: +tau.toFixed(2), ended: done }; } }; /* step through stills while checking */
+    fastForward: function (sec) { if (!started && !done && ready()) begin(); var seen = [], last = -1; for (var x = 0; x < sec && !done; x += 0.05) { advance(0.05); liveTest(); var sc = sceneOf(tau); if (sc !== last) { last = sc; seen.push(sc + 1); } } try { render(tau); } catch (e) { /* ignore */ } return { scenes: seen, t: +tau.toFixed(2), ended: done }; } }; /* step through stills while checking */
   var stylesheetOk = function () { var l = doc.querySelector('link[href*="sunny.css"]'); return !!l && l.media !== "print" && !!l.sheet; };
   function needPuppy() {
     if (win.Puppy || doc.querySelector("script[data-puppy]")) return;
@@ -1716,13 +1765,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (!started) {
       waitedFor += dt;
       /* the weather is settled first (or given up on after 2.4 s); only then is the scene built and shown */
-      if (ready() && (WX.done || waitedFor > 2.4)) {
-        try { WX.done = true; pickScene(); applyScene(); A = buildActors(); dressSunny(A.sunnyRoot); prefill(); } catch (e) { return finish(true); }
-        started = true; startLive();
-        if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; }
-        try { render(tau); } catch (e2) { return finish(true); }
-        story.classList.add("is-ready");
-      } else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
+      if (ready() && (WX.done || waitedFor > 2.4)) { if (!begin()) return; }
+      else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
     }
     advance(dt); if (started) liveTest();
     if (started) { try { render(tau); } catch (e3) { return finish(true); } rainStep(paused ? 0 : dt); }
@@ -1743,6 +1787,15 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (refreshAt == null || tau < refreshAt) return;
     refreshAt = null;
     if (refreshTo) { var r = synth(refreshTo); if (r) liveUpdate(r, "test"); } else refresh("test");
+  }
+  /* the weather is settled (or given up on); build the scene in it and show it */
+  function begin() {
+    try { WX.done = true; pickScene(); applyScene(); A = buildActors(); dressSunny(A.sunnyRoot); prefill(); } catch (e) { finish(true); return false; }
+    started = true; startLive();
+    if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; }
+    try { render(tau); } catch (e2) { finish(true); return false; }
+    story.classList.add("is-ready");
+    return true;
   }
   /* the story moves on by real time only: no waiting on anything but the clock */
   function advance(dt) {
