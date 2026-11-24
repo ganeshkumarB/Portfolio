@@ -12,8 +12,8 @@
    breathing; only weather clothes are added on top.
 
    The progress bar is the real loading: the page's own document, images, stylesheets and fonts, the
-   weather check and the characters. It stays on screen for 10 s (SHOW_MS), the sun rising over that time but
-   never ahead of the real loading, and fades out once both are done (16 s at most). Skip with the button or Escape.
+   weather check and the characters. It stays on screen for 6 s (SHOW_MS), the sun rising over that time but
+   never ahead of the real loading, and fades out once both are done (12 s at most). Skip with the button or Escape.
 
    It shows on the first page of a browser session (sessionStorage "sunny:loader"); add ?story to the
    address to see it again. Reduced motion shows the scene still. Loaded as the first script in <body>,
@@ -37,7 +37,7 @@
   var T0 = Date.now(), W = 1600, H = 900, GY = 760;
   /* the screen stays at least SHOW_MS so the scene can be seen; the sun rises over that time, never ahead of the real loading,
      and the site opens when both are done (MAX_MS at most, so a slow resource never holds it back). Skip always works. */
-  var SHOW_MS = 10000, MAX_MS = 16000;
+  var SHOW_MS = 6000, MAX_MS = 12000;
 
   /* ===================================================================== styles */
   var CSS = `
