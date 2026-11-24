@@ -77,8 +77,8 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl-shadow { position: absolute; left: 0; top: 0; width: 100px; height: 20px; margin: -10px 0 0 -50px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 16, 30, 0.3), rgba(20, 16, 30, 0)); will-change: transform; }
 .sl-prop { position: absolute; left: 0; top: 0; overflow: visible; will-change: transform; }
 /* Puppy's drawing is cut into parts (head, ears, tail) so it can move on the site; at this size a moving head or ear opens a seam,
-   so here they stay still. The tail keeps its own wag: a copy of his body sits underneath, with a strip along the tail joint,
-   so the swing never opens a gap and the tail keeps its shape. He still hops, breathes, blinks and changes face. */
+   so here they stay still. The tail keeps its own wag, re-cut so it swings behind his hip (see retail). He still hops, breathes,
+   blinks and changes face. */
 .sl-pup .p-head, .sl-pup .p-head-art, .sl-pup .p-ear--l, .sl-pup .p-ear--r { animation: none !important; transform: none !important; transition: none !important; }
 /* ---- the loading UI ---- */
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -474,7 +474,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       A.sun = makeActor("sl-sun", SUN, '<div class="sunny is-in" data-emotion="happy"><div class="sunny__char">' + uniq(win.Sunny.art()) + "</div></div>");
       actors.appendChild(A.pup.el); actors.appendChild(A.sun.el);
       A.pupRoot = A.pup.el.querySelector(".puppy"); A.sunRoot = A.sun.el.querySelector(".sunny");
-      underlay(A.pupRoot);
+      retail(A.pupRoot);
       if (S.costume === "snow") A.pupRoot.classList.add("sl-scarfed");
       dress(A.sunRoot, S.costume);
       if (S.kind === "snow") A.sunRoot.classList.add("sl-push");
@@ -490,17 +490,22 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     if (!reduced) { R.cam.classList.add("is-push"); seed(); raf = requestAnimationFrame(frame); }
   }
   function tone(t) { root.style.setProperty("--slBg", t.bg); root.classList.toggle("is-light", !t.dark); }
-  /* under Puppy's parts: his body without the tail (the hole is the site's own tail cut, from puppy.js), plus the lower joint where
-     the tail meets his back leg, so when the tail swings the gap shows his own fur at rest, never the background or a second tail */
-  var JOINT_UNDER = "M-40 -40 H1120 V1230 H-40 Z M-30 560 200 598 216 656 262 688 300 712 330 752 340 760 340 1036 200 1042 120 1040 -30 1040 Z" +
-    " M120 1040 120 960 200 930 270 900 300 860 318 800 300 760 290 724 300 712 330 752 340 760 340 1036 200 1042 Z"; /* the lower joint only: the tail's curled tip sits by the back, so it stays out */
-  function underlay(pr) {
+  /* Puppy's tail, re-cut for this size. On the site the tail piece also holds his hip, so a swing slides a turned copy of the hip
+     (and its pale shading) over the real one. Here only the plume swings (cut just outside the hip's ink line, with a margin that
+     tucks under it), and it swings BEHIND a still body that keeps the hip and its outline. The tail keeps its exact shape and its
+     own wag (it keeps the class p-tail, so sunny.css drives it with the same pivot); the site's own pieces are hidden. */
+  var PLUME = "M-30 560 200 598 216 656 262 688 300 712 330 752 346 760 303 844 290 936 299 1040 200 1042 120 1040 -30 1040 Z";
+  var PLUME_CUT = "M-30 560 200 598 216 656 262 688 300 712 306 733 263 844 250 936 259 1040 200 1042 120 1040 -30 1040 Z";
+  function retail(pr) {
     var NS = "http://www.w3.org/2000/svg", fit = pr.querySelector(".p-fit"), part = fit && fit.querySelector("use"); if (!part) return;
-    var id = "sl-under-" + (++uid), cp = doc.createElementNS(NS, "clipPath"); cp.setAttribute("id", id); cp.setAttribute("clipPathUnits", "userSpaceOnUse");
-    var pa = doc.createElementNS(NS, "path"); pa.setAttribute("d", JOINT_UNDER); pa.setAttribute("clip-rule", "evenodd"); cp.appendChild(pa);
-    var g = doc.createElementNS(NS, "g"); g.setAttribute("clip-path", "url(#" + id + ")"); g.appendChild(cp);
-    var u = doc.createElementNS(NS, "use"); u.setAttribute("href", part.getAttribute("href")); g.appendChild(u);
-    fit.insertBefore(g, fit.firstChild);
+    var href = part.getAttribute("href"), n = ++uid, first = null;
+    ["p-root", "p-base", "p-tail"].forEach(function (c) { var e = fit.querySelector(":scope > g." + c); if (e) { if (!first) first = e; e.style.display = "none"; } });
+    var g = doc.createElementNS(NS, "g");
+    g.innerHTML = '<defs><clipPath id="sl-plume-' + n + '" clipPathUnits="userSpaceOnUse"><path d="' + PLUME + '"/></clipPath>' +
+      '<clipPath id="sl-body-' + n + '" clipPathUnits="userSpaceOnUse"><path clip-rule="evenodd" d="M-40 -40 H1120 V1230 H-40 Z ' + PLUME_CUT + '"/></clipPath></defs>' +
+      '<g class="p-tail"><g clip-path="url(#sl-plume-' + n + ')"><use href="' + href + '"/></g></g>' +
+      '<g clip-path="url(#sl-body-' + n + ')"><use href="' + href + '"/></g>';
+    fit.insertBefore(g, first || fit.firstChild);
   }
   function dress(rootEl, kind) {
     if (!kind) return;
