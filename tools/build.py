@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261358"
+VER = "20261359"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -179,6 +179,7 @@ def head(p):
   <meta property="og:site_name" content="ganeshuxcraft.in" />
   <meta property="og:title" content="{title}" />
   <meta property="og:description" content="{desc}" />
+  <link rel="canonical" href="https://ganeshuxcraft.in/{p["file"]}" />
   <meta property="og:url" content="https://ganeshuxcraft.in/{p["file"]}" />
   <meta property="og:image" content="https://ganeshuxcraft.in/{og}" />
   <meta property="og:image:width" content="1200" />

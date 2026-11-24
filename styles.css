@@ -3703,3 +3703,5 @@ html:active-view-transition-type(page) body > .puppy { view-transition-name: mo-
 }
 html.reduce-motion::view-transition-group(*), html.reduce-motion::view-transition-old(*), html.reduce-motion::view-transition-new(*) { animation: none !important; }
 html.reduce-motion .mo-wait { opacity: 1; } html.reduce-motion .mo-in { animation: none; }
+/* safety net for publishing: nothing may scroll the page sideways on a phone (clip, unlike hidden, keeps sticky headers working) */
+body { overflow-x: clip; }

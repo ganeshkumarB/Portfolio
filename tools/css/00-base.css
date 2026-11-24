@@ -166,7 +166,8 @@
 .c2-steps .c2-dot--blue { background: var(--c2-blue-tint); color: var(--c2-blue); }
 .c2-steps .c2-dot--ring { background: none; border: 1px solid var(--c2-blue); color: var(--c2-blue); font-size: 11px; }
 .c2-steps--loose > li { padding: 26px 0; }
-@media (max-width: 1080px) { .c2-split, .c2-split--rev, .c2-split--half { grid-template-columns: 1fr; } }
+.c2-split > * { min-width: 0; } /* a wide mock scrolls inside its own frame instead of widening the page */
+@media (max-width: 1080px) { .c2-split, .c2-split--rev, .c2-split--half { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- steps in a row with arrows ---------- */
 .c2-row-steps { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 24px; }

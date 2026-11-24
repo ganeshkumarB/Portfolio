@@ -112,7 +112,7 @@
 .fb2-ba__lbl { font-size: 15px; font-weight: 600; color: var(--ink); } .fb2-ba__lbl--after { color: var(--c2-blue); }
 .fb2-ba .c2-ba__shot { position: relative; overflow: hidden; aspect-ratio: 2.1; box-shadow: none; }
 .fb2-ba .fb2-app--mini { position: absolute; left: 0; top: 0; width: 200%; transform: scale(0.5); transform-origin: 0 0; border: 0; border-radius: 0; box-shadow: none; }
-@media (max-width: 1080px) { .fb2-sidesec .c2-split { grid-template-columns: 1fr; } .fb2-side-p { max-width: none; } }
+@media (max-width: 1080px) { .fb2-sidesec .c2-split { grid-template-columns: minmax(0, 1fr); } .fb2-side-p { max-width: none; } }
 @media (max-width: 900px) { .fb2-body--dash { grid-template-columns: 58px minmax(0, 1fr); } .fb2-filters { display: none; } .fb2-cards, .fb2-sidesec .fb2-cards { grid-template-columns: 1fr; } .fb2-body--old { grid-template-columns: 58px 1fr; } .fb2-conv, .fb2-info { display: none; } .fb2-body--panel { grid-template-columns: 58px minmax(0, 1fr); } .fb2-side { display: none; } .fb2-table th:nth-child(n+5), .fb2-table td:nth-child(n+5) { display: none; } }
 /* the before/after thumbnails: the base shot rule stretches every svg, so the icons get their sizes back */
 .fb2-ba .c2-ba__shot .fb2-face { width: 14px; height: 14px; }
