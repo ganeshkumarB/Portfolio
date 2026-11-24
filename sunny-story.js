@@ -73,13 +73,15 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sunny.sl-hold .s-arm--l { animation: none !important; transform: rotate(24deg) !important; }
 .sunny.sl-push .s-arm--l, .sunny.sl-push .s-arm--r { animation: none !important; }
 .sunny.sl-push .s-arm--l { transform: rotate(40deg) !important; }
-.sl-scarf { display: none; } .puppy.sl-scarfed .sl-scarf { display: inline; }
+.sl-scarf { display: block; pointer-events: none; } /* only added in the cold */
 .sl-shadow { position: absolute; left: 0; top: 0; width: 100px; height: 20px; margin: -10px 0 0 -50px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 16, 30, 0.3), rgba(20, 16, 30, 0)); will-change: transform; }
 .sl-prop { position: absolute; left: 0; top: 0; overflow: visible; will-change: transform; }
 /* Puppy's drawing is cut into parts (head, ears, tail) so it can move on the site; at this size a moving head or ear opens a seam,
    so here they stay still. The tail keeps its own wag, re-cut so it swings behind his hip (see retail). He still hops, breathes,
    blinks and changes face. */
 .sl-pup .p-head, .sl-pup .p-head-art, .sl-pup .p-ear--l, .sl-pup .p-ear--r { animation: none !important; transform: none !important; transition: none !important; }
+.sl-pup .sl-lids { fill: #38363C; opacity: 0; } .sl-pup .sl-lash { opacity: 0; }
+.sl-pup .puppy.is-blink .sl-lids, .sl-pup .puppy.is-blink .sl-lash, .sl-pup .puppy[data-emotion="happy"] .sl-lids { opacity: 1; }
 /* ---- the loading UI ---- */
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .sl-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(to top, rgba(10, 12, 24, 0.6), rgba(10, 12, 24, 0.22) 50%, rgba(10, 12, 24, 0)); }
@@ -474,7 +476,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       A.sun = makeActor("sl-sun", SUN, '<div class="sunny is-in" data-emotion="happy"><div class="sunny__char">' + uniq(win.Sunny.art()) + "</div></div>");
       actors.appendChild(A.pup.el); actors.appendChild(A.sun.el);
       A.pupRoot = A.pup.el.querySelector(".puppy"); A.sunRoot = A.sun.el.querySelector(".sunny");
-      retail(A.pupRoot);
+      retail(A.pupRoot); lids(A.pupRoot);
       if (S.costume === "snow") A.pupRoot.classList.add("sl-scarfed");
       dress(A.sunRoot, S.costume);
       if (S.kind === "snow") A.sunRoot.classList.add("sl-push");
@@ -506,6 +508,16 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       '<g class="p-tail"><g clip-path="url(#sl-plume-' + n + ')"><use href="' + href + '"/></g></g>' +
       '<g clip-path="url(#sl-body-' + n + ')"><use href="' + href + '"/></g>';
     fit.insertBefore(g, first || fit.firstChild);
+  }
+  /* Puppy's eyes at this size. His blink squashes only the iris and his happy face only half-covers the eye, so the big dark eye
+     shape shows through as two black discs. Here a lid in his own fur colour (#38363C, sampled from the art) covers each socket
+     exactly (the outlines were measured from the art, every 10 degrees) when he blinks or smiles; a soft line closes the blink. */
+  var LIDS = '<g class="sl-lids"><path d="M722 565 722 583 717 600 707 616 697 629 684 641 668 649 653 656 636 658 620 658 604 656 589 651 574 645 559 638 546 627 534 614 526 599 523 582 522 565 525 548 531 533 538 518 547 504 558 491 572 481 586 471 602 466 620 460 638 462 656 466 672 475 687 485 698 499 707 514 714 531 718 548Z"/><path d="M969 480 970 491 970 504 967 516 964 529 956 541 946 552 935 564 921 570 905 571 889 569 876 561 863 553 852 544 844 531 838 518 834 506 827 494 828 480 830 467 832 453 836 440 842 427 850 414 861 404 874 395 889 391 905 392 920 397 932 405 942 415 951 425 957 436 962 447 965 458 967 469Z"/></g>' +
+    '<g class="sl-lash" fill="none" stroke="#100B0E" stroke-width="24" stroke-linecap="round"><path d="M538 588 Q620 628 704 588"/><path d="M842 500 Q905 534 970 500"/></g>';
+  function lids(pr) {
+    var at = pr.querySelector(".p-lids"); if (!at) return;
+    var g = doc.createElementNS("http://www.w3.org/2000/svg", "g"); g.setAttribute("class", "sl-eyes"); g.innerHTML = LIDS;
+    at.parentNode.insertBefore(g, at); /* above the eyes, under the site's own smile lines */
   }
   function dress(rootEl, kind) {
     if (!kind) return;
