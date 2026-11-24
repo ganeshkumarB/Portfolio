@@ -43,7 +43,30 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .sst-layer { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; }
 .sst-sky { position: absolute; left: -500px; right: -500px; top: -1200px; height: 2100px; background: linear-gradient(to bottom, var(--skyT) 0%, var(--skyT) 52%, var(--skyB) 100%); }
 .sst-clouds { position: absolute; inset: 0; }
-.sst-cloud { position: absolute; border-radius: 50%; background: var(--cloudC); filter: blur(28px); opacity: var(--cloud); }
+.sst-cloud { position: absolute; border-radius: 50%; background: var(--cloudC); filter: blur(28px); opacity: var(--cloud); box-shadow: inset 0 18px 34px rgba(255, 255, 255, 0.14); }
+/* ---- storybook: painted texture over the world, a paper grain over the frame ---- */
+.sst-brush { position: absolute; left: -500px; top: -1100px; width: 2600px; height: 2700px; background-image: var(--brushTex); background-size: 720px 720px; mix-blend-mode: soft-light; opacity: 0.62; pointer-events: none; }
+.sst-paper { position: absolute; inset: 0; background-image: var(--paperTex); background-size: 280px 280px; mix-blend-mode: overlay; opacity: 0.2; pointer-events: none; }
+.sst-fore { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; pointer-events: none; filter: blur(2.2px); will-change: transform; }
+.sst-fore svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.c-fore { fill: color-mix(in srgb, #070d18 62%, var(--nearDark)); } .c-fore2 { fill: color-mix(in srgb, #0d1626 45%, var(--near)); }
+.c-awn { fill: color-mix(in srgb, #c9483f 60%, var(--near)); } .c-awn2 { fill: color-mix(in srgb, #f3e3c8 50%, var(--near)); }
+.c-wood { fill: color-mix(in srgb, #7a5030 55%, var(--nearDark)); } .c-leaf { fill: color-mix(in srgb, #4f8a4a 50%, var(--nearDark)); } .c-leaf2 { fill: color-mix(in srgb, #6fae5c 45%, var(--near)); }
+.c-bloomA { fill: color-mix(in srgb, #ef8fa6 60%, var(--near)); } .c-bloomB { fill: color-mix(in srgb, #ffd45c 60%, var(--near)); }
+.c-wire { fill: none; stroke: var(--nearDark); stroke-width: 1.6; opacity: 0.75; }
+.c-bulbOn { fill: #ffe0a0; opacity: var(--lampOn); } .c-bulbGlow { fill: #ffcf7a; opacity: calc(var(--lampOn) * 0.28); }
+.c-cat { fill: color-mix(in srgb, #05080f 55%, var(--nearDark)); } .c-catEye { fill: #ffd77a; opacity: var(--lampOn); }
+.c-rim { fill: none; stroke: var(--skyB); stroke-width: 2.2; opacity: 0.42; stroke-linejoin: round; }
+.c-cobble { fill: none; stroke: var(--curb); stroke-width: 2; stroke-linecap: round; opacity: 0.55; }
+.c-hi { fill: none; stroke: #fff; stroke-width: 1.4; opacity: 0.12; }
+.sst-smoke { position: absolute; left: 472px; top: 380px; width: 0; height: 0; }
+.sst-smoke i { position: absolute; left: -14px; top: -14px; width: 28px; height: 28px; border-radius: 50%; background: rgba(var(--mistC), 0.32); filter: blur(5px); animation: sst-smoke 6s ease-out infinite; }
+.sst-smoke i:nth-child(2) { animation-delay: -2s; } .sst-smoke i:nth-child(3) { animation-delay: -4s; }
+@keyframes sst-smoke { 0% { transform: translate(0, 0) scale(0.5); opacity: 0; } 15% { opacity: 1; } 100% { transform: translate(-60px, -130px) scale(2.4); opacity: 0; } }
+/* the characters take the scene's light: a gentle tint and a soft rim, never a new colour */
+.sst-actor { filter: brightness(var(--charB, 1)) saturate(var(--charS, 1)); }
+.sst-sunny .sst-flip, .sst-pup .sst-flip { filter: drop-shadow(0 0 5px var(--rimC, rgba(0, 0, 0, 0))); }
+.sst-cshadow { position: absolute; left: 0; top: 0; width: 120px; height: 18px; margin: -9px 0 0 -60px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0)); pointer-events: none; }
 .sst-sun { position: absolute; width: 360px; height: 360px; margin: -180px 0 0 -180px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 243, 200, 1) 0 18%, rgba(255, 214, 120, 0.75) 30%, rgba(255, 196, 100, 0) 68%); opacity: var(--sun); }
 .sst-rays { position: absolute; left: 700px; top: -200px; width: 1100px; height: 1100px; opacity: calc(var(--sun) * 0.45); pointer-events: none; mix-blend-mode: screen; }
 .sst-rays i { position: absolute; left: 50%; top: 0; width: 120px; height: 1100px; margin-left: -60px; transform-origin: 50% 46%; background: linear-gradient(to bottom, rgba(255, 236, 190, 0), rgba(255, 236, 190, 0.5) 40%, rgba(255, 236, 190, 0)); filter: blur(14px); animation: sst-ray 7s ease-in-out infinite alternate; }
@@ -80,6 +103,7 @@ html.sl-on body > .sunny, html.sl-on body > .puppy, html.sl-on .to-top { visibil
 .c-puddle { fill: var(--puddle); opacity: 0.5; } .c-post { fill: var(--post); } .c-box { fill: var(--box); } .c-boxd { fill: var(--boxD); }
 .c-bulb { fill: #ffe7a8; opacity: var(--lampOn); } .c-reflect, .c-pool { opacity: calc(var(--lampOn) * 0.75); }
 .sst-glow, .sst-cone { opacity: var(--lampOn, 1); }
+.sst.is-reduced .sst-smoke i { animation: none; opacity: 0.6; }
 .sst-glow { position: absolute; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 214, 140, 0.55) 0%, rgba(255, 200, 120, 0.18) 32%, rgba(255, 200, 120, 0) 64%); mix-blend-mode: screen; pointer-events: none; }
 .sst-cone { position: absolute; width: 360px; height: 300px; margin-left: -180px; background: linear-gradient(to bottom, rgba(255, 216, 150, 0.2), rgba(255, 216, 150, 0.03) 85%, rgba(255, 216, 150, 0)); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); mix-blend-mode: screen; pointer-events: none; }
 .sst-spot { position: absolute; width: 900px; height: 520px; margin: -260px 0 0 -450px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 220, 160, 0.16), rgba(255, 220, 160, 0)); mix-blend-mode: screen; pointer-events: none; }
@@ -232,16 +256,26 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
         <linearGradient id="sst-refl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdca0" stop-opacity="0.6"/><stop offset="1" stop-color="#ffdca0" stop-opacity="0"/></linearGradient>
         <radialGradient id="sst-pool"><stop offset="0" stop-color="#ffd896" stop-opacity="0.55"/><stop offset="1" stop-color="#ffd896" stop-opacity="0"/></radialGradient>
         <filter id="sst-blur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6"/></filter>
+        <linearGradient id="sst-haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--skyB)" stop-opacity="0"/><stop offset="1" style="stop-color: var(--skyB)" stop-opacity="0.5"/></linearGradient>
+        <linearGradient id="sst-haze2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--skyB)" stop-opacity="0"/><stop offset="1" style="stop-color: var(--skyB)" stop-opacity="0.2"/></linearGradient>
+        <linearGradient id="sst-ao" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.3"/></linearGradient>
       </defs>
       <g data-r="far" filter="url(#sst-blur)">
         <path class="c-far" d="M-200 760V520H70V470H140V540H210V430H260V400H300V430H360V500H430V455H520V520H600V420H660V380H700V420H760V480H840V440H900V505H980V410H1040V470H1100V430H1180V500H1260V450H1330V520H1400V430H1470V480H1540V440H1800V760Z"/>
         <g class="c-win" data-r="farWins"></g>
+        <path class="c-rim" data-rough="1" d="M-200 520H70V470H140V540H210V430H260V400H300V430H360V500H430V455H520V520H600V420H660V380H700V420H760V480H840V440H900V505H980V410H1040V470H1100V430H1180V500H1260V450H1330V520H1400V430H1470V480H1540V440H1800"/>
       </g>
+      <rect x="-500" y="330" width="2600" height="440" fill="url(#sst-haze)"/>
       <g data-r="mid">
         <path class="c-mid" d="M560 760V560H700V520H820V575H920V540H1080V760Z"/>
         <g class="c-win" data-r="midWins"></g>
+        <path class="c-rim" data-rough="1" d="M560 560H700V520H820V575H920V540H1080"/>
+        <path d="M796 520 V494 M786 500 H806 M790 507 H802" stroke="var(--nearDark)" stroke-width="2" fill="none"/>
+        <g transform="translate(872 575)"><path class="c-cat" d="M-10 0 C-12 -10 -8 -18 0 -19 C8 -18 12 -10 10 0 Z M-7 -17 L-9 -27 L-2 -20 Z M7 -17 L9 -27 L2 -20 Z M10 -2 C20 -2 22 -12 16 -16"/><circle class="c-catEye" cx="-3.5" cy="-13" r="1.3"/><circle class="c-catEye" cx="3.5" cy="-13" r="1.3"/></g>
       </g>
+      <rect x="-500" y="520" width="2600" height="250" fill="url(#sst-haze2)"/>
       <path class="c-near" d="M100 760V470L330 380L560 470V760Z"/>
+      <path class="c-rim" data-rough="1" d="M100 470L330 380L560 470"/>
       <rect class="c-neard" x="455" y="392" width="34" height="64"/>
       <rect class="c-win" x="160" y="520" width="78" height="72" rx="4"/>
       <rect class="c-wind" x="420" y="520" width="78" height="72" rx="4"/>
@@ -250,6 +284,21 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       <rect x="296" y="640" width="68" height="120" rx="4" fill="#3a2a22" opacity="0.85"/>
       <g data-r="door"><rect x="296" y="640" width="68" height="120" rx="4" class="c-near"/><rect x="304" y="650" width="52" height="46" rx="3" class="c-neard"/><circle cx="352" cy="706" r="3.5" fill="#c9a24a"/></g>
       <rect class="c-curb" x="278" y="756" width="104" height="8" rx="2"/>
+      <g data-r="details">
+        <path class="c-awn" d="M148 506 H250 L244 524 Q237 531 230 524 Q223 531 216 524 Q209 531 202 524 Q195 531 188 524 Q181 531 174 524 Q167 531 160 524 Q155 529 150 524 Z"/>
+        <path class="c-awn2" d="M168 506 H182 L181 524 Q174 531 167 524 Z M196 506 H210 L209 524 Q202 531 195 524 Z M224 506 H238 L237 524 Q230 531 223 524 Z"/>
+        <rect class="c-wood" x="414" y="592" width="90" height="13" rx="3"/>
+        <g><circle class="c-leaf" cx="426" cy="590" r="7"/><circle class="c-leaf2" cx="446" cy="588" r="8"/><circle class="c-leaf" cx="468" cy="590" r="7"/><circle class="c-leaf2" cx="490" cy="588" r="8"/><circle class="c-bloomA" cx="432" cy="584" r="4"/><circle class="c-bloomB" cx="455" cy="582" r="4"/><circle class="c-bloomA" cx="478" cy="584" r="4"/><circle class="c-bloomB" cx="496" cy="582" r="3.5"/></g>
+        <g transform="translate(262 760)"><path class="c-wood" d="M-12 0 L-15 -22 H15 L12 0 Z"/><circle class="c-leaf" cx="-6" cy="-30" r="10"/><circle class="c-leaf2" cx="6" cy="-34" r="11"/><circle class="c-leaf" cx="0" cy="-44" r="8"/></g>
+        <g transform="translate(398 760)"><path class="c-wood" d="M-11 0 L-14 -20 H14 L11 0 Z"/><path class="c-leaf2" d="M0 -20 C-14 -34 -10 -56 0 -62 C10 -56 14 -34 0 -20 Z"/></g>
+        <g transform="translate(1100 470)"><path d="M0 0 H34" stroke="var(--post)" stroke-width="4"/><path d="M8 0 V10 M26 0 V10" stroke="var(--post)" stroke-width="2"/><rect class="c-awn2" x="0" y="10" width="34" height="26" rx="4"/><circle class="c-wood" cx="17" cy="23" r="6"/></g>
+        <path class="c-wire" d="M332 386 Q520 438 702 522"/>
+        <path class="c-wire" data-r="lights" d="M644 480 Q940 566 1236 480"/>
+        <g data-r="bulbs"></g>
+        <path class="c-cobble" data-r="cobble"/>
+        <path class="c-hi" d="M-500 799 H2100"/>
+      </g>
+      <rect x="-500" y="680" width="2600" height="80" fill="url(#sst-ao)"/>
       <path class="c-neard" d="M1080 760V360H1800V760Z"/>
       <rect class="c-near" x="1080" y="360" width="10" height="400" opacity="0.7"/>
       <g class="c-win" data-r="cornerWins"></g>
@@ -292,14 +341,23 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     <div class="sst-room-rain" data-r="roomRain"></div>
     <div class="sst-room-glow"></div>
   </div>
+  <div class="sst-brush" data-r="brush"></div>
   <div class="sst-layer" data-r="glows">
+    <div class="sst-smoke"><i></i><i></i><i></i></div>
     <div class="sst-cone" style="left:667px;top:466px"></div><div class="sst-cone" style="left:1213px;top:466px"></div>
     <div class="sst-glow" style="left:667px;top:470px"></div><div class="sst-glow" style="left:1213px;top:470px"></div>
     <div class="sst-spot" data-r="spot" style="left:1230px;top:730px"></div>
   </div>
   <div class="sst-actors" data-r="actors"></div>
+  <div class="sst-fore" data-r="fore"><svg width="1600" height="900" viewBox="0 -56 1600 900" aria-hidden="true">
+    <g class="c-fore"><ellipse cx="-40" cy="880" rx="150" ry="70"/><ellipse cx="90" cy="900" rx="120" ry="60"/><ellipse cx="200" cy="912" rx="90" ry="44"/><circle cx="20" cy="840" r="46"/><circle cx="-90" cy="830" r="52"/></g>
+    <g class="c-fore2"><circle cx="40" cy="850" r="22"/><circle cx="120" cy="868" r="18"/></g>
+    <g class="c-fore"><rect x="1474" y="836" width="30" height="56" rx="10"/><rect x="1466" y="828" width="46" height="12" rx="5"/><rect x="1462" y="852" width="54" height="10" rx="4"/><ellipse cx="1640" cy="880" rx="170" ry="72"/><ellipse cx="1560" cy="906" rx="110" ry="50"/><circle cx="1700" cy="828" r="56"/></g>
+    <g class="c-fore2"><circle cx="1606" cy="852" r="22"/><circle cx="1668" cy="846" r="18"/></g>
+  </svg></div>
   <canvas class="sst-rain" data-r="rain" width="1600" height="900"></canvas>
 </div></div>
+<div class="sst-paper" data-r="paper"></div>
 <div class="sst-grade" data-r="grade"></div>
 <div class="sst-flash" data-r="flash"></div>
 <div class="sst-vig" data-r="vig"></div>
@@ -324,14 +382,90 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   var world = R.world, actorsEl = R.actors;
 
   (function windows() {
+    /* windows: a little irregular, as if painted by hand, some brighter, some dimmer */
     function grid(g, x0, x1, y0, y1, dx, dy, seed) {
       var out = "", n = seed;
-      for (var y = y0; y < y1; y += dy) for (var x = x0; x < x1; x += dx) { n = (n * 9301 + 49297) % 233280; if (n / 233280 < 0.42) out += '<rect x="' + x + '" y="' + y + '" width="' + (dx * 0.42) + '" height="' + (dy * 0.48) + '" rx="2"/>'; }
+      function rnd() { n = (n * 9301 + 49297) % 233280; return n / 233280; }
+      for (var y = y0; y < y1; y += dy) for (var x = x0; x < x1; x += dx) {
+        if (rnd() < 0.42) {
+          var w = dx * (0.38 + rnd() * 0.1), h = dy * (0.44 + rnd() * 0.1), ox = (rnd() - 0.5) * 3, op = 0.55 + rnd() * 0.45;
+          out += '<rect x="' + (x + ox).toFixed(1) + '" y="' + (y + (rnd() - 0.5) * 2).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" opacity="' + op.toFixed(2) + '"/>';
+        }
+      }
       g.innerHTML = out;
     }
     grid(R.farWins, -180, 1780, 450, 720, 34, 40, 7);
     grid(R.midWins, 580, 1070, 590, 730, 40, 46, 3);
     grid(R.cornerWins, 1110, 1780, 390, 580, 52, 58, 11);
+  })();
+  /* ---- storybook: hand-painted edges, generated textures, string lights, paving ---- */
+  (function storybook() {
+    var seed = 17;
+    function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    function j(a) { return (rnd() - 0.5) * 2 * a; }
+    /* a polygon with straight edges becomes a slightly wavering painted one */
+    function wobble(pts, closed, amp, step) {
+      var out = [];
+      for (var i = 0; i < pts.length - (closed ? 0 : 1); i++) {
+        var a = pts[i], b = pts[(i + 1) % pts.length], len = Math.hypot(b[0] - a[0], b[1] - a[1]), n = Math.max(1, Math.round(len / step));
+        for (var k = 0; k < n; k++) { var t = k / n; out.push([a[0] + (b[0] - a[0]) * t + (k ? j(amp) : j(amp * 0.4)), a[1] + (b[1] - a[1]) * t + (k ? j(amp) : j(amp * 0.4))]); }
+      }
+      if (!closed) out.push(pts[pts.length - 1]);
+      return "M" + out.map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + (closed ? " Z" : "");
+    }
+    function parse(d) { /* absolute M/H/V/L/Z only */
+      var pts = [], x = 0, y = 0, closed = /Z\s*$/i.test(d), re = /([MLHVZ])\s*([-\d.\s]*)/gi, m;
+      while ((m = re.exec(d))) {
+        var c = m[1].toUpperCase(), v = m[2].trim().split(/[\s,]+/).filter(Boolean).map(Number);
+        if (c === "M" || c === "L") for (var i = 0; i < v.length; i += 2) { x = v[i]; y = v[i + 1]; pts.push([x, y]); }
+        else if (c === "H") v.forEach(function (n) { x = n; pts.push([x, y]); });
+        else if (c === "V") v.forEach(function (n) { y = n; pts.push([x, y]); });
+      }
+      return { pts: pts, closed: closed };
+    }
+    var svg = R.street.querySelector("svg");
+    Array.prototype.forEach.call(svg.querySelectorAll("path"), function (el) {
+      var d = el.getAttribute("d") || ""; if (!/^[MLHVZ\d\s.,-]+$/.test(d) || (d.match(/M/g) || []).length > 1 || el.closest("[data-r=details]")) return; /* single absolute straight-edged shapes only */
+      var p = parse(d); if (p.pts.length < 2) return;
+      var big = p.pts.some(function (q, i) { var r = p.pts[(i + 1) % p.pts.length]; return Math.hypot(r[0] - q[0], r[1] - q[1]) > 60; });
+      el.setAttribute("d", wobble(p.pts, p.closed, big ? 1.6 : 0.8, big ? 34 : 18));
+    });
+    Array.prototype.forEach.call(svg.querySelectorAll("rect"), function (el) {
+      if (el.getAttribute("fill") && /url\(/.test(el.getAttribute("fill"))) return; /* gradients and pools stay smooth */
+      var x = +el.getAttribute("x"), y = +el.getAttribute("y"), w = +el.getAttribute("width"), h = +el.getAttribute("height"); if (!w || !h) return;
+      var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      for (var a = 0; a < el.attributes.length; a++) { var at = el.attributes[a]; if (!/^(x|y|width|height|rx|ry)$/.test(at.name)) path.setAttribute(at.name, at.value); }
+      var amp = Math.min(1.4, Math.max(0.35, Math.min(w, h) / 22));
+      path.setAttribute("d", wobble([[x, y], [x + w, y], [x + w, y + h], [x, y + h]], true, amp, w > 200 ? 40 : 16));
+      el.parentNode.replaceChild(path, el);
+    });
+    /* string lights hanging across the street */
+    var bulbs = "";
+    for (var t = 0.06; t < 0.97; t += 0.075) { var bx = (1 - t) * (1 - t) * 644 + 2 * (1 - t) * t * 940 + t * t * 1236, by = (1 - t) * (1 - t) * 480 + 2 * (1 - t) * t * 566 + t * t * 480; bulbs += '<circle class="c-bulbGlow" cx="' + bx.toFixed(1) + '" cy="' + (by + 6).toFixed(1) + '" r="9"/><circle class="c-bulbOn" cx="' + bx.toFixed(1) + '" cy="' + (by + 6).toFixed(1) + '" r="3.2"/>'; }
+    R.bulbs.innerHTML = bulbs;
+    /* paving: short painted strokes along the pavement */
+    var cob = ""; for (var cx = -480; cx < 2080; cx += 26 + rnd() * 18) { var cy = 768 + rnd() * 24; cob += "M" + cx.toFixed(0) + " " + cy.toFixed(0) + " h" + (8 + rnd() * 10).toFixed(0) + " "; }
+    R.cobble.setAttribute("d", cob);
+    /* textures, painted once: brush strokes for the world, a fine grain for the frame */
+    function tex(w, h, draw) { var c = document.createElement("canvas"); c.width = w; c.height = h; var g = c.getContext("2d"); if (!g) return ""; draw(g, w, h); try { return c.toDataURL("image/png"); } catch (e) { return ""; } }
+    var brush = tex(512, 512, function (g, w, h) {
+      g.lineCap = "round";
+      for (var i = 0; i < 520; i++) {
+        var x = rnd() * w, y = rnd() * h, len = 30 + rnd() * 110, ang = (rnd() - 0.5) * 0.55, lw = 4 + rnd() * 16, light = rnd() < 0.5;
+        g.strokeStyle = light ? "rgba(255,255,255," + (0.035 + rnd() * 0.05).toFixed(3) + ")" : "rgba(0,0,0," + (0.03 + rnd() * 0.045).toFixed(3) + ")"; g.lineWidth = lw;
+        for (var ox = -1; ox <= 1; ox++) for (var oy = -1; oy <= 1; oy++) {
+          var sx = x + ox * w, sy = y + oy * h, ex = sx + Math.cos(ang) * len, ey = sy + Math.sin(ang) * len;
+          g.beginPath(); g.moveTo(sx, sy); g.quadraticCurveTo((sx + ex) / 2 + (rnd() - 0.5) * 10, (sy + ey) / 2 + (rnd() - 0.5) * 8, ex, ey); g.stroke();
+        }
+      }
+    });
+    var paper = tex(220, 220, function (g, w, h) {
+      var img = g.createImageData(w, h), d = img.data;
+      for (var i = 0; i < d.length; i += 4) { var v = 128 + (rnd() - 0.5) * 64; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+      g.putImageData(img, 0, 0);
+    });
+    if (brush) story.style.setProperty("--brushTex", "url(" + brush + ")");
+    if (paper) story.style.setProperty("--paperTex", "url(" + paper + ")");
   })();
 
   /* ===================================================================== timeline */
@@ -438,9 +572,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     return "clear";
   }
   Object.keys(PAL).forEach(function (k) { PAL[k].stars = 0; PAL[k].moon = 0; });
+  /* how the scene's light falls on the characters: brightness, saturation and a soft rim */
+  var LIGHT = { night: [0.92, 0.94, "rgba(255,206,140,0.38)"], soft: [0.95, 0.96, "rgba(255,214,160,0.32)"], room: [1.02, 1.04, "rgba(255,186,120,0.42)"], dawn: [1.02, 1.03, "rgba(255,196,140,0.45)"], gold: [1.03, 1.05, "rgba(255,214,150,0.5)"] };
+  Object.keys(PAL).forEach(function (k) { var l = LIGHT[k] || [1, 1, "rgba(255,255,255,0.2)"]; PAL[k].charB = l[0]; PAL[k].charS = l[1]; PAL[k].rimC = l[2]; });
   function palFrom(base, over) { var o = {}; for (var k in PAL[base]) o[k] = PAL[base][k]; for (var j in over) o[j] = over[j]; return o; }
   var DARK_UI = { capC: "#16263f", capS: "rgba(255,255,255,0.65)", uiC: "rgba(22,38,63,0.72)", uiT: "rgba(22,38,63,0.18)" };
-  PAL.day = palFrom("night", Object.assign({ skyT: "#6aaee8", skyB: "#d3e9fa", far: "#a2bad0", mid: "#93aec6", near: "#8aa6bf", nearDark: "#7b97b0", win: "#eef6fc", winOn: 0.25, walk: "#cdd2d9", curb: "#b9bfc8", road: "#8b939f", puddle: "#b4cde6", post: "#4a5566", box: "#b48a5e", boxD: "#9a7550", lampOn: 0, cloud: 0.55, cloudC: "#ffffff", sun: 1, birds: 1, grade: "rgba(255,232,170,0.10)", dogB: 1, refl: 0.08, mist: 0.15, mistC: "255,255,255" }, DARK_UI));
+  PAL.day = palFrom("night", Object.assign({ skyT: "#4f98da", skyB: "#cde4f6", far: "#9fb8cf", mid: "#7f9cb8", near: "#6c8cab", nearDark: "#5b7a98", win: "#f3f0dc", winOn: 0.3, walk: "#d9d2c4", curb: "#bdb4a4", road: "#7b838d", puddle: "#b4cde6", post: "#3d4756", box: "#b48a5e", boxD: "#9a7550", lampOn: 0, cloud: 0.6, cloudC: "#ffffff", sun: 1, birds: 1, grade: "rgba(255,206,140,0.18)", dogB: 1, refl: 0.08, mist: 0.08, mistC: "255,246,230" }, DARK_UI));
   PAL.cloudy = palFrom("day", { skyT: "#8ea3b8", skyB: "#d5dde5", cloud: 0.95, cloudC: "#eef1f4", sun: 0.25, birds: 0.6, grade: "rgba(200,210,225,0.10)", mist: 0.35, mistC: "230,235,240" });
   PAL.overcast = palFrom("night", { skyT: "#55647a", skyB: "#97a4b4", far: "#6b7a8d", mid: "#647386", near: "#5c6b7e", nearDark: "#526072", win: "#f2d08a", winOn: 0.5, walk: "#69737f", curb: "#78828f", road: "#424b57", puddle: "#8fa3bd", post: "#2f3743", box: "#6b5643", boxD: "#594736", lampOn: 0.55, cloud: 0.95, cloudC: "#7a8696", grade: "rgba(60,90,140,0.16)", dogB: 0.88, refl: 0.24, mist: 0.9, mistC: "190,200,215" });
   PAL.stormday = palFrom("overcast", { skyT: "#333d4d", skyB: "#636f80", far: "#4c5869", mid: "#465263", near: "#414d5e", nearDark: "#3a4556", cloud: 1, cloudC: "#525d6c", lampOn: 0.8, dogB: 0.8 });
@@ -448,6 +585,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   PAL.nightclear = palFrom("night", { cloud: 0.2, stars: 1, moon: 1, refl: 0.07, puddle: "#334d70", mist: 0.45, grade: "rgba(40,80,160,0.24)" });
   PAL.snownight = palFrom("night", { walk: "#cad4e3", curb: "#b5c1d3", road: "#8592a8", puddle: "#e3e9f2", refl: 0.06, mist: 0.7, mistC: "200,210,230", cloud: 0.9, cloudC: "#3a4a64" });
   PAL.duskclear = palFrom("dawn", { sun: 0.8, birds: 0.7, lampOn: 0.6, winOn: 0.6 });
+  PAL.day.rimC = "rgba(255,250,235,0.42)"; PAL.day.charB = 1.02; PAL.day.charS = 1;
+  PAL.cloudy.rimC = "rgba(240,244,250,0.3)"; PAL.cloudy.charB = 0.98;
+  PAL.overcast.rimC = "rgba(214,226,240,0.28)"; PAL.overcast.charB = 0.95; PAL.overcast.charS = 0.93;
+  PAL.stormday.rimC = "rgba(200,214,235,0.26)"; PAL.stormday.charB = 0.9; PAL.stormday.charS = 0.9;
+  PAL.snowday.rimC = "rgba(255,255,255,0.5)"; PAL.snowday.charB = 1.0;
+  PAL.nightclear.rimC = "rgba(214,226,255,0.36)"; PAL.snownight.rimC = "rgba(220,230,255,0.36)";
   function openingPalette(k, tod) {
     if (tod === "night") return k === "snow" ? "snownight" : (k === "rain" || k === "storm") ? "night" : k === "cloudy" ? "night" : "nightclear";
     if (k === "storm") return "stormday";
@@ -677,9 +820,12 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var towel = prop("sst-towel", 140, 90, '<svg viewBox="0 0 140 90" width="140" height="90" aria-hidden="true"><g class="tw"><path d="M14 40Q70 2 126 40L132 76Q119 66 108 82Q96 64 84 80Q70 62 56 80Q44 64 32 82Q21 66 8 76Z" fill="#f6efe3" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 60Q70 40 124 60" stroke="#7fb0f5" stroke-width="6" fill="none" opacity="0.85"/><path d="M40 22Q70 10 100 22" stroke="#fff" stroke-width="5" fill="none" opacity="0.6" stroke-linecap="round"/></g></svg>');
     var SPARK = '<svg viewBox="0 0 34 34" width="34" height="34"><path d="M17 2L20 14L32 17L20 20L17 32L14 20L2 17L14 14Z" fill="#FFC93C" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg>';
     var sparks = [[33.9, "biscuit"], [44.0, "bowls"], [46.0, "mend"], [47.5, "neck"]].map(function (s) { var e = doc.createElement("div"); e.className = "sst-spark"; e.innerHTML = SPARK; actorsEl.appendChild(e); return { t: s[0], at: s[1], el: e, on: false }; });
+    function cshadow() { var e = doc.createElement("div"); e.className = "sst-cshadow"; actorsEl.insertBefore(e, actorsEl.firstChild); return e; }
+    dogs.forEach(function (d) { d.shadow = cshadow(); });
+    var pupShadow = cshadow();
     [dogs[2], dogs[1], dogs[0], biscuit, bowls, pup, planted, towel, sunny].forEach(function (a, i) { a.el.style.zIndex = i + 1; });
     sparks.forEach(function (s) { s.el.style.zIndex = 20; });
-    return { sunny: sunny, pup: pup, dogs: dogs, planted: planted, biscuit: biscuit, bowls: bowls, towel: towel, sparks: sparks,
+    return { pupShadow: pupShadow, sunny: sunny, pup: pup, dogs: dogs, planted: planted, biscuit: biscuit, bowls: bowls, towel: towel, sparks: sparks,
       sunnyRoot: sunny.el.querySelector(".sunny"), sunnyLook: sunny.el.querySelector(".s-look"), pupRoot: pup.el.querySelector(".puppy"), pupLooks: pup.el.querySelectorAll(".p-look"),
       umbTilt: sunny.el.querySelector(".u-tilt"), umbCan: sunny.el.querySelector(".u-can"), umbG: sunny.el.querySelector(".sst-umb") };
   }
@@ -695,6 +841,13 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (a.last.tf !== tf) { a.last.tf = tf; a.el.style.transform = tf; }
     var o = op == null ? 1 : +op.toFixed(3);
     if (a.last.op !== o) { a.last.op = o; a.el.style.opacity = o; a.el.style.visibility = o <= 0.001 ? "hidden" : "visible"; }
+  }
+  /* a soft contact shadow on the ground under a character */
+  function shadowAt(el, x, op, sc) {
+    if (!el) return;
+    var tf = "translate3d(" + x.toFixed(1) + "px," + (GY + 2) + "px,0) scale(" + sc.toFixed(2) + ",1)";
+    if (el._tf !== tf) { el._tf = tf; el.style.transform = tf; }
+    var o = (op == null ? 1 : op).toFixed(2); if (el._op !== o) { el._op = o; el.style.opacity = o; }
   }
   function lookAt(el, dx, dy, flipped, kx, ky, many) {
     var v = "translate(" + ((flipped ? -1 : 1) * dx * kx).toFixed(1) + "px," + (dy * ky).toFixed(1) + "px)";
@@ -756,6 +909,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var inRoom = t >= 40.31 && t < 49.26; outdoor = inRoom ? 0 : 1;
     R.room.style.opacity = inRoom ? 1 : 0; R.street.style.visibility = inRoom ? "hidden" : "visible";
     R.glows.style.opacity = inRoom ? 0 : 1;
+    R.fore.style.opacity = inRoom ? 0 : 1;
+    R.fore.style.transform = "translate3d(" + (-(cx - 800) * 0.22).toFixed(1) + "px,0,0)";
     R.spot.style.opacity = track(SPOT, t);
     R.roomRain.style.opacity = inRoom ? track(WINDOW_RAIN, t) : 0;
     rainNow = inRoom ? 0 : track(RAIN, t); windNow = track(WIND, t); snowNow = inRoom ? 0 : track(SNOW, t); leafNow = inRoom ? 0 : track(LEAF, t);
@@ -783,6 +938,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       A.umbG.style.opacity = uv;
       var Q = states(PUP_S, t), px = track(PUP_X, t);
       place(A.pup, px, 17 / 220, track(PUP_OP, t));
+      shadowAt(A.pupShadow, px + (Q.flip ? 4 : -4), track(PUP_OP, t), 0.85);
       /* walking and running are drawn from the real speed below, not from a fixed loop */
       setAttr(A.pupRoot, "data-emotion", Q.emo); setAttr(A.pupRoot, "data-act", Q.act === "run" ? null : Q.act);
       setCls(A.pupRoot, "st-rest", Q.rest);
@@ -793,7 +949,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       lookAt(A.pupLooks, (Q.look || [0, 0])[0], (Q.look || [0, 0])[1], Q.flip, 22, 16, true);
       for (var d = 0; d < 3; d++) {
         var D = states(DOG_S[d], t), dg = A.dogs[d], dx = track(DOG_X[d], t);
-        place(dg, dx, 8 / 220, t < 30.5 && !inRoom ? Math.min(1, Math.max(0, (2260 - dx) / 220)) : 0, dg.size, dg.h);
+        var dop = t < 30.5 && !inRoom ? Math.min(1, Math.max(0, (2260 - dx) / 220)) : 0;
+        place(dg, dx, 8 / 220, dop, dg.size, dg.h); shadowAt(dg.shadow, dx + 14 * (dg.size / 250), dop, dg.size / 120);
         setCls(dg.pose, "st-walk", D.walk); setCls(dg.pose, "st-loom", D.loom); setCls(dg.pose, "st-hesitate", D.hesitate); setCls(dg.pose, "st-leave", D.leave); turned(dg, D.flip); setCls(dg.flip, "is-flipped", D.flip);
       }
       var ra = Math.round(P.refl * 100) / 100;
