@@ -12,8 +12,8 @@
    breathing; only weather clothes are added on top.
 
    The progress bar is the real loading: the page's own document, images, stylesheets and fonts, the
-   weather check and the characters. Nothing is delayed to make it last; the screen fades out as soon as
-   all of it has finished (or after 10 s at most). Skip with the button or Escape.
+   weather check and the characters. It stays on screen for 10 s (SHOW_MS), the sun rising over that time but
+   never ahead of the real loading, and fades out once both are done (16 s at most). Skip with the button or Escape.
 
    It shows on the first page of a browser session (sessionStorage "sunny:loader"); add ?story to the
    address to see it again. Reduced motion shows the scene still. Loaded as the first script in <body>,
@@ -35,6 +35,9 @@
   var hold = qs.has("hold");
   if (pref("theme") === "dark") html.setAttribute("data-theme", "dark");
   var T0 = Date.now(), W = 1600, H = 900, GY = 760;
+  /* the screen stays at least SHOW_MS so the scene can be seen; the sun rises over that time, never ahead of the real loading,
+     and the site opens when both are done (MAX_MS at most, so a slow resource never holds it back). Skip always works. */
+  var SHOW_MS = 10000, MAX_MS = 16000;
 
   /* ===================================================================== styles */
   var CSS = `
@@ -837,12 +840,12 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     }
     P.dom = doc.readyState === "loading" ? 0 : 1; P.res = resFrac(); P.wx = WX.done ? 1 : 0;
     var sum = 0, tot = 0; for (var k in P) { sum += P[k] * WT[k]; tot += WT[k]; }
-    shown = Math.max(shown, sum / tot);
+    shown = Math.max(shown, Math.min(sum / tot, (Date.now() - T0) / SHOW_MS)); /* paced to SHOW_MS, capped by the real loading */
     var pct = Math.round(shown * 100);
     if (pct !== lastPct) { lastPct = pct; if (reduced) { risen = shown; rise(0); } R.pct.textContent = pct + "%"; R.bar.setAttribute("aria-valuenow", String(pct)); }
-    var all = P.dom && P.res === 1 && P.wx && P.art;
+    var all = P.dom && P.res === 1 && P.wx && P.art && Date.now() - T0 >= SHOW_MS;
     if (all && !endTimer) { R.label.textContent = hold ? "Loaded (held for checking)" : "Ready"; if (!hold) endTimer = setTimeout(function () { finish(false); }, reduced ? 200 : 650); } /* time for the sun to finish rising */
-    if (!hold && Date.now() - T0 > 10000) finish(false); /* a slow resource never holds the site back */
+    if (!hold && Date.now() - T0 > MAX_MS) finish(false); /* a slow resource never holds the site back */
   }
   var timer = setInterval(tick, 100); tick();
   function finish(skipped) {
