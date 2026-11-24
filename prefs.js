@@ -90,7 +90,7 @@
             seg("text", "Text size", [["normal", "Default", '<b class="prefs__aa" style="font-size:12px">A</b>'], ["large", "Large", '<b class="prefs__aa" style="font-size:14px">A</b>', "About an eighth bigger"], ["larger", "Larger", '<b class="prefs__aa" style="font-size:16px">A</b>', "About a quarter bigger"]]) +
             toggle("links", "Underline links", "Marks every link with an underline, so none depend on colour alone.")) +
           group("motion", "Motion and sound",
-            toggle("motion", "Reduce motion", "Stops the loading story, reveals, the companions’ acts and the replay.") +
+            toggle("motion", "Reduce motion", "Stills the loading scene, and stops reveals, the companions’ acts and the replay.") +
             seg("sound", "Companion sound", [["off", "Off"], ["soft", "Soft"], ["bubbly", "Bubbly"], ["retro", "Retro"], ["bell", "Bell"]], "Short synthesized cues when Sunny or Puppy reacts. Off until you choose.")) +
           group("keys", "Keyboard",
             toggle("shortcuts", "Single-key shortcuts", "I, G, T, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Turn off if you use a screen reader or voice control.") +
@@ -102,7 +102,7 @@
                 [["sunny", "Sunny", ART_SUN, "Answers your questions"], ["puppy", "Puppy", ART_PUP, "Plays, and still opens the chat"], ["together", "Together", ART_SUN + ART_PUP, "Puppy as Sunny’s sidekick"]].map(function (c) {
                   return '<button type="button" role="radio" aria-checked="false" tabindex="-1" data-val="' + c[0] + '"><span class="prefs__card-art" aria-hidden="true">' + c[2] + '</span><span class="prefs__card-name">' + c[1] + '</span><span class="prefs__card-note">' + c[3] + "</span></button>";
                 }).join("") + "</div></div>" +
-            '<div class="prefs__row prefs__row--btn"><a class="prefs__btn" data-act="story" href="?story">' + ICON.replay + '<span>Watch Sunny &amp; Puppy’s story again</span></a><p class="prefs__hint prefs__hint--story">The story it tells is the one for your weather right now. The city in your time zone is looked up on Open-Meteo; nothing else is sent, and the film never asks for your location.</p></div>') +
+            '<div class="prefs__row prefs__row--btn"><a class="prefs__btn" data-act="story" href="?story">' + ICON.replay + '<span>See the loading scene again</span></a><p class="prefs__hint prefs__hint--story">Sunny and Puppy play in the weather where you are right now. The city in your time zone is looked up on Open-Meteo; nothing else is sent, and it never asks for your location.</p></div>') +
         '</div>' +
         '<div class="prefs__foot"><button type="button" class="prefs__reset">Reset all</button><span class="mono">Stored in this browser</span></div>' +
       "</div>";
@@ -118,7 +118,7 @@
       panel.querySelector('[data-pref="shortcuts"]').checked = P.shortcuts();
       var sysMotion = P.systemMotion(), mot = panel.querySelector('[data-pref="motion"]');
       mot.checked = sysMotion || P.motion() === "reduce"; mot.disabled = sysMotion;
-      panel.querySelector("#ph-motion").textContent = sysMotion ? "On, because your device asks for less motion. Change it in your system settings." : "Stops the loading story, reveals, the companions’ acts and the replay.";
+      panel.querySelector("#ph-motion").textContent = sysMotion ? "On, because your device asks for less motion. Change it in your system settings." : "Stills the loading scene, and stops reveals, the companions’ acts and the replay.";
       panel.querySelector('[data-pref="sunny"]').checked = P.sunny();
       panel.querySelector('[data-pref="links"]').checked = P.links();
       checkSeg("theme", P.theme()); checkSeg("text", P.text()); checkSeg("sound", P.sound()); checkSeg("companion", P.companion());
@@ -154,7 +154,7 @@
       var a = e.target.closest && e.target.closest("[data-act]");
       if (a && a.getAttribute("aria-disabled") === "true") { e.preventDefault(); return; }
       if (a && a.getAttribute("data-act") === "keys") { setOpen(false); setTimeout(function () { doc.dispatchEvent(new KeyboardEvent("keydown", { key: "?", bubbles: true })); }, 60); return; }
-      if (a && a.getAttribute("data-act") === "story") { try { localStorage.removeItem("sunny:story"); } catch (err) { /* ignore */ } return; }
+      if (a && a.getAttribute("data-act") === "story") { try { sessionStorage.removeItem("sunny:loader"); } catch (err) { /* ignore */ } return; }
       if (e.target.closest && e.target.closest(".prefs__reset")) {
         ["keys:shortcuts", "pref:motion", "pref:sunny", "pref:text", "pref:links", "pref:companion", "sunny:sound", "sunny:voice", "theme"].forEach(function (k) { try { localStorage.removeItem(k); } catch (err) { /* ignore */ } });
         if (global.Sunny) { global.Sunny.setSound(false); if (global.Sunny.setMode) global.Sunny.setMode("sunny"); }
