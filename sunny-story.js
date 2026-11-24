@@ -76,11 +76,14 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl-scarf { display: none; } .puppy.sl-scarfed .sl-scarf { display: inline; }
 .sl-shadow { position: absolute; left: 0; top: 0; width: 100px; height: 20px; margin: -10px 0 0 -50px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 16, 30, 0.3), rgba(20, 16, 30, 0)); will-change: transform; }
 .sl-prop { position: absolute; left: 0; top: 0; overflow: visible; will-change: transform; }
-.sl.is-rim .sl-pup .puppy { filter: brightness(var(--charB, 1)) drop-shadow(0 0 1.5px rgba(220, 228, 255, 0.55)); } /* at night Puppy keeps a faint light edge */
+/* Puppy's drawing is cut into parts (head, ears, tail) so it can move on the site; at this size any movement of a part opens a seam,
+   so here the parts stay still and a whole copy sits underneath. He still hops, breathes, blinks and changes face. */
+.sl-pup .p-head, .sl-pup .p-head-art, .sl-pup .p-tail, .sl-pup .p-root, .sl-pup .p-ear--l, .sl-pup .p-ear--r { animation: none !important; transform: none !important; transition: none !important; }
 /* ---- the loading UI ---- */
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .sl-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(to top, rgba(10, 12, 24, 0.6), rgba(10, 12, 24, 0.22) 50%, rgba(10, 12, 24, 0)); }
-.sl-ui { position: absolute; left: max(24px, 5vw); bottom: max(24px, 6vh); width: min(420px, calc(100vw - 48px)); }
+.sl-ui { position: absolute; left: 50%; bottom: max(28px, 6vh); width: min(380px, calc(100vw - 40px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.sl-ui .sl-row, .sl-ui .sl-bar { align-self: stretch; }
 .sl-wx { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 10px; border-radius: 999px; background: rgba(14, 14, 24, 0.55); border: 1px solid rgba(255, 255, 255, 0.18); font-size: 13px; line-height: 1.3; letter-spacing: 0.01em; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .sl-wx svg { width: 18px; height: 18px; flex: none; }
 .sl-row { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 8px; font-size: 14px; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
@@ -99,7 +102,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl.is-light .sl-skip { color: #15161a; background: rgba(255, 255, 255, 0.85); border-color: #e6e7ea; }
 .sl.is-light .sl-skip:hover { background: #fff; }
 .sl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 640px) { .sl-ui { left: 20px; right: 20px; width: auto; bottom: max(28px, 5vh); } .sl-wx { font-size: 12.5px; } }
+@media (max-width: 640px) { .sl-ui { bottom: max(28px, 5vh); } .sl-wx { font-size: 12.5px; } }
 .sl.is-still *, .sl.is-still .sl-cam { animation: none !important; transition: none !important; }
 `;
   var style = doc.createElement("style"); style.textContent = CSS; (doc.head || html).appendChild(style);
@@ -337,7 +340,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     late:    { bg: "#0f1322", bg2: "#161b2e", tint: "#0f1322", k: 0.62, dark: true }
   };
   var DISC = { clear: "#ffd54a", cloudy: "#dfe3ea", rain: "#a9bfdc", snow: "#e6f0fb", wind: "#c7ecd9", storm: "#3a4566" };
-  var DC = [820, 520, 300]; /* the disc: centre and radius */
+  var DC = [820, 500, 296]; /* its bottom tucks behind the platform */ /* the disc: centre and radius */
   var LT = TIME.day;
   function hx(c) { return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
   function mixc(a, b, u) { var x = hx(a), y = hx(b); return "#" + x.map(function (v, i) { var o = Math.round(v + (y[i] - v) * u).toString(16); return o.length < 2 ? "0" + o : o; }).join(""); }
@@ -370,13 +373,13 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   function worldSVG(s) {
     var k = s.kind, dark = LT.dark, col = DISC[k], op = 0.42, cx = DC[0], cy = DC[1], r = DC[2], bg = "", i;
     if (k === "clear") { col = dark ? "#fff3c4" : s.light === "eve" ? "#ffb26b" : "#ffd54a"; op = dark ? 0.26 : 0.42; }
-    else if (k === "storm") { col = dark ? "#3c4878" : "#3a4566"; op = 1; }
+    else if (k === "storm") { col = dark ? "#4a5786" : "#66739a"; op = 1; }
     else if (dark) { col = mixc(col, "#5d6ba3", 0.45); op = 0.6; }
     else col = T(col);
     if (s.fog) { col = T("#e9ecf0"); op = 0.7; }
     bg += '<rect x="-700" y="-1100" width="3000" height="3100" fill="' + LT.bg + '"/>';
     if (dark && (k === "clear" || k === "snow" || k === "wind")) bg += stars(34);
-    if (dark) bg += '<ellipse cx="' + cx + '" cy="600" rx="560" ry="330" fill="url(#slw-pool)"/>'; /* a pool of light, so Puppy never melts into the dark */
+    if (dark && k !== "storm") bg += '<ellipse cx="' + cx + '" cy="600" rx="560" ry="330" fill="url(#slw-pool)"/>'; /* a pool of light, so Puppy never melts into the dark */
     bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + op + '"/>';
     if (k === "clear" && dark) bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '"' + line(2, "#fff3c4") + ' opacity="0.35"/>';
     /* what is in the disc */
@@ -387,6 +390,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     if (k === "rain") inner += '<g class="w-drift">' + cloud(560, 360, 1.6, T(dark ? "#3a4260" : "#c7d3e3"), 0) + "</g>";
     if (k === "storm") inner += '<g class="w-drift">' + cloud(560, 340, 1.8, dark ? "#2a3358" : "#2f3a58", 0) + '</g><rect class="w-flash" x="' + (cx - r) + '" y="' + (cy - r) + '" width="' + r * 2 + '" height="' + r * 2 + '" fill="#eef2ff" opacity="0"/>' +
       '<path class="w-bolt" d="M900 300 L870 380 L896 380 L862 462 L932 360 L902 360 L930 300Z" fill="#fff8d6" opacity="0"/>';
+    if (k === "storm") inner += '<ellipse cx="' + cx + '" cy="650" rx="380" ry="210" fill="url(#slw-pool)"/>'; /* lamp-light behind them, so Puppy reads against the storm */
     if (inner) bg += '<g clip-path="url(#slw-disc)">' + inner + "</g>";
     /* the platform: a low ink-outlined stage, a rug when they shelter from a storm, white with snow */
     var top = k === "storm" ? T("#ef8f7f") : k === "snow" ? (dark ? "#c9d6ee" : "#ffffff") : LT.bg2;
@@ -451,7 +455,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     built = true;
     LT = TIME[S.light] || TIME.day;
     R.world.style.setProperty("--charB", LT.dark ? "0.97" : "1");
-    tone(LT); root.classList.toggle("is-rim", LT.dark || S.kind === "storm");
+    tone(LT);
     var w = worldSVG(S), svgOpen = '<svg width="1600" height="900" viewBox="0 0 1600 900" aria-hidden="true">';
     R.cam.innerHTML = svgOpen + defs() + w.bg + '</svg><div class="sl-actors" style="position:absolute;inset:0"></div>' + svgOpen + w.fg + "</svg>";
     var actors = R.cam.querySelector(".sl-actors");
@@ -469,6 +473,8 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       A.sun = makeActor("sl-sun", SUN, '<div class="sunny is-in" data-emotion="happy"><div class="sunny__char">' + uniq(win.Sunny.art()) + "</div></div>");
       actors.appendChild(A.pup.el); actors.appendChild(A.sun.el);
       A.pupRoot = A.pup.el.querySelector(".puppy"); A.sunRoot = A.sun.el.querySelector(".sunny");
+      var fit = A.pupRoot.querySelector(".p-fit"), part = fit && fit.querySelector("use");
+      if (part) { var whole = doc.createElementNS("http://www.w3.org/2000/svg", "use"); whole.setAttribute("href", part.getAttribute("href")); fit.insertBefore(whole, fit.firstChild); } /* the whole drawing under its parts: no seam can show */
       if (S.costume === "snow") A.pupRoot.classList.add("sl-scarfed");
       dress(A.sunRoot, S.costume);
       if (S.kind === "snow") A.sunRoot.classList.add("sl-push");
