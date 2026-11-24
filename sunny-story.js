@@ -237,7 +237,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-street .c-leaf2, .sst-street .c-bloomB { animation-delay: -1.3s; }
 @keyframes sst-sway { from { transform: translateX(-0.9px); } to { transform: translateX(0.9px); } }
 .sst.is-windy .sst-street .c-leaf, .sst.is-windy .sst-street .c-leaf2, .sst.is-windy .sst-street .c-bloomA, .sst.is-windy .sst-street .c-bloomB { animation: sst-swayw 0.8s ease-in-out infinite alternate; }
-@keyframes sst-swayw { from { transform: translate(-2px, 0.4px); } to { transform: translate(-6px, 1.2px); } }
+@keyframes sst-swayw { from { transform: translate(calc(-2px * var(--wsgn, 1)), 0.4px); } to { transform: translate(calc(-6px * var(--wsgn, 1)), 1.2px); } }
 /* the porch: a striped roof over the door, a lantern, a lit pane, and the warm light they throw */
 .c-lan { fill: #ffd58a; stroke: var(--nearDark); stroke-width: 1.6; opacity: calc(0.3 + var(--porch, 0) * 0.7); }
 .c-doorwin { fill: var(--win); opacity: calc(var(--porch, 0) * 0.85); }
@@ -289,11 +289,20 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
 .sst-tree { transform-box: view-box; transform-origin: 1520px 760px; animation: sst-tree 6s ease-in-out infinite alternate; }
 @keyframes sst-tree { from { transform: rotate(-0.4deg); } to { transform: rotate(0.5deg); } }
 .sst.is-windy .sst-tree { animation: sst-treew 1.3s ease-in-out infinite alternate; }
-@keyframes sst-treew { from { transform: rotate(-1.6deg) skewX(-1deg); } to { transform: rotate(-3.4deg) skewX(-2.4deg); } }
+@keyframes sst-treew { from { transform: rotate(calc(-1.6deg * var(--wsgn, 1))) skewX(calc(-1deg * var(--wsgn, 1))); } to { transform: rotate(calc(-3.4deg * var(--wsgn, 1))) skewX(calc(-2.4deg * var(--wsgn, 1))); } }
 .sst-blades { transform-box: fill-box; transform-origin: 50% 100%; animation: sst-blade 3s ease-in-out infinite alternate; }
 @keyframes sst-blade { from { transform: skewX(-3deg); } to { transform: skewX(3deg); } }
 .sst.is-windy .sst-blades { animation: sst-bladew 0.7s ease-in-out infinite alternate; }
-@keyframes sst-bladew { from { transform: skewX(-8deg); } to { transform: skewX(-20deg); } }
+@keyframes sst-bladew { from { transform: skewX(calc(-8deg * var(--wsgn, 1))); } to { transform: skewX(calc(-20deg * var(--wsgn, 1))); } }
+.sst.is-windy .sst-cloud { animation-name: sst-driftw; }
+@keyframes sst-driftw { from { translate: calc(60px * var(--wsgn, 1)) 0; } to { translate: calc(-120px * var(--wsgn, 1)) 0; } }
+/* heat: the far town shimmers, the flowers droop */
+.sst.is-heat [data-r=far], .sst.is-heat [data-r=mid] { animation: sst-shimmer 1.7s ease-in-out infinite alternate; transform-box: view-box; }
+@keyframes sst-shimmer { from { filter: none; } to { filter: blur(0.6px); } }
+.sst-haze2 { position: absolute; left: -500px; top: 600px; width: 2600px; height: 170px; pointer-events: none; opacity: calc(var(--heat, 0) * 0.55); background: linear-gradient(to bottom, rgba(255, 236, 196, 0), rgba(255, 236, 196, 0.5) 60%, rgba(255, 236, 196, 0)); animation: sst-hazemove 2.4s ease-in-out infinite alternate; }
+@keyframes sst-hazemove { from { transform: translateY(0) scaleY(1); } to { transform: translateY(-6px) scaleY(1.12); } }
+.sst.is-heat .sst-street .c-bloomA, .sst.is-heat .sst-street .c-bloomB { translate: 0 3px; animation: none; }
+.sst.is-reduced .sst-haze2, .sst.is-reduced [data-r=far], .sst.is-reduced [data-r=mid] { animation: none !important; }
 /* fog: banks of mist at different depths, and halos round the lamps */
 .sst-fogs { position: absolute; left: -500px; top: 0; width: 2600px; height: 900px; pointer-events: none; opacity: var(--fog, 0); }
 .sst-fogs i { position: absolute; left: 0; width: 2600px; border-radius: 50%; background: radial-gradient(closest-side, rgba(var(--mistC), 0.7), rgba(var(--mistC), 0)); filter: blur(18px); animation: sst-fogdrift 30s ease-in-out infinite alternate; }
@@ -414,6 +423,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     </svg>
   </div>
   <div class="sst-fogs"><i></i><i></i><i></i></div>
+  <div class="sst-haze2"></div>
   <div class="sst-mist" data-r="mist"></div>
   <div class="sst-brush" data-r="brush"></div>
   <div class="sst-layer" data-r="glows">
@@ -569,18 +579,6 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     night: { skyT: "#07101d", skyB: "#1b2f4b", far: "#12213a", mid: "#172a44", near: "#1c3050", nearDark: "#15253d", win: "#f2c46d", winOn: 0.8, walk: "#22314a", curb: "#2c3c57", road: "#131d2c", puddle: "#4a6c98", post: "#0d1522", box: "#4a3a2c", boxD: "#3a2d22", lampOn: 1, cloud: 0.85, cloudC: "#22324c", sun: 0, birds: 0, capC: "#f5f7fb", capS: "rgba(0,0,0,0.5)", uiC: "rgba(255,255,255,0.66)", uiT: "rgba(255,255,255,0.16)", grade: "rgba(40,80,160,0.30)", dogB: 0.74, refl: 0.28, mist: 1, mistC: "150,172,210" },
     dawn: { skyT: "#f0a77e", skyB: "#ffe0b2", far: "#d8a882", mid: "#cd9a76", near: "#c38d6b", nearDark: "#b17f61", win: "#ffe7b8", winOn: 0.25, walk: "#e0bd96", curb: "#d2ab85", road: "#b78f6e", puddle: "#ffe3b4", post: "#7c5f47", box: "#b98a5c", boxD: "#a2774f", lampOn: 0.3, cloud: 0.3, cloudC: "#ffd7b5", sun: 0.55, birds: 0.8, capC: "#3a2618", capS: "rgba(255,236,200,0.6)", uiC: "rgba(58,38,24,0.7)", uiT: "rgba(58,38,24,0.18)", grade: "rgba(255,170,100,0.16)", dogB: 0.95, refl: 0.15, mist: 0.55, mistC: "255,236,214" }
   };
-  var WX = { kind: "clear", wind: false, tod: "day", src: "time", done: false };
-  var hour = new Date().getHours();
-  function todFromHour(h) { return h >= 20 || h < 5 ? "night" : (h >= 17.5 || h < 7) ? "dusk" : "day"; }
-  WX.tod = todFromHour(hour + new Date().getMinutes() / 60);
-  function kindFromCode(c) {
-    if (c >= 95) return "storm";
-    if ((c >= 71 && c <= 77) || c === 85 || c === 86) return "snow";
-    if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) return "rain";
-    if (c === 45 || c === 48) return "fog";
-    if (c === 2 || c === 3) return "cloudy";
-    return "clear";
-  }
   Object.keys(PAL).forEach(function (k) { PAL[k].stars = 0; PAL[k].moon = 0; });
   /* how the scene's light falls on the characters: brightness, saturation and a soft rim */
   var LIGHT = { night: [0.92, 0.94, "rgba(255,206,140,0.38)"], soft: [0.95, 0.96, "rgba(255,214,160,0.32)"], room: [1.02, 1.04, "rgba(255,186,120,0.42)"], dawn: [1.02, 1.03, "rgba(255,196,140,0.45)"], gold: [1.03, 1.05, "rgba(255,214,150,0.5)"] };
@@ -602,7 +600,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   PAL.snowday.rimC = "rgba(255,255,255,0.5)"; PAL.snowday.charB = 1.0;
   PAL.nightclear.rimC = "rgba(214,226,255,0.36)"; PAL.snownight.rimC = "rgba(220,230,255,0.36)";
 
-  function hex(c) { var m = /^#(..)(..)(..)$/.exec(c); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : null; }
+  function hex(c) { var m = /^#(..)(..)(..)$/.exec(c); if (m) return [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)]; m = /^rgb\(([\d.]+),([\d.]+),([\d.]+)\)$/.exec(String(c).replace(/\s/g, "")); return m ? [+m[1], +m[2], +m[3]] : null; }
   function rgba(c) { var m = /rgba\(([\d.]+),([\d.]+),([\d.]+),([\d.]+)\)/.exec(c.replace(/\s/g, "")); return m ? [+m[1], +m[2], +m[3], +m[4]] : null; }
   function trip(c) { var m = /^([\d.]+),([\d.]+),([\d.]+)$/.exec(c); return m ? [+m[1], +m[2], +m[3]] : null; }
   function mix(a, b, u) {
@@ -624,7 +622,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   PAL.fognight = palFrom("night", { skyT: "#17202e", skyB: "#334055", far: "#2c3850", mid: "#29354c", near: "#25324a", cloud: 0.3, mist: 1, mistC: "150,162,186", refl: 0.12 });
   PAL.fogday.rimC = "rgba(255,236,200,0.34)"; PAL.fogday.charB = 0.97; PAL.fogday.charS = 0.94; PAL.fognight.rimC = "rgba(255,214,150,0.4)";
   PAL.fogday.fog = 1; PAL.fognight.fog = 0.85;
-  PAL.day.rays = 0.9; PAL.duskclear.rays = 1; PAL.mild.rays = 0.35; PAL.cloudy.rays = 0.15;
+  /* heat: a bleached sky, sun-baked stone, straw-coloured grass */
+  PAL.heat = palFrom("day", { skyT: "#8fbbdc", skyB: "#f3ecda", far: "#cfc7b2", mid: "#bdb49e", near: "#aaa08a", nearDark: "#998f7a", walk: "#ecdcbc", curb: "#dccdb0", road: "#a0988b", cloud: 0.05, sun: 1, birds: 0.3, grade: "rgba(255,214,140,0.24)", mist: 0.3, mistC: "255,238,205", refl: 0.03 });
+  PAL.heat.rimC = "rgba(255,240,200,0.5)"; PAL.heat.charB = 1.03; PAL.heat.charS = 0.97;
+  PAL.day.rays = 0.9; PAL.heat.rays = 1; PAL.duskclear.rays = 1; PAL.mild.rays = 0.35; PAL.cloudy.rays = 0.15;
   PAL.stormday.porch = 1; PAL.stormnight.porch = 1; PAL.snowday.snowy = 1; PAL.snownight.snowy = 1;
   Object.keys(PAL).forEach(function (k) {
     var p = PAL[k];
@@ -714,12 +715,17 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       '<path d="M30 28H80" stroke="#9a6a36" stroke-width="3" opacity="0.6"/><path d="M4 16H106" stroke="#111" stroke-width="1.2" opacity="0.3"/><path class="c-snowtop" d="M5 9Q55 4 105 9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>',
     lantern: '<svg viewBox="0 0 30 46" width="30" height="46"><path d="M15 2q-9 0 -9 9" fill="none" stroke="#111" stroke-width="2.2"/><path d="M8 10H22L24 16H6Z" fill="#3d4350" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 16H23V36H7Z" fill="#ffe7a1" stroke="#111" stroke-width="1.8"/><path d="M15 21q-3 4 0 8q3 -4 0 -8z" fill="#ff9f43"/><path d="M5 36H25V40H5Z" fill="#3d4350" stroke="#111" stroke-width="1.8"/></svg>',
     lglow: '<svg viewBox="0 0 300 300" width="300" height="300"><defs><radialGradient id="sst-lg"><stop offset="0" stop-color="#ffd890" stop-opacity="0.75"/><stop offset="0.35" stop-color="#ffc870" stop-opacity="0.3"/><stop offset="1" stop-color="#ffc870" stop-opacity="0"/></radialGradient></defs><circle cx="150" cy="150" r="150" fill="url(#sst-lg)"/></svg>',
+    bowl: '<svg viewBox="0 0 40 20" width="40" height="20"><path d="M2 6H38L33 18H7Z" fill="#4d8dff" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><ellipse cx="20" cy="6" rx="18" ry="3.4" fill="#bfe0ff" stroke="#111" stroke-width="1.6"/><path d="M10 5.5q5 -1.4 10 0" stroke="#fff" stroke-width="1.4" fill="none" opacity="0.8"/></svg>',
+    shade: '<svg viewBox="0 0 320 30" width="320" height="30"><ellipse cx="160" cy="15" rx="160" ry="13" fill="rgba(70,48,20,0.26)"/></svg>',
+    star: '<svg viewBox="0 0 170 8" width="170" height="8"><defs><linearGradient id="sst-ss"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><rect x="0" y="3" width="164" height="2" rx="1" fill="url(#sst-ss)"/><circle cx="165" cy="4" r="3.2" fill="#fff"/></svg>',
     bird: '<svg viewBox="0 0 26 14" width="26" height="14"><path d="M1 9Q7 2 13 9Q19 2 25 9" fill="none" stroke="#3a2a20" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="13" cy="10" rx="3" ry="2.4" fill="#3a2a20"/></svg>'
   };
   /* ---- the story, built for one climate ---- */
-  function buildStory(v, night) {
+  function buildStory(v, night, mods) {
+    mods = mods || {};
     var wet = v === "rain" || v === "storm", calm = v === "storm"; /* in a storm the play stays small and sheltered */
-    var BOX = 1480, BENCH = 1330, S = wet ? BENCH : 1120;       /* S: where Puppy sits alone, and where the film ends */
+    var under = wet || !!mods.heat;                              /* in rain or heat he sits under the bench: shelter, or shade */
+    var BOX = 1480, BENCH = 1330, S = under ? BENCH : 1120;     /* S: where Puppy sits alone, and where the film ends */
     var tS = 22.6;                                               /* when he reaches it */
     var P10 = calm ? [S - 250, S - 140] : [S - 560, S - 450];     /* where Sunny and Puppy sit in scene 10 */
     var o = { S: S, v: v, wet: wet };
@@ -736,7 +742,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       [12.2, "curious", { look: [-0.2, -1] }], [12.6, { look: [1, -0.7], emo: "surprised" }], [13.0, { flip: false, look: [1, -0.2] }],
       [13.2, "run", { look: [1, 0] }], [15.4, "walk", { emo: null, look: [1, 0] }], [15.8, "paw", { look: [1, 0.1] }], [16.9, "confused", { look: [1, 0.2] }],
       [18.0, "disappointed", { look: [1, 0.15] }], [18.8, { look: [0.6, 0.6] }], [19.4, { flip: true, look: [-1, 0.5] }], [19.6, "walk", { emo: "sad", low: 1, look: [-1, 0.6] }],
-      [tS + 0.1, wet ? "lonelyLie" : "lonely", { look: [-0.3, 0.6] }], [24.2, { look: [-0.5, -0.6] }], [24.9, { look: [-0.3, 0.6] }], [25.0, { sigh: 1 }], [26.4, { sigh: 0 }], [27.2, { look: [0.3, 0.5] }],
+      [tS + 0.1, under ? "lonelyLie" : "lonely", { look: [-0.3, 0.6] }], [24.2, { look: [-0.5, -0.6] }], [24.9, { look: [-0.3, 0.6] }], [25.0, { sigh: 1 }], [26.4, { sigh: 0 }], [27.2, { look: [0.3, 0.5] }],
       [33.6, "listen", { emo: "sad", low: 0, look: [-0.4, 0.4] }], [34.4, "hesitate", { look: [-1, 0] }], [35.0, { look: [0.4, 0.5] }], [35.9, { look: [-1, 0.1] }], [37.2, "curious", { look: [-1, 0.2] }],
       [38.4, "approach", { look: [-1, 0.2] }], [39.0, "hesitate", { look: [-1, 0] }], [39.7, "approach", { look: [-1, 0.3] }], [40.3, "sniff", { look: [-1, 0.4] }], [40.8, "wag", { emo: "shy" }], [41.15, "curious", { act: null }],
       [41.25, "bow", { look: [-1, -0.2] }], [42.1, "idle", { emo: "surprised", look: [-1, -0.4] }], [42.4, "jump", { look: [-1, -0.3] }], [43.0, "wag", { look: [-1, -0.3] }],
@@ -744,7 +750,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       [53.4, "walk", { flip: false, emo: "happy", look: [1, 0] }], [54.4, { look: [1, -0.1] }], [55.0, { look: [-1, -0.8] }], [55.7, { look: [1, 0] }],
       [56.9, "rest", { flip: true, look: [-1, -0.3] }], [59.4, { emo: "sleepy" }], [60.4, "sleep"]];
     if (wet) PS.push([4.3, { wet: 1 }], [48.0, "shake", { wet: 1 }], [48.6, { wet: 0 }]);
-    if (wet) PS.push([56.9, "lonelyLie", { emo: "love", look: [-1, -0.3] }], [59.4, { emo: "sleepy" }], [60.4, "sleep", { lean: 0, rest: 0 }]);
+    if (under) PS.push([56.9, "lonelyLie", { emo: "love", look: [-1, -0.3] }], [59.4, { emo: "sleepy" }], [60.4, "sleep", { lean: 0, rest: 0 }]);
     if (v === "storm") PS = PS.filter(function (e) { return !(e[0] >= 18.0 && e[0] < 23); });
     if (v === "storm") PS.push([18.0, "disappointed", { look: [1, 0.15] }], [18.7, "scared", { look: [0.3, -0.8] }], [19.0, "run", { flip: true, emo: "scared", look: [-1, 0] }], [21.4, "scared", { look: [-1, -0.3] }], [tS + 0.1, "lonelyLie", { shiver: 1, emo: "scared" }], [26, { emo: "sad" }], [29.75, { emo: "scared", shiver: 1 }], [31.0, { emo: "sad", shiver: 0 }]);
     /* ---------- Sunny: off stage until scene 07 ---------- */
@@ -789,7 +795,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (v === "rain") { o.UV = [[0, 1], [36.25, 1], [36.3, 0], [44.4, 0], [44.45, 1]]; o.UR = [[0, -14], [44.45, -14], [45.0, 10], [53.2, 10], [53.8, -4], [56.6, -4], [57.4, 16]]; SS.push([36.0, "encourage", { hold: 1, look: [1, 0.6] }], [36.6, "idle", { hold: 0, emo: "relaxed", look: [1, 0.3] }], [44.45, { hold: 1 }]); }
     if (v === "storm") o.UR = [[0, -12], [35.8, -12], [36.6, 30], [53.2, 30], [53.8, -6], [55.2, -6], [55.9, 26]];
     /* ---------- the three pups and their ball (they never mean any harm) ---------- */
-    var far = wet ? 150 : 300;
+    var far = under ? 150 : 300;
     var b = arcs([[3.9, -160, GY - 12, 5.1, 900, GY - 10, 40], [5.1, 900, GY - 10, 5.9, 1135, GY - 12, 90], [5.9, 1135, GY - 12, 6.6, 1030, GY - 10, 60], [6.6, 1030, GY - 10, 7.5, 880, GY - 10, 80], [7.5, 880, GY - 10, 8.4, 1140, GY - 12, 110],
       [8.4, 1140, GY - 12, 9.1, 1010, GY - 10, 50], [9.1, 1010, GY - 10, 10.0, 900, GY - 10, 70], [10.0, 900, GY - 10, 11.0, 1140, GY - 12, 100], [11.0, 1140, GY - 12, 12.2, 1135, GY - 12, 8],
       [12.2, 1135, GY - 12, 12.95, 1500, GY - 12, 150], [12.95, 1500, GY - 12, 13.35, 1640, GY - 12, 46], [13.35, 1640, GY - 12, 13.7, 1760, GY - 12, 22], [13.7, 1760, GY - 12, 14.4, 2050, GY - 12, 10],
@@ -806,13 +812,22 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     /* ---------- the offering, and the game it turns into ---------- */
     var hand = sHand(S - 330, false), nose = pNose(S - 140, true);
     o.SPARKS = []; o.FX = []; o.FLIES = [[0, 0]]; o.LEAF = [[0, 0]];
+    function heatBowl() {
+      var at = function (t, c) { if (t < 36.0) { var h = sHand(c.sx, c.sf); return [h[0], h[1] + 22 + c.sy]; } return [S - 200, GY - 10]; };
+      o.props.push({ svg: PROP.shade, w: 320, h: 30, cls: "sst-shade", z: 1, X: [[0, BENCH + 30]], Y: [[0, GY + 2]], OP: [[0, 1]] },
+        { svg: PROP.bowl, w: 40, h: 20, cls: "sst-bowl", z: 5, at: at, OP: [[0, 0], [27.8, 0], [28.0, 1]] });
+      SS.push([36.0, "encourage", { look: [1, 0.6] }], [36.6, "wait", { look: [0.2, -0.6] }]);
+      o.SPARKS.push([36.1, S - 200, GY - 40]);
+    }
     if (v === "clear") {
+      if (mods.heat) heatBowl(); else {
       var bf = night ? { svg: PROP.glow, w: 16, h: 16, cls: "sst-glowdot", wob: [7, 6, 2.6] } : { svg: PROP.butterfly, w: 36, h: 30, cls: "sst-bf", wob: [9, 7, 5.2] };
       bf.X = [[0, S - 520], [34.4, S - 520], [36.2, S - 360], [37.0, hand[0]], [40.0, hand[0]], [40.5, nose[0] - 4], [41.1, nose[0] - 4], [42.0, S - 220], [44.3, S + 70], [45.6, S - 20], [47.3, P10[1] - 60], [48.4, P10[1] - 30], [50.0, P10[1] + 200]];
       bf.Y = [[0, GY - 260], [34.4, GY - 260], [36.2, GY - 170], [37.0, hand[1] - 12], [40.0, hand[1] - 12], [40.5, nose[1] - 10], [41.1, nose[1] - 10], [42.0, GY - 150], [44.3, GY - 120], [45.6, GY - 170], [47.3, GY - 130], [48.4, GY - 190], [50.0, GY - 320]];
       bf.OP = [[0, 0], [34.2, 0], [34.6, 1], [49.2, 1], [50.0, 0]]; bf.WOB = [[0, 1], [36.8, 1], [37.0, 0], [40.0, 0], [40.1, 1], [40.4, 1], [40.5, 0], [41.1, 0], [41.2, 1]];
       o.props.push(bf);
       o.SPARKS.push([37.05, hand[0], hand[1] - 30], [40.55, nose[0], nose[1] - 26]);
+      }
       if (!night) { /* two butterflies, always together, while he sits alone */
         [[0, PROP.butterfly2], [26, PROP.butterfly]].forEach(function (pair, i) {
           o.props.push({ svg: pair[1], w: 30, h: 25, cls: "sst-bf", wob: [10, 8, 4.6 + i], X: [[0, 1620 + i * 30], [5, 1500 + i * 30], [9, 1320 + i * 30], [22.6, S - 900 + i * 34], [27.6, S + 380 + i * 34, "lin"]], Y: [[0, GY - 150 - i * 20], [9, GY - 200 - i * 20], [22.6, GY - 230 - i * 18], [27.6, GY - 260 - i * 18]],
@@ -823,7 +838,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (v === "wind") {
       o.LEAF = [[0, 1], [11.9, 1], [12.2, 2.4], [13.4, 1], [22, 1], [23, 1.6], [28, 1.2], [35.4, 1], [35.6, 2.2], [36.4, 1]];
       o.props.push({ svg: PROP.leaf, w: 32, h: 20, cls: "sst-leaf", wob: [8, 9, 4.1], spin: 260, push: [38.6, 40.6, 40],
-        X: [[0, S + 360], [35.6, S + 360], [36.6, hand[0]], [37.4, hand[0]], [38.6, S - 60], [40.6, S - 60], [41.2, S - 200], [43.6, S - 150], [44.3, S + 90], [45.6, S + 20], [47.2, P10[1] - 80], [47.6, pHead(P10[1], true)[0]]],
+        X: [[0, mods.windRight ? S - 760 : S + 360], [35.6, mods.windRight ? S - 760 : S + 360], [36.6, hand[0]], [37.4, hand[0]], [38.6, S - 60], [40.6, S - 60], [41.2, S - 200], [43.6, S - 150], [44.3, S + 90], [45.6, S + 20], [47.2, P10[1] - 80], [47.6, pHead(P10[1], true)[0]]],
         Y: [[0, GY - 230], [35.6, GY - 230], [36.6, hand[1] - 6], [37.4, hand[1] - 6], [38.6, GY - 8], [40.6, GY - 8], [41.2, GY - 160], [43.6, GY - 120], [44.3, GY - 60], [45.6, GY - 150], [47.2, GY - 130], [47.6, pHead(P10[1], true)[1] - 6]],
         OP: [[0, 0], [35.5, 0], [35.7, 1]], WOB: [[0, 1], [36.5, 1], [36.6, 0], [37.4, 0], [37.5, 1], [38.5, 1], [38.6, 0], [40.6, 0], [40.7, 1], [47.5, 1], [47.6, 0]] });
       o.SPARKS.push([36.65, hand[0], hand[1] - 26], [47.7, pHead(P10[1], true)[0], pHead(P10[1], true)[1] - 20]);
@@ -858,6 +873,11 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       /* two birds settle back on the wire together, at the end */
       [0, 1].forEach(function (i) { o.props.push({ svg: PROP.bird, w: 26, h: 14, cls: "sst-pbird", sky: 1, X: [[0, S - 700 - i * 40], [57.6, S - 700 - i * 40], [59.0 + i * 0.2, S - 40 + i * 24, "out"]], Y: [[0, 380], [57.6, 380 - i * 20], [59.0 + i * 0.2, 500 + i * 2, "out"]], OP: [[0, 0], [57.6, 0], [57.8, 1]], WOB: [[0, 1], [59.0 + i * 0.2, 1], [59.05 + i * 0.2, 0]] }); });
     }
+    if (mods.cold || v === "snow") PS.push([0, { scarf: "w" }]);
+    if (mods.stars) { /* a clear night: they look up together before they fall asleep */
+      o.props.push({ svg: PROP.star, w: 170, h: 8, cls: "sst-shoot", sky: 1, rot: 15, X: [[0, S - 760], [58.2, S - 760], [59.0, S - 330, "out"]], Y: [[0, 300], [58.2, 300], [59.0, 412, "out"]], OP: [[0, 0], [58.15, 0], [58.3, 1], [58.8, 1], [59.05, 0]] });
+      SS.push([58.0, { look: [0.2, -1] }], [59.5, { look: [1, 0.4] }]); PS.push([58.1, { look: [-0.3, -1] }], [59.3, { look: [-1, -0.3] }]);
+    }
     /* ---------- the camera: wide and still for loneliness, closer as they connect ---------- */
     var c10 = (P10[0] + P10[1]) / 2;
     o.CAM = [[0, BOX, 700, 2.4], [3.4, BOX - 10, 696, 2.35], [4.4, BOX - 60, 680, 1.9], [6.4, 1250, 650, 1.35], [9.0, 1240, 650, 1.35],
@@ -877,14 +897,16 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (v === "snow") o.CUES.push([42.8, "puff"], [45.8, "puff"]);
     if (v === "wind") o.CUES.push([12.2, "gust"], [35.6, "gust"]);
     o.amb = v === "clear" ? (night ? "crickets" : "birds") : null;
-    o.WINDT = v === "wind" ? [[0, 0.85], [12.0, 0.85], [12.2, 1.2], [13.4, 0.85], [35.4, 0.85], [35.6, 1.2], [36.6, 0.85]] : [[0, v === "storm" ? 0.95 : v === "snow" ? 0.14 : 0.2]];
+    o.WINDT = v === "wind" ? [[0, 0], [12.0, 0], [12.2, 0.35], [13.4, 0], [35.4, 0], [35.6, 0.35], [36.6, 0]] : [[0, 0]]; /* gusts the story needs, on top of the real wind */
+    if (mods.heat) o.CUES.push([23.4, "pant"], [27.0, "pant"], [40.4, "sniff"], [46.9, "pant"]);
+    if (mods.stars) o.CUES.push([58.3, "ting"]);
     function ord(k) { return k.slice().sort(function (a, b) { return a[0] - b[0]; }); }
     SX = ord(SX); PX = ord(PX); PY = ord(PY); SY = ord(SY);
     o.SX = SX; o.SY = SY; o.SS = resolve(SS, SUN_STATES, SUN_RESET); o.PX = PX; o.PY = PY; o.PS = resolve(PS, PUP_STATES, PUP_RESET);
     o.FLASH = o.FLASH || [[0, 0]]; o.SHELTERS = (o.SHELTERS || []).concat([[214, 470, 600], [1250, 1412, 662], [1390, 1660, 590]]);
     o.KEY = [2.5, 7.4, 10.4, 16.4, v === "storm" ? 18.8 : 19.0, 25.5, 31.8, 40.6, calm ? 43.0 : 44.8, 51.2, 55.0, 61.0];
     o.label = { clear: night ? "on a quiet night in the park" : "on a bright day in the park", rain: "in the rain", storm: "in a thunderstorm", wind: "on a windy day", fog: "in the fog", snow: "in the snow" }[v];
-    o.offer = { clear: night ? "a firefly settles on Sunny’s hand" : "a butterfly settles on Sunny’s hand", rain: "Sunny sets his umbrella down beside Puppy and stands in the rain", storm: "Sunny crouches beside him and holds his umbrella over them both", wind: "Sunny catches a leaf and lets it drift to Puppy", fog: "Sunny sets his lantern down between them", snow: "Sunny rolls a snowball to Puppy’s paws" }[v];
+    o.offer = { clear: mods.heat ? "Sunny sets down a bowl of water for him in the shade" : night ? "a firefly settles on Sunny’s hand" : "a butterfly settles on Sunny’s hand", rain: "Sunny sets his umbrella down beside Puppy and stands in the rain", storm: "Sunny crouches beside him and holds his umbrella over them both", wind: "Sunny catches a leaf and lets it drift to Puppy", fog: "Sunny sets his lantern down between them", snow: "Sunny rolls a snowball to Puppy’s paws" }[v];
     return o;
   }
   function mixPal(a, b, u, ui) {
@@ -892,85 +914,268 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     ["capC", "capS", "uiC", "uiT"].forEach(function (k) { o[k] = ui[k]; });
     return o;
   }
-  /* weather picks the climate, time of day picks the light; both are settled here, once */
-  function pickScene() {
-    var k = WX.kind, tod = WX.tod, known = WX.src !== "time", night = tod === "night";
-    var v = !known ? "clear" : k === "storm" ? "storm" : k === "snow" ? "snow" : k === "rain" ? "rain" : k === "fog" ? "fog" : WX.wind ? "wind" : "clear";
-    var light, darkP;
-    if (v === "storm") { light = "stormday"; darkP = "stormnight"; }
-    else if (v === "snow") { light = "snowday"; darkP = "snownight"; }
-    else if (v === "rain") { light = "overcast"; darkP = "night"; }
-    else if (v === "fog") { light = "fogday"; darkP = "fognight"; }
-    else if (!known) { light = "mild"; darkP = "nightcloud"; }
-    else if (k === "cloudy") { light = "cloudy"; darkP = "nightcloud"; }
-    else { light = "day"; darkP = "nightclear"; }
-    var P = night ? PAL[darkP] : tod === "dusk" ? (light === "day" ? PAL.duskclear : mixPal(PAL[light], PAL[darkP], 0.5, PAL[darkP])) : PAL[light];
-    COSTUME = v === "clear" ? (night ? "night" : "clear") : v === "fog" ? "night" : v;
-    var word = night ? "night" : tod === "dusk" ? (hour < 12 ? "morning" : "evening") : (hour >= 5 && hour < 12 ? "morning" : "afternoon");
-    var said = { storm: "There’s a storm near you", snow: "It’s snowing near you", rain: "It’s raining near you", wind: "It’s windy near you", fog: "It’s foggy near you", clear: k === "cloudy" ? (night ? "It’s a cloudy night near you" : "It’s cloudy near you") : (night ? "It’s a clear night near you" : "It’s clear near you") }[v];
-    var dress = { storm: "his storm jacket", snow: "his winter coat", rain: "his raincoat", wind: "his windbreaker", fog: "his hoodie", clear: night ? "his hoodie" : "his cap" }[v];
-    var windy = v === "storm" ? 0.95 : v === "wind" ? 0.85 : v === "snow" ? 0.14 : 0.2;
-    SCENE = { name: v, P: P, known: known, night: night, rain: v === "storm" ? 1.5 : v === "rain" ? 1 : 0, snow: v === "snow" ? 1 : 0, wind: windy,
-      note: known ? said + ", so Sunny wore " + dress + "." : "A little walk, in your " + word + "…",
-      sun: tod === "dusk" ? [1180, 470] : [1150, 330], moon: [1040, 385] };
-    ST = buildStory(v, night); KEY_T = ST.KEY;
-    CAMX = ST.CAM.map(function (c) { return [c[0], c[1]]; }); CAMY = ST.CAM.map(function (c) { return [c[0], c[2]]; }); CAMZ = ST.CAM.map(function (c) { return [c[0], c[3]]; });
+  /* ===================================================================== the real weather and the local time
+     Weather → climate → world → behaviour, decided here from real readings only, by one fixed table (climateOf).
+     Where: the browser's own location when the visitor has already allowed it for this site (the film never asks).
+     If that is denied, not yet asked, unavailable or slower than 1.5 s, the city of the device's time zone (looked up
+     once a day); if there is no place at all, the film is lit by the device clock and claims no weather.
+     What: one Open-Meteo request (free, no key): condition, temperature and feels-like, cloud cover, precipitation
+     (rain, showers, snow), wind speed, gusts and direction, and today's sunrise and sunset in the place's own time
+     zone. A field the service does not send is left out, and its effect with it. Coordinates are rounded to about
+     1 km and kept only in this browser.
+     Freshness: Open-Meteo updates every 15 minutes. A reading younger than that is used as it is; an older one (up to
+     3 hours) is used at once, so nothing waits, while a fresh one is fetched; anything older is thrown away. While the
+     film plays the light follows the place's clock, and a fresh reading eases in over six seconds, but only where it
+     cannot contradict the story already on screen (rain does not start in a dry story, snow does not melt halfway
+     through a snowball fight); anything bigger is kept for the next visit. Scenes and feelings never change.
+     For checking: &weather=clear|partly|cloudy|drizzle|rain|heavy|storm|hail|snow|blizzard|fog|wind|heat|cold|offline,
+     &time=sunrise|morning|midday|afternoon|sunset|evening|night|latenight, &wind=DEGREES, &lat=..&lon=.. (the real
+     weather there), &loc=denied|unavailable|timeout|prompt, &api=fail, &stale=1, &refresh=SECONDS[:weather], and
+     SunnyStory.weather() in the console. */
+  var WX = { done: false, src: "time", loc: "none", rec: null, err: null, fetchedAt: 0, pending: null, last: null };
+  var hour = new Date().getHours();
+  var FRESH = 15 * 60000, STALE_MAX = 3 * 3600000;
+  var UNIT_F = /^en-(US|LR)\b|^my\b/i.test(navigator.language || "");
+  var PHASES = ["sunrise", "morning", "midday", "afternoon", "sunset", "evening", "night", "latenight"];
+  function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
+  function mins(s) { var m = /T(\d\d):(\d\d)/.exec(s || ""); return m ? +m[1] * 60 + +m[2] : null; }
+  /* one reading, as the service sent it */
+  function readRec(j, src) {
+    var c = j && j.current; if (!c || c.weather_code == null) throw new Error("no current weather");
+    var d = j.daily || {}, off = num(j.utc_offset_seconds);
+    if (off != null && c.time) { var obs = Date.parse(c.time + "Z") - off * 1000; if (isFinite(obs) && Date.now() - obs > STALE_MAX) throw new Error("stale reading"); }
+    return { code: c.weather_code, temp: num(c.temperature_2m), feels: num(c.apparent_temperature), cloud: num(c.cloud_cover), precip: num(c.precipitation), rain: num(c.rain), showers: num(c.showers), snow: num(c.snowfall),
+      wind: num(c.wind_speed_10m), gust: num(c.wind_gusts_10m), dir: num(c.wind_direction_10m), isDay: c.is_day, offset: off, tz: j.timezone || "",
+      sunrise: mins(d.sunrise && d.sunrise[0]), sunset: mins(d.sunset && d.sunset[0]), src: src };
   }
-  /* dress the set once: the palette, the sun or moon, the note at the bottom, the words for screen readers */
-  function applyScene() {
-    var P = SCENE.P;
+  /* test readings for ?weather=, shaped like the service's */
+  function synth(name) {
+    var b = { code: 0, temp: 18, feels: 18, cloud: 8, precip: 0, rain: 0, showers: 0, snow: 0, wind: 8, gust: 14, dir: qs.has("wind") && isFinite(parseFloat(qs.get("wind"))) ? parseFloat(qs.get("wind")) : 80, isDay: 1, offset: null, sunrise: null, sunset: null, src: "override" };
+    var o = { clear: {}, partly: { code: 2, cloud: 55 }, cloudy: { code: 3, cloud: 95 }, overcast: { code: 3, cloud: 100 }, drizzle: { code: 53, cloud: 100, precip: 0.1, rain: 0.1 }, rain: { code: 63, cloud: 100, precip: 0.6, rain: 0.6 },
+      heavy: { code: 65, cloud: 100, precip: 2.4, rain: 2.4 }, storm: { code: 95, cloud: 100, precip: 1.4, wind: 36, gust: 64 }, hail: { code: 96, cloud: 100, precip: 1.6, wind: 34, gust: 60 }, snow: { code: 73, cloud: 100, temp: -2, feels: -6, snow: 0.4 },
+      blizzard: { code: 75, cloud: 100, temp: -7, feels: -15, snow: 0.9, wind: 46, gust: 72 }, fog: { code: 45, cloud: 100, temp: 9, feels: 8 }, wind: { code: 1, cloud: 30, wind: 42, gust: 63 }, heat: { code: 0, cloud: 4, temp: 41, feels: 45 }, cold: { code: 1, cloud: 20, temp: -3, feels: -8 } }[name];
+    if (!o) return null;
+    for (var k in o) b[k] = o[k];
+    return b;
+  }
+  /* the time at the place itself (its own time zone when the service gave it), in minutes since midnight */
+  function localMinutes(rec) {
+    var now = new Date();
+    if (rec && rec.offset != null) { var u = new Date(now.getTime() + rec.offset * 1000); return u.getUTCHours() * 60 + u.getUTCMinutes() + u.getUTCSeconds() / 60; }
+    return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+  }
+  function phaseOf(m, sr, ss) {
+    if (sr == null || ss == null || ss - sr < 120) { sr = 390; ss = 1110; } /* no sun times (offline, or polar day and night): a usual day */
+    var noon = (sr + ss) / 2;
+    if (m < sr - 30) return "latenight";
+    if (m < sr + 45) return "sunrise";
+    if (m < noon - 90) return "morning";
+    if (m < noon + 90) return "midday";
+    if (m < ss - 60) return "afternoon";
+    if (m < ss + 20) return "sunset";
+    if (m < ss + 90) return "evening";
+    return "night";
+  }
+  function phaseNow() {
+    var ot = qs.get("time");
+    if (ot) return { day: "midday", dusk: "sunset", night: "night" }[ot] || (PHASES.indexOf(ot) >= 0 ? ot : "midday");
+    var r = WX.rec; return phaseOf(localMinutes(r), r && r.sunrise, r && r.sunset);
+  }
+  /* ---- the table: a reading and a phase become one climate ---- */
+  function climateOf(rec, phase) {
+    var cl = { known: !!rec, phase: phase, dark: phase === "evening" || phase === "night" || phase === "latenight", kind: "clear", sub: "fair", rain: 0, snow: 0, wind: 0.2, wx: -0.35, cloud: 0.4, temp: null, feels: null, heat: false, cold: false };
+    if (!rec) { cl.sub = "unknown"; return cl; }
+    var c = rec.code, sp = rec.wind || 0, gu = rec.gust || 0, rate = rec.precip != null ? rec.precip * 4 : null; /* mm in the last 15 minutes, as mm per hour */
+    cl.temp = rec.temp; cl.feels = rec.feels != null ? rec.feels : rec.temp;
+    cl.cloud = rec.cloud != null ? rec.cloud / 100 : c >= 3 ? 1 : c === 2 ? 0.55 : c === 1 ? 0.25 : 0.05;
+    cl.wind = Math.max(0.12, Math.min(1, Math.max(sp, gu * 0.6) / 45));
+    if (rec.dir != null) cl.wx = -Math.sin(rec.dir * Math.PI / 180); /* where it blows to, east being to the right */
+    function byRate(r) { return r < 0.5 ? 0.45 : r < 2.5 ? 0.8 : r < 7.6 ? 1.1 : 1.5; }
+    if (c >= 95) { cl.kind = "storm"; cl.sub = c >= 96 ? "hail" : "thunder"; cl.rain = 1.5; }
+    else if ((c >= 71 && c <= 77) || c === 85 || c === 86) { cl.kind = "snow"; cl.snow = { 71: 0.6, 73: 1, 75: 1.4, 77: 0.5, 85: 0.7, 86: 1.3 }[c] || 1; cl.sub = sp >= 40 || gu >= 60 ? "blizzard" : "snow"; if (cl.sub === "blizzard") cl.snow = Math.min(1.6, cl.snow + 0.3); }
+    else if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) {
+      var base = c <= 57 ? (c >= 55 ? 0.6 : 0.45) : { 61: 0.75, 63: 1, 65: 1.45, 66: 0.75, 67: 1.45, 80: 0.75, 81: 1, 82: 1.5 }[c] || 1;
+      cl.kind = "rain"; cl.rain = rate ? (base + byRate(rate)) / 2 : base; cl.sub = c <= 57 ? "drizzle" : cl.rain >= 1.3 ? "heavy" : "rain";
+    } else if (c === 45 || c === 48) { cl.kind = "fog"; cl.sub = "fog"; }
+    else if (sp >= 30 || gu >= 50) { cl.kind = "wind"; cl.sub = "wind"; }
+    if (cl.kind === "clear") cl.sub = c === 3 || cl.cloud >= 0.85 ? "overcast" : c === 2 || cl.cloud >= 0.3 ? "partly" : "fair";
+    if ((cl.kind === "clear" || cl.kind === "wind") && cl.feels != null && cl.feels >= 38 && !cl.dark) cl.heat = true; /* heat: shade, water, slow paws */
+    if ((cl.kind === "clear" || cl.kind === "wind" || cl.kind === "fog") && cl.temp != null && cl.temp <= 3) cl.cold = true; /* cold and dry: winter clothes */
+    return cl;
+  }
+  /* ---- the world for a climate: light, sky, sun, rain, snow, wind ---- */
+  var SUNPOS = { sunrise: [330, 420], morning: [520, 300], midday: [820, 150], afternoon: [1150, 300], sunset: [1220, 430], evening: [1220, 720], night: [1220, 900], latenight: [1220, 900] };
+  function lightFor(cl, v) {
+    var light, dark, warm = false;
+    if (v === "storm") { light = "stormday"; dark = "stormnight"; }
+    else if (v === "snow") { light = "snowday"; dark = "snownight"; }
+    else if (v === "rain") { light = "overcast"; dark = "night"; }
+    else if (v === "fog") { light = "fogday"; dark = "fognight"; }
+    else if (!cl.known) { light = "mild"; dark = "nightcloud"; }
+    else if (cl.sub === "overcast") { light = "cloudy"; dark = "nightcloud"; }
+    else { light = cl.heat ? "heat" : "day"; dark = cl.cloud > 0.6 ? "nightcloud" : "nightclear"; warm = true; }
+    var ph = cl.phase, sunsetP = warm ? PAL.duskclear : mixPal(PAL[light], PAL[dark], 0.5, PAL[dark]), P;
+    if (ph === "night") P = PAL[dark];
+    else if (ph === "latenight") P = mixPal(PAL[dark], palFrom(dark, { winOn: PAL[dark].winOn * 0.35 }), 1, PAL[dark]); /* most windows dark */
+    else if (ph === "evening") P = mixPal(sunsetP, PAL[dark], 0.7, PAL[dark]);
+    else if (ph === "sunset") P = sunsetP;
+    else if (ph === "sunrise") { P = warm ? mixPal(PAL.dawn, PAL[light], 0.55, PAL[light]) : mixPal(PAL[light], PAL[dark], 0.35, PAL[light]); P.mist = Math.min(P.mist, 0.3); }
+    else P = PAL[light];
+    P = mixPal(P, P, 0, P); /* a copy */
+    if (cl.known && (v === "clear" || v === "wind")) { /* the real cloud cover: more cloud, less sun, fewer stars */
+      var cc = cl.cloud;
+      P.cloud = Math.max(P.cloud, 0.12 + 0.8 * cc); P.sun = P.sun * (1 - 0.75 * cc); P.rays = P.rays * (1 - cc); P.stars = P.stars * (1 - cc); P.moon = P.moon * (1 - 0.6 * cc);
+    }
+    return P;
+  }
+  function envFrom(cl, v) {
+    return { P: lightFor(cl, v), sun: SUNPOS[cl.phase] || SUNPOS.midday, heat: cl.heat ? 1 : 0, wx: cl.wx,
+      rain: v === "storm" ? Math.max(1.2, cl.rain) : v === "rain" ? Math.max(0.4, cl.rain) : 0,
+      snow: v === "snow" ? Math.max(0.45, cl.snow) : 0,
+      wind: v === "storm" ? Math.max(0.8, cl.wind) : v === "wind" ? Math.max(0.75, cl.wind) : cl.wind };
+  }
+  function costumeFor(cl, v) { return v === "fog" ? (cl.cold ? "snow" : "night") : v === "clear" || v === "wind" ? (cl.cold ? "snow" : v === "wind" ? "wind" : cl.dark ? "night" : "clear") : v; }
+  var DRESS = { rain: "his raincoat", storm: "his storm jacket", snow: "his winter coat", wind: "his windbreaker", night: "his hoodie", clear: "his cap" };
+  function noteFor(cl, v) {
+    if (!cl.known) return "A little walk, in your " + { sunrise: "morning", morning: "morning", midday: "afternoon", afternoon: "afternoon", sunset: "evening", evening: "evening", night: "night", latenight: "night" }[cl.phase] + "…";
+    var said = { storm: cl.sub === "hail" ? "There’s a hailstorm near you" : "There’s a storm near you", snow: cl.sub === "blizzard" ? "There’s a blizzard near you" : "It’s snowing near you",
+      rain: cl.sub === "drizzle" ? "It’s drizzling near you" : cl.sub === "heavy" ? "It’s pouring near you" : "It’s raining near you", fog: "It’s foggy near you", wind: "It’s windy near you",
+      clear: cl.heat ? "It’s hot near you" : cl.cold ? "It’s cold near you" : cl.sub === "overcast" ? (cl.dark ? "It’s a cloudy night near you" : "It’s cloudy near you") : cl.sub === "partly" ? (cl.dark ? "It’s a partly cloudy night near you" : "It’s partly cloudy near you") : cl.dark ? "It’s a clear night near you" : "It’s clear near you" }[v === cl.kind ? v : cl.kind];
+    var deg = cl.temp == null ? "" : ", " + Math.round(UNIT_F ? cl.temp * 9 / 5 + 32 : cl.temp) + (UNIT_F ? "°F" : "°C");
+    return said + deg + (costumeFor(cl, v) === COSTUME ? ", so Sunny wore " + DRESS[COSTUME] : "") + ".";
+  }
+  /* ---- the environment while the film plays: what is on screen now, and where it is easing to ---- */
+  var ENV = { cur: null, from: null, to: null, t0: 0, dur: 6 };
+  function applyEnv(e) {
+    var P = e.P;
     for (var k in P) setVar(k, P[k]);
     R.grade.style.background = P.grade; R.vig.style.opacity = P.vig; R.mist.style.opacity = P.mist;
-    R.sun.style.left = SCENE.sun[0] + "px"; R.sun.style.top = SCENE.sun[1] + "px";
+    R.sun.style.left = e.sun[0].toFixed(0) + "px"; R.sun.style.top = e.sun[1].toFixed(0) + "px";
+    setVar("wsgn", e.wx > 0.1 ? -1 : 1); setVar("heat", e.heat.toFixed(2));
+    story.classList.toggle("is-windy", e.wind > 0.6); story.classList.toggle("is-heat", e.heat > 0.5);
+  }
+  function envTo(e) { ENV.from = ENV.cur; ENV.to = e; ENV.t0 = clock; ENV.dur = reduced ? 0.01 : 6; }
+  function envTick() {
+    if (!ENV.to) return;
+    var u = Math.min(1, (clock - ENV.t0) / ENV.dur), k = u * u * (3 - 2 * u), a = ENV.from, b = ENV.to, e = { P: {} };
+    for (var p in b.P) e.P[p] = mix(a.P[p], b.P[p], k);
+    ["rain", "snow", "wind", "wx", "heat"].forEach(function (q) { e[q] = a[q] + (b[q] - a[q]) * k; });
+    e.sun = [a.sun[0] + (b.sun[0] - a.sun[0]) * k, a.sun[1] + (b.sun[1] - a.sun[1]) * k];
+    ENV.cur = e; applyEnv(e);
+    if (u >= 1) { ENV.cur = b; ENV.to = null; }
+  }
+  /* a fresh reading during the film: only what fits the story already on screen */
+  function fits(v, k) { return k === v || (v === "clear" && k === "wind") || (v === "wind" && k === "clear"); }
+  function liveUpdate(rec, why) {
+    WX.rec = rec; WX.fetchedAt = Date.now(); WX.src = rec.src || WX.src;
+    if (!started || !SCENE) return; /* not on screen yet: the scene will be built from it */
+    var cl = climateOf(rec, phaseNow());
+    WX.last = { why: why, at: +tau.toFixed(2), kind: cl.kind, sub: cl.sub, applied: false };
+    if (!SCENE.known ? cl.kind !== "clear" : !fits(SCENE.name, cl.kind)) { WX.pending = cl; return; } /* kept for the next visit */
+    SCENE.cl = cl; SCENE.known = true; WX.last.applied = true; WX.pending = null;
+    envTo(envFrom(cl, SCENE.name)); R.line.textContent = noteFor(cl, SCENE.name);
+  }
+  /* the place's clock moves on: sunset can come during the film, gently */
+  function phaseTick() {
+    if (!SCENE) return;
+    var ph = phaseNow(); if (ph === SCENE.cl.phase) return;
+    var cl = {}; for (var k in SCENE.cl) cl[k] = SCENE.cl[k];
+    cl.phase = ph; cl.dark = ph === "evening" || ph === "night" || ph === "latenight"; if (cl.dark) cl.heat = false;
+    SCENE.cl = cl; envTo(envFrom(cl, SCENE.name));
+  }
+  /* weather picks the climate, the place's time picks the light; both are settled here, once, before anything shows */
+  function pickScene() {
+    var cl = climateOf(WX.rec, phaseNow()), v = cl.kind;
+    COSTUME = costumeFor(cl, v);
+    var env = envFrom(cl, v);
+    SCENE = { name: v, cl: cl, P: env.P, known: cl.known, night: cl.dark, note: noteFor(cl, v), moon: [1040, 385] };
+    ENV.cur = env; ENV.from = ENV.to = null;
+    ST = buildStory(v, cl.dark, { heat: cl.heat, cold: cl.cold, windRight: cl.wx > 0.1, stars: cl.dark && cl.cloud < 0.6 && (v === "clear" || v === "wind") });
+    KEY_T = ST.KEY;
+    CAMX = ST.CAM.map(function (c) { return [c[0], c[1]]; }); CAMY = ST.CAM.map(function (c) { return [c[0], c[2]]; }); CAMZ = ST.CAM.map(function (c) { return [c[0], c[3]]; });
+  }
+  /* dress the set once: the world, the note at the bottom, the words for screen readers */
+  function applyScene() {
+    var cl = SCENE.cl;
+    applyEnv(ENV.cur);
     R.moon.style.left = SCENE.moon[0] + "px"; R.moon.style.top = SCENE.moon[1] + "px";
-    R.line.textContent = SCENE.note; R.sub.textContent = "Nobody should be left out in the " + (SCENE.night ? "dark." : SCENE.name === "clear" ? "sun." : SCENE.name + ".");
-    if (SCENE.name === "clear" && !SCENE.night) R.sub.textContent = "Nobody should have to play alone.";
-    story.classList.toggle("is-windy", SCENE.wind > 0.6);
+    R.line.textContent = SCENE.note;
+    R.sub.textContent = SCENE.name === "clear" && !SCENE.night ? "Nobody should have to play alone." : "Nobody should be left out in the " + (SCENE.night ? "dark." : SCENE.name === "clear" ? "sun." : SCENE.name + ".");
     story.classList.toggle("is-fog", SCENE.name === "fog");
-    var where = !SCENE.known ? "in the park" : SCENE.name === "clear" && WX.kind === "cloudy" ? (SCENE.night ? "on a cloudy night in the park" : "on a grey day in the park") : ST.label; /* never claims weather it does not know */
+    var where = !cl.known ? "in the park" : SCENE.name !== "clear" ? ST.label : cl.heat ? "on a hot day in the park" : cl.dark ? (cl.cloud > 0.6 ? "on a cloudy night in the park" : "on a quiet night in the park") : cl.sub === "overcast" ? "on a grey day in the park" : cl.cold ? "on a cold day in the park" : "on a bright day in the park"; /* never claims weather it does not know */
     story.setAttribute("aria-label", "A short animated story, The Lonely Pup, " + where + ". Puppy is left behind by three pups and sits alone. Sunny notices him, comes part of the way and waits; " + ST.offer + ". Puppy slowly trusts him, they play, and they end the day side by side. Press Escape to skip.");
     if (ST.FLIES.length > 1) { var h = ""; for (var i = 0; i < 14; i++) h += '<i style="left:' + (ST.S - 520 + (i * 137) % 640) + "px;top:" + (560 + (i * 71) % 190) + "px;animation-delay:-" + (i * 0.83).toFixed(2) + "s,-" + (i * 0.37).toFixed(2) + 's"></i>'; R.flies.innerHTML = h; }
   }
-  /* where and what the weather is: overrides for checking, then a fresh cache, then the browser's own answers */
-  function resolveWeather() {
-    var ow = qs.get("weather"), ot = qs.get("time");
-    function finish(kind, wind, tod, src) {
-      if (WX.done) return;
-      WX.kind = kind || WX.kind; WX.wind = !!wind; if (tod) WX.tod = tod; WX.src = src; WX.done = true;
-    }
-    if (ot) WX.tod = ot;
-    if (ow) { if (ow === "offline") return finish(null, false, ot, "time"); return finish(ow === "wind" ? "clear" : ow, ow === "wind" || qs.has("wind"), ot, "override"); }
-    try { var c = JSON.parse(localStorage.getItem("sunny:wx") || "null"); if (c && Date.now() - c.t < 45 * 60000) return finish(c.kind, c.wind, todFromHour(hour), "cache"); } catch (e) { /* ignore */ }
-    if (!win.fetch || (navigator.onLine === false)) return finish(null, false, null, "time");
-    function forecast(lat, lon, src) {
-      var ctl = win.AbortController ? new AbortController() : null; if (ctl) setTimeout(function () { ctl.abort(); }, 3500);
-      var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat.toFixed(2) + "&longitude=" + lon.toFixed(2) + "&current=weather_code,wind_speed_10m,wind_gusts_10m,is_day&timezone=auto";
-      return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) { return r.json(); }).then(function (j) {
-        var cur = j && j.current; if (!cur || cur.weather_code == null) throw new Error("no weather");
-        var kind = kindFromCode(cur.weather_code), wind = (cur.wind_speed_10m || 0) >= 30 || (cur.wind_gusts_10m || 0) >= 50;
-        var tod = cur.is_day === 0 ? "night" : todFromHour(hour) === "night" ? "dusk" : todFromHour(hour);
-        try { localStorage.setItem("sunny:wx", JSON.stringify({ t: Date.now(), kind: kind, wind: wind })); } catch (e) { /* ignore */ }
-        finish(kind, wind, tod, src);
-      });
-    }
-    function byTimeZone() {
-      var zone = ""; try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { /* ignore */ }
-      var city = zone.split("/").pop().replace(/_/g, " ");
-      if (!city || /^(UTC|GMT|Etc)/i.test(zone)) return Promise.reject(new Error("no city"));
-      return fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&name=" + encodeURIComponent(city)).then(function (r) { return r.json(); }).then(function (g) {
-        var hit = g && g.results && g.results[0]; if (!hit) throw new Error("no place");
-        return forecast(hit.latitude, hit.longitude, "zone");
-      });
-    }
-    var tried = false;
-    function fallback() { if (tried) return; tried = true; byTimeZone().catch(function () { finish(null, false, null, "time"); }); }
-    /* the browser's location, only when the visitor already allowed it for this site; the film never asks */
-    if (navigator.permissions && navigator.geolocation) {
+  /* ---- where, and the reading: one request chain, shared by the first answer and every refresh ---- */
+  function fetchJSON(url, ms) {
+    var ctl = win.AbortController ? new AbortController() : null, t = ctl ? setTimeout(function () { ctl.abort(); }, ms) : 0;
+    return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) { clearTimeout(t); if (!r.ok) throw new Error("http " + r.status); return r.json(); }, function (e) { clearTimeout(t); throw e; });
+  }
+  function browserPlace() {
+    return new Promise(function (ok, no) {
+      var force = qs.get("loc");
+      if (force) { if (force === "timeout") { setTimeout(function () { no("timeout"); }, 1500); return; } return no(force === "prompt" ? "not asked" : force); }
+      if (!navigator.geolocation || !navigator.permissions || !navigator.permissions.query) return no("unsupported");
       navigator.permissions.query({ name: "geolocation" }).then(function (st) {
-        if (st.state !== "granted") return fallback();
-        navigator.geolocation.getCurrentPosition(function (pos) { forecast(pos.coords.latitude, pos.coords.longitude, "location").catch(fallback); }, fallback, { timeout: 2500, maximumAge: 30 * 60000 });
-      }, fallback);
-    } else fallback();
+        if (st.state !== "granted") return no(st.state === "denied" ? "denied" : "not asked");
+        var over = false, timer = setTimeout(function () { if (!over) { over = true; no("timeout"); } }, 1500);
+        navigator.geolocation.getCurrentPosition(function (p) { if (over) return; over = true; clearTimeout(timer); ok({ lat: p.coords.latitude, lon: p.coords.longitude, src: "location" }); },
+          function (err) { if (over) return; over = true; clearTimeout(timer); no(err && err.code === 1 ? "denied" : err && err.code === 3 ? "timeout" : "unavailable"); },
+          { timeout: 1500, maximumAge: 30 * 60000 });
+      }, function () { no("unsupported"); });
+    });
+  }
+  function zonePlace() {
+    try { var c = JSON.parse(localStorage.getItem("sunny:loc") || "null"); if (c && c.v === 2 && Date.now() - c.t < 86400000) return Promise.resolve({ lat: c.lat, lon: c.lon, src: "zone" }); } catch (e) { /* ignore */ }
+    var zone = ""; try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { /* ignore */ }
+    /* browsers still report some zones by their old names (Asia/Calcutta); search for the city's name today */
+    var OLD = { Calcutta: "Kolkata", Saigon: "Ho Chi Minh City", Katmandu: "Kathmandu", Rangoon: "Yangon", Kiev: "Kyiv", Ulan_Bator: "Ulaanbaatar", Godthab: "Nuuk", Thimbu: "Thimphu", Dacca: "Dhaka", Ujung_Pandang: "Makassar", Ashkhabad: "Ashgabat", Macao: "Macau", Chungking: "Chongqing", Harbin: "Harbin", Kashgar: "Kashgar", Asmera: "Asmara", Faeroe: "Torshavn", Buenos_Aires: "Buenos Aires" };
+    var last = zone.split("/").pop(), city = (OLD[last] || last).replace(/_/g, " ");
+    if (!city || /^(UTC|GMT|Etc)/i.test(zone)) return Promise.reject(new Error("no time-zone city"));
+    /* a place counts only if its clock reads like this device's: a "Calcutta" in South Africa does not */
+    function sameClock(tz) { try { var o = { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }, d = new Date(); return d.toLocaleTimeString("en-GB", Object.assign({ timeZone: tz }, o)) === d.toLocaleTimeString("en-GB", o); } catch (e) { return false; } }
+    return fetchJSON("https://geocoding-api.open-meteo.com/v1/search?count=10&name=" + encodeURIComponent(city), 3000).then(function (g) {
+      var hit = (g && g.results || []).filter(function (r) { return r.timezone === zone || sameClock(r.timezone); })[0]; if (!hit) throw new Error("no place for the time zone");
+      var L = { lat: Math.round(hit.latitude * 100) / 100, lon: Math.round(hit.longitude * 100) / 100, src: "zone" };
+      try { localStorage.setItem("sunny:loc", JSON.stringify({ v: 2, t: Date.now(), lat: L.lat, lon: L.lon })); } catch (e) { /* ignore */ }
+      return L;
+    });
+  }
+  function locate() {
+    var la = parseFloat(qs.get("lat")), lo = parseFloat(qs.get("lon"));
+    if (isFinite(la) && isFinite(lo)) { WX.loc = "test place"; return Promise.resolve({ lat: la, lon: lo, src: "test place" }); }
+    return browserPlace().then(function (L) { WX.loc = "granted"; return L; }, function (why) { WX.loc = String(why); return zonePlace(); });
+  }
+  function forecast(L) {
+    if (qs.get("api") === "fail") return Promise.reject(new Error("weather service failed (test)"));
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + L.lat.toFixed(2) + "&longitude=" + L.lon.toFixed(2) +
+      "&current=weather_code,temperature_2m,apparent_temperature,cloud_cover,precipitation,rain,showers,snowfall,wind_speed_10m,wind_direction_10m,wind_gusts_10m,is_day&daily=sunrise,sunset&forecast_days=1&timezone=auto";
+    return fetchJSON(url, 4000).then(function (j) { if (j && j.error) throw new Error(j.reason || "weather service error"); return readRec(j, L.src); });
+  }
+  var inflight = null;
+  function getWeather() {
+    if (inflight) return inflight;
+    inflight = locate().then(forecast).then(function (rec) {
+      inflight = null; WX.err = null;
+      if (rec.src !== "test place") try { localStorage.setItem("sunny:wx", JSON.stringify({ v: 2, t: Date.now(), rec: rec })); } catch (e) { /* ignore */ }
+      return rec;
+    }, function (e) { inflight = null; WX.err = String((e && e.message) || e); throw e; });
+    return inflight;
+  }
+  function refresh(why) { getWeather().then(function (rec) { liveUpdate(rec, why); }, function () { WX.last = { why: why, error: WX.err }; }); }
+  /* the first answer: overrides for checking, then a cache, then the network; never waits more than 2.4 s */
+  function resolveWeather() {
+    var ow = qs.get("weather");
+    function done(rec, src) { if (WX.done) return; WX.rec = rec; WX.src = src; WX.done = true; }
+    if (ow) { var s = ow === "offline" ? null : synth(ow); if (!s) WX.err = ow === "offline" ? "offline (test)" : "unknown test weather"; return done(s, s ? "override" : "time"); }
+    var c = null; try { c = JSON.parse(localStorage.getItem("sunny:wx") || "null"); } catch (e) { /* ignore */ }
+    if (c && c.v === 2 && c.rec && !(qs.has("lat") && qs.has("lon"))) { /* a test place always asks the service */
+      var age = Date.now() - c.t; if (qs.has("stale")) age = Math.max(age, FRESH + 1);
+      if (age < FRESH) { WX.fetchedAt = c.t; return done(c.rec, "cache"); }
+      if (age < STALE_MAX) { WX.fetchedAt = c.t; done(c.rec, "cache, refreshing"); return refresh("stale cache"); }
+    }
+    if (!win.fetch || navigator.onLine === false) { WX.err = "offline"; return done(null, "time"); }
+    getWeather().then(function (rec) { if (!WX.done) { WX.fetchedAt = Date.now(); done(rec, rec.src); } else liveUpdate(rec, "late answer"); }, function () { done(null, "time"); });
   }
   resolveWeather();
   /* Sunny's outfits: layers added to his own drawing, so the face, colours and shape stay his */
@@ -1159,7 +1364,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     for (var i = 0; i < L.length; i++) { var s = L[i]; if (x > s[0] && x < s[1] && y >= s[2] && (s[3] == null || (t >= s[3] && t < s[4]))) return s; }
     return null;
   }
-  var clock = 0, tauNow = 0, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 0, windNow = 0.2, snowNow = 0, leafNow = 0, heads = null, reflSet = false, floatAmt = 0, lastRC = 0, sceneNow = -1, NOW = { S: null, Q: null };
+  var clock = 0, tauNow = 0, driftX = -0.35, umbRim = null, sunState = { x: 0 }, outdoor = 1, rainNow = 0, windNow = 0.2, snowNow = 0, leafNow = 0, heads = null, reflSet = false, floatAmt = 0, lastRC = 0, sceneNow = -1, NOW = { S: null, Q: null };
   function render(tReal) {
     var t = reduced ? KEY_T[sceneOf(Math.min(tReal, T_END - 0.01))] : tReal;
     tauNow = t;
@@ -1178,7 +1383,10 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     R.clouds.style.transform = "translateX(" + ((cx - 800) * 0.45).toFixed(1) + "px)";
     R.fore.style.transform = "translate3d(" + (-(cx - 800) * 0.22).toFixed(1) + "px,0,0)";
     R.fore.style.opacity = Math.max(0, Math.min(1, (1.6 - z) / 0.4)).toFixed(2); /* the foreground frames the wide shots only */
-    rainNow = SCENE.rain; snowNow = SCENE.snow; windNow = track(ST.WINDT, t); leafNow = track(ST.LEAF, t);
+    /* the world as it is now: the real weather, eased when a fresher reading or the next part of the day arrives */
+    envTick();
+    var E = ENV.cur; rainNow = E.rain; snowNow = E.snow; windNow = Math.min(1.3, E.wind + track(ST.WINDT, t)); driftX = E.wx;
+    leafNow = Math.max(track(ST.LEAF, t), E.wind > 0.55 ? (E.wind - 0.55) * 2 : 0); /* a real gale brings leaves into any story */
     R.flash.style.opacity = reduced ? 0 : track(ST.FLASH, tReal);
     R.flies.style.opacity = track(ST.FLIES, t);
     /* the scene, for screen readers: one short line each time a new one begins */
@@ -1198,7 +1406,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     turned(A.sunny, S.flip); setCls(A.sunny.flip, "is-flipped", S.flip);
     lookAt(A.sunnyLook, (S.look || [0, 0])[0], (S.look || [0, 0])[1], S.flip, 5, 4);
     var sway = reduced ? 0 : Math.sin(clock * 1.3) * 2.4 * (0.4 + windNow);
-    A.umbTilt.setAttribute("transform", "rotate(" + (ur + sway).toFixed(2) + ")");
+    A.umbTilt.setAttribute("transform", "rotate(" + (ur + sway + windNow * driftX * 6).toFixed(2) + ")"); /* leans with the wind */
     A.umbCan.setAttribute("transform", "scale(" + uo.toFixed(3) + " 1)");
     A.umbG.style.opacity = uv;
     var Q = snapAt(ST.PS, t), px = track(ST.PX, t), py = track(ST.PY, t);
@@ -1270,12 +1478,13 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   }
   function newFlake(scatter) { return { x: Math.random() * (W + 200) - 100, y: scatter ? Math.random() * H : -10, r: 1.2 + Math.random() * 2.6, v: 40 + Math.random() * 70, ph: Math.random() * 6 }; }
   function leafY() { return Math.random() < 0.55 ? 430 + Math.random() * 160 : 744 + Math.random() * 34; } /* above their heads or along the ground, never across their faces */
-  function newLeaf(scatter) { return { x: scatter ? Math.random() * W : W + Math.random() * 400, y: leafY(), v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: LEAF_C[(Math.random() * 4) | 0] }; }
+  function leafSign() { return driftX > 0.1 ? 1 : -1; }
+  function newLeaf(scatter) { return { x: scatter ? Math.random() * W : leafSign() > 0 ? -60 - Math.random() * 400 : W + Math.random() * 400, y: leafY(), v: 260 + Math.random() * 260, rot: Math.random() * 6, sp: 3 + Math.random() * 6, c: LEAF_C[(Math.random() * 4) | 0] }; }
   /* the weather is already there on the first frame: the air starts full of it */
   function prefill() {
     drops.length = 0; fx.length = 0; flakes.length = 0; leaves.length = 0;
-    var i, n = Math.round(300 * SCENE.rain); for (i = 0; i < n; i++) drops.push(newDrop(true));
-    n = Math.round(200 * SCENE.snow); for (i = 0; i < n; i++) flakes.push(newFlake(true));
+    var i, n = Math.round(300 * ENV.cur.rain); for (i = 0; i < n; i++) drops.push(newDrop(true));
+    n = Math.round(200 * ENV.cur.snow); for (i = 0; i < n; i++) flakes.push(newFlake(true));
     n = Math.round(14 * track(ST.LEAF, 0)); for (i = 0; i < n; i++) leaves.push(newLeaf(true));
   }
   function splash(x, y, big, max) { fx.push({ k: "s", x: x, y: y, life: 0, max: max || (big ? 0.26 : 0.18), big: big }); }
@@ -1295,15 +1504,16 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var want = Math.round(300 * rainNow);
     while (drops.length < want) drops.push(newDrop(false));
     g2.lineCap = "round";
-    var slant = 0.16 + windNow * 0.5 + Math.sin(clock * 0.35) * 0.05;
+    var slant = -(windNow * 0.55 * driftX) + Math.sin(clock * 0.35) * 0.03; /* drops lean the way the wind really blows */
     for (var i = drops.length - 1; i >= 0; i--) {
       var p = drops[i];
       p.y += p.v * dt; p.x -= p.v * dt * slant;
       var roof = p.y < GY + 10 && shelterAt(p.x, p.y, tauNow);
       if (roof) { if (dt) { if (p.y < roof[2] + 40 && Math.random() < 0.5) splash(p.x, roof[2], 0); drops[i] = newDrop(false); } continue; } /* a roof keeps the rain off */
       if (p.y >= p.floor) { if (Math.random() < (p.near ? 0.8 : 0.35)) splash(p.x, p.floor, p.near); if (drops.length > want) { drops.splice(i, 1); continue; } drops[i] = newDrop(false); continue; }
-      g2.strokeStyle = "rgba(205,220,245," + p.a + ")"; g2.lineWidth = p.w;
-      g2.beginPath(); g2.moveTo(p.x, p.y); g2.lineTo(p.x + p.l * slant, p.y - p.l); g2.stroke();
+      var fine = rainNow < 0.6 ? 0.55 : 1; /* drizzle is finer and shorter */
+      g2.strokeStyle = "rgba(205,220,245," + p.a + ")"; g2.lineWidth = p.w * fine;
+      g2.beginPath(); g2.moveTo(p.x, p.y); g2.lineTo(p.x + p.l * fine * slant, p.y - p.l * fine); g2.stroke();
     }
     dripT -= dt;
     if (dt && umbRim && rainNow > 0.1 && dripT <= 0) { dripT = 0.09 + Math.random() * 0.12; var e = umbRim[Math.random() < 0.5 ? 0 : 1]; drips.push({ x: e[0] + (Math.random() * 6 - 3), y: e[1] + 2, v: 60 }); }
@@ -1323,7 +1533,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var wantF = Math.round(200 * snowNow);
     while (flakes.length < wantF) flakes.push(newFlake(false));
     for (var f2 = flakes.length - 1; f2 >= 0; f2--) {
-      var fl = flakes[f2]; fl.y += fl.v * dt; fl.x += (Math.sin(fl.ph + clock * 1.4) * 14 - windNow * 60) * dt;
+      var fl = flakes[f2]; fl.y += fl.v * dt; fl.x += (Math.sin(fl.ph + clock * 1.4) * 14 + windNow * 60 * driftX) * dt;
       if (fl.y > GY + 30 + fl.r * 30) { if (flakes.length > wantF) { flakes.splice(f2, 1); continue; } fl.y = -10; fl.x = Math.random() * (W + 200) - 100; }
       g2.fillStyle = "rgba(255,255,255," + (0.5 + fl.r * 0.12).toFixed(2) + ")"; g2.beginPath(); g2.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2); g2.fill();
     }
@@ -1334,8 +1544,8 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     var wantL = Math.round(14 * leafNow);
     while (leaves.length < wantL) leaves.push(newLeaf(false));
     for (var li2 = leaves.length - 1; li2 >= 0; li2--) {
-      var lf = leaves[li2]; lf.x -= lf.v * dt * (0.6 + windNow * 0.6); lf.y += Math.sin(clock * 2.2 + lf.rot) * 26 * dt; lf.rot += lf.sp * dt;
-      if (lf.x < -60 || lf.y > GY + 30) { if (leaves.length > wantL) { leaves.splice(li2, 1); continue; } lf.x = W + Math.random() * 200; lf.y = leafY(); }
+      var ls = leafSign(), lf = leaves[li2]; lf.x += ls * lf.v * dt * (0.6 + windNow * 0.6); lf.y += Math.sin(clock * 2.2 + lf.rot) * 26 * dt; lf.rot += lf.sp * dt;
+      if ((ls < 0 && lf.x < -80) || (ls > 0 && lf.x > W + 80) || lf.y > GY + 30) { if (leaves.length > wantL) { leaves.splice(li2, 1); continue; } lf.x = ls > 0 ? -60 - Math.random() * 200 : W + Math.random() * 200; lf.y = leafY(); }
       g2.save(); g2.translate(lf.x, lf.y); g2.rotate(lf.rot); g2.fillStyle = lf.c; g2.beginPath(); g2.ellipse(0, 0, 7, 3.2, 0, 0, Math.PI * 2); g2.fill(); g2.restore();
     }
     if (dt && heads && rainNow > 0.2) heads.forEach(function (h) { if (Math.random() < rainNow * dt * 9) splash(h[0] + (Math.random() * 2 - 1) * h[2], h[1] + Math.random() * 6, 0, 0.16); });
@@ -1481,6 +1691,9 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
   /* for checking: where the story is and what each character is doing */
   win.SunnyStory = { state: function () { var sc = sceneOf(tau); return { t: +tau.toFixed(2), scene: sc + 1, title: SCENES[sc][0], climate: SCENE && SCENE.name, night: SCENE && SCENE.night, puppy: NOW.Q && NOW.Q.name, puppyFace: NOW.Q && NOW.Q.emo, sunny: NOW.S && NOW.S.name, sunnyFace: NOW.S && NOW.S.emo, ended: done }; }, scenes: function () { return SCENES.map(function (s, i) { return { n: i + 1, title: s[0], start: AT[i], seconds: s[1] }; }); },
     /* runs the story's own clock forward (for checking when a hidden tab has paused the frames); returns each scene change it passed */
+    weather: function () { var c = SCENE && SCENE.cl, e = ENV.cur; return { source: WX.src, location: WX.loc, error: WX.err, ageMinutes: WX.fetchedAt ? +((Date.now() - WX.fetchedAt) / 60000).toFixed(1) : null, reading: WX.rec,
+      climate: c && { kind: c.kind, sub: c.sub, phase: c.phase, dark: c.dark, heat: c.heat, cold: c.cold, cloud: +c.cloud.toFixed(2), wind: +c.wind.toFixed(2), blowsRight: c.wx > 0.1, temp: c.temp }, story: SCENE && SCENE.name, costume: COSTUME,
+      now: e && { rain: +e.rain.toFixed(2), snow: +e.snow.toFixed(2), wind: +e.wind.toFixed(2), wx: +e.wx.toFixed(2), easing: !!ENV.to }, lastUpdate: WX.last, keptForNextVisit: WX.pending && { kind: WX.pending.kind, sub: WX.pending.sub }, note: R.line.textContent }; },
     fastForward: function (sec) { var seen = [], last = -1; for (var x = 0; x < sec && !done; x += 0.05) { advance(0.05); var sc = sceneOf(tau); if (sc !== last) { last = sc; seen.push(sc + 1); } } try { render(tau); } catch (e) { /* ignore */ } return { scenes: seen, t: +tau.toFixed(2), ended: done }; } }; /* step through stills while checking */
   var stylesheetOk = function () { var l = doc.querySelector('link[href*="sunny.css"]'); return !!l && l.media !== "print" && !!l.sheet; };
   function needPuppy() {
@@ -1505,17 +1718,31 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
       /* the weather is settled first (or given up on after 2.4 s); only then is the scene built and shown */
       if (ready() && (WX.done || waitedFor > 2.4)) {
         try { WX.done = true; pickScene(); applyScene(); A = buildActors(); dressSunny(A.sunnyRoot); prefill(); } catch (e) { return finish(true); }
-        started = true;
+        started = true; startLive();
         if (at != null) { tau = +at; prevTau = tau; } else if (from) { tau = Math.max(0, Math.min(T_END - 1, from)); prevTau = tau; }
         try { render(tau); } catch (e2) { return finish(true); }
         story.classList.add("is-ready");
       } else if (waitedFor > 6) return finish(true); /* the characters never arrived: just lift the curtain */
     }
-    advance(dt);
+    advance(dt); if (started) liveTest();
     if (started) { try { render(tau); } catch (e3) { return finish(true); } rainStep(paused ? 0 : dt); }
     soundStep(tau, prevTau); prevTau = tau;
     if (A && Math.random() < dt / 3.2 && !A.pupRoot.hasAttribute("data-emotion") && A.pupRoot.getAttribute("data-act") !== "sleep") { A.pupRoot.classList.add("is-blink"); setTimeout(function () { if (A) A.pupRoot.classList.remove("is-blink"); }, 110); }
     if (!done || story.parentNode) rafId = requestAnimationFrame(frame);
+  }
+  /* while the film plays: the place's clock (every 15 s) and a reading older than 15 minutes (refetched once) */
+  var liveTimer = 0, refreshAt = null, refreshTo = null;
+  (function () { var r = qs.get("refresh"); if (r) { var p = r.split(":"); refreshAt = +p[0] || 0; refreshTo = p[1] || null; } })();
+  function startLive() {
+    liveTimer = setInterval(function () {
+      phaseTick();
+      if (WX.src !== "override" && WX.rec && Date.now() - WX.fetchedAt > FRESH && !inflight) refresh("15 minutes old");
+    }, 15000);
+  }
+  function liveTest() { /* &refresh=SECONDS[:weather]: a reading arriving mid-film, for checking */
+    if (refreshAt == null || tau < refreshAt) return;
+    refreshAt = null;
+    if (refreshTo) { var r = synth(refreshTo); if (r) liveUpdate(r, "test"); } else refresh("test");
   }
   /* the story moves on by real time only: no waiting on anything but the clock */
   function advance(dt) {
@@ -1528,7 +1755,7 @@ html body .sst-actor .sunny, html body .sst-actor .puppy { display: block !impor
     if (tau >= T_END) { held += dt; if (loaded || held > 8) finish(false); }
   }
   function finish(silent) {
-    if (done) return; done = true;
+    if (done) return; done = true; clearInterval(liveTimer);
     if (!silent) { store("sunny:story", "1"); store("puppy:met", "1"); }
     story.classList.add("is-out");
     if (ac && master) master.gain.setTargetAtTime(0, ac.currentTime, 0.4);
