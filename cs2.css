@@ -1245,10 +1245,10 @@ html.reduce-motion .sy-tile .sunny__svg *, html.reduce-motion .sy-tile .puppy__s
    The blue in the recreated product screens stays: it is the products' colour, not the site's.
    ============================================================ */
 
-/* ---------- column: the home page's sides ---------- */
-.c2-page { --c2-max: 1248px; }
-@media (min-width: 1281px) { .c2-page { --gutter: 96px; } }
-@media (min-width: 1024px) and (max-width: 1280px) { .c2-page { --gutter: 52px; } }
+/* ---------- column: the home page's sides (option B: 176px, 1088px max) ---------- */
+.c2-page { --c2-max: 1088px; }
+@media (min-width: 1281px) { .c2-page { --gutter: 176px; } }
+@media (min-width: 1024px) and (max-width: 1280px) { .c2-page { --gutter: 96px; } }
 
 /* ---------- the page: a warm morning at the top, as on the home hero ---------- */
 .c2-page { background: linear-gradient(180deg, #fffaf0 0, var(--bg) 640px) no-repeat, var(--bg); }

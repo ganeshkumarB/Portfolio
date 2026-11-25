@@ -4356,11 +4356,11 @@ body.hero-lake .contact--big .lake-foot { margin-top: 0; }
 
 
 /* ===== Home page column: the side spacing the page had at 80% zoom, with type at its normal size =====
-   96px sides on laptops (52px from 1024 to 1280), and the content never wider than 1248px, centred on big screens.
+   176px sides on laptops (96px from 1024 to 1280), and the content never wider than 1088px, centred on big screens (option B, 2026-11-26).
    The nav, every section and the footer bar share this one column so their edges line up. */
-body.hero-lake { --page-max: 1248px; }
-@media (min-width: 1281px) { body.hero-lake { --gutter: 96px; } }
-@media (min-width: 1024px) and (max-width: 1280px) { body.hero-lake { --gutter: 52px; } }
+body.hero-lake { --page-max: 1088px; }
+@media (min-width: 1281px) { body.hero-lake { --gutter: 176px; } }
+@media (min-width: 1024px) and (max-width: 1280px) { body.hero-lake { --gutter: 96px; } }
 @media (min-width: 1024px) {
   body.hero-lake :is(.hero, .facts, .section, .contact) { padding-inline: max(var(--gutter), calc((100% - var(--page-max)) / 2)); }
   body.hero-lake .nav.is-floating { padding-inline: max(var(--gutter), calc((100% - var(--page-max)) / 2)); }
