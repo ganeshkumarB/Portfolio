@@ -6,7 +6,7 @@
   position: fixed;
   right: 12px;
   bottom: 0;
-  width: min(360px, calc(100vw - 24px));
+  width: min(360px, calc(calc(100vw / var(--z, 1)) - 24px));
   height: 180px;
   z-index: 70;
   pointer-events: none;
@@ -471,7 +471,7 @@ body.inspecting .sunny .s-glasses { opacity: 1; }
 .sunny.is-evening .sunny__svg { filter: hue-rotate(-14deg) saturate(1.12); }
 .sun-rain { position: fixed; inset: 0; z-index: 94; pointer-events: none; overflow: hidden; }
 .sun-rain span { position: absolute; top: -40px; color: #ffc93c; text-shadow: 0 1px 0 #15161a; animation: sun-fall 2.6s linear forwards; }
-@keyframes sun-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 8% { opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; } }
+@keyframes sun-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 8% { opacity: 1; } 100% { transform: translateY(calc(110vh / var(--z, 1))) rotate(360deg); opacity: 0.9; } }
 
 /* ---------- Ask Sunny: speech-bubble CTA and the chat window ---------- */
 /* Ask tag: hidden until you point at a companion (or focus it, or it nudges once), then a small dark tag beside the face.
@@ -529,8 +529,8 @@ html.no-sunny .ask { display: none !important; }
   z-index: 75;
   right: 20px;
   bottom: 176px;
-  width: min(380px, calc(100vw - 24px));
-  height: min(600px, calc(100vh - 230px));
+  width: min(380px, calc(calc(100vw / var(--z, 1)) - 24px));
+  height: min(600px, calc(calc(100vh / var(--z, 1)) - 230px));
   display: flex;
   flex-direction: column;
   border: 1px solid var(--line, #d7dae0);

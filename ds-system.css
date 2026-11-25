@@ -423,7 +423,7 @@
 .dsx /* @end */
 
 /* @component Dialog */
-.ds-dialog { width: min(480px, calc(100vw - 2 * var(--ds-layout-margin))); padding: 0; border: 0; border-radius: var(--ds-radius-xl);
+.ds-dialog { width: min(480px, calc(calc(100vw / var(--z, 1)) - 2 * var(--ds-layout-margin))); padding: 0; border: 0; border-radius: var(--ds-radius-xl);
   background: var(--ds-color-bg-surface-raised); color: var(--ds-color-text-primary); box-shadow: var(--ds-shadow-3); }
 .dsx .ds-dialog::backdrop { background: var(--ds-color-bg-scrim); }
 .dsx .ds-dialog__inner { display: flex; flex-direction: column; gap: var(--ds-space-4); padding: var(--ds-space-6); }

@@ -1235,3 +1235,121 @@ html.reduce-motion .sy-tile .sunny__svg *, html.reduce-motion .sy-tile .puppy__s
 .zb2-system .c2-grid { gap: 16px; }
 .zb2-system .c2-card { padding: 20px 22px; }
 @media (max-width: 1080px) { .zb2-system { grid-template-columns: 1fr; } }
+
+
+/* ============================================================
+   Lakeside: the home page's language on every case and info page (2026-11-25).
+   Loads last, so it restyles the shared pieces without touching each page's own mock UIs:
+   the 96px / 1248px column, pill labels with the sun dot, heavy headlines with the yellow marker,
+   sand cards and bands, a light outcome, and the footer that ends on the lake with the home page's last line.
+   The blue in the recreated product screens stays: it is the products' colour, not the site's.
+   ============================================================ */
+
+/* ---------- column: the home page's sides ---------- */
+.c2-page { --c2-max: 1248px; }
+@media (min-width: 1281px) { .c2-page { --gutter: 96px; } }
+@media (min-width: 1024px) and (max-width: 1280px) { .c2-page { --gutter: 52px; } }
+
+/* ---------- the page: a warm morning at the top, as on the home hero ---------- */
+.c2-page { background: linear-gradient(180deg, #fffaf0 0, var(--bg) 640px) no-repeat, var(--bg); }
+:root[data-theme="dark"] .c2-page { background: linear-gradient(180deg, #111a2d 0, var(--bg) 640px) no-repeat, var(--bg); }
+
+/* ---------- labels: the pill with the sun dot ---------- */
+.c2-kicker { align-items: center; gap: 12px 16px; }
+.c2-kicker__pill, .c2-page .c2-num { display: inline-flex; align-items: center; gap: 10px; width: fit-content; padding: 8px 16px 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font: 600 12px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+.c2-kicker__pill::before, .c2-page .c2-num::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 4px rgba(255, 213, 74, 0.3); }
+.c2-kicker small { color: var(--muted); }
+.c2-page .c2-outcome .c2-num, .c2-page .c2-band .c2-num { background: var(--bg); }
+
+/* ---------- headlines: heavy, tight, the last word on the marker ---------- */
+.c2-page .c2-h1 { font-weight: 700; font-size: clamp(40px, 5vw, 72px); line-height: 1.03; letter-spacing: -0.04em; }
+.c2-page .c2-h2 { font-weight: 700; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.06; letter-spacing: -0.035em; }
+.c2-page .c2-h3 { font-weight: 600; letter-spacing: -0.01em; }
+.c2-page .mk { position: relative; z-index: 0; white-space: nowrap; }
+.c2-page .mk::after { content: ""; position: absolute; left: -0.1em; right: -0.1em; top: 0.46em; bottom: -0.04em; z-index: -1; transform: rotate(-0.8deg); border-radius: 0.2em 0.4em 0.3em 0.25em; background: var(--sun); }
+.c2-page .c2-hero__tagline, .c2-page .c2-reflect > p:first-child, .c2-page .c2-principle p, .c2-page .c2-quote > p:first-child { font-weight: 600; letter-spacing: -0.02em; }
+.c2-page .c2-sec__head .c2-sub, .c2-page .c2-lede { color: var(--body, var(--muted)); }
+
+/* ---------- surfaces: sand, not blue or grey ---------- */
+.c2-page .c2-band { border-radius: 28px; background: var(--surface); }
+.c2-page .c2-card { border-radius: 20px; background: var(--surface); }
+.c2-page .c2-card--line { background: var(--card); border-color: var(--line); }
+.c2-page .c2-card__fig { border-color: var(--line); }
+.c2-page .c2-cols, .c2-page .c2-cols > div + div, .c2-page .c2-decisions, .c2-page .c2-meta { border-color: var(--line); }
+.c2-page .c2-cols .c2-ico { color: var(--ink); }
+.c2-page .c2-decisions b.c2-big { font-weight: 700; color: var(--ink); }
+.c2-page .c2-dot { background: var(--sun); color: #15161a; }
+.c2-page .cs-note__box { border-radius: 20px; }
+.c2-page .c2-principle, .c2-page .c2-quote { border-radius: 24px; }
+
+/* the outcome: a sand card with the numbers in heavy type, like the home page's facts */
+.c2-page .c2-outcome, .c2-page .c2-outcome--tint { border-radius: 28px; background: var(--surface); color: var(--ink); }
+.c2-page .c2-outcome h2 { font-weight: 700; letter-spacing: -0.03em; color: var(--ink); }
+.c2-page .c2-outcome__cols > div + div { border-left-color: var(--line); }
+.c2-page .c2-outcome__cols i { color: var(--sun-d, #e0ae16); }
+.c2-page .c2-outcome__cols b { color: var(--ink); }
+.c2-page .c2-outcome--tint .c2-outcome__cols b { font-weight: 700; letter-spacing: -0.03em; }
+.c2-page .c2-outcome__cols span { color: var(--muted); }
+
+/* info pages: the round "Back to the site" button and the shipped-product cards */
+.c2-page .cs-public .c2-card { border-radius: 18px; }
+
+/* ---------- footer: next case, then the lake, then the home page's last line ---------- */
+.c2-page .cs-next { position: relative; padding: 112px 0 0; background: linear-gradient(180deg, var(--bg) 0%, #fff6dc 58%, #ffe9a8 100%); color: var(--ink); overflow: hidden; }
+:root[data-theme="dark"] .c2-page .cs-next { background: linear-gradient(180deg, var(--bg) 0%, #111a2d 58%, #1b2a47 100%); }
+.c2-page .cs-next__inner { box-sizing: content-box; padding-inline: var(--gutter); }
+.c2-page .cs-next .lbl, .c2-page .cs-next__lbl { display: inline-flex; align-items: center; gap: 10px; width: fit-content; padding: 8px 16px 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: var(--ink); }
+.c2-page .cs-next__lbl::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 4px rgba(255, 213, 74, 0.3); }
+.c2-page .cs-next__main { gap: 18px; }
+.c2-page .cs-next__title { font-weight: 700; letter-spacing: -0.04em; color: var(--ink); }
+.c2-page .cs-next__arrow { color: var(--sun-d, #e0ae16); }
+.c2-page .cs-next__all, .c2-page .cs-next__prev { border-color: var(--ink); color: var(--ink); background: var(--card); }
+.c2-page .cs-next__plbl { color: var(--muted); }
+.c2-page .cs-next__all:hover, .c2-page .cs-next__prev:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.c2-page .cs-next__prev:hover .cs-next__plbl { color: var(--bg); opacity: 0.75; }
+.c2-lake { position: relative; height: 230px; margin-top: 64px; pointer-events: none; }
+.c2-lake__art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.c2l-g1 { stop-color: #ffd54a; stop-opacity: 0.55; } .c2l-g2 { stop-color: #ffd54a; stop-opacity: 0; }
+.c2l-w1 { stop-color: #ffd970; } .c2l-w2 { stop-color: #f0ae2c; }
+.c2l-sun { fill: #ffd54a; }
+.c2l-h1 { fill: #f6e3ad; } .c2l-h2 { fill: #efcf82; }
+.c2l-glint { fill: #fff6d6; opacity: 0.6; }
+.c2l-reed { fill: none; stroke: #5b4026; stroke-width: 3; } .c2l-reedtop { fill: #5b4026; }
+:root[data-theme="dark"] .c2l-glow { display: none; }
+:root[data-theme="dark"] .c2l-sun { fill: #ece6d4; }
+:root[data-theme="dark"] .c2l-w1 { stop-color: #1c2b47; } :root[data-theme="dark"] .c2l-w2 { stop-color: #0f1830; }
+:root[data-theme="dark"] .c2l-h1 { fill: #18233a; } :root[data-theme="dark"] .c2l-h2 { fill: #131c30; }
+:root[data-theme="dark"] .c2l-glint { fill: #9fb4e6; opacity: 0.25; }
+:root[data-theme="dark"] .c2l-reed { stroke: #05080f; } :root[data-theme="dark"] .c2l-reedtop { fill: #05080f; }
+.c2-bar { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; margin-top: -4px; padding: 18px var(--gutter) 22px; background: #f0ae2c; color: #4a3007; font-size: 14px; }
+.c2-bar b { color: #2a1b03; font-weight: 600; }
+.c2-bar__nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1.4 var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; }
+.c2-bar a { color: inherit; text-decoration: none; } .c2-bar a:hover { color: #15161a; text-decoration: underline; text-underline-offset: 4px; }
+.c2-bar__credit a { color: #2a1b03; border-bottom: 1px solid rgba(42, 27, 3, 0.4); }
+:root[data-theme="dark"] .c2-bar { background: #0f1830; color: #b6bed0; }
+:root[data-theme="dark"] .c2-bar b, :root[data-theme="dark"] .c2-bar__credit a, :root[data-theme="dark"] .c2-bar a:hover { color: #f2f4f9; }
+/* the column for the bar on wide screens, and room for the companion and the back-to-top button where the side is narrow */
+@media (min-width: 721px) {
+  .c2-bar { --side: max(var(--gutter), calc((100vw - var(--c2-max)) / 2)); padding-left: max(var(--side), 84px); padding-right: max(var(--side), 184px); }
+  html.has-sunny body.c2-page { padding-bottom: 0; }
+}
+@media (min-width: 721px) { .c2-page .cs-next__inner { max-width: var(--c2-max); } }
+@media (max-width: 720px) {
+  .c2-page .cs-next { padding-top: 80px; }
+  .c2-lake { height: 150px; margin-top: 40px; }
+  .c2-bar { flex-direction: column; align-items: center; text-align: center; padding: 18px var(--gutter) 28px; }
+  .c2-bar__nav { justify-content: center; }
+}
+@media (prefers-reduced-motion: no-preference) { .c2-page .cs-next__title .cs-next__arrow { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); } }
+
+/* icon tiles in cards: sand and ink, like the home page's capability icons */
+.c2-page .c2-icotile { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.c2-page .c2-card:not(.c2-card--line) .c2-icotile { background: var(--card); }
+/* page-specific headings that were drawn in the old light serif: the same heavy weight as everything else */
+.c2-page :is(.cs-content, .cs-hero) h2:not(.c2-h2) { font-weight: 700; letter-spacing: -0.03em; }
+.c2-page :is(.cs-content, .cs-hero) h3:not(.c2-h3) { font-weight: 600; letter-spacing: -0.015em; }
+/* the last line fits on one row at laptop widths */
+.c2-bar__nav { gap: 6px 16px; font-size: 12px; letter-spacing: 0.02em; }
+
+/* the shipped-product heading on case pages, in the same heavy type */
+.c2-page .cs-public h2 { font-weight: 700; letter-spacing: -0.03em; }

@@ -217,6 +217,36 @@
     else if (global.Puppy) global.Puppy.setMode("sunny");
   }
 
+  /* ---------- Together, chosen: both fly up out of the window and come back down onto their spots ----------
+     Sunny first, Puppy a beat later, each landing with a small squash. Added on top of whatever the figures are
+     doing (composite: add), so acts, the hero perch and Puppy's walk keep their own transforms. Skipped with reduced motion. */
+  function duoArrive() {
+    if (reduced || document.documentElement.classList.contains("reduce-motion") || !root || !root.animate) return;
+    var tries = 0, w = setInterval(function () {
+      var P = global.Puppy, pe = P && P.el;
+      var ready = pe && P.mode && P.mode() === "together" && pe.getBoundingClientRect().width > 0;
+      /* on the home hero Sunny stands on the jetty: wait until the pup has its own spot there too, so both take off from it */
+      if (ready && root.classList.contains("sunny--perch") && !pe.classList.contains("puppy--perch") && tries < 30) ready = false;
+      if (!ready && ++tries < 40) return;
+      clearInterval(w);
+      ready = !!(pe && P.mode && P.mode() === "together" && pe.getBoundingClientRect().width > 0);
+      [root, ready ? pe : null].forEach(function (el, i) {
+        if (!el) return;
+        var r = el.getBoundingClientRect(), up = Math.round(r.bottom + 80); /* far enough to leave the window */
+        el.animate([
+          { transform: "translateY(0) rotate(0deg)", offset: 0 },
+          { transform: "translateY(18px) scale(1.04, 0.92)", offset: 0.1, easing: "cubic-bezier(0.3, 0, 0.6, 1)" }, /* crouch */
+          { transform: "translateY(" + -up + "px) rotate(" + (i ? 10 : -8) + "deg)", offset: 0.42, easing: "cubic-bezier(0.55, 0, 0.9, 0.6)" }, /* up and away */
+          { transform: "translateY(" + -up + "px) rotate(" + (i ? -6 : 6) + "deg)", offset: 0.5, easing: "cubic-bezier(0.4, 0, 1, 1)" }, /* turn at the top */
+          { transform: "translateY(0) scale(1.08, 0.84)", offset: 0.82, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.25)" }, /* land */
+          { transform: "translateY(-10px) scale(0.97, 1.04)", offset: 0.91 },
+          { transform: "translateY(0) rotate(0deg)", offset: 1 }
+        ], { duration: 1500, delay: i ? 220 : 0, composite: "add", fill: "none" });
+      });
+      setTimeout(function () { if (mode !== "together") return; emote("excited", 1400); if (ready && P.emote) P.emote("excited", 1400); }, 1300);
+    }, 60);
+  }
+
   /* ---------- Puppy alone: Sunny's brain keeps running and Puppy plays every part ---------- */
   function pup() { var P = global.Puppy; return mode === "puppy" && P && P.el && P.mode && P.mode() === "puppy" ? P : null; }
   function dogLine(t) { return String(t).replace(/\bSunny\b/g, "Puppy"); }
@@ -1117,9 +1147,11 @@
     setMode: function (m, opt) {
       if (MODES.indexOf(m) < 0) m = "sunny";
       if (m !== mode && mode === "puppy") { stopAct(); asleep = false; }
+      var was = mode;
       mode = m;
       if (!(opt && opt.temp)) { try { localStorage.setItem("pref:companion", m); } catch (e) { /* ignore */ } }
       applyMode(); emit("mode", m);
+      if (m === "together" && was !== "together" && !(opt && opt.temp)) duoArrive();
     },
     on: function (name, fn) { (listeners[name] = listeners[name] || []).push(fn); },
     off: function (name, fn) { var l = listeners[name]; if (l) listeners[name] = l.filter(function (f) { return f !== fn; }); },

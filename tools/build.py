@@ -11,7 +11,7 @@ Content HTML is written by the modules with the helpers below, so the page langu
 import html as H, importlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VER = "20261362"
+VER = "20261421"
 
 # ---------------------------------------------------------------- small helpers
 def esc(s): return H.escape(str(s), quote=False)
@@ -206,8 +206,33 @@ def head(p):
   <script src="sunny-story.js?v={VER}"></script>
 '''
 
+def _lake():
+    """The home page's closing lake, drawn once for every case and info page: sky glow, a setting sun cut by the horizon,
+    two hills, water with glints, reeds at both edges. Colours come from CSS (cs2.css, 'lakeside') so night mode works."""
+    W, Hh, hz, sx, r = 1440, 230, 96, 740, 92
+    sy = Hh - hz
+    out = (f'<svg class="c2-lake__art" viewBox="0 0 {W} {Hh}" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs>'
+           '<linearGradient id="c2lw" x1="0" y1="0" x2="0" y2="1"><stop class="c2l-w1" offset="0"/><stop class="c2l-w2" offset="1"/></linearGradient>'
+           '<radialGradient id="c2lg" cx=".5" cy="1" r=".6"><stop class="c2l-g1" offset="0"/><stop class="c2l-g2" offset="1"/></radialGradient>'
+           f'<clipPath id="c2lc"><rect width="{W}" height="{sy}"/></clipPath></defs>'
+           f'<ellipse class="c2l-glow" cx="{sx}" cy="{sy}" rx="520" ry="200" fill="url(#c2lg)"/>'
+           f'<circle class="c2l-sun" cx="{sx}" cy="{sy + r * 0.3:.0f}" r="{r}" clip-path="url(#c2lc)"/>'
+           f'<path class="c2l-h1" d="M0 {sy-26}C180 {sy-64} 320 {sy-56} 480 {sy-22}C580 {sy-4} 660 {sy-10} 720 {sy-3}L720 {sy}L0 {sy}Z"/>'
+           f'<path class="c2l-h2" d="M760 {sy-5}C880 {sy-36} 1040 {sy-66} 1200 {sy-46}C1320 {sy-32} 1400 {sy-40} 1440 {sy-36}L1440 {sy}L760 {sy}Z"/>'
+           f'<rect y="{sy}" width="{W}" height="{hz}" fill="url(#c2lw)"/>')
+    for i in range(20):
+        gy, gw, gx = sy + 10 + (i * 37) % (hz - 30), 30 + (i * 53) % 110, sx - 280 + (i * 97) % 560
+        out += f'<rect class="c2l-glint" x="{gx}" y="{gy}" width="{gw}" height="3" rx="1.5"/>'
+    for x, k in [(28, 0.9), (50, 0.72), (1388, 0.9), (1410, 0.74)]:
+        h = 104 * k
+        out += f'<path class="c2l-reed" d="M{x} {Hh}Q{x + 5} {Hh - h / 2:.0f} {x + 2} {Hh - h:.0f}"/><rect class="c2l-reedtop" x="{x - 3}" y="{Hh - h - 4:.0f}" width="8" height="22" rx="4"/>'
+    return out + "</svg>"
+
+HOME_LINKS = [("Work", "work"), ("Process", "process"), ("Story", "story"), ("Playground", "gallery"), ("Writing", "writing"), ("Capabilities", "skills"), ("AI", "ai")]
+
 def footer(nxt, back_label="All work", back_href="index.html#work", prev=None):
     prev_html = (f'<a class="cs-next__prev" href="{prev[0]}"><span class="cs-next__plbl">{"Previous" if prev[0] in [f for f, _ in SERIES] else "Previous case study"}</span><span class="cs-next__pname"><span aria-hidden="true">←</span> {esc(prev[1])}</span></a>' if prev else "")
+    nav = "".join(f'<a href="index.html#{h}">{n}</a>' for n, h in HOME_LINKS)
     return f'''  <footer class="cs-next" data-layer="Next">
     <div class="cs-next__inner">
       <div class="cs-next__main">
@@ -215,6 +240,13 @@ def footer(nxt, back_label="All work", back_href="index.html#work", prev=None):
         <a class="cs-next__title{" cs-next__title--long" if len(nxt["title"]) > 26 else ""}" href="{nxt["href"]}">{esc(nxt["title"])}<span class="cs-next__arrow" aria-hidden="true">→</span></a>
       </div>
       <div class="cs-next__side">{prev_html}<a class="cs-next__all" href="{back_href}"><span aria-hidden="true">←</span> {esc(back_label)}</a></div>
+    </div>
+    <!-- the page ends where the home page ends: the lake at the end of the day, and the same last line -->
+    <div class="c2-lake" aria-hidden="true">{_lake()}</div>
+    <div class="c2-bar">
+      <span class="c2-bar__name"><b>Ganeshkumar B</b> <span aria-hidden="true">·</span> Senior Product Designer</span>
+      <nav class="c2-bar__nav" aria-label="Home sections">{nav}</nav>
+      <span class="c2-bar__credit">Designed by me, built with Claude. <a href="#top">Back to top ↑</a></span>
     </div>
   </footer>
 
@@ -316,6 +348,29 @@ def series_switch(hero, file):
     m = re.search(r'(<p class="c2-kicker[^"]*">.*?)(</p>)', hero, re.S)
     return hero[:m.start(2)] + sw + hero[m.start(2):] if m else hero
 
+def _mark_last(inner):
+    """Wrap the last word of a headline in the home page's yellow marker (<span class="mk">), skipping tags."""
+    if 'class="mk"' in inner: return inner
+    parts = re.split(r'(<[^>]+>)', inner)
+    for i in range(len(parts) - 1, -1, -1):
+        if parts[i].startswith("<") or not parts[i].strip(): continue
+        m = re.search(r'(\S+)(\s*)$', parts[i])
+        if not m: continue
+        parts[i] = parts[i][:m.start(1)] + '<span class="mk">' + m.group(1) + '</span>' + m.group(2)
+        return "".join(parts)
+    return inner
+
+def lakeside(html_):
+    """The home page's language on every case and info page: the headline's last word gets the marker,
+    and the hero's first line (its kicker) becomes a pill with the sun dot."""
+    html_ = re.sub(r'(<h([12]) class="c2-h\2[^"]*">)(.*?)(</h\2>)', lambda m: m.group(1) + _mark_last(m.group(3)) + m.group(4), html_, flags=re.S)
+    def pill(m):
+        head, body = m.group(1), m.group(2)
+        k = re.search(r'<small>|<span class="c2-switch"', body)
+        txt, rest = (body[:k.start()], body[k.start():]) if k else (body, "")
+        return head + (f'<span class="c2-kicker__pill">{txt.strip()}</span>' if txt.strip() else "") + rest + "</p>"
+    return re.sub(r'(<p class="c2-kicker[^"]*">)(.*?)</p>', pill, html_, count=1, flags=re.S)
+
 def render(p):
     _EXTRA_JS.clear(); _EXTRA_JS.extend(p.get("extra_js", []))
     content = number_sections("\n".join(p["sections"]))
@@ -326,9 +381,9 @@ def render(p):
         if len(links) > 7: nav = nav.replace('class="nav__pill nav__pill--case nav__pill--parts"', 'class="nav__pill nav__pill--case nav__pill--parts nav__pill--dense"')
     out = head(p)
     out += nav
-    out += series_switch(case_switch(p["hero"], nav), p["file"])
+    out += lakeside(series_switch(case_switch(p["hero"], nav), p["file"]))
     for s in p.get("pre", []): out += s
-    out += '  <main class="cs-content" data-layer="Content">\n' + content + '\n  </main>\n'
+    out += '  <main class="cs-content" data-layer="Content">\n' + lakeside(content) + '\n  </main>\n'
     out += p.get("after", "")
     pv = re.search(r'nav__dir--prev" href="([^"]+)" title="Previous: ([^"]+)"', p["nav"])  # the case before this one, from its own nav
     prev = (pv.group(1), pv.group(2)) if pv else None

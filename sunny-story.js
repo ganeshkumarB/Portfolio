@@ -26,6 +26,12 @@
   function pref(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
   function sess(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  /* the weather, for the rest of the page (the home hero dresses its lake in it): the same table as this film's and the
+     same ?weather= test names, so the two never disagree. Set up before the early returns below, which skip the film but not this. */
+  win.SunnyWeather = {
+    test: function () { var ow = qs.get("weather"); if (!ow) return undefined; return ow === "offline" ? null : synth(ow); },
+    climate: function (rec) { return climateOf(rec, "midday"); }
+  };
   var force = qs.has("story");
   if (!force && sess("sunny:loader") === "1") return;
   if (!force && pref("pref:sunny") === "off") return; /* the visitor sent the mascots away */
@@ -88,12 +94,12 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 /* ---- the loading UI ---- */
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .sl-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(to top, rgba(10, 12, 24, 0.6), rgba(10, 12, 24, 0.22) 50%, rgba(10, 12, 24, 0)); }
-.sl-ui { position: absolute; left: 50%; bottom: max(28px, 6vh); width: min(380px, calc(100vw - 40px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.sl-ui { position: absolute; left: 50%; bottom: max(28px, calc(6vh / var(--z, 1))); width: min(380px, calc(calc(100vw / var(--z, 1)) - 40px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
 .sl-cap { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; line-height: 1.4; letter-spacing: 0.01em; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
 .sl-cap svg { width: 18px; height: 18px; flex: none; }
 .sl-dot { opacity: 0.5; }
 .sl-pct { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; opacity: 0.8; font-variant-numeric: tabular-nums; }
-.sl-skip { position: absolute; top: max(16px, 3vh); right: max(16px, 3vw); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(14, 14, 24, 0.5); color: #fff; font: 500 13px/1 "Inter", system-ui, sans-serif; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.sl-skip { position: absolute; top: max(16px, calc(3vh / var(--z, 1))); right: max(16px, calc(3vw / var(--z, 1))); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(14, 14, 24, 0.5); color: #fff; font: 500 13px/1 "Inter", system-ui, sans-serif; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .sl-skip:hover { background: rgba(14, 14, 24, 0.75); }
 .sl-skip:focus-visible { outline: 2px solid #ffc93c; outline-offset: 2px; }
 .sl.is-light { color: #15161a; }
@@ -103,7 +109,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl.is-light .sl-skip { color: #15161a; background: rgba(255, 255, 255, 0.85); border-color: #e6e7ea; }
 .sl.is-light .sl-skip:hover { background: #fff; }
 .sl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 640px) { .sl-ui { bottom: max(28px, 5vh); } .sl-cap { font-size: 13px; flex-wrap: wrap; justify-content: center; } }
+@media (max-width: 640px) { .sl-ui { bottom: max(28px, calc(5vh / var(--z, 1))); } .sl-cap { font-size: 13px; flex-wrap: wrap; justify-content: center; } }
 .sl.is-still *, .sl.is-still .sl-cam { animation: none !important; transition: none !important; }
 `;
   var style = doc.createElement("style"); style.textContent = CSS; (doc.head || html).appendChild(style);
@@ -871,11 +877,35 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     setTimeout(function () { real.style.visibility = ""; if (fly.parentNode) fly.parentNode.removeChild(fly); flying = false; if (style.parentNode && !root.parentNode) style.parentNode.removeChild(style); }, ms + 30);
     return true;
   }
+  /* into the site, "Into the sun" (_models-enter.html, 06): the camera flies into the disc. The whole film zooms 5x toward the
+     sun's centre and fades (1 s, ease-in), Sunny and Puppy still in it; 350 ms in, the page settles in from a slight zoom
+     (0.9 s, ease-out) and the companions on the page fade in with it. Measured against the mockup in .reanimate/into-the-sun. */
+  var INTO_MS = 1000, SITE_DELAY = 350, SITE_MS = 900, EASE_IN = "cubic-bezier(0.64, 0, 0.78, 0)", EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
+  function intoSun() {
+    if (reduced || !win.Element.prototype.animate) return false;
+    var disc = R.world && R.world.querySelector('circle[clip-path="url(#slw-rise)"]'), b = disc && disc.getBoundingClientRect();
+    var ox = b && b.width ? b.left + b.width / 2 : wx2(DC[0]), oy = b && b.width ? b.top + b.height / 2 : wy2(DC[1]);
+    cancelAnimationFrame(raf);
+    root.style.transition = "none"; root.style.pointerEvents = "none";
+    root.style.transformOrigin = ox.toFixed(1) + "px " + oy.toFixed(1) + "px";
+    root.animate([{ transform: "none", opacity: 1 }, { transform: "scale(5)", opacity: 0 }], { duration: INTO_MS, easing: EASE_IN, fill: "forwards" });
+    function settle(el, kf) {
+      var a = el.animate(kf, { duration: SITE_MS, delay: SITE_DELAY, easing: EASE_OUT, fill: "both" });
+      a.onfinish = function () { a.cancel(); el.style.removeProperty("visibility"); }; /* hand the element back to its own styles */
+    }
+    var site = doc.getElementById("hey") || doc.querySelector("main");
+    if (site) settle(site, [{ transform: "scale(1.06)", opacity: 0 }, { transform: "none", opacity: 1 }]);
+    Array.prototype.forEach.call(doc.querySelectorAll("body > .sunny, body > .puppy"), function (c) {
+      c.style.setProperty("visibility", "visible", "important"); /* the film hides them while it plays */
+      settle(c, [{ opacity: 0 }, { opacity: 1 }]);
+    });
+    return true;
+  }
   function finish(skipped) {
     if (done) return; done = true; clearInterval(timer); clearTimeout(endTimer);
     sess("sunny:loader", "1");
-    handover();
-    root.classList.add("is-out");
+    var into = intoSun();
+    if (!into) { handover(); root.classList.add("is-out"); }
     setTimeout(function () {
       cancelAnimationFrame(raf);
       html.classList.remove("sl-on");
@@ -884,7 +914,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
       win.removeEventListener("keydown", onKey); win.removeEventListener("resize", onResize);
       A = null;
       if (pref("puppy:met") !== "1") { store("puppy:met", "1"); afterStory(); }
-    }, 950);
+    }, into ? INTO_MS + 30 : 950);
   }
   function onKey(e) { if (e.key === "Escape") { e.preventDefault(); finish(true); } }
   var rsz = 0; function onResize() { clearTimeout(rsz); rsz = setTimeout(function () { layout(); if (built && !reduced) seed(); }, 120); }

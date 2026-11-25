@@ -62,7 +62,7 @@
 
   /* ---- the card ---- */
   var CSS = `
-.fb { position: fixed; z-index: 2147482000; width: min(340px, calc(100vw - 24px)); padding: 16px 16px 14px; border-radius: 16px; background: var(--card, #fff); color: var(--ink, #15161a); border: 1px solid var(--line, #e6e7ea); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.35); font: 14px/1.45 "Inter", system-ui, sans-serif; opacity: 0; transform: translateY(10px) scale(0.98); transform-origin: 90% 100%; transition: opacity 0.3s var(--ease-out, ease), transform 0.4s var(--ease-out, ease); }
+.fb { position: fixed; z-index: 2147482000; width: min(340px, calc(calc(100vw / var(--z, 1)) - 24px)); padding: 16px 16px 14px; border-radius: 16px; background: var(--card, #fff); color: var(--ink, #15161a); border: 1px solid var(--line, #e6e7ea); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.35); font: 14px/1.45 "Inter", system-ui, sans-serif; opacity: 0; transform: translateY(10px) scale(0.98); transform-origin: 90% 100%; transition: opacity 0.3s var(--ease-out, ease), transform 0.4s var(--ease-out, ease); }
 .fb.is-in { opacity: 1; transform: none; }
 .fb__x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: transparent; color: var(--muted, #61656e); font-size: 18px; line-height: 1; cursor: pointer; }
 .fb__x:hover { background: var(--surface, #f5f5f3); color: var(--ink, #15161a); }

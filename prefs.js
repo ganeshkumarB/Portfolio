@@ -90,7 +90,7 @@
             seg("text", "Text size", [["normal", "Default", '<b class="prefs__aa" style="font-size:12px">A</b>'], ["large", "Large", '<b class="prefs__aa" style="font-size:14px">A</b>', "About an eighth bigger"], ["larger", "Larger", '<b class="prefs__aa" style="font-size:16px">A</b>', "About a quarter bigger"]]) +
             toggle("links", "Underline links", "Marks every link with an underline, so none depend on colour alone.")) +
           group("motion", "Motion and sound",
-            toggle("motion", "Reduce motion", "Stills the loading scene, and stops reveals, the companions’ acts and the replay.") +
+            toggle("motion", "Reduce motion", "Stills the loading scene, and stops reveals, the companions’ acts and the looping drawings.") +
             seg("sound", "Companion sound", [["off", "Off"], ["soft", "Soft"], ["bubbly", "Bubbly"], ["retro", "Retro"], ["bell", "Bell"]], "Short synthesized cues when Sunny or Puppy reacts. Off until you choose.")) +
           group("keys", "Keyboard",
             toggle("shortcuts", "Single-key shortcuts", "I, G, T, A and C. <kbd>?</kbd> and <kbd>Esc</kbd> always work. Turn off if you use a screen reader or voice control.") +
@@ -118,7 +118,7 @@
       panel.querySelector('[data-pref="shortcuts"]').checked = P.shortcuts();
       var sysMotion = P.systemMotion(), mot = panel.querySelector('[data-pref="motion"]');
       mot.checked = sysMotion || P.motion() === "reduce"; mot.disabled = sysMotion;
-      panel.querySelector("#ph-motion").textContent = sysMotion ? "On, because your device asks for less motion. Change it in your system settings." : "Stills the loading scene, and stops reveals, the companions’ acts and the replay.";
+      panel.querySelector("#ph-motion").textContent = sysMotion ? "On, because your device asks for less motion. Change it in your system settings." : "Stills the loading scene, and stops reveals, the companions’ acts and the looping drawings.";
       panel.querySelector('[data-pref="sunny"]').checked = P.sunny();
       panel.querySelector('[data-pref="links"]').checked = P.links();
       checkSeg("theme", P.theme()); checkSeg("text", P.text()); checkSeg("sound", P.sound()); checkSeg("companion", P.companion());

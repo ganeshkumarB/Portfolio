@@ -235,9 +235,8 @@
     [".fact", 80],
     [".mz", 80],
     [".wrow", 60],
-    [".how__stage", 0],
-    [".how__tiles .how__step", 70],
-    [".how__tile", 90],
+    [".pbento__tile", 80],
+    [".pbento__foot", 0],
     [".ai__row", 80],
     [".story__portrait", 0],
     [".story__copy > *", 90],
@@ -247,11 +246,10 @@
     [".post", 70],
     [".group", 90],
     [".contact__title", 0],
-    [".contact__lede", 80],
-    [".contact__mail", 140],
-    [".contact__ctas", 200],
-    [".contact__side", 240],
-    [".contact__links", 280],
+    [".cbig__top .contact__links", 120],
+    [".cbig__line", 80],
+    [".cbig__act", 160],
+    [".cbig__facts > div", 80],
     [".contact__footer", 340]
   ];
   revealTargets.forEach(function (t) {

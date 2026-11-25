@@ -3,8 +3,8 @@
    Figma: "Case study 01 · Zobot", "02 · Design system", "03 · Operator Console"
    ============================================================ */
 :root {
-  --cs-line: #d7dae0;
-  --cs-surface: #f5f5f3;
+  --cs-line: #ddd7c7;
+  --cs-surface: #f8f3e6;
   --cs-card: #ffffff;
   --cs-blue-tint: #e8f0ff;
   --cs-blue-tint-2: #eaf1ff;
@@ -23,16 +23,16 @@
   --cs-console-bg: #fafaf9;
 }
 :root[data-theme="dark"] {
-  --cs-line: #2a2d36;
-  --cs-surface: #17181c;
-  --cs-card: #121317;
+  --cs-line: #28324a;
+  --cs-surface: #131a2b;
+  --cs-card: #0f1626;
   --cs-blue-tint: #172036;
   --cs-blue-tint-2: #172036;
   --cs-cream: #2a2412;
   --cs-green-tint: #14261c;
   --cs-red-tint: #2c161a;
-  --cs-console-line: #2a2d36;
-  --cs-console-bg: #0f1013;
+  --cs-console-line: #28324a;
+  --cs-console-bg: #0b101c;
 }
 
 .cs-page { background: var(--bg); color: var(--ink); }
@@ -658,8 +658,8 @@ a.lbl:hover { color: var(--ink); }
 :root[data-theme="dark"] {
   --cs-violet-tint: #221d3a;
   --cs-amber-tint: #2a2412;
-  --cs-ui-bg: #0f1013;
-  --cs-ui-line: #2a2d36;
+  --cs-ui-bg: #0b101c;
+  --cs-ui-line: #28324a;
 }
 
 /* --- Public context --- */

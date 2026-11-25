@@ -250,7 +250,7 @@
     ],
     home: [
       { id: "work", name: "Selected work", what: "Seven case studies." },
-      { id: "process", name: "Process", what: "Understand, Explore, Systemize, Build, with the prompt-to-component loop replayed." },
+      { id: "process", name: "Process", what: "Understand, Explore, Systemize, Build: four tiles, each with a short looping drawing of the step, and the three principles." },
       { id: "story", name: "Story", what: "Visual design, product design, systems and engineering." },
       { id: "gallery", name: "Playground", what: "18 pieces: illustrations, 3D renders and app concepts." },
       { id: "writing", name: "Writing", what: "Short LinkedIn posts on UI fundamentals, UX and design systems. Spacing is 80% of good UI, apparently." },
