@@ -125,7 +125,7 @@
      Hero intro: headline words, sync sequence, status
      ============================================================ */
   var title = $("#heroTitle");
-  var accentWords = ["experiences"], boldWords = ["problems", "experiences"], breakAfter = ["product", "simple,"];
+  var accentWords = ["effortless"], boldWords = ["complexity", "effortless"], breakAfter = ["complexity"];
   (function splitTitle() {
     var words = title.textContent.trim().split(/\s+/);
     title.textContent = "";
@@ -194,16 +194,16 @@
   requestAnimationFrame(function () {
     requestAnimationFrame(function () {
       document.body.classList.add("is-ready");
-      if (!reduced) runSync(true);
+      if (!reduced && bridge) runSync(true);
     });
   });
-  $(".bridge__header").addEventListener("click", function () { if (!reduced) runSync(false); });
+  if (bridge) $(".bridge__header").addEventListener("click", function () { if (!reduced) runSync(false); });
 
   /* Token <-> code linking */
   var tokenMap = { "color/ink": "is-hot-ink", "radius/md": "is-hot-radius", "space/3": "is-hot-space" };
   function hot(name, on) {
     $$('[data-token="' + name + '"]').forEach(function (el) { el.classList.toggle("is-hot", on); });
-    bridge.classList.toggle(tokenMap[name], on);
+    if (bridge) bridge.classList.toggle(tokenMap[name], on);
   }
   $$("[data-token]").forEach(function (el) {
     var name = el.getAttribute("data-token");

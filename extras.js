@@ -210,40 +210,76 @@
 })();
 
 
-/* Hero 18: the companion peeks from behind the bridge card, ducks when you hover it, and flies to its corner once you scroll.
-   The companion is Sunny, or Puppy when the visitor chose Puppy alone (in Together, Sunny perches and Puppy keeps the corner). */
+/* Hero scene: Sunny and Puppy on their spot under the headline (today: the end of the jetty in the Lakeside scene).
+   The scene holds a stand-in of each (the mascots' own drawings). The live companion takes its stand-in's place:
+   Sunny, or Puppy when the visitor chose Puppy alone (in Together, Sunny stands here and Puppy keeps the corner).
+   It flies to its corner once the page is scrolled, and back when the page returns to the top.
+   A scene that naps (no data-nap="off") also puts the companion to sleep until the visitor comes close, clicks, types or scrolls. */
 (function () {
   "use strict";
-  var card = document.getElementById("heroCard"), bridge = document.getElementById("bridge");
-  if (!card || !bridge) return;
-  var wide = window.matchMedia("(min-width: 1081px)");
+  var scene = document.getElementById("heroScene"), slotSun = document.getElementById("heroSun"), slotPup = document.getElementById("heroPup");
+  if (!scene || !slotSun || !slotPup) return;
+  var SELF = (document.currentScript && document.currentScript.src) || "extras.js";
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("reduce-motion");
-  if (reduced) return;
-  var A = null, mode = "dock", raf = 0, greeted = false, flight = null;
+  var A = null, mode = "dock", raf = 0, flight = null, napped = false, uid = 0;
 
+  /* ---- the stand-ins ---- */
+  function uniq(svg) { var p = "hn" + (++uid) + "-"; return svg.replace(/id="([\w-]+)"/g, 'id="' + p + '$1"').replace(/url\(#([\w-]+)\)/g, "url(#" + p + "$1)").replace(/href="#([\w-]+)"/g, 'href="#' + p + '$1"'); }
+  function needPuppy() {
+    if (window.Puppy || document.querySelector("script[data-puppy]")) return;
+    var sc = document.createElement("script");
+    sc.src = /extras\.js/.test(SELF) ? SELF.replace(/extras\.js/, "puppy.js") : "puppy.js";
+    sc.async = true; sc.setAttribute("data-puppy", "");
+    document.head.appendChild(sc);
+  }
+  /* a scene may opt out of the nap (data-nap="off"): its stand-ins are awake and the live companion is not put to sleep */
+  var NAPS = scene.getAttribute("data-nap") !== "off", POSE = NAPS ? ' data-act="sleep"' : "";
+  var SPOT = scene.getAttribute("data-spot") || "grass"; /* what the companion lands on, for its landing line */
+  function draw() {
+    var S = window.Sunny, P = window.Puppy, done = true;
+    if (!slotSun.firstChild) {
+      if (S && typeof S.art === "function") slotSun.innerHTML = '<div class="sunny is-in hero__nap"' + POSE + '><div class="sunny__char">' + uniq(S.art()) + "</div></div>";
+      else done = false;
+    }
+    if (!slotPup.firstChild) {
+      if (P && typeof P.art === "function") slotPup.innerHTML = '<div class="puppy is-in hero__nap"' + POSE + '><div class="puppy__char">' + uniq(P.art()) + "</div></div>";
+      else { done = false; if (S) needPuppy(); }
+    }
+    return done;
+  }
+  var drawTries = 0;
+  (function waitArt() { if (draw()) return; if (++drawTries < 100) setTimeout(waitArt, 150); })();
+
+  /* ---- the live companion ---- */
   function companion() { return window.Sunny && window.Sunny.mode ? window.Sunny.mode() : "sunny"; }
-  /* who perches: Sunny, or Puppy when it is alone */
+  function away() { return document.body.classList.contains("recruiter"); } /* recruiter view hides the companions: the scene keeps its stand-ins */
   function pick() {
+    if (away()) return null;
     if (companion() === "puppy") {
       var p = document.querySelector("body > .puppy");
       if (!p || p.classList.contains("is-off")) return null;
-      return { root: p, chr: p.querySelector(".puppy__char"), kind: "puppy", perch: "puppy--perch", landing: "puppy--landing" };
+      return { root: p, chr: p.querySelector(".puppy__char"), kind: "puppy", perch: "puppy--perch", landing: "puppy--landing", slot: slotPup };
     }
     var s = document.querySelector("body > .sunny");
     if (!s || !s.querySelector(".sunny__char")) return null;
-    return { root: s, chr: s.querySelector(".sunny__char"), kind: "sunny", perch: "sunny--perch", landing: "sunny--landing" };
+    return { root: s, chr: s.querySelector(".sunny__char"), kind: "sunny", perch: "sunny--perch", landing: "sunny--landing", slot: slotSun };
   }
   function sunnyRoot() { return document.querySelector("body > .sunny"); }
-  /* Puppy on the perch: Sunny's corner (and its Ask tag) steps aside */
-  function mark() { var s = sunnyRoot(); if (s) s.classList.toggle("is-pup-perched", !!A && A.kind === "puppy" && mode === "hero"); }
+  /* which stand-ins step aside: the one the live companion replaces, and the pup's when the real pup is on the page */
+  function mark() {
+    var s = sunnyRoot(), c = companion();
+    if (s) s.classList.toggle("is-pup-perched", !!A && A.kind === "puppy" && mode === "hero");
+    scene.classList.toggle("live-sun", !!A && A.kind === "sunny");
+    scene.classList.toggle("live-pup", !!A && (A.kind === "puppy" || c === "together"));
+    scene.classList.toggle("is-home", !!A && mode === "hero"); /* the live companion is on its spot right now */
+  }
+  /* the spot is free when the page is at its top and the spot itself is on screen (the scene's last few pixels may sit below the fold) */
+  function fits() { var r = (A ? A.slot : scene).getBoundingClientRect(); return r.top > 80 && r.bottom <= window.innerHeight + 4; }
   function place() {
     if (!A || mode !== "hero") return;
-    var r = bridge.getBoundingClientRect(), root = A.root, chr = A.chr;
-    var size = chr.offsetWidth || 150;
-    var cx = r.right - size - 36;                          /* character box left */
-    var cy = r.top - size * (A.kind === "puppy" ? 0.74 : 0.78); /* chin on the card's top edge, eyes clear above it */
-    root.style.left = Math.round(cx + size - root.offsetWidth) + "px";
-    root.style.top = Math.round(cy + size - root.offsetHeight) + "px";
+    var r = A.slot.getBoundingClientRect(), root = A.root;
+    root.style.left = Math.round(r.right + window.scrollX - root.offsetWidth) + "px";
+    root.style.top = Math.round(r.bottom + window.scrollY - root.offsetHeight) + "px";
     root.style.right = "auto"; root.style.bottom = "auto";
   }
   function clearPos(root) { root.style.left = root.style.top = root.style.right = root.style.bottom = ""; }
@@ -251,8 +287,9 @@
   function release() {
     if (!A) return;
     if (flight) { try { flight.cancel(); } catch (e) { /* ignore */ } flight = null; }
-    A.root.classList.remove(A.perch, A.landing, "is-duck", "is-flying");
+    A.root.classList.remove(A.perch, A.landing, "is-flying");
     if (A.kind === "sunny") A.root.classList.remove("is-flip");
+    else if (mode === "hero") A.root.classList.add("is-flip");
     clearPos(A.root);
     A = null; mode = "dock"; mark();
   }
@@ -263,8 +300,10 @@
     mode = next; mark();
     root.classList.add(A.landing);
     if (next === "hero") { root.classList.add(A.perch); place(); }
-    else { root.classList.remove(A.perch, "is-duck"); clearPos(root); }
+    else { root.classList.remove(A.perch); clearPos(root); }
+    if (kind === "puppy" && next === "hero") root.classList.remove("is-flip"); /* on the grass the pup faces Sunny */
     var to = chr.getBoundingClientRect();
+    if (reduced) { root.classList.remove(A.landing); if (kind === "puppy" && next === "dock") root.classList.add("is-flip"); return; } /* no flight: just be there */
     var dx = from.left - to.left, dy = from.top - to.top;
     /* Superman: crouch, launch, a curved flight facing the direction of travel, level off, touch down, dust */
     var S = window.Sunny, P = window.Puppy, going = next === "dock", left = dx > 0; /* dx is old minus new: positive means we travel left */
@@ -273,14 +312,14 @@
     var land = function () {
       flight = null;
       root.classList.remove(A ? A.landing : "sunny--landing", "is-flying");
-      if (kind === "puppy") root.classList.add("is-flip"); /* alone, the pup faces the page */
+      if (kind === "puppy") root.classList.toggle("is-flip", going); /* in the corner the pup faces the page; on the grass it faces Sunny */
       else root.classList.remove("is-flip");
       dust();
       if (kind === "puppy" && P && P.pant) P.pant(2400);
       if (S) {
         if (S.sounds && S.sounds.indexOf("land") > -1) S.sfx("land");
         if (going) { S.emote("proud", 1800); S.say(kind === "puppy" ? "Up, up and… paws down." : "Up, up and… down here.", 2600); }
-        else { S.emote("curious", 1500); S.say("Back on my perch.", 2000); }
+        else { S.emote("relaxed", 1800); S.say("Back on the " + SPOT + (kind === "puppy" ? "." : ". Comfy."), 2000); }
       }
     };
     function dust() {
@@ -314,25 +353,32 @@
   }
   function tick() {
     raf = 0;
-    if (!A) return;
-    if (!wide.matches) { setMode("dock"); return; }
-    var top = bridge.getBoundingClientRect().top;
-    if (mode === "hero" && top < 120) setMode("dock");
-    else if (mode === "dock" && top > 180) setMode("hero");
+    if (away()) { release(); return; }
+    if (!A) { if (!attach()) return; }
+    var y = window.scrollY || 0;
+    if (mode === "hero" && (y > 140 || !fits())) setMode("dock");
+    else if (mode === "dock" && y < 40 && fits()) setMode("hero");
     place();
   }
   function schedule() { if (!raf) raf = setTimeout(tick, 16); }
-  /* start (or restart, after a companion switch) on the page as it is: no flight, just sit where we belong */
+  /* the first nap: once, as the page opens. After that the companion sleeps on its own clock like anywhere else. */
+  function nap() {
+    if (!NAPS || napped || reduced || !A || mode !== "hero") return;
+    var S = window.Sunny;
+    if (S && S.nap && S.nap()) napped = true;
+  }
+  /* start (or restart, after a companion switch) on the page as it is: no flight, just be where we belong */
   function attach() {
     var n = pick();
-    if (!n) return false;
+    if (!n) { mark(); return false; }
     if (A && A.root === n.root) return true;
     release(); A = n; mode = "dock";
-    if (wide.matches && bridge.getBoundingClientRect().top > 180) {
-      A.root.classList.add(A.perch); mode = "hero"; place(); mark();
-      if (A.kind === "puppy") A.root.classList.add("is-flip");
-      if (!greeted) setTimeout(function () { if (mode === "hero" && window.Sunny && !greeted) { greeted = true; window.Sunny.emote("curious"); window.Sunny.say("Boo. Hover the card, it tilts.", 3000); } }, 1400);
+    if ((window.scrollY || 0) < 40 && fits()) {
+      A.root.classList.add(A.perch); mode = "hero"; place();
+      if (A.kind === "puppy") A.root.classList.remove("is-flip");
+      nap();
     }
+    mark();
     return true;
   }
   function retry(n) { if (attach()) return; if (n > 0) setTimeout(function () { retry(n - 1); }, 150); }
@@ -343,10 +389,19 @@
     hooked = true;
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
-    bridge.addEventListener("mouseenter", function () { if (A && mode === "hero") { A.root.classList.add("is-duck"); if (window.Sunny) window.Sunny.emote("shy", 1600); } });
-    bridge.addEventListener("mouseleave", function () { if (A) A.root.classList.remove("is-duck"); });
-    /* a different companion chosen in the preferences: hand the perch over */
+    window.addEventListener("load", schedule); /* fonts and images settle the layout: sit on the final spot */
+    scene.addEventListener("transitionend", schedule); /* and so does the scene's own entrance */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    /* Puppy alone naps through Sunny's engine, whose own "came close" test watches Sunny: wake the pup when the pointer nears it */
+    window.addEventListener("pointermove", function (e) {
+      if (!A || A.kind !== "puppy" || mode !== "hero" || !window.Sunny) return;
+      var s = window.Sunny.sense && window.Sunny.sense(); if (!s || !s.asleep) return;
+      var r = A.chr.getBoundingClientRect();
+      if (Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2)) < r.width * 1.3) window.Sunny.wake();
+    }, { passive: true });
+    /* a different companion chosen in the preferences, or the recruiter view switched: hand the spot over */
     if (window.Sunny && window.Sunny.on) window.Sunny.on("mode", function () { release(); retry(40); });
+    if (window.MutationObserver) new MutationObserver(schedule).observe(document.body, { attributes: true, attributeFilter: ["class"] });
     return true;
   }
   var tries = 0;

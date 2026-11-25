@@ -3705,3 +3705,108 @@ html.reduce-motion::view-transition-group(*), html.reduce-motion::view-transitio
 html.reduce-motion .mo-wait { opacity: 1; } html.reduce-motion .mo-in { animation: none; }
 /* safety net for publishing: nothing may scroll the page sideways on a phone (clip, unlike hidden, keeps sticky headers working) */
 body { overflow-x: clip; }
+
+/* ============================================================
+   Hero 20, centred: kicker, two-line headline with a marker stroke on the last word, lede, two buttons,
+   then the Lakeside scene: Sunny and Puppy watch the sun come up from the end of a jetty, as backlit silhouettes
+   (extras.js draws them from the site's own mascot art). The live companion stands on its spot and flies to its corner on scroll.
+   ============================================================ */
+.hero.hero--nap { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; padding-bottom: 28px; background: linear-gradient(180deg, #fffcf5 0%, var(--bg) 100%); }
+:root[data-theme="dark"] .hero.hero--nap { background: none; }
+.hero.hero--nap::before { display: none; }
+.hero__stage { position: relative; z-index: 1; flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: clamp(28px, 5.5vh, 60px); }
+.hero__stage .hero__copy { flex: none; align-items: center; gap: clamp(18px, 2.8vh, 30px); width: 100%; max-width: 1000px; }
+.hero__stage .hero__top { justify-content: center; margin: 0; }
+.hero__stage .hero__kicker { padding: 10px 22px 10px 14px; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: var(--ink); }
+.hero__stage .hero__kicker-dot { width: 12px; height: 12px; box-shadow: 0 0 0 4px rgba(255, 213, 74, 0.3); }
+.hero__stage .hero__title { max-width: none; margin: 0; font-size: clamp(36px, min(5.8vw, 10.5vh), 88px); font-weight: 700; line-height: 1.02; letter-spacing: -0.035em; text-wrap: balance; }
+.hero__stage .hero__title .w--bold { font-weight: 700; }
+.hero__stage .hero__br { display: none; }
+@media (min-width: 761px) { .hero__stage .hero__br { display: inline; } .hero__stage .hero__title { text-wrap: initial; } }
+/* the marker stroke behind "effortless." and the three sparks beside it */
+.hero__stage .hero__title .w--accent { color: inherit; position: relative; }
+.hero__stage .hero__title .w--accent::after { content: ""; position: absolute; left: -0.16em; right: -0.14em; top: 0.44em; bottom: -0.04em; height: auto; z-index: -1; transform: rotate(-0.8deg); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M9 21C62 11 150 7 240 8C300 9 361 11 392 16C399 30 398 47 390 59C330 65 250 62 170 63C110 64 50 68 10 62C2 48 2 33 9 21Z' fill='%23ffd54a'/%3E%3C/svg%3E") no-repeat center / 100% 100%; }
+.hero__stage .hero__title .w--accent::before { content: ""; position: absolute; left: calc(100% + 0.16em); top: 0.2em; width: 0.56em; height: 0.5em; transform: rotate(24deg); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 54' fill='none' stroke='%23f5c518' stroke-width='6' stroke-linecap='round'%3E%3Cpath d='M6 6L15 25M27 36L45 23M33 49L56 43'/%3E%3C/svg%3E") no-repeat center / contain; }
+:root[data-theme="dark"] .hero__stage .hero__title .w--accent::after { opacity: 0.3; }
+.hero__stage .hero__lede { max-width: 780px; margin: 0; font-size: clamp(16px, 1.32vw, 20px); line-height: 1.7; text-wrap: balance; }
+.hero__stage .hero__years { white-space: nowrap; font-weight: 600; color: var(--ink); background: linear-gradient(transparent 88%, var(--sun) 88%); padding: 0 0 1px; margin: 0; }
+:root[data-theme="dark"] .hero__stage .hero__years { background: linear-gradient(transparent 88%, rgba(255, 213, 74, 0.7) 88%); }
+.hero__stage .hero__cta { justify-content: center; flex-wrap: wrap; gap: 16px 28px; padding-top: 6px; }
+.hero__stage .hero__cta .btn { padding: 14px 32px; font-size: 18px; }
+.hero__stage .hero__cta .btn--ghost { border-width: 1.5px; padding: 12.5px 32px; }
+.hero__stage .hero__cta .btn__ico { margin-left: 12px; }
+
+/* the scene's stand-ins: the mascots' own drawings, held still on their spots */
+.hero__scene { position: relative; flex: none; width: 100%; pointer-events: none; }
+.hero__slot { position: absolute; width: var(--hs); height: var(--hs); }
+.hero__nap { position: absolute !important; inset: 0 !important; width: auto !important; height: auto !important; z-index: auto !important; translate: none !important; visibility: visible; transition: opacity 0.3s ease; }
+.hero__nap .sunny__char, .hero__nap .puppy__char { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 1; transform: none; translate: none; transition: none; pointer-events: none; cursor: default; }
+.hero__nap .sunny__svg, .hero__nap .puppy__svg { display: block; width: 100%; height: 100%; }
+.hero__scene.live-sun .hero__slot--sun .hero__nap, .hero__scene.live-pup .hero__slot--pup .hero__nap { opacity: 0; visibility: hidden; }
+body.recruiter .hero__scene .sunny.hero__nap { display: block !important; }
+
+/* Lakeside. Everything is drawn in one unit (--lu) and hangs off the bottom edge: the water is 140 units deep, so the horizon
+   sits 140 units up. The box itself only reserves room; the sky above it may run behind the copy on short screens. */
+.hero.hero--lake { padding-bottom: 0; background: linear-gradient(180deg, #fffdf9 0%, #fffdf9 46%, #fff4d2 68%, #ffe9a8 86%); }
+:root[data-theme="dark"] .hero.hero--lake { background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 46%, #1f1a0d 70%, #3a2c0c 90%); }
+.hero--lake .hero__copy { margin-bottom: 20px; }
+body.hero-lake { --lake-lu: 0.9375px; }
+.hero__scene--lake { --lu: var(--lake-lu, 0.9375px); --hs: calc(160 * var(--lu)); --sd: clamp(calc(230 * var(--lu)), 40vh, calc(360 * var(--lu))); z-index: -1; flex: 1 1 auto; min-height: calc(230 * var(--lu)); max-height: calc(330 * var(--lu)); margin-top: auto; }
+.lk { position: absolute; left: 50%; bottom: 0; display: block; max-width: none; }
+.lk-glow { width: calc(840 * var(--lu)); height: calc(600 * var(--lu)); margin-left: calc(-420 * var(--lu)); bottom: calc(-160 * var(--lu)); border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 210, 70, 0.55), rgba(255, 222, 120, 0.28) 55%, rgba(255, 232, 160, 0)); }
+.lk-sun { width: var(--sd); height: var(--sd); margin-left: calc(var(--sd) / -2); bottom: calc(140 * var(--lu) - var(--sd) / 2); border-radius: 50%; background: radial-gradient(circle at 50% 42%, #ffe38a 0%, #ffd240 46%, #fbc326 100%); box-shadow: 0 0 70px 14px rgba(255, 205, 60, 0.5); }
+.lk-water { width: 100vw; height: calc(140 * var(--lu)); margin-left: -50vw; border-top: 1.5px solid rgba(226, 169, 42, 0.7); background: linear-gradient(180deg, #ffe59a 0%, #f1b52e 100%); box-sizing: border-box; }
+.lk-art { width: calc(2400 * var(--lu)); height: calc(330 * var(--lu)); margin-left: calc(-1200 * var(--lu)); overflow: visible; }
+.lk-cloud rect { fill: #ffe6a0; opacity: 0.9; } .lk-cloud .lk-cloud2 { opacity: 0.7; }
+.lk-birds path { stroke: #cf9f38; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.lk-m1 { fill: #ffe6a0; } .lk-m2 { fill: #f6cc62; }
+.lk-bars rect { fill: #fff6d6; opacity: calc(0.95 - var(--d) * 0.075); animation: lk-shimmer 4.5s ease-in-out calc(var(--d) * -0.6s) infinite; }
+@keyframes lk-shimmer { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.9); } }
+.lk-bars rect { transform-box: fill-box; transform-origin: 50% 50%; }
+.lk-rip rect { fill: #fff3c4; opacity: 0.75; } .lk-rip2 rect { fill: #d9a328; opacity: 0.45; }
+.lk-hull { fill: #a8761a; } .lk-sail { fill: #fff6d6; stroke: #c98f1c; stroke-width: 1.6; stroke-linejoin: round; } .lk-sail2 { fill: #ffefb8; } .lk-wake { fill: #a8761a; opacity: 0.5; }
+.lk-post rect { fill: #3d2705; } .lk-dock { fill: #4a3007; } .lk-seam { stroke: #2f1e04; stroke-width: 1.4; opacity: 0.6; } .lk-edge { stroke: #c78a1c; stroke-width: 2; }
+.lk-reeds { width: calc(190 * var(--lu)); height: calc(219 * var(--lu)); bottom: -4px; }
+.lk-reeds--l { margin-left: calc(-50vw + 8px); } .lk-reeds--r { margin-left: calc(50vw - 8px - 190 * var(--lu)); transform: scaleX(-1); }
+.lk-leaf path, .lk-stem { stroke: #3d2705; stroke-linecap: round; } .lk-stem { stroke-width: 3; } .lk-tail { fill: #5a3a09; }
+.lk-shore { width: 100vw; height: 22px; margin-left: -50vw; bottom: -1px; } .lk-shore path { fill: var(--bg); }
+.hero__scene--lake .hero__slot--sun { left: calc(50% - 122 * var(--lu)); bottom: calc(50 * var(--lu)); }
+.hero__scene--lake .hero__slot--pup { left: calc(50% + 20 * var(--lu)); bottom: calc(46 * var(--lu)); width: calc(116 * var(--lu)); height: calc(116 * var(--lu)); }
+.hero__scene--lake .hero__nap { filter: url(#sil); }
+.hero__scene--lake .hero__nap :is(.s-fx, .p-fx, .s-shadow, .p-shadow) { display: none; }
+/* the live companion on the jetty is a silhouette too, and gets its colours back as it takes off */
+body.hero-lake > .sunny.sunny--perch:not(.is-flying) .sunny__svg, body.hero-lake > .puppy.puppy--perch:not(.is-flying) .puppy__svg { filter: url(#sil); }
+body.hero-lake > .sunny.sunny--perch:not(.is-flying) :is(.s-shadow, .s-fx), body.hero-lake > .puppy.puppy--perch:not(.is-flying) :is(.p-shadow, .p-fx) { visibility: hidden; }
+/* Puppy alone stands where its stand-in stood, at the stand-in's size (smaller than Sunny beside it) */
+body.hero-lake > .puppy.puppy--perch { --pp: calc(116 * var(--lake-lu)); transition: none; }
+:root[data-theme="dark"] .lk-glow { opacity: 0.5; }
+:root[data-theme="dark"] .lk-sun { background: radial-gradient(circle at 50% 42%, #ffe08a 0%, #f8c531 50%, #eeb021 100%); box-shadow: 0 0 70px 10px rgba(255, 205, 60, 0.28); }
+:root[data-theme="dark"] .lk-water { border-top-color: rgba(255, 213, 74, 0.3); background: linear-gradient(180deg, #5a4712 0%, #2a2008 100%); }
+:root[data-theme="dark"] .lk-cloud rect { fill: #5a4716; } :root[data-theme="dark"] .lk-birds path { stroke: #8a6a12; }
+:root[data-theme="dark"] .lk-m1 { fill: #3d3112; } :root[data-theme="dark"] .lk-m2 { fill: #2b220c; }
+:root[data-theme="dark"] .lk-bars { opacity: 0.6; } :root[data-theme="dark"] .lk-bars rect { fill: #ffe9a6; }
+:root[data-theme="dark"] .lk-rip rect { fill: #ffe9a6; opacity: 0.22; } :root[data-theme="dark"] .lk-rip2 rect { fill: #000; opacity: 0.25; }
+:root[data-theme="dark"] .lk-hull, :root[data-theme="dark"] .lk-wake { fill: #120d03; } :root[data-theme="dark"] .lk-sail { fill: #6b5416; stroke: #2a2008; } :root[data-theme="dark"] .lk-sail2 { fill: #5a4712; }
+:root[data-theme="dark"] .lk-post rect { fill: #0a0702; } :root[data-theme="dark"] .lk-dock { fill: #0f0b03; } :root[data-theme="dark"] .lk-edge { stroke: #8a6a12; }
+:root[data-theme="dark"] .lk-leaf path, :root[data-theme="dark"] .lk-stem { stroke: #0a0702; } :root[data-theme="dark"] .lk-tail { fill: #161003; }
+:root[data-theme="dark"] .hero__scene--lake .hero__nap, :root[data-theme="dark"] body.hero-lake > .sunny.sunny--perch:not(.is-flying) .sunny__svg, :root[data-theme="dark"] body.hero-lake > .puppy.puppy--perch:not(.is-flying) .puppy__svg { filter: url(#silDark); }
+@media (prefers-reduced-motion: reduce) { .lk-bars rect { animation: none; } }
+html.reduce-motion .lk-bars rect { animation: none; }
+@media (max-width: 720px) {
+  body.hero-lake { --lake-lu: 0.65px; }
+  .lk-reeds { width: calc(133 * var(--lu)); height: calc(153 * var(--lu)); } .lk-reeds--r { margin-left: calc(50vw - 8px - 133 * var(--lu)); }
+  .lk-sun { box-shadow: 0 0 44px 8px rgba(255, 205, 60, 0.5); } .lk-shore { height: 14px; }
+}
+
+/* the live companion on its spot in the scene: it scrolls with the page until it takes off */
+.sunny.sunny--perch, .puppy.puppy--perch { position: absolute; z-index: 2; }
+.sunny.sunny--perch.is-in.is-duck .sunny__char, .puppy.puppy--perch.is-in.is-duck .puppy__char { transform: none; }
+
+@media (max-width: 720px) {
+  .hero__stage { padding-top: 36px; }
+  .hero__stage .hero__kicker { font-size: 11px; padding: 8px 14px 8px 11px; }
+  .hero__stage .hero__kicker-dot { width: 9px; height: 9px; }
+  .hero__stage .hero__cta .btn { padding: 12px 24px; font-size: 16px; }
+  .hero__stage .hero__cta .btn--ghost { padding: 10.5px 24px; }
+}
+@media (max-width: 560px) { .hero__stage .hero__title .w--accent::before { display: none; } }

@@ -18,22 +18,22 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261360" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261360" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261360" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261362" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261362" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261362" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261360" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261360" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261362" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261362" /></noscript>
 </head>
-<body id="top">
-  <script src="sunny-story.js?v=20261360"></script>
+<body id="top" class="hero-lake">
+  <script src="sunny-story.js?v=20261362"></script>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
 
   <!-- ===== Hero ===== -->
-  <header class="hero" id="hey" data-layer="Hero">
+  <header class="hero hero--nap hero--lake" id="hey" data-layer="Hero">
     <div class="progress" aria-hidden="true"></div>
     <div class="nav-slot">
     <nav class="nav nav--rail" aria-label="Primary">
@@ -58,61 +58,34 @@
     </nav>
     </div>
 
-    <div class="hero__grid hero__grid--wrapped">
+    <div class="hero__stage">
       <div class="hero__copy">
         <div class="hero__top" data-intro style="--i:0">
           <p class="hero__kicker mono"><span class="hero__kicker-dot" aria-hidden="true"></span>Ganeshkumar <span aria-hidden="true">·</span> Product Designer</p>
         </div>
-        <h1 class="hero__title" id="heroTitle">I turn complex product problems into simple, thoughtful experiences.</h1>
-        <p class="hero__lede" data-intro style="--i:2">Senior Product Designer with <strong class="hero__years">8 years of experience</strong> designing SaaS products, scalable design systems, and bridging design with engineering at Zoho SalesIQ.</p>
+        <h1 class="hero__title" id="heroTitle">Making complexity feel effortless.</h1>
+        <p class="hero__lede" data-intro style="--i:2">Senior Product Designer with <strong class="hero__years">8 years of experience</strong> designing SaaS products, design systems and more.</p>
         <div class="hero__cta" data-intro style="--i:3">
           <a class="btn btn--primary" href="#work">Explore my work <span class="btn__ico" aria-hidden="true">→</span></a>
-          <button type="button" class="btn btn--ghost" data-ask="">Ask Sunny about me <span class="btn__ico" aria-hidden="true">→</span></button>
+          <a class="btn btn--ghost" href="#contact">Get in touch <span class="btn__ico" aria-hidden="true">↗</span></a>
         </div>
       </div>
 
-      <div class="hero__card" id="heroCard">
-      <aside class="bridge" id="bridge" aria-label="Figma and Code Connect example" data-intro data-tilt style="--i:2">
-        <div class="bridge__header">
-          <span class="bridge__pane-title"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 2h4v6H8a3 3 0 0 1 0-6Z" fill="#f24e1e"/><path d="M12 2h4a3 3 0 0 1 0 6h-4V2Z" fill="#ff7262"/><path d="M8 8h4v6H8a3 3 0 0 1 0-6Z" fill="#a259ff"/><path d="M8 14h4v3a3 3 0 1 1-4-3Z" fill="#0acf83"/><circle cx="15" cy="11" r="3" fill="#1abcfe"/></svg>Figma</span>
-          <span class="bridge__pane-title bridge__pane-title--code"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code Connect</span>
-        </div>
-        <div class="bridge__split" id="bridgeSplit">
-          <div class="ghost" id="ghost" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L9 19z" fill="#f24e1e" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            <span class="ghost__name">code</span>
-          </div>
-          <div class="bridge__canvas">
-            <span class="bridge__label bridge__label--ink">Button / Primary</span>
-            <div class="bridge__stage">
-              <span class="bridge__button" id="bridgeButton">
-                <img loading="lazy" decoding="async" src="assets/dot-sun.svg" width="8" height="8" alt="" />
-                Start free trial
-                <i class="handle handle--tl"></i><i class="handle handle--tr"></i><i class="handle handle--bl"></i><i class="handle handle--br"></i>
-                <span class="bridge__size mono" aria-hidden="true">154 × 47</span>
-              </span>
-            </div>
-            <div class="bridge__tokens mono">
-              <button type="button" class="token" data-token="color/ink">color/ink</button>
-              <button type="button" class="token" data-token="radius/md">radius/md</button>
-              <button type="button" class="token" data-token="space/3">space/3</button>
-            </div>
-          </div>
-          <span class="bridge__swap" aria-hidden="true">⇄</span>
-          <div class="bridge__code mono">
-<pre class="bridge__pre" id="bridgeCode"><span class="ln">&lt;Button</span>
-<span class="ln" data-token="color/ink">  variant="primary"</span>
-<span class="ln" data-token="radius/md">  size="md"</span>
-<span class="ln" data-token="space/3">  leadingIcon="dot"</span>
-<span class="ln">&gt;</span>
-<span class="ln">  Start free trial</span>
-<span class="ln">&lt;/Button&gt;</span></pre>
-            <span class="bridge__synced" id="bridgeStatus">● synced · 0 drift</span>
-          </div>
-        </div>
-        <div class="bridge__footer">One component, both sides of the bridge. The same tokens drive each. Code is illustrative.</div>
-        <span class="glare bridge__glare" aria-hidden="true"></span>
-      </aside>
+      <!-- Lakeside: Sunny and Puppy watch the sun come up from the end of a jetty, as backlit silhouettes.
+           extras.js draws the two stand-ins from the site's own mascot art; the live companion takes its stand-in's place. -->
+      <div class="hero__scene hero__scene--lake" id="heroScene" data-nap="off" data-spot="jetty" data-layer="Hero / Lakeside" aria-hidden="true">
+        <svg width="0" height="0" style="position:absolute" focusable="false"><defs>
+          <!-- backlit silhouettes: a warm rim with a darker core -->
+          <filter id="sil" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feFlood flood-color="#c78a1c" result="rim"/><feComposite in="rim" in2="SourceAlpha" operator="in" result="rimIn"/><feMorphology in="SourceAlpha" operator="erode" radius="2.5" result="er"/><feGaussianBlur in="er" stdDeviation="3" result="core"/><feFlood flood-color="#5a3a09" result="dark"/><feComposite in="dark" in2="core" operator="in" result="darkIn"/><feComposite in="darkIn" in2="SourceAlpha" operator="in" result="darkClip"/><feMerge><feMergeNode in="rimIn"/><feMergeNode in="darkClip"/></feMerge></filter>
+          <filter id="silDark" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feFlood flood-color="#c78a1c" result="rim"/><feComposite in="rim" in2="SourceAlpha" operator="in" result="rimIn"/><feMorphology in="SourceAlpha" operator="erode" radius="2.5" result="er"/><feGaussianBlur in="er" stdDeviation="3" result="core"/><feFlood flood-color="#100c04" result="dark"/><feComposite in="dark" in2="core" operator="in" result="darkIn"/><feComposite in="darkIn" in2="SourceAlpha" operator="in" result="darkClip"/><feMerge><feMergeNode in="rimIn"/><feMergeNode in="darkClip"/></feMerge></filter>
+        </defs></svg>
+        <span class="lk lk-glow"></span><span class="lk lk-sun"></span><span class="lk lk-water"></span>
+        <svg class="lk lk-art" viewBox="0 0 2400 330" fill="none" focusable="false"><g class="lk-cloud"><rect x="610" y="66" width="230" height="14" rx="7.0"/><rect class="lk-cloud2" x="690" y="92" width="140" height="10" rx="5.0"/><rect x="1520" y="78" width="270" height="14" rx="7.0"/><rect class="lk-cloud2" x="1610" y="104" width="150" height="10" rx="5.0"/></g><g class="lk-birds"><path transform="translate(1640 62) scale(1)" d="M0 0q9 -10 16 0q8 -10 17 0"/><path transform="translate(1692 38) scale(0.9)" d="M0 0q9 -10 16 0q8 -10 17 0"/><path transform="translate(1748 18) scale(0.8)" d="M0 0q9 -10 16 0q8 -10 17 0"/><path transform="translate(1704 84) scale(0.8)" d="M0 0q9 -10 16 0q8 -10 17 0"/><path transform="translate(1766 70) scale(0.7)" d="M0 0q9 -10 16 0q8 -10 17 0"/></g><path class="lk-m1" d="M0 190C50 172 110 158 180 166C250 174 310 142 380 152C420 158 452 162 480 154C550 130 610 108 680 122C742 134 790 92 852 108C920 126 980 164 1060 190Z"/><path class="lk-m1" d="M1340 190C1420 160 1480 120 1550 130C1620 140 1666 94 1736 108C1810 124 1870 152 1920 138C1980 124 2040 150 2110 160C2180 170 2260 150 2330 168C2370 178 2390 186 2400 190Z"/><path class="lk-m2" d="M120 190C200 180 280 168 360 174C410 178 450 178 480 172C560 158 630 146 710 160C780 172 830 180 900 190Z"/><path class="lk-m2" d="M1520 190C1590 174 1660 156 1740 166C1810 174 1870 168 1920 164C1990 158 2060 170 2130 176C2190 181 2240 186 2280 190Z"/><g class="lk-bars"><rect x="1050.0" y="198" width="300" height="6" rx="3.0" style="--d:0"/><rect x="1087.0" y="212" width="226" height="6" rx="3.0" style="--d:1"/><rect x="1066.0" y="227" width="268" height="7" rx="3.5" style="--d:2"/><rect x="1106.0" y="243" width="188" height="7" rx="3.5" style="--d:3"/><rect x="1090.0" y="260" width="220" height="8" rx="4.0" style="--d:4"/><rect x="1125.0" y="296" width="150" height="8" rx="4.0" style="--d:5"/><rect x="1155.0" y="314" width="90" height="8" rx="4.0" style="--d:6"/></g><g class="lk-rip"><rect x="690" y="220" width="60" height="4" rx="2.0"/><rect x="810" y="242" width="44" height="4" rx="2.0"/><rect x="630" y="254" width="70" height="4" rx="2.0"/><rect x="950" y="216" width="36" height="4" rx="2.0"/><rect x="1440" y="222" width="56" height="4" rx="2.0"/><rect x="1540" y="248" width="72" height="4" rx="2.0"/><rect x="1710" y="230" width="48" height="4" rx="2.0"/><rect x="1810" y="260" width="60" height="4" rx="2.0"/><rect x="1380" y="276" width="50" height="4" rx="2.0"/><rect x="1660" y="296" width="64" height="4" rx="2.0"/><rect x="1490" y="310" width="40" height="4" rx="2.0"/><rect x="1860" y="216" width="34" height="4" rx="2.0"/><rect x="300" y="232" width="60" height="4" rx="2.0"/><rect x="420" y="270" width="50" height="4" rx="2.0"/><rect x="160" y="250" width="70" height="4" rx="2.0"/><rect x="540" y="300" width="56" height="4" rx="2.0"/><rect x="2000" y="240" width="60" height="4" rx="2.0"/><rect x="2120" y="270" width="50" height="4" rx="2.0"/><rect x="2260" y="226" width="64" height="4" rx="2.0"/><rect x="1960" y="300" width="56" height="4" rx="2.0"/></g><g class="lk-rip2"><rect x="708" y="229" width="36" height="3" rx="1.5"/><rect x="823" y="251" width="26" height="3" rx="1.5"/><rect x="651" y="263" width="42" height="3" rx="1.5"/><rect x="961" y="225" width="22" height="3" rx="1.5"/><rect x="1457" y="231" width="34" height="3" rx="1.5"/><rect x="1562" y="257" width="43" height="3" rx="1.5"/><rect x="1724" y="239" width="29" height="3" rx="1.5"/><rect x="1828" y="269" width="36" height="3" rx="1.5"/><rect x="1395" y="285" width="30" height="3" rx="1.5"/><rect x="1679" y="305" width="38" height="3" rx="1.5"/><rect x="1502" y="319" width="24" height="3" rx="1.5"/><rect x="1870" y="225" width="20" height="3" rx="1.5"/><rect x="318" y="241" width="36" height="3" rx="1.5"/><rect x="435" y="279" width="30" height="3" rx="1.5"/><rect x="181" y="259" width="42" height="3" rx="1.5"/><rect x="557" y="309" width="34" height="3" rx="1.5"/><rect x="2018" y="249" width="36" height="3" rx="1.5"/><rect x="2135" y="279" width="30" height="3" rx="1.5"/><rect x="2279" y="235" width="38" height="3" rx="1.5"/><rect x="1977" y="309" width="34" height="3" rx="1.5"/></g><g class="lk-boat" transform="translate(1630 190)"><path class="lk-hull" d="M-28 0h56l-9 11h-38z"/><path class="lk-sail" d="M2 -4V-50L32 -6Z"/><path class="lk-sail lk-sail2" d="M-3 -6V-38L-24 -6Z"/><rect class="lk-wake" x="-20" y="16" width="40" height="3" rx="1.5"/><rect class="lk-wake" x="-12" y="24" width="26" height="3" rx="1.5" opacity=".7"/></g><g class="lk-post"><rect x="1214" y="280" width="11" height="60"/><rect x="1084" y="280" width="11" height="60"/><rect x="954" y="280" width="11" height="60"/><rect x="824" y="280" width="11" height="60"/><rect x="694" y="280" width="11" height="60"/><rect x="564" y="280" width="11" height="60"/><rect x="434" y="280" width="11" height="60"/><rect x="304" y="280" width="11" height="60"/><rect x="174" y="280" width="11" height="60"/><rect x="44" y="280" width="11" height="60"/><rect x="-86" y="280" width="11" height="60"/><rect x="-216" y="280" width="11" height="60"/><rect x="-346" y="280" width="11" height="60"/><rect x="-476" y="280" width="11" height="60"/><rect x="-606" y="280" width="11" height="60"/><rect x="-736" y="280" width="11" height="60"/><rect x="-866" y="280" width="11" height="60"/><rect x="-996" y="280" width="11" height="60"/><rect x="-1126" y="280" width="11" height="60"/><rect x="-1256" y="280" width="11" height="60"/><rect x="-1386" y="280" width="11" height="60"/><rect x="1312" y="236" width="14" height="104" rx="3"/></g><path class="lk-dock" d="M-1400 268H1332V283H-1400Z"/><path class="lk-seam" d="M1280 283v-15M1218 283v-15M1156 283v-15M1094 283v-15M1032 283v-15M970 283v-15M908 283v-15M846 283v-15M784 283v-15M722 283v-15M660 283v-15M598 283v-15M536 283v-15M474 283v-15M412 283v-15M350 283v-15M288 283v-15M226 283v-15M164 283v-15M102 283v-15M40 283v-15M-22 283v-15M-84 283v-15M-146 283v-15M-208 283v-15M-270 283v-15M-332 283v-15M-394 283v-15M-456 283v-15M-518 283v-15M-580 283v-15M-642 283v-15M-704 283v-15M-766 283v-15M-828 283v-15M-890 283v-15M-952 283v-15M-1014 283v-15M-1076 283v-15M-1138 283v-15M-1200 283v-15M-1262 283v-15M-1324 283v-15M-1386 283v-15"/><path class="lk-edge" d="M-1400 268H1332M1312 238h14"/></svg>
+        <div class="hero__slot hero__slot--pup" id="heroPup"></div>
+        <div class="hero__slot hero__slot--sun" id="heroSun"></div>
+        <svg class="lk lk-reeds lk-reeds--l" viewBox="0 0 190 219" fill="none" focusable="false"><g class="lk-leaf"><path d="M26 219Q22.8 144.0 10 69" stroke-width="5"/><path d="M48 219Q50.0 124.0 58 29" stroke-width="5"/><path d="M70 219Q74.4 155.0 92 91" stroke-width="4"/><path d="M92 219Q90.4 134.0 84 49" stroke-width="5"/><path d="M116 219Q119.2 164.0 132 109" stroke-width="4"/><path d="M138 219Q143.2 144.0 164 69" stroke-width="4"/></g><path class="lk-stem" d="M38 219V47"/><rect class="lk-tail" x="33.5" y="43" width="9" height="32" rx="4.5"/><path class="lk-stem" d="M82 219V15"/><rect class="lk-tail" x="77.5" y="11" width="9" height="32" rx="4.5"/><path class="lk-stem" d="M126 219V69"/><rect class="lk-tail" x="121.5" y="65" width="9" height="32" rx="4.5"/></svg>
+        <svg class="lk lk-reeds lk-reeds--r" viewBox="0 0 190 219" fill="none" focusable="false"><g class="lk-leaf"><path d="M26 219Q22.8 144.0 10 69" stroke-width="5"/><path d="M48 219Q50.0 124.0 58 29" stroke-width="5"/><path d="M70 219Q74.4 155.0 92 91" stroke-width="4"/><path d="M92 219Q90.4 134.0 84 49" stroke-width="5"/><path d="M116 219Q119.2 164.0 132 109" stroke-width="4"/><path d="M138 219Q143.2 144.0 164 69" stroke-width="4"/></g><path class="lk-stem" d="M38 219V47"/><rect class="lk-tail" x="33.5" y="43" width="9" height="32" rx="4.5"/><path class="lk-stem" d="M82 219V15"/><rect class="lk-tail" x="77.5" y="11" width="9" height="32" rx="4.5"/><path class="lk-stem" d="M126 219V69"/><rect class="lk-tail" x="121.5" y="65" width="9" height="32" rx="4.5"/></svg>
+        <svg class="lk lk-shore" viewBox="0 0 1440 26" preserveAspectRatio="none" focusable="false"><path d="M0 26V14C120 4 240 2 360 8C520 16 640 20 800 12C960 4 1100 2 1240 9C1320 13 1390 14 1440 10V26Z"/></svg>
       </div>
     </div>
   </header>
@@ -685,15 +658,15 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261360"></script>
-  <script src="motion.js?v=20261360" defer></script>
-  <script src="script.js?v=20261360"></script>
-  <script src="creative.js?v=20261360"></script>
-  <script src="sunny.js?v=20261360"></script>
-  <script src="sunny-config.js?v=20261360"></script>
-  <script src="ai/knowledge.js?v=20261360"></script>
-  <script src="sunny-ai.js?v=20261360"></script>
-  <script src="extras.js?v=20261360"></script>
-  <script src="feedback.js?v=20261360" defer></script>
+  <script src="prefs.js?v=20261362"></script>
+  <script src="motion.js?v=20261362" defer></script>
+  <script src="script.js?v=20261362"></script>
+  <script src="creative.js?v=20261362"></script>
+  <script src="sunny.js?v=20261362"></script>
+  <script src="sunny-config.js?v=20261362"></script>
+  <script src="ai/knowledge.js?v=20261362"></script>
+  <script src="sunny-ai.js?v=20261362"></script>
+  <script src="extras.js?v=20261362"></script>
+  <script src="feedback.js?v=20261362" defer></script>
 </body>
 </html>

@@ -55,6 +55,7 @@
     var lb = doc.getElementById("lightbox"); if (lb && !lb.hidden) return false;
     var keys = doc.getElementById("keys"); if (keys && !keys.hidden) return false;
     var prefs = doc.getElementById("prefs"); if (prefs && !prefs.hidden) return false;
+    var se = win.Sunny && Sunny.sense && Sunny.sense(); if (se && se.asleep) return false; /* a sleeping Sunny does not ask */
     var sn = win.Sunny && Sunny.el; if (!sn || getComputedStyle(sn).visibility === "hidden" || getComputedStyle(sn).display === "none") return false;
     return true;
   }

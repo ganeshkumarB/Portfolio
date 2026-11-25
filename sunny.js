@@ -591,8 +591,20 @@
     return true;
   }
   function stopAct() { clearTimeout(actTimer); actToken++; root.removeAttribute("data-act"); root.classList.remove("is-catch"); busy = false; state.cur = null; state.quietAct = false; }
+  /* nap(): a deep sleep on the hero perch. Moving the pointer does not end it; coming close, a click, a key or a scroll does.
+     A hello that was due while napping is said after waking. */
+  var deepNap = false, helloOnWake = false;
+  function nap() {
+    if (!root || asleep || reduced || ctx.askOpen) return false;
+    stopAct(); deepNap = true; state.lastBubble = Date.now(); /* no line with it: the zzz says enough */
+    var ok = act("sleep", PRI.sleep);
+    if (ok) { clearTimeout(sayTimer); root.classList.remove("is-talking"); } else deepNap = false;
+    return ok;
+  }
   function wake() {
     if (!asleep) return;
+    deepNap = false;
+    if (helloOnWake) { helloOnWake = false; setTimeout(greet, 2600); }
     asleep = false; stopAct(); cue("pop"); emit("wake");
     if (mode === "puppy" && global.Puppy && global.Puppy.wake) global.Puppy.wake();
     setMood("happy", 12000);
@@ -619,6 +631,7 @@
   function greet() {
     if (document.documentElement.classList.contains("sl-on")) { setTimeout(greet, 400); return; } /* the loader is still on stage */
     if (Date.now() < (state.hushUntil || 0)) { setTimeout(greet, state.hushUntil - Date.now() + 400); return; }
+    if (asleep) { helloOnWake = true; return; } /* napping on the hero perch: the hello waits for the wake-up */
     var first = true;
     if (CONFIG.welcomeOncePerSession) { try { first = !sessionStorage.getItem("sunny:hello"); sessionStorage.setItem("sunny:hello", "1"); } catch (e) { /* ignore */ } }
     act("wave", PRI.event);
@@ -789,7 +802,7 @@
   /* ---------- Interaction ---------- */
   var px = -1e4, py = -1e4, raf = 0, nearNow = false, taps = [], drag = null;
   function onPointer(e) {
-    px = e.clientX; py = e.clientY; lastInput = Date.now(); wake();
+    px = e.clientX; py = e.clientY; lastInput = Date.now(); if (!deepNap) wake();
     if (!raf) raf = requestAnimationFrame(update);
   }
   function update() {
@@ -800,6 +813,7 @@
     var near = d < r.width * 1.3;
     if (near !== nearNow) {
       nearNow = near;
+      if (near && deepNap) wake(); /* napping on the hero perch: coming close wakes Sunny */
       root.classList.toggle("is-near", near);
       if (near && !drag && !ctx.askOpen && Date.now() - state.lastNear > 12000) { state.lastNear = Date.now(); if (act("wave", PRI.event)) cue("bubble"); }
     }
@@ -1073,6 +1087,7 @@
     /* slide the character sideways for a moment (the stage is only as wide as Sunny, so this is the only way to step toward a friend) */
     shift: function (dx, ms) { if (!charEl) return; charEl.style.setProperty("--walk-ms", (ms || 700) + "ms"); charEl.style.setProperty("--shx", (dx || 0) + "px"); if (dx) { if (state.shiftFace == null) state.shiftFace = facingLeft; face(dx < 0); } else if (state.shiftFace != null) { face(state.shiftFace); state.shiftFace = null; } },
     wake: function () { if (root) wake(); },
+    nap: function () { return nap(); }, /* deep sleep on the hero perch (extras.js) */
     openAsk: openAsk,
     /* no proactive lines or ambient acts for a while: the sidekick is running a scene */
     hush: function (ms) { state.hushUntil = Date.now() + (ms || 5000); },
