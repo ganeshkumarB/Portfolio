@@ -4416,3 +4416,5 @@ body.hero-lake .contact--big .lake-foot .lk-boat { transform: translate(1180px, 
 .cv.k-orig .k-ring { stroke: var(--card); stroke-width: 2; }
 .cv.k-orig .k-tick { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .cv.k-orig .k-violet { fill: #8b5cf6; }
+/* night: the ink pills turn light, so the bars on them take the page colour */
+:root[data-theme="dark"] .cv.k-orig .k-inkf + .k-knob { fill: var(--bg); }
