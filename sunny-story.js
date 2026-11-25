@@ -93,23 +93,22 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
 .sl-pup .puppy.is-blink .sl-lids, .sl-pup .puppy.is-blink .sl-lash, .sl-pup .puppy[data-emotion="happy"] .sl-lids { opacity: 1; }
 /* ---- the loading UI ---- */
 .sl-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.sl-scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none; background: linear-gradient(to top, rgba(10, 12, 24, 0.6), rgba(10, 12, 24, 0.22) 50%, rgba(10, 12, 24, 0)); }
-.sl-ui { position: absolute; left: 50%; bottom: max(28px, calc(6vh / var(--z, 1))); width: min(380px, calc(calc(100vw / var(--z, 1)) - 40px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sl-cap { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; line-height: 1.4; letter-spacing: 0.01em; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
+.sl-scrim { display: none; }
+.sl-ui { position: absolute; left: 50%; bottom: max(28px, calc(6vh / var(--z, 1))); width: min(520px, calc(calc(100vw / var(--z, 1)) - 32px)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
+/* the line under the scene is a pill, like the home page's labels: the weather, then how far along it is */
+.sl-cap { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 10px 18px 10px 12px; border: 1px solid rgba(235, 229, 214, 0.9); border-radius: 999px; background: rgba(255, 253, 249, 0.92); color: #15161a; font-size: 14px; font-weight: 500; line-height: 1.4; letter-spacing: 0; box-shadow: 0 14px 30px -22px rgba(80, 60, 10, 0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .sl-cap svg { width: 18px; height: 18px; flex: none; }
-.sl-dot { opacity: 0.5; }
-.sl-pct { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; opacity: 0.8; font-variant-numeric: tabular-nums; }
-.sl-skip { position: absolute; top: max(16px, calc(3vh / var(--z, 1))); right: max(16px, calc(3vw / var(--z, 1))); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(14, 14, 24, 0.5); color: #fff; font: 500 13px/1 "Inter", system-ui, sans-serif; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.sl-skip:hover { background: rgba(14, 14, 24, 0.75); }
+.sl-dot { opacity: 0.4; }
+.sl-pct { min-width: 4ch; padding: 3px 8px; border-radius: 999px; background: #ffd54a; color: #15161a; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.sl-skip { position: absolute; top: max(16px, calc(3vh / var(--z, 1))); right: max(16px, calc(3vw / var(--z, 1))); display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(235, 229, 214, 0.9); background: rgba(255, 253, 249, 0.88); color: #15161a; font: 600 13px/1 "Inter", system-ui, sans-serif; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.sl-skip:hover { background: #15161a; border-color: #15161a; color: #fff; }
 .sl-skip:focus-visible { outline: 2px solid #ffc93c; outline-offset: 2px; }
+.sl:not(.is-light) .sl-cap { background: rgba(15, 22, 38, 0.82); border-color: rgba(35, 44, 66, 0.95); color: #eef1f7; }
+.sl:not(.is-light) .sl-skip { background: rgba(15, 22, 38, 0.78); border-color: rgba(35, 44, 66, 0.95); color: #eef1f7; }
+.sl:not(.is-light) .sl-skip:hover { background: #eef1f7; color: #0b101c; }
 .sl.is-light { color: #15161a; }
-.sl.is-light .sl-scrim { display: none; }
-.sl.is-light .sl-cap { color: #15161a; text-shadow: none; }
-.sl.is-light .sl-pct { color: #61656e; opacity: 1; }
-.sl.is-light .sl-skip { color: #15161a; background: rgba(255, 255, 255, 0.85); border-color: #e6e7ea; }
-.sl.is-light .sl-skip:hover { background: #fff; }
 .sl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 640px) { .sl-ui { bottom: max(28px, calc(5vh / var(--z, 1))); } .sl-cap { font-size: 13px; flex-wrap: wrap; justify-content: center; } }
+@media (max-width: 640px) { .sl-ui { bottom: max(28px, calc(5vh / var(--z, 1))); } .sl-cap { font-size: 13px; flex-wrap: wrap; justify-content: center; border-radius: 22px; } .sl-dot { display: none; } }
 .sl.is-still *, .sl.is-still .sl-cam { animation: none !important; transition: none !important; }
 `;
   var style = doc.createElement("style"); style.textContent = CSS; (doc.head || html).appendChild(style);
@@ -315,7 +314,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     return s;
   }
   var ACTS = { clear: "playing with a red ball in a flower meadow", cloudy: "playing tug with a rope toy in the garden", rain: "jumping into a puddle together in the rain",
-    snow: "rolling a big snowball in the snow", wind: "chasing autumn leaves in the wind", storm: "playing with a ball of yarn indoors, warm and safe from the storm outside" };
+    snow: "rolling a big snowball in the snow", wind: "chasing autumn leaves in the wind", storm: "playing with a ball of yarn on the jetty while the storm rolls over the lake" };
   function noteOf(cl, s) {
     var part = PART[cl.phase] || "";
     if (!cl.known) return "Weather unavailable · " + part;
@@ -336,9 +335,9 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     return '<svg viewBox="0 0 24 24">' + p + "</svg>";
   }
 
-  /* ===================================================================== the look: "Sun disc". One large disc behind them tells the weather at
-     a glance (sun, moon, cloud, rain, snow, wind, storm) on a quiet backdrop lit by the time of day, and they stand on a low,
-     ink-outlined platform. Weather picks what is in the disc; time picks the backdrop and tints every colour (T). */
+  /* ===================================================================== the look: the home page's lake. The sun (a moon at night) rises out of the
+     water behind them as the site loads; the weather picks the sky, water and hills (the home hero's weather colours), the time of day
+     tints every colour (T), and Sunny and Puppy stand on the jetty. */
   var TIME = {
     morning: { bg: "#fffaf3", bg2: "#fbeee0", tint: "#ffcfa8", k: 0.12, dark: false },
     day:     { bg: "#ffffff", bg2: "#f5f5f3", tint: "#ffffff", k: 0, dark: false },
@@ -347,7 +346,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     late:    { bg: "#0f1322", bg2: "#161b2e", tint: "#0f1322", k: 0.62, dark: true }
   };
   var DISC = { clear: "#ffd54a", cloudy: "#dfe3ea", rain: "#a9bfdc", snow: "#e6f0fb", wind: "#c7ecd9", storm: "#3a4566" };
-  var DC = [820, 500, 296]; /* its bottom tucks behind the platform */ /* the disc: centre and radius */
+  var DC = [820, 560, 200]; /* the sun at the end of its rise: centre and radius (it comes up out of the lake, see rise()) */
   var LT = TIME.day;
   function hx(c) { return [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; }
   function mixc(a, b, u) { var x = hx(a), y = hx(b); return "#" + x.map(function (v, i) { var o = Math.round(v + (y[i] - v) * u).toString(16); return o.length < 2 ? "0" + o : o; }).join(""); }
@@ -365,53 +364,81 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   }
   function stars(n) { var g = ""; for (var i = 0; i < n; i++) g += '<circle class="w-tw" style="animation-delay:-' + (i % 5) * 0.5 + 's" cx="' + ((i * 211) % 2400 - 400) + '" cy="' + (-200 + (i * 131) % 640) + '" r="' + (2 + i % 3) + '" fill="#fff6d0"/>'; return g; }
   function defs() {
+    var k = S ? S.kind : "clear", dark = LT.dark, P = dark ? NIGHT : PAL[k] || PAL.cloudy, c = function (x) { return dark ? x : T(x); };
+    if (dark && k === "storm") P = { sky: ["#07090e", "#0d111a", "#161c29"], water: ["#141b29", "#0a0f19"], sun: "#9aa3b8" };
+    if (S && S.fog && !dark) P = { sky: ["#f7f6f3", "#eceae5", "#e2e0d9"], water: ["#e4e1da", "#cfcbc0"], sun: "#f0e4bd" };
     return "<defs>" +
-      '<radialGradient id="slw-pool" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#5d6ba3" stop-opacity="0.75"/><stop offset="1" stop-color="#5d6ba3" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="slw-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c(P.sky[0]) + '"/><stop offset="0.55" stop-color="' + c(P.sky[1]) + '"/><stop offset="1" stop-color="' + c(P.sky[2]) + '"/></linearGradient>' +
+      '<linearGradient id="slw-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c(P.water[0]) + '"/><stop offset="0.6" stop-color="' + c(P.water[1]) + '"/></linearGradient>' +
+      '<radialGradient id="slw-glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="' + c(P.sun) + '" stop-opacity="1"/><stop offset="1" stop-color="' + c(P.sun) + '" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="slw-pool" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#5d6ba3" stop-opacity="0.55"/><stop offset="1" stop-color="#5d6ba3" stop-opacity="0"/></radialGradient>' +
       '<radialGradient id="slw-ball" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#ff8a7a"/><stop offset="1" stop-color="#e2384a"/></radialGradient>' +
       '<radialGradient id="slw-snowball" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9daf0"/></radialGradient>' +
-      '<clipPath id="slw-disc"><circle cx="' + DC[0] + '" cy="' + DC[1] + '" r="' + (DC[2] - 2) + '"/></clipPath>' +
+      '<clipPath id="slw-above"><rect x="-700" y="-1100" width="3000" height="' + (1100 + HY) + '"/></clipPath>' +
       "</defs>";
   }
 
   /* ---- where the two of them stand (world units; the floor line is GY) and the size of each ---- */
   var PX = 620, SX = 1000, PUP = 250, SUN = 340, PFOOT = 0.923, SFOOT = 0.941;
 
-  /* ---- the world: backdrop, disc, platform ---- */
+  /* ---- the world: the home page's lake. The sun (a moon at night) rises out of the water as the site loads;
+     weather picks the sky, the water and the hills; Sunny and Puppy stand on the jetty. ---- */
+  var HY = 640; /* the horizon */
+  var PAL = {
+    clear:  { sky: ["#fffaf0", "#fff1cf", "#ffe49a"], water: ["#ffd970", "#f0ae2c"], hills: ["#f6e3ad", "#efcf82"], sun: "#ffd54a", glint: "#fff6d6" },
+    cloudy: { sky: ["#f8f7f4", "#ecebe6", "#dcdad2"], water: ["#dcd8cc", "#bdb7a6"], hills: ["#e8e4d9", "#d6d0c1"], sun: "#f3e1a2", glint: "#fbfaf6" },
+    rain:   { sky: ["#f3f5f8", "#dfe5ed", "#c3cddb"], water: ["#c9d3df", "#9fb0c6"], hills: ["#dfe4ec", "#c8d1de"], sun: "#e7edf6", glint: "#f4f7fb" },
+    snow:   { sky: ["#fbfcfe", "#eef3fa", "#dce6f3"], water: ["#e6edf5", "#bccbdd"], hills: ["#f5f8fc", "#e3eaf3"], sun: "#fff2c9", glint: "#ffffff" },
+    wind:   { sky: ["#fbfcf9", "#eef4ec", "#d9e8db"], water: ["#d6e6d9", "#a9cbb5"], hills: ["#e6efe3", "#d2e2d3"], sun: "#ffe08a", glint: "#f7fbf6" },
+    storm:  { sky: ["#a7b0c2", "#7d879d", "#5f6a82"], water: ["#5f6a82", "#3e475c"], hills: ["#7a8499", "#687288"], sun: "#c9cfdb", glint: "#c9d2e3" }
+  };
+  var NIGHT = { sky: ["#0b101c", "#111a2d", "#1b2a47"], water: ["#1c2b47", "#0f1830"], hills: ["#18233a", "#131c30"], sun: "#ece6d4", glint: "#9fb4e6" };
   function worldSVG(s) {
-    var k = s.kind, dark = LT.dark, col = DISC[k], op = 0.42, cx = DC[0], cy = DC[1], r = DC[2], bg = "", i;
-    if (k === "clear") { col = dark ? "#fff3c4" : s.light === "eve" ? "#ffb26b" : "#ffd54a"; op = dark ? 0.26 : 0.42; }
-    else if (k === "storm") { col = dark ? "#4a5786" : "#66739a"; op = 1; }
-    else if (dark) { col = mixc(col, "#5d6ba3", 0.45); op = 0.6; }
-    else col = T(col);
-    if (s.fog) { col = T("#e9ecf0"); op = 0.7; }
-    bg += '<rect x="-700" y="-1100" width="3000" height="3100" fill="' + LT.bg + '"/>';
-    if (dark && (k === "clear" || k === "snow" || k === "wind")) bg += stars(34);
-    if (dark && k !== "storm") bg += '<ellipse cx="' + cx + '" cy="600" rx="560" ry="330" fill="url(#slw-pool)"/>'; /* a pool of light, so Puppy never melts into the dark */
-    /* the sun rises: the disc starts pale and fills with its weather colour from the bottom up as the site really loads (rise()) */
-    bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + (op * 0.3).toFixed(3) + '"/>' +
-      '<clipPath id="slw-rise"><path class="sl-rise" d="M0 2000 Z"/></clipPath>' +
-      '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + col + '" opacity="' + op + '" clip-path="url(#slw-rise)"/>' +
-      '<path class="sl-wave" d="" fill="none" stroke="' + mixc(col, "#111111", k === "storm" || dark ? 0.0 : 0.18) + '" stroke-opacity="' + (k === "storm" || dark ? 0.55 : 0.6) + '" stroke-width="4" stroke-linecap="round" clip-path="url(#slw-disc)"/>';
-    if (k === "clear" && dark) bg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '"' + line(2, "#fff3c4") + ' opacity="0.35"/>';
-    /* what is in the disc */
-    var inner = "";
-    if (k === "cloudy") inner += '<g class="w-drift">' + cloud(600, 420, 2.2, T(dark ? "#3a4260" : "#f2f4f8"), 1.2) + "</g>" + (s.fog ? '<g class="w-drift2">' + cloud(860, 600, 1.6, T("#f6f7f9"), 0) + "</g>" : "");
-    if (k === "snow") for (i = 0; i < 9; i++) { var a = i * 0.7, R2 = 120 + (i * 53) % 150; inner += '<g class="w-tw" style="animation-delay:-' + i * 0.4 + 's" transform="translate(' + (cx + Math.cos(a) * R2).toFixed(0) + " " + (cy + Math.sin(a) * R2 * 0.8).toFixed(0) + ')"><path d="M-10 0 H10 M0 -10 V10 M-7 -7 L7 7 M-7 7 L7 -7"' + line(2.2, dark ? "#e6eefc" : "#8fb2dc") + "/></g>"; }
-    if (k === "wind") inner += '<g class="w-drift"><path d="M600 430 h260 a40 40 0 1 0 -40 -40 M560 500 h380 a44 44 0 1 1 -44 44"' + line(5, dark ? "#7fb7a0" : "#7fc9a8") + ' opacity="0.7"/></g>';
-    if (k === "rain") inner += '<g class="w-drift">' + cloud(560, 360, 1.6, T(dark ? "#3a4260" : "#c7d3e3"), 0) + "</g>";
-    if (k === "storm") inner += '<g class="w-drift">' + cloud(560, 340, 1.8, dark ? "#2a3358" : "#2f3a58", 0) + '</g><rect class="w-flash" x="' + (cx - r) + '" y="' + (cy - r) + '" width="' + r * 2 + '" height="' + r * 2 + '" fill="#eef2ff" opacity="0"/>' +
-      '<path class="w-bolt" d="M900 300 L870 380 L896 380 L862 462 L932 360 L902 360 L930 300Z" fill="#fff8d6" opacity="0"/>';
-    if (k === "storm") inner += '<ellipse cx="' + cx + '" cy="650" rx="380" ry="210" fill="url(#slw-pool)"/>'; /* lamp-light behind them, so Puppy reads against the storm */
-    if (inner) bg += '<g clip-path="url(#slw-disc)">' + inner + "</g>";
-    /* the platform: a low ink-outlined stage, a rug when they shelter from a storm, white with snow */
-    var top = k === "storm" ? T("#ef8f7f") : k === "snow" ? (dark ? "#c9d6ee" : "#ffffff") : LT.bg2;
-    var edge = dark ? "#6c7aae" : INK; /* the ink line would vanish into the night; a soft blue edge instead */
-    bg += '<path d="M360 770 Q 820 740 1280 770 L1280 800 Q 820 830 360 800Z" fill="' + top + '"' + line(2.4, edge).replace(' fill="none"', "") + '/><path d="M360 770 Q 820 800 1280 770"' + line(2.4, edge) + "/>";
-    if (k === "storm") bg += '<path d="M420 782 Q 820 806 1220 782"' + line(5, T("#ffd27a")) + "/>";
-    if (k === "rain") bg += '<ellipse cx="820" cy="772" rx="300" ry="16" fill="' + T(dark ? "#2a3556" : "#cfdcf0") + '"' + line(1.8, edge).replace(' fill="none"', "") + '/><path d="M600 768 q60 -6 120 -3"' + line(3, "#ffffff") + ' opacity="0.7"/>';
-    return { bg: bg, fg: "" };
+    var k = s.kind, dark = LT.dark, P = dark ? NIGHT : PAL[k] || PAL.cloudy, cx = DC[0], r = DC[2], bg = "", i;
+    var c = function (x) { return dark ? x : T(x); };
+    if (dark && k === "storm") P = { sky: ["#07090e", "#0d111a", "#161c29"], water: ["#141b29", "#0a0f19"], hills: ["#101624", "#0c111c"], sun: "#9aa3b8", glint: "#7f8fb3" };
+    if (s.fog && !dark) P = { sky: ["#f7f6f3", "#eceae5", "#e2e0d9"], water: ["#e4e1da", "#cfcbc0"], hills: ["#ecebe6", "#e0ddd5"], sun: "#f0e4bd", glint: "#fbfaf7" };
+    var edge = dark ? "#0b111d" : c("#5b4026"), deck = dark ? "#1a2335" : c(k === "snow" ? "#8a6a48" : "#7a5634");
+    /* sky */
+    bg += '<rect x="-700" y="-1100" width="3000" height="' + (1100 + HY + 4) + '" fill="url(#slw-sky)"/>';
+    if (dark && k !== "storm" && k !== "rain") bg += stars(40);
+    /* the rising sun (or moon), with its glow, kept above the horizon */
+    var glowOp = dark ? 0.16 : k === "clear" ? 0.55 : k === "storm" ? 0.12 : 0.35;
+    bg += '<g clip-path="url(#slw-above)"><g class="sl-rise">' +
+      '<circle cx="' + cx + '" cy="' + DC[1] + '" r="' + r * 2.1 + '" fill="url(#slw-glow)" opacity="' + glowOp + '"/>' +
+      '<circle class="sl-sun-disc" cx="' + cx + '" cy="' + DC[1] + '" r="' + r + '" fill="' + c(P.sun) + '"' + (k === "storm" && !dark ? ' opacity="0.55"' : "") + "/>" +
+      (dark && k === "clear" ? '<circle cx="' + (cx - r * 0.3) + '" cy="' + (DC[1] - r * 0.15) + '" r="' + r * 0.12 + '" fill="#d9d2bd" opacity="0.6"/><circle cx="' + (cx + r * 0.25) + '" cy="' + (DC[1] + r * 0.2) + '" r="' + r * 0.08 + '" fill="#d9d2bd" opacity="0.5"/>' : "") +
+      "</g></g>";
+    /* weather in the sky */
+    var cloudFill = dark ? (k === "storm" ? "#1c2232" : "#2a3350") : c(k === "storm" ? "#4d576d" : k === "rain" ? "#b9c5d6" : k === "snow" ? "#e9eef6" : "#f3f2ee");
+    if (k === "cloudy" || k === "rain" || k === "storm" || k === "snow" || s.fog) {
+      bg += '<g class="w-drift" opacity="0.95">' + cloud(240, 300, 1.7, cloudFill, 0) + cloud(1060, 250, 2.1, cloudFill, 0) + "</g>";
+      if (k !== "cloudy" || s.fog) bg += '<g class="w-drift2" opacity="0.9">' + cloud(640, 360, 1.5, cloudFill, 0) + "</g>";
+    }
+    if (k === "wind") bg += '<g class="w-drift"><path d="M420 330 h300 a42 42 0 1 0 -42 -42 M360 410 h440 a46 46 0 1 1 -46 46 M980 300 h220"' + line(5, dark ? "#7fb7a0" : c("#8ccbb0")) + ' opacity="0.75"/></g>';
+    if (k === "storm") bg += '<rect class="w-flash" x="-700" y="-1100" width="3000" height="' + (1100 + HY) + '" fill="#eef2ff" opacity="0"/><path class="w-bolt" d="M1040 250 L1006 340 L1034 340 L996 440 L1076 322 L1044 322 L1074 250Z" fill="#fff8d6" opacity="0"/>';
+    /* hills on the horizon */
+    bg += '<path d="M-700 ' + (HY - 30) + 'C-200 ' + (HY - 120) + " 200 " + (HY - 90) + " 520 " + (HY - 34) + "C640 " + (HY - 12) + " 720 " + (HY - 18) + " 780 " + (HY - 6) + "L780 " + (HY + 4) + "L-700 " + (HY + 4) + 'Z" fill="' + c(P.hills[0]) + '"/>';
+    bg += '<path d="M860 ' + (HY - 6) + "C1000 " + (HY - 50) + " 1180 " + (HY - 96) + " 1380 " + (HY - 66) + "C1600 " + (HY - 40) + " 1900 " + (HY - 70) + " 2300 " + (HY - 50) + "L2300 " + (HY + 4) + "L860 " + (HY + 4) + 'Z" fill="' + c(P.hills[1]) + '"/>';
+    /* the water, with glints under the sun */
+    bg += '<rect x="-700" y="' + HY + '" width="3000" height="' + (H - HY + 1800) + '" fill="url(#slw-water)"/>';
+    var gl = "";
+    for (i = 0; i < 26; i++) { var gy = HY + 12 + (i * 37) % 230, gw = 34 + (i * 53) % 130, gx = cx - 300 + (i * 97) % 600; gl += '<rect x="' + gx + '" y="' + gy + '" width="' + gw + '" height="4" rx="2" fill="' + c(P.glint) + '"/>'; }
+    bg += '<g class="w-drift2" opacity="' + (dark ? 0.3 : 0.62) + '">' + gl + "</g>";
+    /* a small boat far out */
+    bg += '<g transform="translate(1210 ' + (HY + 18) + ') scale(1.3)" opacity="' + (dark ? 0.7 : 0.9) + '"><path d="M-26 0h52l-8 9h-36z" fill="' + edge + '"/><path d="M0 -2v-44l22 40z" fill="' + c(dark ? "#2a3350" : "#fffdf6") + '" stroke="' + edge + '" stroke-width="2"/><path d="M-3 -4v-30l-15 28z" fill="' + c(dark ? "#222b44" : "#fff3cf") + '" stroke="' + edge + '" stroke-width="2"/></g>';
+    if (dark && k !== "storm") bg += '<ellipse cx="' + cx + '" cy="' + (GY - 120) + '" rx="560" ry="300" fill="url(#slw-pool)"/>'; /* a pool of light, so Puppy never melts into the dark */
+    /* the jetty they stand on: deck, a front edge, posts into the water */
+    var posts = "";
+    for (var px = -380; px <= 1220; px += 160) posts += '<rect x="' + px + '" y="' + (GY + 12) + '" width="16" height="' + (H - GY + 1600) + '" fill="' + edge + '"/>';
+    bg += posts + '<rect x="-700" y="' + (GY - 4) + '" width="' + (700 + 1260) + '" height="18" rx="3" fill="' + deck + '"/>' + '<rect x="-700" y="' + (GY + 10) + '" width="' + (700 + 1260) + '" height="6" fill="' + edge + '" opacity="0.6"/>';
+    if (k === "snow") bg += '<rect x="-700" y="' + (GY - 8) + '" width="' + (700 + 1258) + '" height="9" rx="4.5" fill="#ffffff"/>';
+    if (k === "rain") bg += '<ellipse cx="820" cy="' + (GY + 2) + '" rx="300" ry="9" fill="' + c(dark ? "#2a3556" : "#cfdcf0") + '" opacity="0.9"/>';
+    /* reeds at the edges, as on the home page */
+    var reeds = "";
+    [[1330, 1], [1356, 0.8], [1384, 0.92], [150, 0.9], [176, 0.72]].forEach(function (rd) { var h = 210 * rd[1], x = rd[0]; reeds += '<path d="M' + x + " " + (H + 40) + "Q" + (x + 10) + " " + (H - h / 2) + " " + (x + 4) + " " + (H - h) + '"' + line(5, edge) + '/><rect x="' + (x - 5) + '" y="' + (H - h - 6) + '" width="14" height="40" rx="7" fill="' + edge + '"/>'; });
+    return { bg: bg, fg: '<g class="w-drift" style="animation-duration:9s">' + reeds + "</g>" };
   }
-
   /* ---- the toys ---- */
   function propSVG(kind) {
     if (kind === "ball") return '<svg width="90" height="90" viewBox="-45 -45 90 90"><circle r="34" fill="url(#slw-ball)"' + ink(3) + '/><path d="M-30 -6 Q0 10 30 -8" fill="none" stroke="#fff" stroke-width="3" opacity="0.5"/><ellipse cx="-12" cy="-16" rx="10" ry="6" fill="#fff" opacity="0.75" transform="rotate(-30 -12 -16)"/></svg>';
@@ -495,12 +522,15 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     ["ball", "rope", "leaf1", "leaf2"].forEach(function (n) { if (A.props[n]) actors.appendChild(A.props[n]); });
     if (S.kind === "storm") { A.flash = R.cam.querySelector(".w-flash"); A.bolt = R.cam.querySelector(".w-bolt"); }
     layout();
-    A.rise = R.cam.querySelector(".sl-rise"); A.wave = R.cam.querySelector(".sl-wave"); risen = reduced ? shown : Math.min(shown, 0.04); rise(clock);
+    A.rise = R.cam.querySelector(".sl-rise"); risen = reduced ? shown : Math.min(shown, 0.04); rise(clock);
     animate(reduced ? 0.6 : 0);
     R.world.classList.add("is-on");
     if (!reduced) { R.cam.classList.add("is-push"); seed(); raf = requestAnimationFrame(frame); }
   }
-  function tone(t) { root.style.setProperty("--slBg", t.bg); root.classList.toggle("is-light", !t.dark); }
+  function tone(t) {
+    var k = S ? S.kind : "clear", P = t.dark ? NIGHT : PAL[k] || PAL.cloudy;
+    root.style.setProperty("--slBg", t.dark ? P.water[1] : T(P.water[1])); root.classList.toggle("is-light", !t.dark);
+  }
   /* Puppy's tail, re-cut for this size. On the site the tail piece also holds his hip, so a swing slides a turned copy of the hip
      (and its pale shading) over the real one. Here only the plume swings (cut just outside the hip's ink line, with a margin that
      tucks under it), and it swings BEHIND a still body that keeps the hip and its outline. The tail keeps its exact shape and its
@@ -584,10 +614,8 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   var risen = 0;
   function rise(t) {
     if (!A || !A.rise) return;
-    var cx = DC[0], cy = DC[1], r = DC[2], lvl = cy + r - 2 * r * risen, amp = reduced ? 0 : 7 * Math.sin(Math.PI * Math.min(1, risen)), d = "M" + (cx - r - 20) + " " + lvl.toFixed(1), w = "";
-    for (var x = cx - r - 20; x <= cx + r + 20; x += 16) { var y = lvl + amp * Math.sin(x / 34 + t * 2.2) + amp * 0.4 * Math.sin(x / 13 - t * 3.1); d += " L" + x + " " + y.toFixed(1); w += (w ? " L" : "M") + x + " " + y.toFixed(1); }
-    A.rise.setAttribute("d", d + " L" + (cx + r + 20) + " " + (cy + r + 20) + " L" + (cx - r - 20) + " " + (cy + r + 20) + " Z");
-    if (A.wave) A.wave.setAttribute("d", risen > 0.015 && risen < 0.985 ? w : "");
+    var u = Math.min(1, Math.max(0, risen)), e = 1 - Math.pow(1 - u, 2); /* eases out as it nears the top */
+    A.rise.setAttribute("transform", "translate(0 " + ((1 - e) * (DC[2] + HY - DC[1] + 40)).toFixed(1) + ")");
   }
   function dress(rootEl, kind) {
     if (!kind) return;
@@ -776,7 +804,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
     g.clearRect(0, 0, vw, vh);
     var slant = (S.wx > 0.1 ? 1 : -1) * Math.min(0.5, 0.08 + S.wind * 0.4), i, p, s = cam.s;
     if (drops.length) {
-      var clip = S.kind === "storm";
+      var clip = false; /* the lake: the storm falls everywhere */
       if (clip) { g.save(); g.beginPath(); g.arc(wx2(DC[0]), wy2(DC[1]), DC[2] * s, 0, Math.PI * 2); g.clip(); } /* the storm stays inside the disc */
       g.strokeStyle = LT.dark ? "#8fa4d6" : "#8fb0dc"; g.lineCap = "round";
       for (i = 0; i < drops.length; i++) {
@@ -883,7 +911,7 @@ html body .sl-actor .sunny, html body .sl-actor .puppy { display: block !importa
   var INTO_MS = 1000, SITE_DELAY = 350, SITE_MS = 900, EASE_IN = "cubic-bezier(0.64, 0, 0.78, 0)", EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
   function intoSun() {
     if (reduced || !win.Element.prototype.animate) return false;
-    var disc = R.world && R.world.querySelector('circle[clip-path="url(#slw-rise)"]'), b = disc && disc.getBoundingClientRect();
+    var disc = R.world && R.world.querySelector(".sl-sun-disc"), b = disc && disc.getBoundingClientRect();
     var ox = b && b.width ? b.left + b.width / 2 : wx2(DC[0]), oy = b && b.width ? b.top + b.height / 2 : wy2(DC[1]);
     cancelAnimationFrame(raf);
     root.style.transition = "none"; root.style.pointerEvents = "none";
