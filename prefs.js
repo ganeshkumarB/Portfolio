@@ -104,7 +104,7 @@
                 }).join("") + "</div></div>" +
             '<div class="prefs__row prefs__row--btn"><a class="prefs__btn" data-act="story" href="?story">' + ICON.replay + '<span>See the loading scene again</span></a><p class="prefs__hint prefs__hint--story">Sunny and Puppy play in the weather where you are right now. The city in your time zone is looked up on Open-Meteo; nothing else is sent, and it never asks for your location.</p></div>') +
         '</div>' +
-        '<div class="prefs__foot"><button type="button" class="prefs__reset">Reset all</button><span class="mono">Stored in this browser</span></div>' +
+        '<div class="prefs__foot"><button type="button" class="prefs__reset">Reset all</button><span class="mono prefs__stored">Stored in this browser</span><button type="button" class="prefs__done">Done</button></div>' +
       "</div>";
     doc.body.appendChild(panel);
     var storyLink = panel.querySelector('[data-act="story"]');
@@ -160,7 +160,7 @@
         if (global.Sunny) { global.Sunny.setSound(false); if (global.Sunny.setMode) global.Sunny.setMode("sunny"); }
         changed(); render();
       }
-      if ((e.target.closest && e.target.closest(".prefs__close")) || e.target === panel) setOpen(false);
+      if ((e.target.closest && e.target.closest(".prefs__close, .prefs__done")) || e.target === panel) setOpen(false);
     });
     /* arrow keys move a radio group's choice */
     panel.addEventListener("keydown", function (e) {

@@ -2070,7 +2070,10 @@ body.recruiter .work .section__intro::before { content: "Three case studies. Use
 .prefs__close { flex: none; width: 34px; height: 34px; margin: -4px -6px 0 0; border: 0; border-radius: 50%; background: none; color: var(--muted); font: 400 24px/1 var(--font-serif); cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
 .prefs__close:hover { background: var(--surface); color: var(--ink); }
 .prefs__close:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.prefs__body { flex: 1 1 auto; overflow: auto; overscroll-behavior: contain; padding: 4px 22px 8px; }
+.prefs__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding: 4px 22px 8px; }
+.prefs__head, .prefs__foot { flex: none; }
+.prefs__done { padding: 9px 18px; border: 0; border-radius: 999px; background: var(--ink); color: var(--bg); font: 600 13px/1 var(--font-sans); letter-spacing: 0; text-transform: none; cursor: pointer; }
+.prefs__done:hover { opacity: 0.88; } .prefs__done:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .prefs__group { padding: 14px 0 6px; }
 .prefs__group + .prefs__group { border-top: 1px solid var(--line); }
 .prefs__h { margin: 0 0 2px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -2118,7 +2121,10 @@ body.recruiter .work .section__intro::before { content: "Three case studies. Use
 body.prefs-open { overflow: hidden; }
 @media (max-width: 640px) {
   .prefs { align-items: flex-end; padding: 0; }
-  .prefs__card { width: 100%; max-height: calc(92vh / var(--z, 1)); border-radius: 20px 20px 0 0; animation-name: prefs-up; }
+  /* the sheet fits the screen you can see: 100% of the overlay (which is the visible viewport), never 92vh, which on phones
+     counts the space behind the address bar and pushed the header with its close button off the top */
+  .prefs { height: 100%; height: 100dvh; }
+  .prefs__card { width: 100%; max-height: calc(100% - 12px); border-radius: 20px 20px 0 0; animation-name: prefs-up; }
   .prefs__head, .prefs__body, .prefs__foot { padding-left: 18px; padding-right: 18px; }
   .prefs__foot { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
   .prefs__cards { gap: 6px; }
@@ -4433,3 +4439,9 @@ body.hero-lake .contact--big .lake-foot .lk-boat { transform: translate(1180px, 
 .btn__ico--mail { vertical-align: -3px; }
 .btn__ico--mail svg { display: block; }
 .btn:hover .btn__ico--mail { transform: translateY(-2px) rotate(-6deg); }
+
+/* the settings panel: while it is open the page behind it does not scroll on touch screens either */
+html:has(body.prefs-open) { overflow: hidden; }
+body.prefs-open { overscroll-behavior: none; }
+.prefs { overscroll-behavior: contain; }
+@media (max-width: 380px) { .prefs__stored { display: none; } }
