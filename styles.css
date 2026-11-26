@@ -4338,8 +4338,8 @@ body.hero-lake .contact.contact--big { align-items: stretch; padding-top: 120px;
 .cbig__ask { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
 body.hero-lake .contact--big .contact__title { max-width: none; font-size: clamp(28px, calc(3vw / var(--z, 1)), 44px); white-space: normal; text-wrap: balance; }
 .cbig__top .contact__links--icons { margin: 0; }
-.cbig__line { margin: 40px 0 0; font-family: var(--font-serif); font-size: clamp(34px, calc(5.6vw / var(--z, 1)), 100px); font-weight: 700; line-height: 1.04; letter-spacing: -0.045em; }
-.cbig__mail { color: var(--ink); text-decoration: none; overflow-wrap: anywhere; background: linear-gradient(var(--sun), var(--sun)) 0 88% / 0 0.3em no-repeat; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.cbig__line { margin: 40px 0 0; font-family: var(--font-serif); font-size: clamp(36px, calc(5.5vw / var(--z, 1)), 92px); font-weight: 700; line-height: 1.04; letter-spacing: -0.045em; }
+.cbig__mail { color: var(--ink); text-decoration: none; overflow-wrap: normal; background: linear-gradient(var(--sun), var(--sun)) 0 88% / 0 0.3em no-repeat; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .cbig__mail:hover, .cbig__mail:focus-visible { background-size: 100% 0.3em; }
 :root[data-theme="dark"] .cbig__mail:hover, :root[data-theme="dark"] .cbig__mail:focus-visible { background-image: linear-gradient(rgba(255, 213, 74, 0.55), rgba(255, 213, 74, 0.55)); }
 .cbig__mail.is-typing::after { content: ""; display: inline-block; width: 0.06em; height: 0.82em; margin-left: 0.06em; vertical-align: -0.06em; background: var(--sun-d, #e0ae16); animation: blink 1s steps(1) infinite; }
@@ -4428,3 +4428,8 @@ body.hero-lake .contact--big .lake-foot .lk-boat { transform: translate(1180px, 
 .pbento .pb-t--dk { fill: #15161a; }
 .pbento .pb-eb { font: 500 4.4px/1 var(--font-mono); letter-spacing: 0.14em; fill: var(--pb-ink); }
 .pbento .pb-eb--code { fill: #8f96a6; letter-spacing: 0.04em; }
+
+/* the hero's Get in touch: an envelope (it scrolls to the contact section, it does not leave the site); on hover the flap lifts a little */
+.btn__ico--mail { vertical-align: -3px; }
+.btn__ico--mail svg { display: block; }
+.btn:hover .btn__ico--mail { transform: translateY(-2px) rotate(-6deg); }

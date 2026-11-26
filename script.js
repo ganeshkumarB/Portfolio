@@ -500,7 +500,8 @@
      Contact: typed email, copy to clipboard, toast
      ============================================================ */
   var emailLink = $("#emailLink");
-  var emailText = emailLink.textContent;
+  /* the big footer address may break after the @ (a zero-width space there); typing shows it, copying leaves it out */
+  var emailShown = emailLink.textContent, emailText = emailShown.replace(/\u200b/g, "");
   var toast = $("#toast");
   var toastTimer = null;
 
@@ -517,7 +518,7 @@
       entries.forEach(function (en) {
         if (!en.isIntersecting || typed) return;
         typed = true;
-        typeLine(emailLink, emailText, 38).then(function () {
+        typeLine(emailLink, emailShown, 38).then(function () {
           emailLink.classList.add("is-typing");
           setTimeout(function () { emailLink.classList.remove("is-typing"); }, 2600);
         });
