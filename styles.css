@@ -4445,3 +4445,23 @@ html:has(body.prefs-open) { overflow: hidden; }
 body.prefs-open { overscroll-behavior: none; }
 .prefs { overscroll-behavior: contain; }
 @media (max-width: 380px) { .prefs__stored { display: none; } }
+/* work titles, style A: the case number in a small pill with the sun dot (like the section labels), the title in the headline face, the tags as a plain sentence */
+body.hero-lake :is(.mz__num, .wrow__num) { display: inline-flex; align-items: center; gap: 7px; width: fit-content; padding: 4px 10px 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font: 600 11px/1 var(--font-mono); letter-spacing: 0.06em; color: var(--ink); }
+body.hero-lake :is(.mz__num, .wrow__num)::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--sun); }
+body.hero-lake :is(.mz__title, .wrow__title) { font-family: var(--font-serif); font-weight: 700; letter-spacing: -0.03em; }
+body.hero-lake :is(.mz__tags, .wrow__tags) { font: 400 14px/1.4 var(--font-sans); letter-spacing: 0; text-transform: none; color: var(--muted); }
+body.hero-lake .mz .mz__ov { gap: 7px; }
+body.hero-lake .wrow { grid-template-columns: 64px 1fr auto 40px; }
+@media (max-width: 1080px) { body.hero-lake .wrow { grid-template-columns: 58px 1fr 32px; } }
+/* two lines only: the number pill sits on the title's line, the tags stay on one line below */
+body.hero-lake .mz .mz__ov { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 12px; row-gap: 6px; }
+body.hero-lake .mz__num { grid-row: 1; grid-column: 1; }
+body.hero-lake .mz__title { grid-row: 1; grid-column: 2; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.hero-lake .mz__tags { grid-row: 2; grid-column: 1 / -1; min-width: 0; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 420px) {
+  body.hero-lake .mz .mz__ov { column-gap: 10px; }
+  body.hero-lake .mz--a .mz__title { font-size: 19px; }
+  body.hero-lake .mz__tags { font-size: 12px; }
+}
+body.hero-lake .mz:not(.mz--a) .mz__tags { font-size: 13px; }
+@media (min-width: 721px) and (max-width: 800px) { body.hero-lake .mz:not(.mz--a) .mz__tags { font-size: 12.5px; } }
