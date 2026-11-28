@@ -18,18 +18,18 @@
   <meta name="theme-color" content="#111111" />
   <link rel="preload" href="assets/fonts/space-grotesk-300-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261440" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261440" /></noscript>
-  <link rel="stylesheet" href="styles.css?v=20261440" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=20261443" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="assets/fonts/fonts.css?v=20261443" /></noscript>
+  <link rel="stylesheet" href="styles.css?v=20261443" />
   <link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png" />
   <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" type="image/x-icon" />
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="stylesheet" href="sunny.css?v=20261440" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261440" /></noscript>
+  <link rel="stylesheet" href="sunny.css?v=20261443" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="sunny.css?v=20261443" /></noscript>
 </head>
 <body id="top" class="hero-lake">
-  <script src="sunny-story.js?v=20261440"></script>
+  <script src="sunny-story.js?v=20261443"></script>
   <script>document.documentElement.classList.add("js");(function(){var d=false,go=function(){if(!d){d=true;document.body.classList.add("is-ready");}};requestAnimationFrame(function(){requestAnimationFrame(go);});setTimeout(go,400);})();</script>
 
   <!-- ===== Hero ===== -->
@@ -209,50 +209,48 @@
   </section>
 
   <!-- ===== Story ===== -->
-  <section class="section section--tight story" id="story" data-layer="Story">
+  <section class="section section--tight story story--stairs" id="story" data-layer="Story">
     <div class="story__head">
       <p class="story__label mono">04 / Story</p>
       <h2 class="section__title">I make complex things feel <span class="mk">simple.</span></h2>
     </div>
-    <figure class="story__portrait">
-      <div class="story__frame" data-tilt>
-        <img width="960" height="1200" src="assets/portrait.webp" alt="Portrait of Ganeshkumar B" id="portraitImg" loading="lazy" decoding="async" />
-        <span class="glare" aria-hidden="true"></span>
-      </div>
-    </figure>
-    <div class="story__copy">
+    <div class="story__intro">
       <p class="story__text">I started in visual design, where I learned to care about the details. Over time, I moved into product design, looking beyond screens to understand the problems people actually face.</p>
       <p class="story__text">Today, I work across product experiences, design systems, and the space between design and code. I enjoy making complicated things simpler, building systems that scale, and exploring how AI can change the way we design and build.</p>
       <p class="story__aside">I like understanding how things work, simplifying complexity, and exploring how design and AI can help build better experiences.</p>
-      <div class="story__path story__path--line" data-layer="Career path">
-        <div class="tl__head"><p class="story__years mono">2018 <span aria-hidden="true">→</span> Today</p><p class="tl__sum mono">8+ years · one enterprise product · intern to senior</p></div>
-        <ol class="tl" aria-label="Career progression">
-          <li class="tl__stop">
-            <span class="tl__dot" aria-hidden="true"></span>
-            <span class="tl__when mono">2018</span>
-            <h3 class="tl__name">Visual Design</h3>
-            <span class="tl__note">Craft and detail</span>
-            <span class="tl__role">Intern at Zoho Corporation, then Visual Designer on Zoho SalesIQ</span>
-            <p class="tl__did">Product walkthroughs and launch videos shown at Zoholics and partner events.</p>
-          </li>
-          <li class="tl__stop">
-            <span class="tl__dot" aria-hidden="true"></span>
-            <span class="tl__when mono">2018 – 2024</span>
-            <h3 class="tl__name">Product Design</h3>
-            <span class="tl__note">Beyond the screens</span>
-            <span class="tl__role">Visual Designer, Zoho SalesIQ</span>
-            <p class="tl__did">Sole designer on Zobot, nine more product areas end to end, user research and usability testing.</p>
-          </li>
-          <li class="tl__stop is-now" aria-current="step">
-            <span class="tl__dot" aria-hidden="true"></span>
-            <span class="tl__when mono">2024 – today <span class="tl__now">Now</span></span>
-            <h3 class="tl__name">Systems &amp; Engineering</h3>
-            <span class="tl__note">Where design meets code</span>
-            <span class="tl__role">Senior Visual Designer, Product Design</span>
-            <p class="tl__did">Owns the 26+ component design system. Introduced Figma MCP and Code Connect.</p>
-          </li>
-        </ol>
-      </div>
+    </div>
+    <div class="story__climb" data-layer="Career path">
+      <ol class="story__stairs" aria-label="Career progression">
+        <li class="story__step" style="--h: 300px">
+          <span class="story__n mono">Step 1</span>
+          <span class="story__when mono">2018</span>
+          <h3 class="story__name">Visual Design</h3>
+          <p class="story__note">Craft and detail</p>
+          <p class="story__role">Intern at Zoho Corporation, then Visual Designer on Zoho SalesIQ</p>
+          <p class="story__did">Product walkthroughs and launch videos shown at Zoholics and partner events.</p>
+        </li>
+        <li class="story__step" style="--h: 370px">
+          <span class="story__n mono">Step 2</span>
+          <span class="story__when mono">2018 – 2024</span>
+          <h3 class="story__name">Product Design</h3>
+          <p class="story__note">Beyond the screens</p>
+          <p class="story__role">Visual Designer, Zoho SalesIQ</p>
+          <p class="story__did">Sole designer on Zobot, nine more product areas end to end, user research and usability testing.</p>
+        </li>
+        <li class="story__step is-now" style="--h: 440px" aria-current="step">
+          <span class="story__n mono">Step 3</span>
+          <span class="story__when mono">2024 – today <span class="story__now">Now</span></span>
+          <h3 class="story__name">Systems &amp; Engineering</h3>
+          <p class="story__note">Where design meets code</p>
+          <p class="story__role">Senior Visual Designer, Product Design</p>
+          <p class="story__did">Owns the 26+ component design system. Introduced Figma MCP and Code Connect.</p>
+        </li>
+      </ol>
+      <figure class="story__me">
+        <img class="story__pup" src="assets/puppy/puppy.svg" alt="" aria-hidden="true" width="64" height="71" loading="lazy" decoding="async" />
+        <div class="story__photo"><img width="960" height="1200" src="assets/portrait.webp" alt="Portrait of Ganeshkumar B" id="portraitImg" loading="lazy" decoding="async" /></div>
+        <figcaption><b>Ganeshkumar B</b><span class="mono">You are here · today</span></figcaption>
+      </figure>
     </div>
   </section>
 
@@ -586,15 +584,15 @@
   </div>
   <div class="token-diff mono" id="tokenDiff" hidden aria-hidden="true"></div>
 
-  <script src="prefs.js?v=20261440"></script>
-  <script src="motion.js?v=20261440" defer></script>
-  <script src="script.js?v=20261440"></script>
-  <script src="creative.js?v=20261440"></script>
-  <script src="sunny.js?v=20261440"></script>
-  <script src="sunny-config.js?v=20261440"></script>
-  <script src="ai/knowledge.js?v=20261440"></script>
-  <script src="sunny-ai.js?v=20261440"></script>
-  <script src="extras.js?v=20261440"></script>
-  <script src="feedback.js?v=20261440" defer></script>
+  <script src="prefs.js?v=20261443"></script>
+  <script src="motion.js?v=20261443" defer></script>
+  <script src="script.js?v=20261443"></script>
+  <script src="creative.js?v=20261443"></script>
+  <script src="sunny.js?v=20261443"></script>
+  <script src="sunny-config.js?v=20261443"></script>
+  <script src="ai/knowledge.js?v=20261443"></script>
+  <script src="sunny-ai.js?v=20261443"></script>
+  <script src="extras.js?v=20261443"></script>
+  <script src="feedback.js?v=20261443" defer></script>
 </body>
 </html>

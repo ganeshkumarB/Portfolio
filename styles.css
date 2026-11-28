@@ -4465,3 +4465,63 @@ body.hero-lake .mz__tags { grid-row: 2; grid-column: 1 / -1; min-width: 0; font-
 }
 body.hero-lake .mz:not(.mz--a) .mz__tags { font-size: 13px; }
 @media (min-width: 721px) and (max-width: 800px) { body.hero-lake .mz:not(.mz--a) .mz__tags { font-size: 12.5px; } }
+
+/* ===== Story, staircase (T3, 2026-11-28): the intro in three columns, then three career steps rising to the portrait ("you are here") ===== */
+body.hero-lake .story--stairs { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 48px; }
+.story--stairs .story__intro { display: grid; grid-template-columns: 1fr 1fr 300px; gap: 36px; align-items: start; }
+.story--stairs .story__text { max-width: none; margin: 0; font-size: 17px; line-height: 1.7; color: var(--body); }
+.story--stairs .story__text + .story__text { margin-top: 0; }
+.story--stairs .story__aside { max-width: none; margin: 0; padding-left: 16px; border-left: 3px solid var(--sun); font: 600 16px/1.55 var(--font-serif); letter-spacing: -0.01em; color: var(--ink); }
+.story__climb { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 14px; align-items: end; padding-top: 80px; }
+.story__stairs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.story__step { display: flex; flex-direction: column; gap: 6px; min-height: var(--h); padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
+.story__step.is-now { border: 2px solid var(--sun); padding: 21px; box-shadow: 0 24px 50px -30px rgba(224, 174, 22, 0.65); }
+.story__n { margin-bottom: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.story__when { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); }
+.story__now { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 999px; background: var(--sun); color: #15161a; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.story__now::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #15161a; }
+.story__name { margin: 0; font: 700 22px/1.15 var(--font-serif); letter-spacing: -0.03em; color: var(--ink); }
+.story__note, .story__role, .story__did { margin: 0; font-size: 14px; line-height: 1.5; }
+.story__note { color: var(--muted); }
+.story__role { font-weight: 500; color: var(--ink); }
+.story__did { line-height: 1.55; color: var(--body); }
+.story__me { position: relative; display: flex; flex-direction: column; height: 510px; margin: 0; border-radius: 22px; background: #15161a; }
+:root[data-theme="dark"] .story__me { box-shadow: 0 0 0 1px var(--line); }
+.story__photo { flex: 1; min-height: 0; overflow: hidden; border-radius: 22px 22px 0 0; }
+.story__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.story__me figcaption { display: flex; flex-direction: column; gap: 3px; padding: 14px 18px 16px; }
+.story__me b { font: 700 16px/1.2 var(--font-serif); color: #fff; }
+.story__me figcaption span { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--sun); }
+.story__pup { position: absolute; right: 20px; bottom: calc(100% - 5px); width: 64px; height: auto; }
+/* laptops: the steps keep the row, the portrait drops under them as a wide "you are here" card */
+@media (min-width: 601px) and (max-width: 1239px) {
+  .story--stairs .story__intro { grid-template-columns: 1fr 1fr; }
+  .story--stairs .story__aside { grid-column: 1 / -1; max-width: 720px; }
+  .story__climb { grid-template-columns: 1fr; padding-top: 40px; }
+  .story__me { flex-direction: row; height: 180px; }
+  .story__photo { flex: 0 0 180px; border-radius: 22px 0 0 22px; }
+  .story__me figcaption { justify-content: center; padding: 24px 28px; }
+  .story__me b { font-size: 22px; }
+  .story__pup { display: none; }
+}
+/* phones and small tablets: one column, no climb */
+@media (min-width: 601px) and (max-width: 900px) {
+  body.hero-lake .story--stairs { gap: 36px; }
+  .story__step { min-height: 0; }
+  .story__stairs { align-items: stretch; }
+  .story__name { font-size: 19px; }
+}
+@media (max-width: 600px) {
+  body.hero-lake .story--stairs { gap: 32px; }
+  .story--stairs .story__intro, .story__climb, .story__stairs { grid-template-columns: 1fr; gap: 12px; }
+  .story--stairs .story__intro { gap: 16px; }
+  .story--stairs .story__aside { grid-column: auto; }
+  .story--stairs .story__text { font-size: 16px; }
+  .story__climb { padding-top: 0; }
+  .story__step { min-height: 0; }
+  .story__me { flex-direction: column; height: auto; }
+  .story__photo { flex: none; aspect-ratio: 4 / 3; border-radius: 22px 22px 0 0; }
+  .story__me figcaption { padding: 14px 18px 16px; }
+  .story__me b { font-size: 16px; }
+  .story__pup { display: none; }
+}
